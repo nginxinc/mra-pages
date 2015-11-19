@@ -1,0 +1,5 @@
+_assetic:
+    resource: .
+    type: assetic
+_app:
+    resource: /Users/chrisstetson/dev_projects/ngra-pages/inginious-pages/app/config/routing_dev.yml

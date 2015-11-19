@@ -1,0 +1,17 @@
+{# app/Resources/views/home.html.twig #}
+{% extends 'base.html.twig' %}
+
+    {% block loginButton %}
+        <div>
+
+        </div>
+    {% endblock %}
+
+  {% block hero %}
+      <section class="hero" style="background-image: url('http://www.metadogs.com/images/hero/orchids.jpg');" >
+          <div class="wrapper" >
+              <h1 class="headline" >Photos</h1>
+              <h2 class="subhead" >Welcome {{ firstName }} {{ lastName }}</h2>
+          </div>
+      </section>
+  {% endblock %}

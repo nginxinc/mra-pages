@@ -8,16 +8,11 @@ RUN echo 'debconf debconf/frontend select Noninteractive' | debconf-set-selectio
 RUN apt-get update && apt-get install -y -q curl \
                                             wget \
                                             apt-transport-https \
-                                            python \
-                                            python-dev \
-                                            python-distribute \
-                                            python-pip \
-                                            libffi-dev \
-                                            build-essential \
-                                            libssl-dev
-
-RUN pip install cryptography
-RUN pip install pyjwt
+                                            php5-cli \
+                                            php5-common \
+                                            #php5-suhosin \
+                                            php5-fpm \
+                                            php5-cgi
 
 # Download certificate and key from the customer portal (https://cs.nginx.com)
 # and copy to the build context
@@ -36,18 +31,20 @@ RUN apt-get update && apt-get install -y nginx-plus
 
 # forward request logs to Docker log collector
 RUN ln -sf /dev/stdout /var/log/nginx/access.log
-RUN ln -sf /dev/stderr /var/log/nginx/error.log
+RUN ln -sf /dev/stdout /var/log/nginx/error.log
+RUN ln -sf /dev/stdout /var/log/php5-fpm.log
 
-EXPOSE 80 443 8888 9000 8889
+COPY ./nginx-php.conf /etc/nginx/
+RUN chown -R nginx /var/log/nginx/
 
-COPY ./nginx-oauth.conf /etc/nginx/
-COPY ./app/ /app
-COPY ./index.html /public_html/
-COPY ./error.log /var/logs/nginx/
+COPY ./php5-fpm.conf /etc/php5/fpm/php-fpm.conf
+COPY ./inginious-pages/ /inginious-pages
 
-RUN chown -R nginx /public_html/
-RUN chown -R nginx /var/logs/nginx/
+RUN chown -R nginx:www-data /inginious-pages/
+RUN chmod -R 775 /inginious-pages
 
-#ENV PYTHONPATH /app/pycharm-debug.egg
+CMD ["/inginious-pages/php-start.sh"]
 
-CMD ["/app/oauth-start.sh"]
+#RUN chgrp nginx /var/run/php5-fpm.sock
+
+EXPOSE 80 8000

@@ -1,3 +1,7 @@
+### NGINX NGRA Pages Exclusions
+nginx-repo.crt
+nginx-repo.key
+
 ### OSX template
 .DS_Store
 .AppleDouble
@@ -24,7 +28,6 @@ Network Trash Folder
 Temporary Items
 .apdisk
 ### Example user template template
-### Example user template
 
 # IntelliJ project files
 .idea

@@ -35,6 +35,11 @@ Temporary Items
 *.iml
 out
 gen
+idea/misc.xml
+.idea/workspace.xml
+/inginious-pages/app/bootstrap.php.cache
+/inginious-pages/app/logs/dev.log
+/ngra-pages.iml
 
 ### Symfony template
 # Cache and logs (Symfony2)

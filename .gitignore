@@ -38,28 +38,28 @@ gen
 
 ### Symfony template
 # Cache and logs (Symfony2)
-/app/cache/*
-/app/logs/*
+/inginious-pages/app/cache/*
+/inginious-pages/app/logs/*
 !app/cache/.gitkeep
 !app/logs/.gitkeep
 
 # Cache and logs (Symfony3)
-/var/cache/*
-/var/logs/*
+/inginious-pages/var/cache/*
+/inginious-pages/var/logs/*
 !var/cache/.gitkeep
 !var/logs/.gitkeep
 
 # Parameters
-/app/config/parameters.yml
-/app/config/parameters.ini
+/inginious-pages/app/config/parameters.yml
+/inginious-pages/app/config/parameters.ini
 
 # Managed by Composer
-/app/bootstrap.php.cache
-/var/bootstrap.php.cache
-/bin/*
+/inginious-pages/app/bootstrap.php.cache
+/inginious-pages/var/bootstrap.php.cache
+/inginious-pages/bin/*
 !bin/console
 !bin/symfony_requirements
-/vendor/
+/inginious-pages/vendor/
 
 # Assets and user uploads
 /web/bundles/
@@ -74,5 +74,6 @@ gen
 
 # Composer PHAR
 /composer.phar
+/composer.lock
 
 # Created by .ignore support plugin (hsz.mobi)

@@ -1,0 +1,14 @@
+
+<section class="photo-set-list">
+    <ul class="navlist">
+
+    {% for album in catalog %}
+        <li class="photo-set">
+            <a onClick="showHidePhotoGallery('{{ catalogID }}','{{ album.name }}', '{{ album.id }}');return false;" class="photo-set-link" href="/photos/">
+                <img src="{{ album.poster_image }}" alt="{{ album.name }}">
+                <div class="description">{{ album.id }}</div>
+            </a>
+        </li>
+    {% endfor %}
+    </ul>
+</section>

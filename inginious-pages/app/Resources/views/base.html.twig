@@ -46,8 +46,8 @@
                     <div>
                         <img id="login-button" onclick="showHideControlPanel(this, '#login-panel')" src='{{ asset('bundles/inginious/images/login.png', version='1.0') }}'>
                     </div>
-                    {% endblock %}
                     {{ include('login_panel.html.twig') }}
+                    {% endblock %}
                     <div class="metadogs-logo">
                         <img onClick="showHideMenu()" class="hamburger" alt='menu' src='http://www.metadogs.com/images/icon/hamburger.png'>
                         <a href="/"> <img class="icon" alt='logo' src='{{ asset('bundles/inginious/images/inginious_logo.png', version='1.0') }}'> </a>
@@ -167,7 +167,7 @@
         {% block pagebody %}
         <main class="pg-bd">
             {% block hero %}
-            <section class="hero" style="background-image: url('http://www.metadogs.com/images/hero/orchids.jpg');" >
+            <section class="hero" style="background-image: url('http://www.metadogs.com/images/hero/photos.jpg');" >
                 <div class="wrapper" >
                     <h1 class="headline" >Photos</h1>
                     <h2 class="subhead" >From the sublime to the bizarre.</h2>
@@ -183,7 +183,7 @@
             </section>
             <hr>
             {% endblock %}
-            {% block photosets %}
+            {% block albums %}
             <section class="photo-set-list">
                 <ul class="navlist">
 

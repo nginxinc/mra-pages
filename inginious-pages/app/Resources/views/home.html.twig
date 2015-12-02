@@ -3,7 +3,7 @@
 
     {% block loginButton %}
         <div>
-
+            <img id="login-button" onclick="logout();" src='{{ asset('bundles/inginious/images/logout.png', version='1.0') }}'>
         </div>
     {% endblock %}
 
@@ -15,3 +15,6 @@
           </div>
       </section>
   {% endblock %}
+  {% block albums %}
+      {{ include('catalog.html.twig') }}}
+   {% endblock %}

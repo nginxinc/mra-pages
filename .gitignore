@@ -2,6 +2,7 @@
 nginx-repo.crt
 nginx-repo.key
 
+
 ### OSX template
 .DS_Store
 .AppleDouble
@@ -33,7 +34,9 @@ Temporary Items
 .idea
 *.iml
 out
-gen### Symfony template
+gen
+
+### Symfony template
 # Cache and logs (Symfony2)
 /app/cache/*
 /app/logs/*

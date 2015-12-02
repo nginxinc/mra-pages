@@ -98,12 +98,26 @@ function showHideControlPanel(callingImage, panel)
         left: leftPosi, top: topPosi
     });
     $(panel).toggle();
-
+    Cookies.set('logged_in', 'true');
 }
 
 function hidePanel(sentPanel)
 {
     $(sentPanel).hide();
+}
+
+function logout()
+{
+    var cookies = document.cookie.split(";");
+    for (var i = 0; i < cookies.length; i++) {
+        eraseCookie(cookies[i].split("=")[0]);
+    }
+    Cookies.set('logged_in', false);
+    window.location.href = '/';
+}
+
+function eraseCookie(name) {
+    document.cookie = name+"="+ "" + ";expires=Thu, 21 Sep 1979 00:00:01 UTC; path=/";
 }
 
 function showHideMenu()
@@ -190,10 +204,7 @@ function initPhotoGallery()
 function showHidePhotoGallery(folder, title, photoset)
 {
     var photoGalleryURL = "";
-    folder = "folder=" + folder;
-    title = "title=" + title;
-    photoset = "photoSet=" + photoset;
-    photoGalleryURL = "http://www.metadogs.com/includes/photoSetDisplay.jsp?" + folder + "&" + title + "&" + photoset;
+    photoGalleryURL = "/album/" + folder + "/" + photoset;
     photoGalleryURL = encodeURI(photoGalleryURL);
 
     if (galleryIsOpen)

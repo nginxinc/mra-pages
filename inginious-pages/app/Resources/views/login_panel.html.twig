@@ -1,5 +1,6 @@
 <div id="login-panel">
     <script>
+        var clicked = false;
         // This is called with the results from from FB.getLoginStatus().
         function statusChangeCallback(response) {
             console.log('statusChangeCallback');
@@ -12,14 +13,16 @@
             {
                 // Logged into your app and Facebook.
                 testAPI();
-                var auth_provider = Cookies.get('auth_provider');
+                var loggedIn = Cookies.get('logged_in')
 
-                if (auth_provider === "")
+                Cookies.set('auth_provider', 'facebook');
+                Cookies.set('auth_token', response.authResponse.accessToken);
+
+                if (loggedIn === 'true')
                 {
-                    Cookies.set('auth_provider', 'facebook');
-                    Cookies.set('auth_token', response.authResponse.accessToken);
-                    location.reload();
+                    window.location.href = '/hello';
                 }
+                //Cookies.set('logged_in', 'true');
             } else if (response.status === 'not_authorized')
             {
                 // The person is logged into Facebook, but not your app.
@@ -111,14 +114,19 @@
 
             // The ID token you need to pass to your backend:
             var id_token = googleUser.getAuthResponse().id_token;
+            var auth_provider =  Cookies.get('auth_provider')
             console.log("ID Token: " + id_token);
 
-            if (Cookies.get('auth_provider') == "")
+            var loggedIn = Cookies.get('logged_in');
+            Cookies.set('auth_provider', 'google');
+            Cookies.set('auth_token', id_token);
+
+            if (loggedIn === 'true')
             {
-                Cookies.set('auth_provider', 'google');
-                Cookies.set('auth_token', id_token);
-                location.reload();
+                window.location.href = '/hello';
             }
+            //Cookies.set('logged_in', 'true');
+
         };
     </script>
 </div>

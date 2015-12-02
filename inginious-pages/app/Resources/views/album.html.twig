@@ -1,0 +1,27 @@
+
+{% for image in images %}
+    {% if image.id == 1 %}
+        <div onClick="showHidePhotoGallery();return false;" class="gallery-x" >
+            <img alt='closeButton' src='{{ asset('bundles/inginious/images/close_x.png', version='1.0') }}'>
+        </div>
+        <div class="photo-gallery">
+            <div class="crumb-trail"> <a id="crumb-top" href="/photos/">Photos -></a> <a id="crumb-category" href="/photos/family.jsp">{{ catalogID }} -></a> <a id="crumb-photoSets" href="close_x">{{ album.name }} -></a> <a id="crumb-photo" href="{{ image.url_medium }}">{{ image.name }}</a></div>
+            <img id="display-photo-left-arrow" class="hover-arrows" onClick="advancePhoto('left');return false;" src="{{ asset('bundles/inginious/images/left_arrow.png', version='1.0') }}">
+            <a id="display-photo-link" href="{{ image.url_large }}"><img id="display-photo" data-image-list-id="1" src="{{ image.url_medium }}" alt="{{ image.name }}"></a>
+            <img id="display-photo-right-arrow" class="hover-arrows" onClick="advancePhoto('right');return false;" src="{{ asset('bundles/inginious/images/right_arrow.png', version='1.0') }}">
+        </div>
+        <div id="photo-list-wrapper">
+            <div id="photo-list-left-arrow" class="hover-arrows" onClick="slidePhotoList('left');return false;">
+                <img src="{{ asset('bundles/inginious/images/left_arrow.png', version='1.0') }}">
+            </div>
+            <div id="photo-list-right-arrow" class="hover-arrows" onClick="slidePhotoList('right');return false;">
+                <img src="{{ asset('bundles/inginious/images/right_arrow.png', version='1.0') }}">
+            </div>
+            <ul id="photo-list-ul">
+                <li class="inline-list"><img id="photo-list-image-{{ image.id }}" class="thumb-img selected" data-image-width="{{ image.thumb_width }}" data-list-image="{{ image.image_file }}" onClick="setDisplayPhoto('{{ image.url_medium }}','{{ image.id }}',this.id);return false;" src="{{ image.url_thumb }}" alt="{{ image.name }} thumbnail"></li>
+    {% else %}
+                <li class="inline-list"><img id="photo-list-image-{{ image.id }}" class="thumb-img" data-image-width="{{ image.thumb_width }}" data-list-image="{{ image.image_file }}" onClick="setDisplayPhoto('{{ image.url_medium }}','{{ image.id }}',this.id);return false;" src="{{ image.url_thumb }}" alt="{{ image.name }} thumbnail"></li>
+    {% endif %}
+{% endfor %}
+            </ul>
+        </div>

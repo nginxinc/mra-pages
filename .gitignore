@@ -35,11 +35,8 @@ Temporary Items
 *.iml
 out
 gen
-idea/misc.xml
-.idea/workspace.xml
-/inginious-pages/app/bootstrap.php.cache
-/inginious-pages/app/logs/dev.log
-/ngra-pages.iml
+
+/ngra-pages.yml
 
 ### Symfony template
 # Cache and logs (Symfony2)
@@ -51,6 +48,7 @@ idea/misc.xml
 # Cache and logs (Symfony3)
 /inginious-pages/var/cache/*
 /inginious-pages/var/logs/*
+/inginious-pages/app/logs/dev.log
 !var/cache/.gitkeep
 !var/logs/.gitkeep
 
@@ -80,5 +78,3 @@ idea/misc.xml
 # Composer PHAR
 /composer.phar
 /composer.lock
-
-# Created by .ignore support plugin (hsz.mobi)

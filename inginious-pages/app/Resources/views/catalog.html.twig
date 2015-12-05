@@ -5,7 +5,9 @@
     {% for album in catalog %}
         <li class="photo-set">
             <a onClick="showHidePhotoGallery('{{ catalogID }}','{{ album.name }}', '{{ album.id }}');return false;" class="photo-set-link" href="/photos/">
-                <img src="{{ album.poster_image }}" alt="{{ album.name }}">
+                {% if album.poster_image is defined %}
+                    <img src="{{ album.poster_image.thumb_url }}" alt="{{ album.name }}">
+                {% endif %}
                 <div class="description">{{ album.id }}</div>
             </a>
         </li>

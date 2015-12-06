@@ -77,3 +77,7 @@ gen
 # Composer PHAR
 /composer.phar
 /composer.lock
+
+#Microservice Best Practice
+.env_dev
+.env

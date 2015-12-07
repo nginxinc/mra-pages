@@ -1,8 +1,14 @@
 
 <section class="photo-set-list">
     <ul class="navlist">
+        <li class="photo-set">
+            <a class="photo-set-link" href="#">
+                <img onClick="showHideUploadPanel(this, '#upload-panel');return false;" src="{{ asset('bundles/inginious/images/upload.png', version='1.0') }}" alt="upload-icon">
+                <div class="description">Click to upload.</div>
+            </a>
+        </li>
 
-    {% for album in catalog %}
+    {% for album in catalog|reverse %}
         <li class="photo-set">
             <a onClick="showHidePhotoGallery('{{ catalogID }}','{{ album.name }}', '{{ album.id }}');return false;" class="photo-set-link" href="/photos/">
                 {% if album.poster_image is defined %}
@@ -14,3 +20,18 @@
     {% endfor %}
     </ul>
 </section>
+<div id="upload-panel" class="adjustment-controls-panel">
+    <form id="album-upload" action="http://uploader.ngra.ps.nginxlab.com/" method="post">
+        <img class="close-button" alt="closeButton" src="{{ asset('bundles/inginious/images/close_x.png', version='1.0') }}" onclick="showHideUploadPanel(this, '#upload-panel')">
+        <div class="label">
+            <span>Select Images</span>
+            <input id="photo-input" type="file" name="photos" multiple="multiple" accept="image/*">
+        </div>
+        <div class="label">
+            <span>Album Name</span>
+            <input name="name" id="album-name" type="text">
+        </div>
+        <button type="submit" name="create-album">Create An Album</button>
+        <!--onclick="createAlbum('#photo-input','#album-name','#album-upload');return false;"-->
+    </form>
+</div>

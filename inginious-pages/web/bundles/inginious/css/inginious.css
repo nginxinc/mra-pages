@@ -139,6 +139,11 @@
     //src; url("/fonts/ACaslon-SwashSemiBold.woff2") format("woff2"), url("/fonts/ACaslon-SwashSemiBold.woff") format("woff"), url("/fonts/ACaslon-SwashSemiBold.otf") format("opentype");
 }
 @font-face {
+    font-family: 'caslon-SwashSemiBold';
+//src; url("/fonts/ACaslon-SwashSemiBold.woff2") format("woff2"), url("/fonts/ACaslon-SwashSemiBold.woff") format("woff"), url("/fonts/ACaslon-SwashSemiBold.otf") format("opentype");
+}
+
+@font-face {
     font-family: 'caslon-swash';
     //src; url("/fonts/ACaslon-SwashItalic.woff2") format("woff2"), url("/fonts/ACaslon-SwashItalic.woff") format("woff"), url("/fonts/ACaslon-SwashItalic.otf") format("opentype");
 }
@@ -209,7 +214,7 @@ input, textarea {
     padding: 0.5em;
     background-color: #fff;
     border: #cccccc 2px solid;
-    font-family: caslon;
+    font-family: Arial, Helvetica, sans-serif;
     font-size: "1em";
     -webkit-border-radius: 0.5em 0.5em 0.5em 0.5em;
     -moz-border-radius: 0.5em 0.5em 0.5em 0.5em;
@@ -220,7 +225,7 @@ input, textarea {
 input[type="text"],
 input[type="email"],
 input[type="password"] {
-    width: 90%;
+    width: 60%;
     height: 3em;
     font-size: 1.3em;
 }
@@ -304,7 +309,7 @@ input[type="range"][orient="vertical"] {
 .adjustment-controls-panel {
     z-index: 10;
     border: #cccccc 2px solid;
-    font-family: caslon;
+    font-family: Arial, Helvetica, sans-serif;
     font-size: "1em";
     -webkit-border-radius: 0.5em 0.5em 0.5em 0.5em;
     -moz-border-radius: 0.5em 0.5em 0.5em 0.5em;
@@ -326,9 +331,16 @@ input[type="range"][orient="vertical"] {
     font-family: sans-serif;
     text-align: center;
 }
-.form-fields form .contols-fields-div .adjustment-controls-panel .close-button {
+.adjustment-controls-panel .close-button {
     float: right;
 }
+
+#upload-panel {
+    top: 9.5em;
+    display: none;
+    width: 40em;
+}
+
 .form-fields form .contols-fields-div #hero-controls-panel {
     top: 4em;
     display: none;
@@ -376,7 +388,7 @@ input[type="range"][orient="vertical"] {
 /**********COMMENT STYLES**************/
 .comment_head {
     /*used for "Make a comment" form header*/
-    font-family: caslon;
+    font-family: Arial, Helvetica, sans-serif;
     font-size: 1em;
     color: #fff;
     padding-bottom: .8em;
@@ -397,13 +409,13 @@ input[type="range"][orient="vertical"] {
 }
 
 .comment_body {
-    font-family: caslon;
+    font-family: Arial, Helvetica, sans-serif;
     font-size: 1em;
     color: #fff;
 }
 
 .comment_author {
-    font-family: caslon;
+    font-family: Arial, Helvetica, sans-serif;
     font-size: 1em;
     float: left;
     color: #5b5b5b;
@@ -592,7 +604,7 @@ li.submit_button {
 
 /************COMMENT BOXES**************/
 .comment_label {
-    font-family: caslon;
+    font-family: Arial, Helvetica, sans-serif;
     font-size: 1em;
     color: #5b5b5b;
     line-height: 2em;
@@ -611,7 +623,7 @@ li.submit_button {
 }
 
 .comment_text_field {
-    font-family: caslon;
+    font-family: Arial, Helvetica, sans-serif;
     font-size: 1em;
     position: relative;
     left: 0em;
@@ -621,7 +633,7 @@ li.submit_button {
 }
 
 .comment_text_area {
-    font-family: caslon;
+    font-family: Arial, Helvetica, sans-serif;
     font-size: 1em;
     position: relative;
     left: 0em;
@@ -673,7 +685,7 @@ a {
     text-transform: uppercase;
     text-decoration: none;
     cursor: pointer;
-    font-family: benguiat-book;
+    font-family: Arial, Helvetica, sans-serif;
     font-size: 0.8em;
 }
 a:visited {
@@ -987,15 +999,30 @@ textarea {
 }
 
 .pg-hd #login-button {
-    position: relative;
-    display: inline;
+    position: absolute;
     margin: .2em 0;
     float: right;
+    right: 1em;
+    top: 1.3em;
+    z-index: 10;
 }
+
+@media only screen and (max-width: 959px) and (min-width: 0) {
+    .pg-hd #login-button {
+        max-width: 5em;
+    }
+}
+
+@media only screen and (max-width: 599px) and (min-width: 0) {
+    .pg-hd #login-button {
+        top: .2em
+    }
+}
+
 .pg-hd #login-panel {
     width: 10em;
     height:6em;
-    top: 1em;
+    top: 1.3em;
     display: none;
     z-index: 10;
     position: absolute;
@@ -1211,7 +1238,7 @@ html.touch .pg-hd__top-nav {
     border: none;
     outline: none;
     border-left: #ff7380 0.09em solid;
-    font-family: caslon;
+    font-family: Arial, Helvetica, sans-serif;
     font-size: "1em";
     -webkit-border-radius: 0 0 0 0;
     -moz-border-radius: 0 0 0 0;
@@ -1255,7 +1282,7 @@ html.touch .pg-hd__top-nav {
     display: inline-block;
     margin: 0 1em;
     color: #5b5b5b;
-    font-family: caslon;
+    font-family: "Arial Rounded MT Bold", serif;
     font-size: 0.8em;
 }
 @media only screen and (max-width: 959px) and (min-width: 600px) {
@@ -1293,10 +1320,16 @@ html.touch .pg-hd__top-nav {
 }*/
 .pg-ft .branding a {
     font-size: 1em;
+    font-family: "Arial Rounded MT Bold", serif;
 }
 .pg-ft .branding a:hover {
     color: #ff8233;
     font-size-adjust: 1.1em;
+}
+
+.pg-ft .branding .branding-logo{
+    font-family: "Arial Rounded MT Bold", serif;
+    font-size: 2em;
 }
 
 .pg-bd {
@@ -1325,6 +1358,7 @@ html.touch .pg-hd__top-nav {
 }
 .pg-bd .hero .wrapper .headline {
     font-size: 1em;
+    padding-top: .3em;
 }
 .pg-bd .thin {
     height: 10em;
@@ -1368,22 +1402,22 @@ html.touch .pg-hd__top-nav {
 }
 .pg-bd .hero .wrapper, .pg-bd .thin .wrapper {
     position: relative;
-    //font-family: caslon-italic;
-    font-size: 16em;
+    font-family: Arial Rounded MT Bold;
+    font-size: 7em;
     color: rgba(255, 255, 255, 0.7);
     text-align: center;
     height: 100%;
 }
 @media only screen and (max-width: 959px) and (min-width: 600px) {
     .pg-bd .hero .wrapper, .pg-bd .thin .wrapper {
-        //font-family: caslon-italic;
-        font-size: 9em;
+        font-family: Arial Rounded MT Bold;
+        font-size: 5em;
     }
 }
 @media only screen and (max-width: 599px) and (min-width: 0) {
     .pg-bd .hero .wrapper, .pg-bd .thin .wrapper {
-        //font-family: caslon-italic;
-        font-size: 5.5em;
+        font-family: Arial Rounded MT Bold;
+        font-size: 3em;
     }
 }
 .pg-bd .hero .wrapper .headline, .pg-bd .thin .wrapper .headline {
@@ -1394,13 +1428,13 @@ html.touch .pg-hd__top-nav {
     -webkit-margin-after: inherit;
 }
 .pg-bd .hero .wrapper .swash, .pg-bd .thin .wrapper .swash {
-    font-family: caslon-swash;
+    font-family: Arial Rounded MT Bold;
 }
 .pg-bd .hero .wrapper .subhead, .pg-bd .thin .wrapper .subhead {
-    //font-family: caslon-italic;
-    font-size: 0.2em;
-    transform: translate(0%, -113%);
-    -webkit-transform: translate(0%, -113%);
+    font-family: Arial Rounded MT Bold;
+    font-size: 0.4em;
+    /*transform: translate(0%, -113%);
+    -webkit-transform: translate(0%, -113%);*/
     color: rgba(255, 255, 255, 0.95);
     top: -.1em;
     font-weight: initial;
@@ -1414,7 +1448,7 @@ html.touch .pg-hd__top-nav {
 .pg-bd .articles-container .article-wrapper {
     width: 100%;
     text-align: left;
-    //font-family: caslon;
+    font-family: Arial;
     font-size: "1em";
     min-height: 10em;
     padding: .5em 2%;
@@ -1450,18 +1484,20 @@ html.touch .pg-hd__top-nav {
     }
 }
 .pg-bd .articles-container .article-wrapper .story .story-content .story-title {
-    font-family: caslon-semibold;
+    font-family: "Arial Rounded MT Bold",sans-serif;
     font-size: 1.5em;
     margin: 0 0 .4em 0;
     text-transform: none;
 }
 .pg-bd .articles-container .article-wrapper .story .story-content .story-sub-title {
-    font-family: caslon-semibolditalic;
+    font-family: Arial, Helvetica, sans-serif;
+    font-style: italic;
     font-size: 1em;
     margin: 0;
 }
 .pg-bd .articles-container .article-wrapper .story .story-content .date-line {
-    font-family: caslon-italic;
+    font-family: Arial, Helvetica, sans-serif;
+    font-style: italic;
     font-size: 0.8em;
     margin: 0;
 }
@@ -1469,7 +1505,7 @@ html.touch .pg-hd__top-nav {
     margin-top: 1em;
 }
 .pg-bd .articles-container .article-wrapper .story .story-content .story-article a {
-    font-family: caslon;
+    font-family: Arial, Helvetica, sans-serif;
     font-size: "1em";
     text-transform: none;
     font-size: 1em;
@@ -1488,7 +1524,7 @@ html.touch .pg-hd__top-nav {
 .pg-bd .single-article-container .article-wrapper {
     width: 100%;
     text-align: left;
-    font-family: caslon;
+    font-family: Arial, Helvetica, sans-serif;
     font-size: 1.1em;
     min-height: 10em;
     padding: .5em 10%;
@@ -1500,7 +1536,8 @@ html.touch .pg-hd__top-nav {
     }
 }
 .pg-bd .single-article-container .article-wrapper .date-line {
-    font-family: caslon-italic;
+    font-family: Arial, Helvetica, sans-serif;
+    font-style: italic;
     font-size: 1em;
     margin: 0;
 }
@@ -1508,7 +1545,7 @@ html.touch .pg-hd__top-nav {
     margin: 1.3em 0;
 }
 .pg-bd .single-article-container .article-wrapper .story-article a {
-    font-family: caslon;
+    font-family: Arial, Helvetica, sans-serif;
     font-size: "1em";
     text-transform: none;
     font-size: 1em;
@@ -1895,7 +1932,7 @@ html.touch .pg-hd__top-nav {
 
 .photo-set-list {
     font-size: 1em;
-    margin: 0 0 20px 0;
+    margin: 1em 0 1em 0;
 }
 .photo-set-list:after {
     /* Or @extend clearfix */
@@ -1974,12 +2011,11 @@ html.touch .pg-hd__top-nav {
 }
 #photo-list .photo-gallery {
     position: relative;
-    padding: 2em;
     max-height: 100em;
     max-width: 110%;
-    height: 80%;
+    height: 75%;
     text-align: center;
-    padding: 4em 5% 2em 5%;
+    padding: 4% 5% 2em 5%;
 }
 @media only screen and (max-width: 599px) and (min-width: 0) {
     #photo-list .photo-gallery {
@@ -1995,7 +2031,7 @@ html.touch .pg-hd__top-nav {
         font-size: .8em;
         position: fixed;
         z-index: 3;
-        top: 0;
+        top: -1em;
     }
 }
 #photo-list .photo-gallery #display-photo-left-arrow {

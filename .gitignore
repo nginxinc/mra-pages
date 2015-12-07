@@ -31,8 +31,7 @@ Temporary Items
 ### Example user template template
 
 # IntelliJ project files
-.idea
-*.iml
+**/.idea/workspace.xml **/.idea/tasks.xml
 out
 gen
 

@@ -1,5 +1,4 @@
 {% set image = images[0] %}
-
 <div onClick="showHidePhotoGallery();return false;" class="gallery-x" >
     <img alt='closeButton' src='{{ asset('bundles/inginious/images/close_x.png', version='1.0') }}'>
 </div>
@@ -8,10 +7,10 @@
         <a id="crumb-top" href="/photos/">Photos -></a>
         <a id="crumb-category" href="/photos/family.jsp">{{ catalogID }} -></a>
         <a id="crumb-photoSets" href="close_x">{{ album.name }} -></a>
-        <a id="crumb-photo" href="{{ image.medium_url }}">{{ image.name }}</a>
+        <a id="crumb-photo" href="{{ image.large_url }}">{{ image.name }}</a>
     </div>
     <img id="display-photo-left-arrow" class="hover-arrows" onClick="advancePhoto('left');return false;" src="{{ asset('bundles/inginious/images/left_arrow.png', version='1.0') }}">
-    <a id="display-photo-link" href="{{ image.large_url }}"><img id="display-photo" data-image-list-id="1" src="{{ image.medium_url }}" alt="{{ image.name }}"></a>
+    <a id="display-photo-link" href="{{ image.large_url }}"><img id="display-photo" data-image-list-id="0" src="{{ image.medium_url }}" alt="{{ image.name }}"></a>
     <img id="display-photo-right-arrow" class="hover-arrows" onClick="advancePhoto('right');return false;" src="{{ asset('bundles/inginious/images/right_arrow.png', version='1.0') }}">
 </div>
 <div id="photo-list-wrapper">
@@ -23,22 +22,22 @@
     </div>
     <ul id="photo-list-ul">
         <li class="inline-list">
-            <img id="photo-list-image-{{ image.id }}"
+            <img id="photo-list-image-0"
                  class="thumb-img selected"
                  data-image-width="{{ image.thumb_width }}"
                  data-list-image="{{ image.medium_url }}"
-                 onClick="setDisplayPhoto('{{ image.medium_url }}','{{ image.id }}',this.id);return false;"
+                 onClick="setDisplayPhoto('{{ image.medium_url }}','0',this.id);return false;"
                  src="{{ image.thumb_url }}"
                  alt="{{ image.name }} thumbnail">
         </li>
 
 {% for image in images|slice(1) %}
     <li class="inline-list">
-        <img id="photo-list-image-{{ image.id }}"
+        <img id="photo-list-image-{{ loop.index }}"
              class="thumb-img"
              data-image-width="{{ image.thumb_width }}"
              data-list-image="{{ image.thumb_url }}"
-             onClick="setDisplayPhoto('{{ image.medium_url }}','{{ image.id }}',this.id);return false;"
+             onClick="setDisplayPhoto('{{ image.medium_url }}','{{ loop.index }}',this.id);return false;"
              src="{{ image.thumb_url }}"
              alt="{{ image.name }} thumbnail">
     </li>

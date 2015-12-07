@@ -50,24 +50,6 @@ $(document).ready(function() {
         var horizPosi = this.value + "em";
         $('.pg-bd .hero .wrapper .subhead ').css('margin-left', horizPosi);
     });
-    if(setHeroValues)
-    {
-        var heroBackPos = $('.pg-bd .hero').css('background-position').replace(/%/g,'').split(" ",2)[1];//because background position comes as 2 percentage values
-        var heroHeadFontSize = $('.pg-bd .hero .wrapper .headline ').css('font-size').replace('px','');
-        var heroSubFontSize = $('h2.subhead').css('font-size').replace('px','');
-        var heroSubVertPos = $('.pg-bd .hero .wrapper .subhead ').css('margin-top').replace('px','');
-        var heroSubHorizPos = $('.pg-bd .hero .wrapper .subhead ').css('margin-left').replace('px','');
-        heroHeadFontSize = pxToEm(heroHeadFontSize, '.pg-bd .hero .wrapper ');//because scope for font size is in the parent
-        heroSubFontSize = pxToEm(heroSubFontSize,'.pg-bd .hero .wrapper ');//because scope for font size is in the parent
-        heroSubVertPos = pxToEm(heroSubVertPos,'.pg-bd .hero .wrapper .subhead ');
-        heroSubHorizPos = pxToEm(heroSubHorizPos,'.pg-bd .hero .wrapper .subhead ');
-        $("input[name='heroImagePositionRange'],input[name='heroImagePositionNumber']").val(heroBackPos);
-        $("input[name='headlineFontSizeRange'],input[name='headlineFontSizeNumber']").val(heroHeadFontSize);
-        $("input[name='subheadFontSizeRange'],input[name='subheadFontSizeNumber']").val(heroSubFontSize);
-        $("input[name='subheadVerticalPositionRange'],input[name='subheadVerticalPositionNumber']").val(heroSubVertPos);
-        $("input[name='subheadHorizontalPositionRange'],input[name='subheadHorizontalPositionNumber']").val(heroSubHorizPos);
-    }
-
 });
 var mobileMenuIsOpen = false;
 var galleryIsOpen = false;
@@ -185,7 +167,7 @@ function initPhotoGallery()
     photoListHammer.on('swiperight', function(){slidePhotoList('left');});
     photoListHammer.on('press', function() {$('hover-arrows').toggle();});
     photoListUlWidth = {width:0};
-    previousDisplayPhoto = '#photo-list-image-1';
+    previousDisplayPhoto = '#photo-list-image-0';
     $('.inline-list').each(function(index)
     {
         var imageWidth = Number($(this).find('img').data('image-width'));
@@ -246,7 +228,7 @@ function advancePhoto(direction)
 {
     var index = 0;
     var img = '';
-    var endOfList = $('.inline-list').length;
+    var endOfList = $('.inline-list').length - 1;//takes care 0 based counting on index
     if(direction == 'right')
     {
         //alert('right');
@@ -259,10 +241,10 @@ function advancePhoto(direction)
         index = Number($('#display-photo').data('image-list-id'));
         index--;
     };
-    if (index > endOfList) {index = 1;}
-    if (index == 0) { index = endOfList;}
+    if (index > endOfList) {index = 0;}
+    if (index < 0) { index = endOfList;}
     var imgID = '#photo-list-image-' + index
-    img = $(imgID).attr('src').replace('thumbnails','medium');
+    img = $(imgID).attr('src').replace('thumb','medium');
     setDisplayPhoto(img, index, imgID);
     //return false;
 }
@@ -314,6 +296,21 @@ function showHideMovie(folder, title, movieSet)
     return false;
 }
 
+function showHideUploadPanel(callingImage, panel)
+{
+    var img = $(callingImage).offset();
+    var leftPosi = img.left ;
+    var topPosi;
+    topPosi = img.top;
+
+    $(panel).css({
+        left: leftPosi, top: topPosi
+    });
+    $(panel).toggle();
+    Cookies.set('logged_in', 'true');
+}
+
+
 $(document).keyup(function(e)
 {
     if (galleryIsOpen)
@@ -335,17 +332,32 @@ $(document).keyup(function(e)
     }
 });
 
-function createDirectory(baseDir,newDir)
+function createAlbum(photos,albumName,uploader)
 {
-    baseDir =  $('#directory-control-select option:selected').val();
-    newDir = $('#new-directory-name').val();
-    baseDir = "?baseDirectory=" + baseDir;
-    newDir = "&newDirectory=" + newDir;
-    var newDirectoryurl = "/includes/image_directory.jsp"
-        + baseDir
-        + newDir;
-    $('#upload-control-select').load(newDirectoryurl);
-    $('#directory-controls-panel').toggle();
+    var data = new FormData();
+    //photoList =  photos.attr('files');
+    name = $('#album-name').val();
+    jQuery.each(jQuery('#photo-input')[0].files, function(i, file) {
+        data.append('file-'+i, file);
+    });
+    data.append('name',name);
+
+    $( '#album-upload' )
+        .submit( function( e )
+        {
+            $.ajax( {
+                url: 'http://uploader.ngra.ps.nginxlab.com/',
+                type: 'POST',
+                data: data,
+                processData: false,
+                contentType: false
+            } );
+            e.preventDefault();
+        } );
+
+    //$('#upload-control-select').load(newDirectoryurl);
+    //$('#upload-panel').toggle();
+    location.reload();
     return false;
 }
 

@@ -56,6 +56,10 @@ $(document).ready(function() {
 
         event.preventDefault();
 
+        $('upload-panel').animate({height:'300'});
+        $('#result').toggle();
+
+
         $.ajax({
             url: '/uploader',
             data: data,

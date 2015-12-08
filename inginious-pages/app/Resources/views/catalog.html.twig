@@ -31,8 +31,10 @@
             <span>Album Name</span>
             <input name="name" id="album-name" type="text">
         </div>
-        <input type="submit" name="create-album"  value="Create An Album">Create An Album</input>
+        <button type="submit" name="create-album" value="Create An Album">Create An Album</button>
         {#onclick="createAlbum('#photo-input','{{ uploader }}');return false;"#}
-        <div id="result"></div>
+        <div id="result">
+            <img id="upload-animation" alt='animation' src='{{ asset('bundles/inginious/images/uploading.gif', version='1.0') }}'>
+        </div>
     </form>
 </div>

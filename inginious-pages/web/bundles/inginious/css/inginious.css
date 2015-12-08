@@ -341,6 +341,15 @@ input[type="range"][orient="vertical"] {
     width: 40em;
 }
 
+#result {
+    display: none;
+    float: right;
+}
+
+#result #upload-animation {
+    width: 5em;
+}
+
 .form-fields form .contols-fields-div #hero-controls-panel {
     top: 4em;
     display: none;

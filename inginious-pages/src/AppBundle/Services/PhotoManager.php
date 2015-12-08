@@ -83,7 +83,7 @@ class PhotoManager
      * @return string
      */
     public function getUploader() {
-        $uploader = "http://" . $this->uploaderURL . $this->uploaderPath;
+        $uploader = $this->uploaderPath;//because we have to use local proxy for JavaScript XHR
         return $uploader;
     }
 

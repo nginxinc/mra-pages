@@ -32,6 +32,14 @@ class PhotoManager
      */
     private $albumPath;
     /**
+     * @var string
+     */
+    private $uploaderURL;
+    /**
+     * @var string
+     */
+    private $uploaderPath;
+    /**
      * @var Client
      */
     private $client = null;
@@ -43,6 +51,8 @@ class PhotoManager
         $this->url = getenv("PHOTOMANAGER_ENDPOINT_URL");
         $this->catalogPath = getenv("PHOTOMANAGER_CATALOG_PATH");
         $this->albumPath = getenv("PHOTOMANAGER_ALBUM_PATH");
+        $this->uploaderURL = getenv("PHOTOUPLOADER_ENDPOINT_URL");
+        $this->uploaderPath = getenv("PHOTOUPLOADER_ALBUM_PATH");
     }
 
     /**
@@ -68,6 +78,15 @@ class PhotoManager
 
         return $this->getRequest($path);
     }
+
+    /**
+     * @return string
+     */
+    public function getUploader() {
+        $uploader = "http://" . $this->uploaderURL . $this->uploaderPath;
+        return $uploader;
+    }
+
 
     /**
      * @return Client

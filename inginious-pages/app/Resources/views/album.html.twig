@@ -5,7 +5,7 @@
 <div class="photo-gallery">
     <div class="crumb-trail">
         <a id="crumb-top" href="/photos/">Photos -></a>
-        <a id="crumb-category" href="/photos/family.jsp">{{ catalogID }} -></a>
+        <a id="crumb-category" href="/photos/family.jsp">{{ catalogID|raw }} -></a>
         <a id="crumb-photoSets" href="close_x">{{ album.name }} -></a>
         <a id="crumb-photo" href="{{ image.large_url }}">{{ image.name }}</a>
     </div>

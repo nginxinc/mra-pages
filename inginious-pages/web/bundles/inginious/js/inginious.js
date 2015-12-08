@@ -332,34 +332,28 @@ $(document).keyup(function(e)
     }
 });
 
-function createAlbum(photos,albumName,uploader)
-{
-    var data = new FormData();
-    //photoList =  photos.attr('files');
-    name = $('#album-name').val();
-    jQuery.each(jQuery('#photo-input')[0].files, function(i, file) {
-        data.append('file-'+i, file);
+//function createAlbum(form,uploader)
+$( "#album-upload" ).submit(function( event ) {
+
+    var data = new FormData($(this)[0]);
+
+    event.preventDefault();
+
+    var jqxhr = $.post($(form).attr("action"), data, function(result) {
+        alert(result);
+    }).done(function( data ) {
+        var content = $( data );
+        $( "#result" ).empty().append( content );
+    })
+    .fail(function() {
+        alert( "error" );
+    })
+    .always(function() {
+        alert( "finished" );
     });
-    data.append('name',name);
 
-    $( '#album-upload' )
-        .submit( function( e )
-        {
-            $.ajax( {
-                url: 'http://uploader.ngra.ps.nginxlab.com/',
-                type: 'POST',
-                data: data,
-                processData: false,
-                contentType: false
-            } );
-            e.preventDefault();
-        } );
-
-    //$('#upload-control-select').load(newDirectoryurl);
-    //$('#upload-panel').toggle();
-    location.reload();
-    return false;
-}
+     return false;
+});
 
 $(window).resize(function()
 {

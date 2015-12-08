@@ -10,18 +10,18 @@
 
     {% for album in catalog|reverse %}
         <li class="photo-set">
-            <a onClick="showHidePhotoGallery('{{ catalogID }}','{{ album.name }}', '{{ album.id }}');return false;" class="photo-set-link" href="/photos/">
+            <a onClick="showHidePhotoGallery('{{ catalogID }}','{{ album.name }}', '{{ album.id }}');return false;" class="photo-set-link" href="#">
                 {% if album.poster_image is defined %}
                     <img src="{{ album.poster_image.thumb_url }}" alt="{{ album.name }}">
                 {% endif %}
-                <div class="description">{{ album.id }}</div>
+                <div class="description">{{ album.name }}</div>
             </a>
         </li>
     {% endfor %}
     </ul>
 </section>
 <div id="upload-panel" class="adjustment-controls-panel">
-    <form id="album-upload" action="http://uploader.ngra.ps.nginxlab.com/" method="post">
+    <form id="album-upload" action="{{ uploader }}" method="post" enctype="multipart/form-data">
         <img class="close-button" alt="closeButton" src="{{ asset('bundles/inginious/images/close_x.png', version='1.0') }}" onclick="showHideUploadPanel(this, '#upload-panel')">
         <div class="label">
             <span>Select Images</span>
@@ -31,7 +31,8 @@
             <span>Album Name</span>
             <input name="name" id="album-name" type="text">
         </div>
-        <button type="submit" name="create-album">Create An Album</button>
-        <!--onclick="createAlbum('#photo-input','#album-name','#album-upload');return false;"-->
+        <input type="submit" name="create-album"  value="Create An Album">Create An Album</input>
+        {#onclick="createAlbum('#photo-input','{{ uploader }}');return false;"#}
+        <div id="result"></div>
     </form>
 </div>

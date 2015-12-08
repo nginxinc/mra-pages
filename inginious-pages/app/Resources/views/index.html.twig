@@ -1,6 +1,10 @@
 {# app/Resources/views/index.html.twig #}
 {% extends 'base.html.twig' %}
 
+    {% block subhead %} <h2 class="subhead" >{{ loginRequired | default("From The Sublime To The Bizarre") }}</h2> {% endblock %}
+
+
+
 {% block articles %}
     <section class="articles-container">
 
@@ -22,7 +26,7 @@
                             <h1 class="story-title">Paris in all it's Glory</h1>
                         </a>
                         <h2 class="story-sub-title"></h2>
-                        <div class="date-line">2007-06-05 23:06:31, Boston, MA</div>
+                        <div class="date-line">2015-12-07 23:06:31, Paris, FR</div>
                         <div class="story-article"><div class="embedded-photo right"><a class="photo-set-image" href="/includes/photoSetDisplay.jsp?folder=number=0-27&folder=family/grands_visit&title=With%20The%20Fierstons" onclick="showHidePhotoGallery('family/grands_visit','With%20The%20Fierstons', 'boston_spring07');return false;"><img src="http://www.metadogs.com/images/photos/thumbnails/family/grands_visit/boston_spring07_17.jpg"><div>Click for photo gallery.</div></a></div>Paris has been the center of attention of late for reasons not related to it's beauty, depth of culture, history or fabulous food. The tragic events that unfolded there recently are a stain upon of humanity and are a reminder that even in the most civilized city in the world, barbarism can strike out of the bleu. The editors at Inginious decided to make a photo montage of our favorite, public photos of Paris to remind everyone of its glory, its wonderful people and the beauty that is inherent to the city. Enjoy. </div>                       <a class="full-story" href="/photos/family/index.jsp?singlestory=y&story=103">Continue Reading</a>
                         <div class="author">Inginious Editorial Staff</div>
                     </li>
@@ -45,7 +49,7 @@
                 <h1 class="story-title">Black and White Photos From Around The World</h1>
             </a>
             <h2 class="story-sub-title"></h2>
-            <div class="date-line">2009-04-14 23:17:31, Oakland, CA</div>
+            <div class="date-line">2015-11-14 23:17:31, Oakland, CA</div>
             <div class="story-article"><div class="embedded-photo right"><a class="photo-set-image" href="/includes/photoSetDisplay.jsp?folder=number=0-104&folder=family/mira_and_skyler&title=Double Girl Power" onclick="showHidePhotoGallery('family/mira_and_skyler','Double Girl Power', 'adventure_park_03-09');return false;"><img src="http://www.metadogs.com/images/photos/thumbnails/family/mira_and_skyler/adventure_park_03-09_49.jpg"><div>Click for photo gallery.</div></a></div>We have finally gotten around to putting up all the photos we have been taking recently and hopefully they will look better than ever. Shelly, as an early birthday present, got a new Nikon D90 SLR camera. It is basically a good pro-sumer camera that has a good lense, quick focus and high-resolution. The pictures in Adventure Park photos in Double Girl Power  are an example of the kind of pictures that this Camera can take.
                 <BR></div>
             <a class="full-story" href="/photos/family/index.jsp?singlestory=y&story=111">Continue Reading</a>

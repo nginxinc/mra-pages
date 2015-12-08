@@ -89,7 +89,7 @@ class PhotoUploader
             $body = $response->getBody()->__toString();
 
             $decoder = new JsonDecode();
-            return $decoder->decode($body, 'json');
+            return $body; //$decoder->decode($body, 'json');
         }
         catch (RequestException $e)
         {

@@ -32,6 +32,7 @@ class InginiousHomeController extends Controller
     private $lastName;
     private $photoManager = null;
     private $photoUploader = null;
+    private $loginRequired = "Welcome, But Please Login To Your Account";
 
     public function isAuthenticated(Request $request) {
         $authID = $request->headers->get('Auth-ID');
@@ -62,17 +63,31 @@ class InginiousHomeController extends Controller
      */
     public function homeAction(Request $request)
     {
-        return $this->render(
-            '/home.html.twig',
-            [
-                'firstName' => $this->firstName,
-                'lastName' => $this->lastName,
-                'authenticated' => 'header',
-                'catalogID' => 'orchids',
-                'catalog' => $this->getPhotoManager()->getCatalog(1),
-                'uploader' => $this->getPhotoUploader()->getUploader()
-            ]
-        );
+        if($this->isAuthenticated($request))
+        {
+            return $this->render(
+                '/home.html.twig',
+                [
+                    'firstName' => $this->firstName,
+                    'lastName' => $this->lastName,
+                    'authenticated' => 'header',
+                    'catalogID' => 'orchids',
+                    'catalog' => $this->getPhotoManager()->getCatalog(1),
+                    'uploader' => $this->getPhotoUploader()->getUploader(1)
+                ]
+            );
+        }
+        else
+        {
+            $response = new Response();
+            $response->setStatusCode(Response::HTTP_FORBIDDEN);
+            return $this->render('/index.html.twig',
+                [
+                    'loginRequired' => $this->loginRequired
+                ]
+            );
+
+        }
     }
 
     /**

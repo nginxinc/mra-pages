@@ -48,26 +48,28 @@ class InginiousHomeController extends Controller
     }
 
     /**
-     * @Route("/", name="homepage")
+     * @Route("/")
      */
     public function indexAction(Request $request)
     {
-//        var_dump($this->getPhotoManager()->getCatalog(1)); exit;
-
-        if ($this->isAuthenticated($request)) {
-            return $this->render(
-                '/home.html.twig',
-                [
-                    'firstName' => $this->firstName,
-                    'lastName' => $this->lastName,
-                    'authenticated' => 'header',
-                    'catalogID' => 'orchids',
-                    'catalog' => $this->getPhotoManager()->getCatalog(1)
-                ]
-            );
-        }
-
         return $this->render('/index.html.twig');
+    }
+
+    /**
+     * @Route("/home")
+     */
+    public function homeAction(Request $request)
+    {
+        return $this->render(
+            '/home.html.twig',
+            [
+                'firstName' => $this->firstName,
+                'lastName' => $this->lastName,
+                'authenticated' => 'header',
+                'catalogID' => 'orchids',
+                'catalog' => $this->getPhotoManager()->getCatalog(1)
+            ]
+        );
     }
 
     /**
@@ -76,24 +78,20 @@ class InginiousHomeController extends Controller
 
     public function albumAction($catalog, $album, Request $request)
     {
-        if ($this->isAuthenticated($request)) {
-            $album = $this->getPhotoManager()->getAlbum($album);
-            $images = $album->images;
+        $album = $this->getPhotoManager()->getAlbum($album);
+        $images = $album->images;
 
-            return $this->render(
-                '/album.html.twig',
-                [
-                    'firstName' => $this->firstName,
-                    'lastName' => $this->lastName,
-                    'authenticated' => 'header',
-                    'catalogID' => $catalog,
-                    'album' => $album,
-                    'images' => $images
-                ]
-            );
-        } else {
-            return $this->redirectToRoute('homepage');
-        }
+        return $this->render(
+            '/album.html.twig',
+            [
+                'firstName' => $this->firstName,
+                'lastName' => $this->lastName,
+                'authenticated' => 'header',
+                'catalogID' => $catalog,
+                'album' => $album,
+                'images' => $images
+            ]
+        );
     }
 
     /**

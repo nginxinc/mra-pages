@@ -14,27 +14,15 @@ use GuzzleHttp\Exception\RequestException;
 use Symfony\Component\Serializer\Encoder\JsonDecode;
 
 /**
- * Class PhotoManager
+ * Class PhotoUploader
  * @package AppBundle\Services
  */
-class PhotoManager
+class PhotoUploader
 {
     /**
      * @var string
      */
     private $url;
-    /**
-     * @var string
-     */
-    private $catalogPath;
-    /**
-     * @var string
-     */
-    private $albumPath;
-    /**
-     * @var string
-     */
-    private $uploaderURL;
     /**
      * @var string
      */
@@ -48,34 +36,33 @@ class PhotoManager
      * PhotoManager constructor.
      */
     public function __construct() {
-        $this->url = getenv("PHOTOMANAGER_ENDPOINT_URL");
-        $this->catalogPath = getenv("PHOTOMANAGER_CATALOG_PATH");
-        $this->albumPath = getenv("PHOTOMANAGER_ALBUM_PATH");
+        $this->url = getenv("PHOTOUPLOADER_ENDPOINT_URL");
+        $this->uploaderPath = getenv("PHOTOUPLOADER_ALBUM_PATH");
     }
 
     /**
      * @param $userId
      * @return string
      */
-    public function getCatalog($userId) {
+    public function getUploader($userId) {
         $params = [
             'query' => [
                 'user_id' => $userId
             ]
         ];
 
-        return $this->getRequest($this->catalogPath, $params);
+        return $this->getRequest($this->uploaderPath, $params);
     }
+
 
     /**
-     * @param $albumId
      * @return string
      */
-    public function getAlbum($albumId) {
-        $path = $this->albumPath . '/' . $albumId;
-
-        return $this->getRequest($path);
+    public function getUploaderPath() {
+        $uploader = $this->uploaderPath;//because we have to use local proxy for JavaScript XHR
+        return $uploader;
     }
+
 
     /**
      * @return Client

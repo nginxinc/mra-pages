@@ -69,6 +69,9 @@ $(document).ready(function() {
             type: 'POST',
             success: function(data){
                 location.reload();
+            },
+            error: function(response){
+                alert(response);
             }
         });
 

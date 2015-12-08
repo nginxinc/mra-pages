@@ -10,6 +10,7 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Services\PhotoManager;
+use AppBundle\Services\PhotoUploader;
 use GuzzleHttp\Exception\RequestException;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -30,6 +31,7 @@ class InginiousHomeController extends Controller
     private $firstName;
     private $lastName;
     private $photoManager = null;
+    private $photoUploader = null;
 
     public function isAuthenticated(Request $request) {
         $authID = $request->headers->get('Auth-ID');
@@ -68,7 +70,7 @@ class InginiousHomeController extends Controller
                 'authenticated' => 'header',
                 'catalogID' => 'orchids',
                 'catalog' => $this->getPhotoManager()->getCatalog(1),
-                'uploader' => $this->getPhotoManager()->getUploader()
+                'uploader' => $this->getPhotoUploader()->getUploader()
             ]
         );
     }
@@ -104,5 +106,16 @@ class InginiousHomeController extends Controller
         }
 
         return $this->photoManager;
+    }
+
+    /**
+     * @return PhotoUploader
+     */
+    private function getPhotoUploader() {
+        if ($this->photoUploader == null) {
+            $this->photoUploader = new PhotoUploader();
+        }
+
+        return $this->photoUploader;
     }
 }

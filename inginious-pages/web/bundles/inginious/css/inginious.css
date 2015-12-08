@@ -1461,7 +1461,7 @@ html.touch .pg-hd__top-nav {
     font-size: "1em";
     min-height: 10em;
     padding: .5em 2%;
-    overflow: scroll;
+    overflow: hidden;
 }
 .pg-bd .articles-container .article-wrapper .story .story-image {
     width: 50%;
@@ -1537,7 +1537,7 @@ html.touch .pg-hd__top-nav {
     font-size: 1.1em;
     min-height: 10em;
     padding: .5em 10%;
-    overflow: scroll;
+    overflow: hidden;
 }
 @media only screen and (max-width: 599px) and (min-width: 0) {
     .pg-bd .single-article-container .article-wrapper {

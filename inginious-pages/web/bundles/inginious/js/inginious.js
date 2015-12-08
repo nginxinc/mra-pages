@@ -55,10 +55,23 @@ $(document).ready(function() {
         var data = new FormData($(this)[0]);
 
         event.preventDefault();
+
+        $.ajax({
+            url: '/uploader',
+            data: data,
+            cache: false,
+            contentType: false,
+            processData: false,
+            type: 'POST',
+            success: function(data){
+                location.reload();
+            }
+        });
+
         //alert("yer mama");
 
-        $.post($(this).attr("action"), data, function(result) {
-            alert(result);});
+        //$.post($(this).attr("action"), data, function(result) {
+        //    alert(result);});
 
         /*var jqxhr = $.post($(this).attr("action"), data, function(result) {
             alert(result);

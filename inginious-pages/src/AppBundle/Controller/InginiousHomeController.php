@@ -67,7 +67,8 @@ class InginiousHomeController extends Controller
                 'lastName' => $this->lastName,
                 'authenticated' => 'header',
                 'catalogID' => 'orchids',
-                'catalog' => $this->getPhotoManager()->getCatalog(1)
+                'catalog' => $this->getPhotoManager()->getCatalog(1),
+                'uploader' => $this->getPhotoManager()->getUploader()
             ]
         );
     }

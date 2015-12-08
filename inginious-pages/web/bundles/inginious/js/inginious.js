@@ -50,6 +50,32 @@ $(document).ready(function() {
         var horizPosi = this.value + "em";
         $('.pg-bd .hero .wrapper .subhead ').css('margin-left', horizPosi);
     });
+    $( "#album-upload" ).submit(function( event ) {
+
+        var data = new FormData($(this)[0]);
+
+        event.preventDefault();
+        //alert("yer mama");
+
+        $.post($(this).attr("action"), data, function(result) {
+            alert(result);});
+
+        /*var jqxhr = $.post($(this).attr("action"), data, function(result) {
+            alert(result);
+        }).done(function( data ) {
+                var content = $( data );
+                $( "#result" ).empty().append( content );
+            })
+            .fail(function() {
+                alert( "error" );
+            })
+            .always(function() {
+                alert( "finished" );
+            });*/
+
+        return false;
+    });
+
 });
 var mobileMenuIsOpen = false;
 var galleryIsOpen = false;
@@ -333,27 +359,6 @@ $(document).keyup(function(e)
 });
 
 //function createAlbum(form,uploader)
-$( "#album-upload" ).submit(function( event ) {
-
-    var data = new FormData($(this)[0]);
-
-    event.preventDefault();
-
-    var jqxhr = $.post($(form).attr("action"), data, function(result) {
-        alert(result);
-    }).done(function( data ) {
-        var content = $( data );
-        $( "#result" ).empty().append( content );
-    })
-    .fail(function() {
-        alert( "error" );
-    })
-    .always(function() {
-        alert( "finished" );
-    });
-
-     return false;
-});
 
 $(window).resize(function()
 {

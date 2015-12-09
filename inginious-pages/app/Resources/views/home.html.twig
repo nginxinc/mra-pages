@@ -6,8 +6,16 @@
             <img id="login-button" onclick="logout();" src='{{ asset('bundles/inginious/images/logout.png', version='1.0') }}'>
         </div>
     {% endblock %}
+ {% block hero %}
+     <section class="hero" style="background-image: url('http://www.metadogs.com/images/hero/orchids.jpg');" >
+         <div class="wrapper" >
+             <h1 class="headline" >inginious photos</h1>
+             {% block subhead %} <h2 class="subhead" >Welcome {{ firstName }} {{ lastName }} </h2> {% endblock %}
+         </div>
+     </section>
+ {% endblock %}
 
-              {% block subhead %} <h2 class="subhead" >Welcome {{ firstName }} {{ lastName }} </h2> {% endblock %}
+
   {% block articles %}
   {% endblock %}
   {% block albums %}

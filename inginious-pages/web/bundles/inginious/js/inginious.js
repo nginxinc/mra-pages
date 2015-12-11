@@ -52,13 +52,34 @@ $(document).ready(function() {
     });
     $( "#album-upload" ).submit(function( event ) {
 
+        /*
+        * Get name of album
+        * Submit name and get back album_id
+        * Get images from the form
+        * Make a map of images
+        * Create progress event listeners for each image
+        * submit images to uploader with album_id (I may need to put this as a header/alternate value because of the way files are submitted)
+        * get response back for each image with the thumbnail URL
+        * place into page showing upload progress and thumbnail when done
+        * close panel refreshes album list
+        */
         var data = new FormData($(this)[0]);
 
         event.preventDefault();
 
         $('upload-panel').animate({height:'300'});
-        $('#result').toggle();
+        $('#result').show();
 
+        var totalFileSize = getFilesSize("#photo-input");
+
+        var oReq = new XMLHttpRequest();
+
+        oReq.upload.addEventListener("progress", updateProgress);
+        oReq.upload.addEventListener("load", transferComplete);
+        oReq.upload.addEventListener("error", transferFailed);
+        oReq.upload.addEventListener("abort", transferCanceled);
+
+        oReq.open();
 
         $.ajax({
             url: '/uploader',
@@ -71,27 +92,25 @@ $(document).ready(function() {
                 location.reload();
             },
             error: function(response){
-                alert(response);
+                alert("This is an error" + response.toString());
+            },
+            xhr: function () {
+                 var xhr = new XMLHttpRequest();
+                 xhr.setRequestHeader("Content-Length", totalFileSize);
+                 xhr.upload.addEventListener("progress", function (evt) {
+                     var percentComplete = evt.loaded / totalFileSize;
+                     $('#progressCounter').html(Math.round(percentComplete * 100) + "%");
+
+                 });
+            },
+            beforeSend:function (){
+                $('#loading').show();
+            },
+            complete: function () {
+                $("#loading").hide();
+                $('#result').hide();
             }
         });
-
-        //alert("yer mama");
-
-        //$.post($(this).attr("action"), data, function(result) {
-        //    alert(result);});
-
-        /*var jqxhr = $.post($(this).attr("action"), data, function(result) {
-            alert(result);
-        }).done(function( data ) {
-                var content = $( data );
-                $( "#result" ).empty().append( content );
-            })
-            .fail(function() {
-                alert( "error" );
-            })
-            .always(function() {
-                alert( "finished" );
-            });*/
 
         return false;
     });
@@ -107,6 +126,22 @@ var photoHammer = {};
 var photoListHammer = {};
 var previousDisplayPhoto = '#photo-list-image-1';
 var menuIsOpen = false;
+
+function getFilesSize(button) {
+    var files = [];
+    files = $(button)[0].files;
+    var totalFileSize = 0;
+    //files.forEach(function(file){
+    for (index = 0; index < files.length; ++index)
+    {
+        totalFileSize = totalFileSize + files[index].size;
+    };
+    //if (totalFileSize > 1024 * 1024)
+        //totalFileSize = (Math.round(totalFileSize * 100 / (1024 * 1024)) / 100).toString() + 'MB';
+    //else
+        //totalFileSize = (Math.round(totalFileSize * 100 / 1024) / 100).toString() + 'KB';
+    return totalFileSize;
+}
 
 function showHideControlPanel(callingImage, panel)
 {
@@ -402,5 +437,7 @@ var pxToEm = function( value, scope, suffix )
     scopeTest.remove();
     return +(divisor / scopeVal).toFixed(4) + suffix;
 };
+
+
 
 //</script>

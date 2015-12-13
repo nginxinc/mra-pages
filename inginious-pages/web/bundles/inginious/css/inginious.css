@@ -339,7 +339,6 @@ input[type="range"][orient="vertical"] {
     top: 9.5em;
     display: none;
     width: 35em;
-    overflow-y: scroll;
 }
 
 #loading{

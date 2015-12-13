@@ -332,6 +332,26 @@ function showHideUploadPanel(callingImage, panel)
     }
 }
 
+function showHideControlPanel(callingImage, panel)
+{
+    //var elementCalled = document.getElementById(callingImage);
+    var img = $(callingImage).position();
+    var leftPosi = img.left - $(panel).width() + $(callingImage).width();
+    var topPosi;
+    topPosi = img.top + $(callingImage).height();
+
+    //var panelArray = ['login-panel'];
+    //var index = panelArray.indexOf(panel);
+    //panelArray.splice( index, 1 );
+
+    //panelArray.forEach(hidePanel);
+
+    $(panel).css({
+        left: leftPosi, top: topPosi
+    });
+    $(panel).toggle();
+    Cookies.set('logged_in', 'true');
+}
 
 $(document).keyup(function(e)
 {

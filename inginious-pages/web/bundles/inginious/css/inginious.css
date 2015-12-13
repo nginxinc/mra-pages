@@ -338,7 +338,14 @@ input[type="range"][orient="vertical"] {
 #upload-panel {
     top: 9.5em;
     display: none;
-    width: 40em;
+    width: 35em;
+    overflow-y: scroll;
+}
+
+#loading{
+    display: inline;
+    font-family: "Arial Rounded MT Bold", sans-serif;
+    font-size: 1.5em;
 }
 
 #result {
@@ -346,8 +353,20 @@ input[type="range"][orient="vertical"] {
     float: right;
 }
 
-#result #upload-animation {
-    width: 5em;
+#result .upload-thumb img {
+    width: 10em;
+    margin-bottom: 1em;
+    margin-top: 1em;
+}
+
+#result .upload-thumb {
+    display: inline;
+    float: left;
+    margin: .5em;
+}
+
+form #upload-thumb-proto{
+    display: none;
 }
 
 .form-fields form .contols-fields-div #hero-controls-panel {

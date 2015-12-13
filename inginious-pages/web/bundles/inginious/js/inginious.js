@@ -2,119 +2,12 @@
  * Created by chrisstetson on 11/16/15.
  */
 
-
-
-
 //<script> //this fakes out Intellij to thinking it is Javascript but doesn't render as a script tag in the browser
 
 $(document).ready(function() {
-    $( ".hero-field" ).on( "change blur reset", function()
-    {
-        $('.pg-bd .hero').css('background-image', 'url(' + $(this).val() + ')');
-    });
-    $( "input[name='headLine']" ).on( "change reset keyup", function()
-    {
-        $('.pg-bd .hero .wrapper .headline span').text($(this).val().substring(0,1));
-        $('.pg-bd .hero .wrapper .headline ').contents().filter(function()
-        {
-            return this.nodeType == Node.TEXT_NODE;
-        })[0].nodeValue = $(this).val().substring(1);//this gets the text after the span
-    });
-    $( "input[name='subHead']" ).on( "change reset keyup", function()
-    {
-        $('.pg-bd .hero .wrapper .subhead').text($(this).val());
-    });
-    $("input[name='heroImagePositionRange'],input[name='heroImagePositionNumber']").on("input change", function()
-    {
-        var yPosition = this.value + "%";
-        $('.pg-bd .hero').css('background-position', '50% ' + yPosition);
-    });
-    $("input[name='headlineFontSizeRange'],input[name='headlineFontSizeNumber']").on("input change", function()
-    {
-        var fontSize = this.value + "em";
-        $('.pg-bd .hero .wrapper .headline ').css('font-size', fontSize);
-    });
-    $("input[name='subheadFontSizeRange'],input[name='subheadFontSizeNumber']").on("input change", function()
-    {
-        var fontSize = this.value + "em";
-        $('.pg-bd .hero .wrapper .subhead ').css('font-size', fontSize);
-    });
-    $("input[name='subheadVerticalPositionRange'],input[name='subheadVerticalPositionNumber']").on("input change", function()
-    {
-        //this.value = 2.8 - this.value;
-        var vertPosi = this.value + "em";
-        $('.pg-bd .hero .wrapper .subhead ').css('margin-top', vertPosi);
-    });
-    $("input[name='subheadHorizontalPositionRange'],input[name='subheadHorizontalPositionNumber']").on("input change", function()
-    {
-        var horizPosi = this.value + "em";
-        $('.pg-bd .hero .wrapper .subhead ').css('margin-left', horizPosi);
-    });
     $( "#album-upload" ).submit(function( event ) {
-
-        /*
-        * Get name of album
-        * Submit name and get back album_id
-        * Get images from the form
-        * Make a map of images
-        * Create progress event listeners for each image
-        * submit images to uploader with album_id (I may need to put this as a header/alternate value because of the way files are submitted)
-        * get response back for each image with the thumbnail URL
-        * place into page showing upload progress and thumbnail when done
-        * close panel refreshes album list
-        */
-        var data = new FormData($(this)[0]);
-
-        event.preventDefault();
-
-        $('upload-panel').animate({height:'300'});
-        $('#result').show();
-
-        var totalFileSize = getFilesSize("#photo-input");
-
-        var oReq = new XMLHttpRequest();
-
-        oReq.upload.addEventListener("progress", updateProgress);
-        oReq.upload.addEventListener("load", transferComplete);
-        oReq.upload.addEventListener("error", transferFailed);
-        oReq.upload.addEventListener("abort", transferCanceled);
-
-        oReq.open();
-
-        $.ajax({
-            url: '/uploader',
-            data: data,
-            cache: false,
-            contentType: false,
-            processData: false,
-            type: 'POST',
-            success: function(data){
-                location.reload();
-            },
-            error: function(response){
-                alert("This is an error" + response.toString());
-            },
-            xhr: function () {
-                 var xhr = new XMLHttpRequest();
-                 xhr.setRequestHeader("Content-Length", totalFileSize);
-                 xhr.upload.addEventListener("progress", function (evt) {
-                     var percentComplete = evt.loaded / totalFileSize;
-                     $('#progressCounter').html(Math.round(percentComplete * 100) + "%");
-
-                 });
-            },
-            beforeSend:function (){
-                $('#loading').show();
-            },
-            complete: function () {
-                $("#loading").hide();
-                $('#result').hide();
-            }
-        });
-
-        return false;
+        uploadImages(event);
     });
-
 });
 var mobileMenuIsOpen = false;
 var galleryIsOpen = false;
@@ -126,42 +19,134 @@ var photoHammer = {};
 var photoListHammer = {};
 var previousDisplayPhoto = '#photo-list-image-1';
 var menuIsOpen = false;
+var uploaderURL = "/uploader";//this should be set with environment variables
+var albumManagerURL = "/albums";//this should be set with environment variables
+var uploaded = 0;
+var filesIndex = 0
 
-function getFilesSize(button) {
+function uploadImages( event ) {
+
+    /*
+     * Get name of album
+     * Submit name and get back album_id
+     * Get images from the form
+     * Make a map of images
+     * Create progress event listeners for each image
+     * submit images to uploader with album_id (I may need to put this as a header/alternate value because of the way files are submitted)
+     * get response back for each image with the thumbnail URL
+     * place into page showing upload progress and thumbnail when done
+     * close panel refreshes album list
+     */
+    event.preventDefault();
+    uploaded = 0;
     var files = [];
-    files = $(button)[0].files;
-    var totalFileSize = 0;
-    //files.forEach(function(file){
-    for (index = 0; index < files.length; ++index)
+    for( filesIndex = 0; $("#photo-input").prop('files').length > filesIndex; filesIndex++)
     {
-        totalFileSize = totalFileSize + files[index].size;
-    };
-    //if (totalFileSize > 1024 * 1024)
-        //totalFileSize = (Math.round(totalFileSize * 100 / (1024 * 1024)) / 100).toString() + 'MB';
-    //else
-        //totalFileSize = (Math.round(totalFileSize * 100 / 1024) / 100).toString() + 'KB';
+        files[filesIndex]=$("#photo-input").prop('files')[filesIndex];
+        $('#upload-thumb-proto').clone().appendTo('#upload-thumbs').attr('id',"upload-thumb-" + filesIndex).attr('display','inline');
+    }
+    $('#upload-panel').animate({width:'90%'});
+    $('#result').show();
+    var i = 0;
+    var album_id;
+    var myPromise = new Promise( function (resolve, reject) {
+            initAlbum($("#album-name").val(), resolve, reject);
+        }
+    );
+    myPromise.then(function(data) {
+        $("#loading").html(uploaded + " of " + filesIndex + " Images Uploaded");
+        album_id = data;
+        Promise.all(files.map(function (file) {
+            uploadFile("#upload-thumb-" + i++, file, album_id);
+        }));
+        $("#loading").html(i + " Images Uploaded");
+    }).catch(function (error){
+        $("#loading").html(error);
+    });
+    return album_id;
+}
+
+function getFileSize(file) {
+    var totalFileSize = file.size;
+    if (totalFileSize > 1024 * 1024)
+        totalFileSize = (Math.round(totalFileSize * 100 / (1024 * 1024)) / 100).toString() + 'MB';
+    else
+        totalFileSize = (Math.round(totalFileSize * 100 / 1024) / 100).toString() + 'KB';
     return totalFileSize;
 }
 
-function showHideControlPanel(callingImage, panel)
+function initAlbum(albumName,resolve, reject, albumDescription)
 {
-    //var elementCalled = document.getElementById(callingImage);
-    var img = $(callingImage).position();
-    var leftPosi = img.left - $(panel).width() + $(callingImage).width();
-    var topPosi;
-    topPosi = img.top + $(callingImage).height();
+    var data = new FormData;
+    data.append("album[name]", albumName );
+    if(albumDescription !== undefined)
+    {
+        data.append("album[description]", albumDescription );
+    }
+    var album_id = 0;
+    $.ajax({
+        url: albumManagerURL,
+        data: data,
+        cache: false,
+        contentType: false,
+        processData: false,
+        type: 'POST',
+        success: function(resp){
+            album_id = resp.id;
+            //return album_id;
+        },
+        error: function(response){
+            //console.log("There is an error:" + response);
+            reject("There is an error:" + response);
+        },
+        complete: function () {
+            //$("#loading").html();
+            //$('#result').hide();
+            resolve(album_id);
+        }
 
-    //var panelArray = ['login-panel'];
-    //var index = panelArray.indexOf(panel);
-    //panelArray.splice( index, 1 );
-
-    //panelArray.forEach(hidePanel);
-
-    $(panel).css({
-        left: leftPosi, top: topPosi
     });
-    $(panel).toggle();
-    Cookies.set('logged_in', 'true');
+    //realPromise.then( return album_id );
+    //realPromise.catch(return false);
+}
+
+function uploadFile(uploadThumbnail, file, albumID)
+{
+    var fileSize = getFileSize(file);
+    var data = new FormData;
+    data.append("photos", file );
+    data.append("album_id",albumID);
+
+    $.ajax({
+        url: uploaderURL,
+        data: data,
+        cache: false,
+        contentType: false,
+        processData: false,
+        type: 'POST',
+        success: function(resp){
+            var thumbnail = resp.images[0].thumb_url;
+            $(uploadThumbnail + " img").attr('src',thumbnail);
+            $("#loading").html(++uploaded + " of " + filesIndex + " Images Uploaded");
+        },
+        error: function(response){
+            console.log("There is an error:" + response);
+            return false;
+        },
+        progress: function (evt) {
+            var percentComplete = evt.loaded / evt.total;
+            $('#progressCounter').html(Math.round(percentComplete * 100) + "%");
+        },
+        beforeSend:function (){
+            $(uploadThumbnail + " img").show();
+            $(uploadThumbnail + " .file-size").html(getFileSize(file));
+        },
+        complete: function () {
+            //$("#loading").html();
+            //$('#result').hide();
+            return true;
+        }
+    });
 }
 
 function hidePanel(sentPanel)
@@ -200,36 +185,6 @@ function showHideMenu()
         menuIsOpen = false;
         return false;
     };
-}
-
-function showHideSubMenu(menu,img,subNavBool)
-{
-
-    if(!subNavBool.bool){
-        $(menu).slideToggle('fast');
-        $(img).attr('src','http://www.metadogs.com/images/icon/v-up.png');
-        subNavBool.bool = true;
-        return false;
-    }else{
-        $(menu).slideToggle('fast');
-        $(img).attr('src','http://www.metadogs.com/images/icon/v-down.png');
-        subNavBool.bool = false;
-        return false;
-    };
-}
-
-function LoadMoreStories(url)
-{
-    var contenturl = "";
-    contenturl = "/includes/main_content.jsp?morestories=y"
-        + "&story=null"
-        + "&mainURL=" + url
-        + "&author=y"
-        + "&dateline=y"
-        + "&singlestory=n";
-    $('#next-content').load(contenturl + " .articles-container");
-    $('#more-stories').toggle();
-
 }
 
 function initPhotoGallery()
@@ -356,27 +311,6 @@ function slidePhotoList(direction)//overloading direction with direct scroll num
     return false;
 }
 
-function showHideMovie(folder, title, movieSet)
-{
-    var moviePlayer = "";
-    folder = "folder=" + folder;
-    title = "title=" + title;
-    movieSet = "movieSet=" + movieSet;
-    movieURL = "/includes/movie.jsp?" + folder + "&" + title + "&" + movieSet;
-    moviePlayer = encodeURI(movieURL);
-
-    if (galleryIsOpen)
-    {
-        $('#photo-list').removeClass('is-visible');
-        galleryIsOpen = false;
-    }else {
-        $('#photo-list').load(moviePlayer);
-        $('#photo-list').toggleClass('is-visible');
-        galleryIsOpen = true;
-    }
-    return false;
-}
-
 function showHideUploadPanel(callingImage, panel)
 {
     var img = $(callingImage).offset();
@@ -389,6 +323,14 @@ function showHideUploadPanel(callingImage, panel)
     });
     $(panel).toggle();
     Cookies.set('logged_in', 'true');
+    $('#upload-thumbs').empty();
+    $(panel).height("");
+    $(panel).width("");
+    $("#results").hide();
+    if($(panel).css('display') == 'none')
+    {
+        $('.photo-set-list').load("/catalog");
+    }
 }
 
 

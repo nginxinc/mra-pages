@@ -25,19 +25,22 @@
         <img class="close-button" alt="closeButton" src="{{ asset('bundles/inginious/images/close_x.png', version='1.0') }}" onclick="showHideUploadPanel(this, '#upload-panel')">
         <div class="label">
             <span>Select Images</span>
-            <input id="photo-input" type="file" name="photos" multiple="multiple" accept="image/*" onchange="getFilesSize(this);return false;">
+            <input id="photo-input" type="file" name="photos" multiple="multiple" accept="image/*">
         </div>
         <div class="label">
             <span>Album Name</span>
             <input name="name" id="album-name" type="text">
         </div>
         <button type="submit" name="create-album" value="Create An Album">Create An Album</button>
-        {#onclick="createAlbum('#photo-input','{{ uploader }}');return false;"#}
+        <div id="loading"></div><br>
         <div id="result">
-            <img id="upload-animation" alt='animation' src='{{ asset('bundles/inginious/images/uploading.gif', version='1.0') }}'>
-            <div id="progressCounter"></div><br>
-            <div id="loading">Loading</div><br>
-            <div id="data"></div>
+            <div id="upload-thumbs">
+            </div>
         </div>
+        <div class="upload-thumb" id="upload-thumb-proto">
+            <img id="upload-animation" alt='animation' src='{{ asset('bundles/inginious/images/uploading.gif', version='1.0') }}'>
+            <div class="file-size"></div>
+        </div>
+
     </form>
 </div>

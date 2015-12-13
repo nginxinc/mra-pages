@@ -71,9 +71,9 @@ class InginiousHomeController extends Controller
                     'firstName' => $this->firstName,
                     'lastName' => $this->lastName,
                     'authenticated' => 'header',
-                    'catalogID' => 'orchids',
+                    'catalogID' => $this->firstName . ' ' . $this->lastName . "&acute;s Photos",
                     'catalog' => $this->getPhotoManager()->getCatalog(1),
-                    'uploader' => $this->getPhotoUploader()->getUploader(1)
+                    'uploader' => $this->getPhotoUploader()->getUploaderPath()
                 ]
             );
         }
@@ -87,6 +87,32 @@ class InginiousHomeController extends Controller
                 ]
             );
 
+        }
+    }
+
+    /**
+     * @Route("/catalog")
+     */
+    public function catalogAction(Request $request)
+    {
+        if ($this->isAuthenticated($request)) {
+            return $this->render('/catalog.html.twig',
+                [
+                    'firstName' => $this->firstName,
+                    'lastName' => $this->lastName,
+                    'authenticated' => 'header',
+                    'catalogID' => $this->firstName . ' ' . $this->lastName . "&acute;s Photos",
+                    'catalog' => $this->getPhotoManager()->getCatalog(1),
+                    'uploader' => $this->getPhotoUploader()->getUploaderPath()
+                ]
+
+            );
+        }
+        else
+        {
+            $response = new Response();
+            $response->setStatusCode(Response::HTTP_FORBIDDEN);
+            return $response->send();
         }
     }
 

@@ -59,7 +59,6 @@ function uploadImages( event ) {
         Promise.all(files.map(function (file) {
             uploadFile("#upload-thumb-" + i++, file, album_id);
         }));
-        $("#loading").html(i + " Images Uploaded");
     }).catch(function (error){
         $("#loading").html(error);
     });

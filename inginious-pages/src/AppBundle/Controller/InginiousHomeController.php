@@ -59,7 +59,7 @@ class InginiousHomeController extends Controller
     }
 
     /**
-     * @Route("/home")
+     * @Route("/myphotos")
      */
     public function homeAction(Request $request)
     {

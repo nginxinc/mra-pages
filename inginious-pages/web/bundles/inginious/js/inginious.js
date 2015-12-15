@@ -19,10 +19,13 @@ var photoHammer = {};
 var photoListHammer = {};
 var previousDisplayPhoto = '#photo-list-image-1';
 var menuIsOpen = false;
-var uploaderURL = "/uploader";//this should be set with environment variables
+var uploaderURL = "/uploader/image";//this should be set with environment variables
+var uploaderAlbumURL = "/uploader/album";//this should be set with environment variables
 var albumManagerURL = "/albums";//this should be set with environment variables
 var uploaded = 0;
 var filesIndex = 0
+
+/*****************--------start uploader section----------*****************/
 
 function uploadImages( event ) {
 
@@ -62,6 +65,14 @@ function uploadImages( event ) {
     }).catch(function (error){
         $("#loading").html(error);
     });
+    $("#create-album-button").hide();
+    $("#loading").append("<br/> Click on an image to set the photo album poster image.");
+    $("#upload-thumb").click(function(evt){
+        var setAlbumPromise = new Promise( function (resolve, reject) {
+            setAlbumPosterImage(evt.target, resolve, reject,$("#upload-thumbs").data("album-id"));
+            }
+        );
+    });
     return album_id;
 }
 
@@ -92,21 +103,16 @@ function initAlbum(albumName,resolve, reject, albumDescription)
         type: 'POST',
         success: function(resp){
             album_id = resp.id;
-            //return album_id;
+            $("#upload-thumbs").data("album-id",album_id);
         },
         error: function(response){
-            //console.log("There is an error:" + response);
             reject("There is an error:" + response);
         },
         complete: function () {
-            //$("#loading").html();
-            //$('#result').hide();
             resolve(album_id);
         }
 
     });
-    //realPromise.then( return album_id );
-    //realPromise.catch(return false);
 }
 
 function uploadFile(uploadThumbnail, file, albumID)
@@ -125,7 +131,9 @@ function uploadFile(uploadThumbnail, file, albumID)
         type: 'POST',
         success: function(resp){
             var thumbnail = resp.images[0].thumb_url;
+            var imageID = resp.id;
             $(uploadThumbnail + " img").attr('src',thumbnail);
+            $(uploadThumbnail + " img").data('image-id',imageID);
             $("#loading").html(++uploaded + " of " + filesIndex + " Images Uploaded");
         },
         error: function(response){
@@ -147,6 +155,59 @@ function uploadFile(uploadThumbnail, file, albumID)
         }
     });
 }
+
+function setAlbumPosterImage(thumbnail,resolve, reject, album_id)
+{
+    var data = new FormData;
+    data.append("album[poster]", thumbnail.data("image-id") );
+    data.append("album[album_id]", album_id);
+    var thumbURL;
+    $.ajax({
+        url: albumManagerURL,
+        data: data,
+        cache: false,
+        contentType: false,
+        processData: false,
+        type: 'POST',
+        success: function(resp){
+            thumbURL = resp.poster.thumb_url;
+            //return album_id;
+        },
+        error: function(response){
+            reject("There is an error:" + response);
+        },
+        complete: function () {
+            resolve(thumbURL);
+            thumbnail.css({"border-color": "#C1E0FF",
+                "border-width":"1px",
+                "border-style":"solid"});
+        }
+    });
+}
+
+function showHideUploadPanel(callingImage, panel)
+{
+    var img = $(callingImage).offset();
+    var leftPosi = img.left ;
+    var topPosi;
+    topPosi = img.top;
+
+    $(panel).css({
+        left: leftPosi, top: topPosi
+    });
+    $(panel).toggle();
+    Cookies.set('logged_in', 'true');
+    $('#upload-thumbs').empty();
+    $(panel).height("");
+    $(panel).width("");
+    $("#results").hide();
+    if($(panel).css('display') == 'none')
+    {
+        $('.photo-set-list').load("/catalog");
+    }
+    $("#create-album-button").show();
+}
+/*****************--------start menus/login section----------*****************/
 
 function hidePanel(sentPanel)
 {
@@ -186,6 +247,7 @@ function showHideMenu()
     };
 }
 
+/*****************--------start photo gallery section----------*****************/
 function initPhotoGallery()
 {//this is a callback function for when done that loads and processes the image list
     //alert('the document is ready');
@@ -310,28 +372,7 @@ function slidePhotoList(direction)//overloading direction with direct scroll num
     return false;
 }
 
-function showHideUploadPanel(callingImage, panel)
-{
-    var img = $(callingImage).offset();
-    var leftPosi = img.left ;
-    var topPosi;
-    topPosi = img.top;
-
-    $(panel).css({
-        left: leftPosi, top: topPosi
-    });
-    $(panel).toggle();
-    Cookies.set('logged_in', 'true');
-    $('#upload-thumbs').empty();
-    $(panel).height("");
-    $(panel).width("");
-    $("#results").hide();
-    if($(panel).css('display') == 'none')
-    {
-        $('.photo-set-list').load("/catalog");
-    }
-}
-
+/*****************--------start utils section----------*****************/
 function showHideControlPanel(callingImage, panel)
 {
     //var elementCalled = document.getElementById(callingImage);

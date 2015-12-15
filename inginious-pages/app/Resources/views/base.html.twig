@@ -40,61 +40,20 @@
         {% block pagehead %}
         <header class="pg-hd">
             {% block headlogo %}
-            <section>
-                <div class="wrapper">
-                    {% block loginButton %}
-                    <div>
-                        <img id="login-button" onclick="showHideControlPanel(this, '#login-panel')" src='{{ asset('bundles/inginious/images/login.png', version='1.0') }}'>
-                    </div>
-                    {{ include('login_panel.html.twig') }}
-                    {% endblock %}
-                    <div class="metadogs-logo">
+                {{ include('login_panel.html.twig') }}
+                <section>
+                    <div class="menu-login">
+                        {% block loginButton %}
+                            <div id="login-control">
+                                <img id="login-button" onclick="showHideControlPanel(this, '#login-panel')" src='{{ asset('bundles/inginious/images/login.png', version='1.0') }}'>
+                            </div>
+                        {% endblock %}
                         <img onClick="showHideMenu()" class="hamburger" alt='menu' src='http://www.metadogs.com/images/icon/hamburger.png'>
                         <!--<a href="/"> <img class="icon" alt='logo' src='{{ asset('bundles/inginious/images/inginious_logo.png', version='1.0') }}'> </a>-->
                     </div>
-                    <br>
-                    <!--<div class="logo-sub">
-                        November 16, 2015  &bullet; 11:10:10 AM PST &bullet; Accessed 31371 Times
-                    </div>-->
-                </div>
             </section>
             {% endblock %}
-            {% block headernav %}
-            <!-- nav
-            <nav class="pg-hd__top-nav">
-                <div class="wrapper">
-                    <ul>
-
-                        <li><a  href="/">Home</a></li>
-
-                        <li><a class=selected href="/photos/">Photos</a></li>
-
-                        <li><a  href="/chris/">Chris</a></li>
-
-                        <li><a  href="/recipes.jsp">Recipes</a></li>
-
-                        <li><a  href="/about/">About</a></li>
-
-                    </ul>
-                    <br>
-
-                    <ul id="sub_nav_menu">
-
-                        <li><a  href="/photos/family/">Family</a></li>
-
-                        <li><a  href="/photos/travel.jsp">Travels</a></li>
-
-                        <li><a class=selected href="/photos/orchids.jsp">Orchids</a></li>
-
-                        <li><a  href="/photos/catalog.jsp">Family Catalog</a></li>
-
-                    </ul>
-
-                </div>
-            </nav>-->
-            <!--/nav-->
-            {% endblock %}
-            <!-- Mobile Menu -->
+             <!-- Mobile Menu -->
             {% block mobilenav %}
             <div class="topdown-menu">
 
@@ -103,7 +62,7 @@
 
                         <li><a href="/">Home</a></li>
 
-                        <li><a onClick="showHideSubMenu('ul.photos','img.photos',window.photosSubNavisOpen);return false;" href="/photos/">Photos<img  class="v-down photos" alt='menu' src='http://www.metadogs.com/images/icon/v-down.png'></a></li>
+                       {# <li><a onClick="showHideSubMenu('ul.photos','img.photos',window.photosSubNavisOpen);return false;" href="/photos/">Photos<img  class="v-down photos" alt='menu' src='http://www.metadogs.com/images/icon/v-down.png'></a></li>
                         <ul class="subnav photos">
                             <li><a href="/photos/">Photos Home</a></li>
 
@@ -130,10 +89,11 @@
                             <li><a href="/chris/water.jsp">Water</a></li>
 
                         </ul>
+#}
+                        <li><a href="/myphotos">My Photos</a></li>
+                        <li><a href="/account">My Account</a></li>
 
-                        <li><a href="/recipes.jsp">Recipes</a></li>
-
-                        <li><a onClick="showHideSubMenu('ul.about','img.about',window.aboutSubNavisOpen);return false;" href="/about/">About<img  class="v-down about" alt='menu' src='http://www.metadogs.com/images/icon/v-down.png'></a></li>
+                        {#<li><a onClick="showHideSubMenu('ul.about','img.about',window.aboutSubNavisOpen);return false;" href="/about/">About<img  class="v-down about" alt='menu' src='http://www.metadogs.com/images/icon/v-down.png'></a></li>
                         <ul class="subnav about">
                             <li><a href="/about/">About Home</a></li>
 
@@ -141,7 +101,7 @@
 
                             <li><a href="/about/principles.jsp">Principio</a></li>
 
-                        </ul>
+                        </ul>#}
 
                     </ul>
                 </div>
@@ -153,9 +113,7 @@
 
                 <div class="topdown-menu__branding">
                     <h5>NGINX Reference Architecture</h5>
-
-                    <img class="icon" alt='logo' src='{{ asset('bundles/inginious/images/inginious_logo.png', version='1.0') }}'>
-
+                    <p class="branding-logo">inginious photos</p>
                     <p>&copy; 2015, NGINX Corp</p>
                 </div>
             </div>

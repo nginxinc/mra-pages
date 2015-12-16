@@ -49,7 +49,7 @@ function uploadImages( event ) {
         }
     );
     albumIDPromise.then(function(data) {
-        $("#loading").html(uploaded + " of " + filesIndex + " Images Uploaded");
+        $("#loading").html(uploaded + " of " + $("#photo-input").prop('files').length + " Images Uploaded");
         album_id = data;
         for( filesIndex = 0; $("#photo-input").prop('files').length > filesIndex; filesIndex++)
         {

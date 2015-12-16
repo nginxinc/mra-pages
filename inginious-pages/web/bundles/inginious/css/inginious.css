@@ -346,11 +346,12 @@ input[type="range"][orient="vertical"] {
 
 #result {
     display: none;
-    float: right;
+    float: left;
 }
 
 #result .upload-thumb img {
-    width: 10em;
+    max-width: 10em;
+    width: initial;
     margin-bottom: 1em;
     margin-top: 1em;
 }
@@ -358,7 +359,7 @@ input[type="range"][orient="vertical"] {
 #result .upload-thumb {
     display: inline;
     float: left;
-    margin: .5em;
+    padding: .5em;
 }
 
 form #upload-thumb-proto{

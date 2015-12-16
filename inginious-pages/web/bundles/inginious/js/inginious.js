@@ -5,9 +5,6 @@
 //<script> //this fakes out Intellij to thinking it is Javascript but doesn't render as a script tag in the browser
 
 $(document).ready(function() {
-    $( "#album-upload" ).submit(function( event ) {
-        uploadImages(event);
-    });
 });
 var mobileMenuIsOpen = false;
 var galleryIsOpen = false;
@@ -42,36 +39,43 @@ function uploadImages( event ) {
      */
     event.preventDefault();
     uploaded = 0;
-    var files = [];
-    for( filesIndex = 0; $("#photo-input").prop('files').length > filesIndex; filesIndex++)
-    {
-        files[filesIndex]=$("#photo-input").prop('files')[filesIndex];
-        $('#upload-thumb-proto').clone().appendTo('#upload-thumbs').attr('id',"upload-thumb-" + filesIndex).attr('display','inline');
-    }
+    var filesPromise = [];
     $('#upload-panel').animate({width:'90%'});
     $('#result').show();
     var i = 0;
     var album_id;
-    var myPromise = new Promise( function (resolve, reject) {
+    var albumIDPromise = new Promise( function (resolve, reject) {
             initAlbum($("#album-name").val(), resolve, reject);
         }
     );
-    myPromise.then(function(data) {
+    albumIDPromise.then(function(data) {
         $("#loading").html(uploaded + " of " + filesIndex + " Images Uploaded");
         album_id = data;
-        Promise.all(files.map(function (file) {
-            uploadFile("#upload-thumb-" + i++, file, album_id);
-        }));
-    }).catch(function (error){
-        $("#loading").html(error);
+        for( filesIndex = 0; $("#photo-input").prop('files').length > filesIndex; filesIndex++)
+        {
+            var file = $("#photo-input").prop('files')[filesIndex]
+            filesPromise[filesIndex]= new Promise( function (resolve, reject) {
+                uploadFile("#upload-thumb-" + i++, file, album_id,resolve, reject);
+            });
+            $('#upload-thumb-proto').clone().appendTo('#upload-thumbs').attr('id',"upload-thumb-" + filesIndex).attr('display','inline');
+        }
+        Promise.all(filesPromise).then(function(){
+            $("#create-album-button").hide();
+            $("#loading").append("<br/> Click on an image to set the photo album poster image.");
+            $(".upload-thumb").click(function(evt){
+                //var setAlbumPromise = new Promise( function (resolve, reject) {
+                //setAlbumPosterImage(evt.target, resolve, reject,$("#upload-thumbs").data("album-id"));
+                evt.stopPropagation();
+                setAlbumPosterImage(evt.target, $("#upload-thumbs").data("album-id"));
+                // }
+                //);
+            });
+        }).catch(function (error){
+                $("#loading").html(error);
+            })
     });
-    $("#create-album-button").hide();
-    $("#loading").append("<br/> Click on an image to set the photo album poster image.");
-    $("#upload-thumb").click(function(evt){
-        var setAlbumPromise = new Promise( function (resolve, reject) {
-            setAlbumPosterImage(evt.target, resolve, reject,$("#upload-thumbs").data("album-id"));
-            }
-        );
+    albumIDPromise.catch(function (error){
+        $("#loading").html(error);
     });
     return album_id;
 }
@@ -115,11 +119,11 @@ function initAlbum(albumName,resolve, reject, albumDescription)
     });
 }
 
-function uploadFile(uploadThumbnail, file, albumID)
+function uploadFile(uploadThumbnail, file, albumID, resolve, reject)
 {
     var fileSize = getFileSize(file);
     var data = new FormData;
-    data.append("photos", file );
+    data.append("image", file );
     data.append("album_id",albumID);
 
     $.ajax({
@@ -130,15 +134,17 @@ function uploadFile(uploadThumbnail, file, albumID)
         processData: false,
         type: 'POST',
         success: function(resp){
-            var thumbnail = resp.images[0].thumb_url;
+            var thumbnail = resp.thumb_url;
             var imageID = resp.id;
             $(uploadThumbnail + " img").attr('src',thumbnail);
-            $(uploadThumbnail + " img").data('image-id',imageID);
+            $(uploadThumbnail).data('image-id',imageID);
             $("#loading").html(++uploaded + " of " + filesIndex + " Images Uploaded");
         },
         error: function(response){
             console.log("There is an error:" + response);
-            return false;
+            $("#loading").html("There is an error:" + response);
+            reject("There is an error:" + response);
+            //retry logic
         },
         progress: function (evt) {
             var percentComplete = evt.loaded / evt.total;
@@ -151,36 +157,40 @@ function uploadFile(uploadThumbnail, file, albumID)
         complete: function () {
             //$("#loading").html();
             //$('#result').hide();
-            return true;
+            return resolve($(uploadThumbnail).data('image-id'));
         }
     });
 }
 
-function setAlbumPosterImage(thumbnail,resolve, reject, album_id)
+//function setAlbumPosterImage(thumbnail,resolve, reject, album_id)
+function setAlbumPosterImage(thumbnail,album_id)
 {
     var data = new FormData;
-    data.append("album[poster]", thumbnail.data("image-id") );
-    data.append("album[album_id]", album_id);
+    var imageID = $("#" + thumbnail.parentElement.id).data("image-id");
+    data.append("album[poster_image_id]", imageID);
+    var putURL = albumManagerURL + "/" +  album_id;
     var thumbURL;
     $.ajax({
-        url: albumManagerURL,
+        url: putURL,
         data: data,
         cache: false,
         contentType: false,
         processData: false,
-        type: 'POST',
+        type: 'PUT',
         success: function(resp){
-            thumbURL = resp.poster.thumb_url;
+            thumbURL = resp.poster_image.thumb_url;
             //return album_id;
         },
         error: function(response){
-            reject("There is an error:" + response);
+            console.log("There is an error:" + response);
+            //retry logic
         },
         complete: function () {
-            resolve(thumbURL);
-            thumbnail.css({"border-color": "#C1E0FF",
-                "border-width":"1px",
+            //clear the previous selected img
+            $("#" + thumbnail.parentElement.id +" img").css({"border-color": "#00974c",
+                "border-width":"3px",
                 "border-style":"solid"});
+            $("#loading").html("Poster Image is set.");
         }
     });
 }
@@ -205,7 +215,14 @@ function showHideUploadPanel(callingImage, panel)
     {
         $('.photo-set-list').load("/catalog");
     }
+    else
+    {
+        $( "#album-upload" ).submit(function( event ) {
+            uploadImages(event);
+        });
+    }
     $("#create-album-button").show();
+
 }
 /*****************--------start menus/login section----------*****************/
 

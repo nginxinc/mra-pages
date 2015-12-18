@@ -1,0 +1,157 @@
+form {
+    text-align: left;
+    ul {
+        list-style-type: disc;
+        padding-left: 2em;
+        margin-bottom: 2em;
+    }
+    li {
+        list-style-type: disc;
+    }
+    #upload-thumb-proto {
+        display: none;
+    }
+}
+input, textarea {
+    border: none;
+    outline: none;
+    margin: .6em 0 .6em 0;
+    padding: 0.5em;
+    background-color: #fff;
+    border: #cccccc 2px solid;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 1em;
+    -webkit-border-radius: 0.5em 0.5em 0.5em 0.5em;
+    -moz-border-radius: 0.5em 0.5em 0.5em 0.5em;
+    -ms-border-radius: 0.5em 0.5em 0.5em 0.5em;
+    border-radius: 0.5em 0.5em 0.5em 0.5em;
+}
+input[type="text"],input[type="email"],input[type="password"] {
+    width: 60%;
+    height: 3em;
+    font-size: 1.3em;
+}
+input[type="textarea"], textarea {
+    width: 90%;
+    font-size: 1.1em;
+}
+button[type="submit"],input[type="submit"],input[type="button"] {
+    margin: 1em 0 0 0;
+    padding: 0.5em;
+    text-align: center;
+    background-color: #fff;
+    border: #cccccc 2px solid;
+    text-transform: uppercase;
+    -webkit-border-radius: 0.5em 0.5em 0.5em 0.5em;
+    -moz-border-radius: 0.5em 0.5em 0.5em 0.5em;
+    -ms-border-radius: 0.5em 0.5em 0.5em 0.5em;
+    border-radius: 0.5em 0.5em 0.5em 0.5em;
+    font-family: sans-serif;
+}
+input[type="range"][orient="vertical"] {
+    writing-mode: bt-lr;
+    -webkit-appearance: slider-vertical;
+    width: 8px;
+    height: 175px;
+    padding: 0 5px;
+}
+#login-form {
+    margin: 0 30%;
+    text-align: center;
+    width: 40%;
+}
+#login-form .username, #login-form .password {
+    width: 60%;
+}
+.controls {
+    text-align: left;
+    padding: 1em;
+    font-size: 1.2em;
+}
+.labels {
+    text-align: right;
+    font-size: 1.2em;
+    .field-label {
+        padding-top: 1.5em;
+        padding-bottom: 1.6em;
+    }
+}
+.form-fields {
+    text-align: left;
+    form {
+        .contols-fields-div {
+            .hero-fields {
+                display: block;
+            }
+            .not-hero-fields {
+                display: block;
+            }
+            .adjustment-icon {
+                width: 3em;
+                z-index: 10;
+                position: absolute;
+                margin-top: 1.3em;
+                cursor: pointer;
+            }
+            #directory-controls {
+                transform: translate(0, -70%);
+            }
+            .adjustment-controls-panel {
+                input[type="number"] {
+                    width: 5em;
+                    font-family: sans-serif;
+                    text-align: center;
+                }
+            }
+        }
+    }
+}
+.adjustment-controls-panel {
+    z-index: 10;
+    border: #cccccc 2px solid;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 1em;
+    -webkit-border-radius: 0.5em 0.5em 0.5em 0.5em;
+    -moz-border-radius: 0.5em 0.5em 0.5em 0.5em;
+    -ms-border-radius: 0.5em 0.5em 0.5em 0.5em;
+    border-radius: 0.5em 0.5em 0.5em 0.5em;
+    box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.3);
+    -moz-box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.3);
+    -webkit-box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.3);
+    position: absolute;
+    right: 3.1%;
+    text-align: center;
+    display: block;
+    background-color: #fff;
+    padding: .5em;
+    width: 10em;
+    .close-button {
+        float: right;
+    }
+}
+#upload-panel {
+    top: 9.5em;
+    display: none;
+    width: 35em;
+}
+#loading {
+    display: inline;
+    font-family: "Arial Rounded MT Bold", sans-serif;
+    font-size: 1.5em;
+    margin-left: 2em;
+}
+#result {
+    display: none;
+    float: left;
+    .upload-thumb {
+        display: inline;
+        float: left;
+        padding: .5em;
+        img {
+            max-width: 10em;
+            width: initial;
+            margin-bottom: 1em;
+            margin-top: 1em;
+        }
+    }
+}

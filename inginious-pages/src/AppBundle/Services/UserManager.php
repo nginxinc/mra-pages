@@ -14,10 +14,10 @@ use GuzzleHttp\Exception\RequestException;
 use Symfony\Component\Serializer\Encoder\JsonDecode;
 
 /**
- * Class PhotoManager
+ * Class UserManager
  * @package AppBundle\Services
  */
-class PhotoManager
+class UserManager
 {
     /**
      * @var string
@@ -26,66 +26,50 @@ class PhotoManager
     /**
      * @var string
      */
-    private $catalogPath;
-    /**
-     * @var string
-     */
-    private $albumPath;
-    /**
-     * @var string
-     */
-    private $uploaderURL;
-    /**
-     * @var string
-     */
     private $uploaderPath;
     /**
      * @var Client
      */
     private $client = null;
-    /**
-     * @var string
-     */
-    private $authID = null;
 
     /**
      * PhotoManager constructor.
      */
-    public function __construct($authID) {
-        $this->url = getenv("PHOTOMANAGER_ENDPOINT_URL");
-        $this->catalogPath = getenv("PHOTOMANAGER_CATALOG_PATH");
-        $this->albumPath = getenv("PHOTOMANAGER_ALBUM_PATH");
-        $this->authID = $authID;
-
+    public function __construct() {
+        $this->url = getenv("USERMANAGER_ENDPOINT_URL");
+        $this->uploaderPath = getenv("USERMANAGER_ALBUM_PATH");
     }
 
     /**
      * @param $userId
      * @return string
      */
-    public function getCatalog() {
+    public function getUploader($userId) {
+        $params = [
+            'query' => [
+                'user_id' => $userId
+            ]
+        ];
 
-        return $this->getRequest($this->catalogPath);
+        return $this->getRequest($this->uploaderPath, $params);
     }
+
 
     /**
-     * @param $albumId
      * @return string
      */
-    public function getAlbum($albumId) {
-        $path = $this->albumPath . '/' . $albumId;
-
-        return $this->getRequest($path);
+    public function getUploaderPath() {
+        $uploader = $this->uploaderPath;//because we have to use local proxy for JavaScript XHR
+        return $uploader;
     }
+
 
     /**
      * @return Client
      */
     private function getClient() {
         if ($this->client == null) {
-            $this->client = new Client(['base_uri' => 'http://' . $this->url, 'headers' => [
-                'Auth-ID' => $this->authID
-            ]]);
+            $this->client = new Client(['base_uri' => 'http://' . $this->url . $this->uploaderPath]);
         }
 
         return $this->client;
@@ -100,12 +84,12 @@ class PhotoManager
         try
         {
             $client = $this->getClient();
-            //$client->
             $response = $client->request('GET', $path, $params);
+
             $body = $response->getBody()->__toString();
 
             $decoder = new JsonDecode();
-            return $decoder->decode($body, 'json');
+            return $body; //$decoder->decode($body, 'json');
         }
         catch (RequestException $e)
         {

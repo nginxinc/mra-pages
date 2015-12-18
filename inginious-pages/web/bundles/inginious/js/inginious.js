@@ -76,6 +76,8 @@ function uploadImages( event ) {
     });
     albumIDPromise.catch(function (error){
         $("#loading").html(error);
+        console.log("There is an error:" + error);
+        return;
     });
     return album_id;
 }
@@ -106,8 +108,16 @@ function initAlbum(albumName,resolve, reject, albumDescription)
         processData: false,
         type: 'POST',
         success: function(resp){
-            album_id = resp.id;
-            $("#upload-thumbs").data("album-id",album_id);
+            if (resp.name == "StatusCodeError")
+            {
+                $("#loading").html("Error Trying To Upload: " + resp.message);
+                consle.log("Error Trying To Upload: " + resp.message);
+                reject("Error Trying To Upload: " + resp.message);
+            }
+            else {
+                album_id = resp.id;
+                $("#upload-thumbs").data("album-id", album_id);
+            }
         },
         error: function(response){
             reject("There is an error:" + response);
@@ -134,11 +144,20 @@ function uploadFile(uploadThumbnail, file, albumID, resolve, reject)
         processData: false,
         type: 'POST',
         success: function(resp){
-            var thumbnail = resp.thumb_url;
-            var imageID = resp.id;
-            $(uploadThumbnail + " img").attr('src',thumbnail);
-            $(uploadThumbnail).data('image-id',imageID);
-            $("#loading").html(++uploaded + " of " + filesIndex + " Images Uploaded");
+            if (resp.name == "StatusCodeError")
+            {
+                $("#loading").html("Error Trying To Upload: " + resp.message);
+                consle.log("Error Trying To Upload: " + resp.message);
+                reject("Error Trying To Upload: " + resp.message);
+            }
+            else
+            {
+                var thumbnail = resp.thumb_url;
+                var imageID = resp.id;
+                $(uploadThumbnail + " img").attr('src',thumbnail);
+                $(uploadThumbnail).data('image-id',imageID);
+                $("#loading").html(++uploaded + " of " + filesIndex + " Images Uploaded");
+            }
         },
         error: function(response){
             console.log("There is an error:" + response);

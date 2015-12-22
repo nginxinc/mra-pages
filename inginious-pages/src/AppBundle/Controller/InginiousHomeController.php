@@ -35,6 +35,7 @@ class InginiousHomeController extends Controller
     private $userManager = null;
     private $loginRequired = "Welcome, But Please Login To Your Account";
     private $authID = null;
+    private $user = null;
 
     public function isAuthenticated(Request $request) {
         $this->authID = $request->headers->get('Auth-ID');
@@ -156,19 +157,20 @@ class InginiousHomeController extends Controller
 
     public function accountAction(Request $request)
     {
-        $album = $this->getPhotoManager($request)->getAlbum($album);
-        $images = $album->images;
 
         if ($this->isAuthenticated($request)) {
+            if($this->user == null)
+            {
+                $user = $this->getUserManager($this->authID)->getUser();
+                $this->user = $user;
+            }
             return $this->render(
-                '/album.html.twig',
+                '/account.html.twig',
                 [
-                    'firstName' => $this->firstName,
-                    'lastName' => $this->lastName,
+                    'name' => $this->user->getName(),
                     'authenticated' => 'header',
-                    'catalogID' => $catalog,
-                    'album' => $album,
-                    'images' => $images
+                    'email' => $this->user->getEmail(),
+                    'userManager' => $this->user->getLocalUserPath() . "/" . $this->user->getUserID()
                 ]
             );
         }
@@ -214,9 +216,9 @@ class InginiousHomeController extends Controller
     /**
      * @return UserManager
      */
-    private function getUserManager($request) {
+    private function getUserManager($authID) {
         if ($this->userManager == null) {
-            $this->userManager = new UserManager($request);
+            $this->userManager = new UserManager($authID);
         }
 
         return $this->userManager;

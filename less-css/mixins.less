@@ -41,9 +41,10 @@ at-touch-device(){
 
 //scrollable
 .scrollable(@content){
-    overflow-y: scroll;
-    -webkit-overflow-scrolling: touch;
-    @content();
+  @content();
+  overflow-y: scroll;
+  -webkit-overflow-scrolling: touch;
+
 }
 
 
@@ -82,7 +83,7 @@ at-touch-device(){
 
 // rotate
 .rotate(@deg) {
-  .transform(rotate(@screendeg));
+  .transform(rotate(@deg));
 }
 
 .flip-horizontal(){

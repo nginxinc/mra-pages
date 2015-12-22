@@ -5,6 +5,7 @@
 //<script> //this fakes out Intellij to thinking it is Javascript but doesn't render as a script tag in the browser
 
 $(document).ready(function() {
+    $("#update-account-button").click(function(event){updateUser(event)});;
 });
 var mobileMenuIsOpen = false;
 var galleryIsOpen = false;
@@ -19,12 +20,71 @@ var menuIsOpen = false;
 var uploaderURL = "/uploader/image";//this should be set with environment variables
 var uploaderAlbumURL = "/uploader/album";//this should be set with environment variables
 var albumManagerURL = "/albums";//this should be set with environment variables
+var userManagerURL = "/account/users";//this should be set with environment variables
 var uploaded = 0;
 var filesIndex = 0
 
+/*****************--------start user account section----------*****************/
+
+function updateUser(event)
+{
+    event.preventDefault();
+    userManagerURL = $("#account-manager").attr('action');
+    uploaded = 0;
+    var user_id = "";
+    var userPromise = new Promise( function (resolve, reject) {
+            setUser($("#name").val(),$("#email").val(), resolve, reject);
+        }
+    );
+    userPromise.then(function(data) {
+        $("#account-manager").hide();
+        $(".photo-set-list").html("Name is set to " + data.name + "</br>Email is set to " + data.email + "</br>");
+        return;
+    });
+    userPromise.catch(function (error){
+        //$("#account-manager").hide();
+        $(".photo-set-list").html(error);
+        console.log("There is an error: " + error);
+        return;
+    });
+}
+
+function setUser(userName, email, resolve, reject) {
+    var data = '{    "name": "' + userName + '", "email" : "' + email + '"}';
+    $.ajax({
+        url: userManagerURL,
+        data: data,
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        cache: false,
+        processData: false,
+        type: 'PUT',
+        success: function(resp){
+            if (resp.name == "StatusCodeError")
+            {
+                $(".photo-set-list").html("Error Trying To Update User Account: " + resp.message);
+                consle.log("Error Trying To Update User Account: " + resp.message);
+                reject("Error Trying To Update User Account: " + resp.message);
+                return;
+            }
+            else {
+                userName = resp.name;
+                email = resp.email;
+            }
+        },
+        error: function(response){
+            reject("There is an error:" + response);
+        },
+        complete: function () {
+            resolve(JSON.parse(data));
+        }
+
+    });
+}
+
 /*****************--------start uploader section----------*****************/
 
-function uploadImages( event ) {
+function createAlbum(event ) {
 
     /*
      * Get name of album
@@ -237,7 +297,7 @@ function showHideUploadPanel(callingImage, panel)
     else
     {
         $( "#album-upload" ).submit(function( event ) {
-            uploadImages(event);
+            createAlbum(event);
         });
     }
     $("#create-album-button").show();

@@ -26,50 +26,162 @@ class UserManager
     /**
      * @var string
      */
-    private $uploaderPath;
+    private $userPath;
+    /**
+     * @var string
+     */
+    private $localUserPath; //used for local, proxied XHR puts to the user manager
+
+    /**
+     * @var string
+     */
+    private $name;
+    /**
+     * @var string
+     */
+    private $email;
+    /**
+     * @var string
+     */
+    private $facebookID;
+    /**
+     * @var string
+     */
+    private $googleID;
+
+    /**
+     * @var string
+     */
+    private $userID;
+
     /**
      * @var Client
      */
     private $client = null;
 
     /**
+     * @param string
      * PhotoManager constructor.
      */
-    public function __construct() {
+    public function __construct($authID) {
         $this->url = getenv("USERMANAGER_ENDPOINT_URL");
-        $this->uploaderPath = getenv("USERMANAGER_ALBUM_PATH");
+        $this->userPath = getenv("USERMANAGER_USER_PATH");
+        $this->localUserPath = getenv("USERMANAGER_LOCAL_PATH");
+        $this->userID = $authID;
     }
 
     /**
-     * @param $userId
+     *
      * @return string
      */
-    public function getUploader($userId) {
-        $params = [
-            'query' => [
-                'user_id' => $userId
-            ]
-        ];
+    public function getUser() {
 
-        return $this->getRequest($this->uploaderPath, $params);
+        $body = $this->getRequest($this->userPath . "/" . $this->userID);
+        $this->setEmail($body->email);
+        $this->setName($body->name);
+        if(isset($body->facebook_id))
+        {
+            $this->setFacebookID($body->facebook_id);
+        }
+        else{
+            $this->setGoogleID($body->google_id);
+        }
+        return $this;
     }
 
+    /***************************GETTERS***********************?
+    /**
+     * @return string
+     */
+    public function getName() {
+        return $this->name;
+    }
 
     /**
      * @return string
      */
-    public function getUploaderPath() {
-        $uploader = $this->uploaderPath;//because we have to use local proxy for JavaScript XHR
-        return $uploader;
+    public function getUserID() {
+        return $this->userID;
+    }
+
+    /**
+     * @return string
+     */
+    public function getEmail() {
+        return $this->email;
+    }
+
+    /**
+     * @return string
+     */
+    public function getGoogleID() {
+        return $this->googleID;
+    }
+
+    /**
+     * @return string
+     */
+    public function getFacebookID() {
+        return $this->facebookID;
+    }
+
+    /**
+     * @return string
+     */
+    public function getUserPath() {
+
+        return $this->UserPath;
+    }
+
+    /**
+     * @return string
+     */
+    public function getLocalUserPath() {
+
+        return $this->localUserPath;
+    }
+
+    /***************************SETTERS***********************?
+    /**
+     * @param string $name
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+    }
+
+    /**
+     * @param string $email
+     */
+    public function setEmail($email)
+    {
+        $this->email = $email;
+    }
+
+    /**
+     * @param string $facebookID
+     */
+    public function setFacebookID($facebookID)
+    {
+        $this->facebookID = $facebookID;
+    }
+
+    /**
+     * @param string $googleID
+     */
+    public function setGoogleID($googleID)
+    {
+        $this->googleID = $googleID;
     }
 
 
+    /***************************UTILS***********************?
     /**
      * @return Client
      */
     private function getClient() {
         if ($this->client == null) {
-            $this->client = new Client(['base_uri' => 'http://' . $this->url . $this->uploaderPath]);
+            $this->client = new Client(['base_uri' => 'http://' . $this->url ]);
         }
 
         return $this->client;
@@ -89,7 +201,8 @@ class UserManager
             $body = $response->getBody()->__toString();
 
             $decoder = new JsonDecode();
-            return $body; //$decoder->decode($body, 'json');
+            $user = $decoder->decode($body, 'json');
+            return $user;
         }
         catch (RequestException $e)
         {

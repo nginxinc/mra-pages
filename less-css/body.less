@@ -42,17 +42,17 @@
     .wrapper
     {
       position:relative;
-        .caslon(16em, italic);
+      .arial-rounded-bold(16em, italic);
       color: @color-translucent-type;
       text-align: center;
       height: 100%;
 
         .bp("medium-only"){
-          .caslon(9em, italic);
+          .arial-rounded-bold(9em, italic);
       }
 
         .bp("small-only"){
-          .caslon(5.5em, italic);
+          .arial-rounded-bold(5.5em, italic);
       }
 
       .headline
@@ -64,14 +64,9 @@
         -webkit-margin-after: inherit;
       }
 
-      .swash
-      {
-        font-family: caslon-swash;
-      }
-
       .subhead
       {
-          .caslon(.2em, italic);
+          .arial-rounded-bold(.2em, italic);
         transform: translate(-1.5%, -123%);
         -webkit-transform: translate(-1.9%, -123%);
         color: @color-translucent-opaque-type;
@@ -90,7 +85,7 @@
     .article-wrapper{
       width: 100%;
       text-align: left;
-        .caslon();
+        .arial();
       min-height: 10em;
       padding: .5em 2%;
       overflow: scroll;
@@ -126,25 +121,25 @@
           }
 
           .story-title{
-              .caslon(1.5em, semibold);
+              .arial-rounded-bold(1.5em, semibold);
               margin: 0 0 .4em 0;
               text-transform: none;
             }
 
           .story-sub-title{
-              .caslon(1em, semibold-italic);
+              .arial-rounded-bold(1em, semibold-italic);
             margin: 0;
           }
 
           .date-line{
-              .caslon(.8em, italic);
+              .arial-rounded-bold(.8em, italic);
             margin: 0;
           }
 
           .story-article{
             margin-top: 1em;
             a{
-                .caslon();
+                .arial-rounded-bold();
               text-transform: none;
               font-size: 1em;
             }
@@ -160,7 +155,7 @@
 
           .author{
             margin-top: 1em;
-              .caslon(1em, semibold-italic);
+              .arial-rounded-bold(1em, semibold-italic);
           }
         }
       }
@@ -175,7 +170,7 @@
     {
       width: 100%;
       text-align: left;
-        .caslon(1.1em);
+        .arial-rounded-bold(1.1em);
       min-height: 10em;
       padding: .5em 10%;
       overflow: scroll;
@@ -184,14 +179,14 @@
     }
 
       .date-line{
-          .caslon(1em, italic);
+          .arial-rounded-bold(1em, italic);
         margin: 0;
       }
 
       .story-article{
         margin: 1.3em 0;
         a{
-            .caslon();
+            .arial-rounded-bold();
           text-transform: none;
           font-size: 1em;
         }
@@ -206,7 +201,7 @@
           {
             text-transform: uppercase;
             cursor: pointer;
-              .benguiat(@size:.7em);
+              .arial(.7em);
           }
           div
           {
@@ -234,24 +229,10 @@
       }
 
       .author{
-          .caslon(1em, semibold-italic);
+          .arial-rounded-bold(1em, semibold-italic);
       }
-    }
-
-
-  }
-
-  //more-stories{
-    width: 100%;
-    display: inline-block;
-    text-align: center;
-      .benguiat(1.2em, book);
-      .bp("medium-only"){
-      font-size: 1.0em;
-    }
-      .bp("small-only"){
-      font-size: .8em;
     }
   }
 }
+
 

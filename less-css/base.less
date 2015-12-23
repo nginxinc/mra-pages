@@ -48,7 +48,7 @@ a {
     text-transform: uppercase;
     text-decoration: none;
     cursor: pointer;
-      //.arial(.8em, book);
+    .arial(.8em, book);
 
     &:visited {
         color:@color-dark-grey;
@@ -369,18 +369,20 @@ textarea {
 
 
 //MediaQueries
-@screen: "only screen";
+@screen: only screen;
 @max: "max-width";
 @min: "min-width";
 @small-min: 0;
-@small-max: 480px; // ~479px, 34.214em
-@medium-min: 481px;
-@medium-max: 768px;// ~767px, 54.786em
-@large-min: 769px;
+@small-max: 599px; // ~479px, 34.214em
+@medium-min: 600px;
+@medium-max: 959px;// ~767px, 54.786em
+@large-min: 959px;
 @large-max: 1600px; // ~1600px, 114.286em
+@extra-large-min: 1200px;
+@extra-large-min: 1600px;
 
 
 //Grid
 @grid-columns:12;
-@grid-gutter-width:20px;
+@grid-gutter-width:1em;
 

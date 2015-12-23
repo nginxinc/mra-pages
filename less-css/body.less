@@ -4,28 +4,23 @@
   position:relative;
   padding-bottom:1em;
   min-height:20em;
-    .bp("small-only"){
-    margin-top: .6em;
-  }
-
 
   .hero
   {
     height: 19.5em;
-    .bp("medium-only")
-  {
+    .bp("medium-only",{
     height:10.5em;
-  }
+  });
 
-    .bp("small-only")
-  {
+    .bp("small-only",{
     height:7.5em;
-  }
+  });
     .wrapper
     {
       .headline
       {
         font-size: 1em;
+        padding-top: .3em;
       }
     }
   }
@@ -42,18 +37,18 @@
     .wrapper
     {
       position:relative;
-      .arial-rounded-bold(16em, italic);
+      .arial-rounded-bold(7em);
       color: @color-translucent-type;
       text-align: center;
       height: 100%;
 
-        .bp("medium-only"){
-          .arial-rounded-bold(9em, italic);
-      }
+        .bp("medium-only",{
+          .arial-rounded-bold(5em, italic);
+      });
 
-        .bp("small-only"){
-          .arial-rounded-bold(5.5em, italic);
-      }
+        .bp("small-only",{
+          .arial-rounded-bold(3em, italic);
+      });
 
       .headline
       {
@@ -66,9 +61,7 @@
 
       .subhead
       {
-          .arial-rounded-bold(.2em, italic);
-        transform: translate(-1.5%, -123%);
-        -webkit-transform: translate(-1.9%, -123%);
+        .arial-rounded-bold(.4em, italic);
         color: @color-translucent-opaque-type;
         top: -.1em;
         font-weight: initial;
@@ -88,7 +81,8 @@
         .arial();
       min-height: 10em;
       padding: .5em 2%;
-      overflow: scroll;
+      //overflow: scroll;
+      .clearfix();
 
       .story{
 
@@ -97,10 +91,10 @@
           padding: 0 2%;
           float: left;
           vertical-align: middle;
-            .bp("small-only"){
+            .bp("small-only",{
             width: 100%;
             padding: 2%;
-          }
+          });
 
           img{
             max-width: 100%;
@@ -115,10 +109,10 @@
           width: 50%;
           padding: 0 2%;
           float: right;
-            .bp("small-only"){
+            .bp("small-only",{
             float: left;
             width: 100%;
-          }
+          });
 
           .story-title{
               .arial-rounded-bold(1.5em, semibold);
@@ -139,7 +133,7 @@
           .story-article{
             margin-top: 1em;
             a{
-                .arial-rounded-bold();
+              .arial-rounded-bold(1em);
               text-transform: none;
               font-size: 1em;
             }
@@ -173,10 +167,11 @@
         .arial-rounded-bold(1.1em);
       min-height: 10em;
       padding: .5em 10%;
-      overflow: scroll;
-        .bp("small-only"){
-      padding: .5em 2%;
-    }
+      //overflow: scroll;
+      .bp("small-only",{
+        padding: .5em 2%;
+      });
+      .clearfix();
 
       .date-line{
           .arial-rounded-bold(1em, italic);

@@ -17,17 +17,16 @@
   top:2.5em;
   left:0;
   width:100%;
-  //height:0;
   overflow-x:hidden;
   z-index:500;
   background-color:@color-white;
   display: none;
-    .bp("medium-and-up"){
+  .bp("medium-and-up",{
     top:4em;
-  }
-    .bp("small-only"){
+  });
+  .bp("small-only",{
     top:3.2em;
-  }
+  });
 }
 //.scrollable({.topdown-menu()});
 

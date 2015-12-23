@@ -1,6 +1,6 @@
 //breakpoints
 
-.bp(@breakpoint, @content) when (@breakpoint = "small-only") {
+.bp(@breakpoint;@content) when (@breakpoint = "small-only") {
      @media @screen and (max-width: @small-max) and (min-width: @small-min) {
       @content();
      }
@@ -12,6 +12,10 @@
 
 .bp(@breakpoint;@content) when (@breakpoint = "large-only") {
   @media @screen and (min-width: @large-min) { @content(); }
+}
+
+.bp(@breakpoint;@content) when (@breakpoint = "extra-large-only") {
+  @media @screen and (min-width: @extra-large-min) { @content(); }
 }
 
 //up-to

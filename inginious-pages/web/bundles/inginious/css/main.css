@@ -100,6 +100,8 @@ textarea {
   background-color: #fff;
   border: #cccccc 2px solid;
   font-family: Arial, Helvetica, sans-serif;
+  font-weight: normal;
+  font-style: normal;
   font-size: 1em;
   -webkit-border-radius: 0.5em 0.5em 0.5em 0.5em;
   -moz-border-radius: 0.5em 0.5em 0.5em 0.5em;
@@ -131,7 +133,10 @@ input[type="button"] {
   -moz-border-radius: 0.5em 0.5em 0.5em 0.5em;
   -ms-border-radius: 0.5em 0.5em 0.5em 0.5em;
   border-radius: 0.5em 0.5em 0.5em 0.5em;
-  font-family: sans-serif;
+  font-family: Arial, Helvetica, sans-serif;
+  font-weight: normal;
+  font-style: normal;
+  font-size: 1em;
 }
 input[type="range"][orient="vertical"] {
   writing-mode: bt-lr;
@@ -156,6 +161,9 @@ input[type="range"][orient="vertical"] {
 }
 .labels {
   text-align: right;
+  font-family: Arial, Helvetica, sans-serif;
+  font-weight: normal;
+  font-style: italic;
   font-size: 1.2em;
 }
 .labels .field-label {
@@ -186,10 +194,29 @@ input[type="range"][orient="vertical"] {
   font-family: sans-serif;
   text-align: center;
 }
+.form-fields #account-manager {
+  padding: 0 2% 0 2%;
+}
+.form-fields #account-manager .labels {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+.form-fields #account-manager .labels #name,
+.form-fields #account-manager .labels #email {
+  width: 80%;
+}
+.form-fields #account-manager #update-account-button {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
 .adjustment-controls-panel {
   z-index: 10;
   border: #cccccc 2px solid;
   font-family: Arial, Helvetica, sans-serif;
+  font-weight: normal;
+  font-style: normal;
   font-size: 1em;
   -webkit-border-radius: 0.5em 0.5em 0.5em 0.5em;
   -moz-border-radius: 0.5em 0.5em 0.5em 0.5em;
@@ -528,6 +555,9 @@ textarea {
   top: 0.2em;
   overflow: hidden;
   font-family: "Arial Rounded MT Bold", serif;
+  font-weight: normal;
+  font-style: normal;
+  font-size: 1em;
   padding: .3em .3em .3em .3em;
   width: 100%;
 }
@@ -943,6 +973,9 @@ html.touch .pg-hd .hamburger {
   display: block;
   padding: 2em;
   font-family: "Arial Rounded MT Bold", serif;
+  font-weight: normal;
+  font-style: normal;
+  font-size: 1em;
   background-color: #fff;
   color: #222222;
   border-bottom: #222222 0.071em dashed;
@@ -988,11 +1021,16 @@ html.touch .pg-hd .hamburger {
 }
 .topdown-menu__branding h5 {
   margin: 2em 0 0 0;
-  font-size: 1.35em;
   font-family: "Arial Rounded MT Bold", serif;
+  font-weight: normal;
+  font-style: normal;
+  font-size: 1.35em;
 }
 .topdown-menu__branding p {
   font-family: "Arial Rounded MT Bold", serif;
+  font-weight: normal;
+  font-style: normal;
+  font-size: inherit;
 }
 .photo-set-list {
   font-size: 1em;

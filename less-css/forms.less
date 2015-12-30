@@ -19,8 +19,7 @@ input, textarea {
     padding: 0.5em;
     background-color: #fff;
     border: #cccccc 2px solid;
-    font-family: Arial, Helvetica, sans-serif;
-    font-size: 1em;
+    .arial (1.0em);
     -webkit-border-radius: 0.5em 0.5em 0.5em 0.5em;
     -moz-border-radius: 0.5em 0.5em 0.5em 0.5em;
     -ms-border-radius: 0.5em 0.5em 0.5em 0.5em;
@@ -46,7 +45,7 @@ button[type="submit"],input[type="submit"],input[type="button"] {
     -moz-border-radius: 0.5em 0.5em 0.5em 0.5em;
     -ms-border-radius: 0.5em 0.5em 0.5em 0.5em;
     border-radius: 0.5em 0.5em 0.5em 0.5em;
-    font-family: sans-serif;
+    .arial();
 }
 input[type="range"][orient="vertical"] {
     writing-mode: bt-lr;
@@ -70,11 +69,12 @@ input[type="range"][orient="vertical"] {
 }
 .labels {
     text-align: right;
-    font-size: 1.2em;
+    .arial(1.2em,italic);
     .field-label {
         padding-top: 1.5em;
         padding-bottom: 1.6em;
     }
+
 }
 .form-fields {
     text-align: left;
@@ -105,12 +105,28 @@ input[type="range"][orient="vertical"] {
             }
         }
     }
+    #account-manager{
+        padding: 0 2% 0 2%;
+        .labels{
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+            #name, #email{
+                width:80%;
+            }
+        }
+        #update-account-button{
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+    }
 }
 .adjustment-controls-panel {
     z-index: 10;
     border: #cccccc 2px solid;
-    font-family: Arial, Helvetica, sans-serif;
-    font-size: 1em;
+    .arial();
     -webkit-border-radius: 0.5em 0.5em 0.5em 0.5em;
     -moz-border-radius: 0.5em 0.5em 0.5em 0.5em;
     -ms-border-radius: 0.5em 0.5em 0.5em 0.5em;

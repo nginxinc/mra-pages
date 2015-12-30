@@ -11,23 +11,25 @@
 
 {% block articles %}
 <section class="photo-set-list">
-    <form id="account-manager" action="{{ userManager }}" method="put" >
-        <div class="label">
-            <span>Name</span>
-            <input name="name" id="name" type="text" pattern="[A-Za-z0-9\'\-\ ]+" required="required"
-                   maxlength="128" value="{{ name }}">
-        </div>
-        <div class="label">
-            <span>email</span>
-            <input name="email" id="email" type="text"
-                   pattern="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+(?:[A-Z]{2}|com|org|net|gov|mil|biz|info|mobi|name|aero|jobs|museum)\b"
-                   required="required"
-                   maxlength="128" value="{{ email }}">
-        </div>
-        <button id="update-account-button" type="submit" name="update-account" value="Update Your Account">Update Your Account</button>
-        <div id="result">
-        </div>
-    </form>
+    <div class="form-fields">
+        <form id="account-manager" action="{{ userManager }}" method="put" >
+            <div class="labels">
+                <span>Name</span>
+                <input name="name" id="name" type="text" pattern="[A-Za-z0-9\'\-\ ]+" required="required"
+                       maxlength="128" value="{{ name }}">
+            </div>
+            <div class="labels">
+                <span>email</span>
+                <input name="email" id="email" type="text"
+                       pattern="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+(?:[A-Z]{2}|com|org|net|gov|mil|biz|info|mobi|name|aero|jobs|museum)\b"
+                       required="required"
+                       maxlength="128" value="{{ email }}">
+            </div>
+            <button id="update-account-button" type="submit" name="update-account" value="Update Your Account">Update Your Account</button>
+            <div id="result">
+            </div>
+        </form>
+    </div>
 </section>
 {% endblock %}
 {% block albums %}

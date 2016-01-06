@@ -55,9 +55,9 @@ function setUser(resolve, reject, userName, email, bannerAlbumID) {
     //these will be done in either username/email or bannerAlbumID
     userManagerURL = $("#account-manager").attr('action');
     var data = '{';
-    if (userName != undefined) {data = data + '"name": "' + userName + '",';}
-    if (email != undefined) {data = data + '"email": "' + email + '"';}
-    if (bannerAlbumID != undefined) {data = data + '"banner_album_id": "' + bannerAlbumID + '"';}
+    if (userName != undefined && userName != '') {data = data + '"name": "' + userName + '",';}
+    if (email != undefined && email != '') {data = data + '"email": "' + email + '"';}
+    if (bannerAlbumID != undefined && bannerAlbumID != '') {data = data + '"banner_album_id": "' + bannerAlbumID + '"';}
     data = data + '}';
     $.ajax({
         url: userManagerURL,

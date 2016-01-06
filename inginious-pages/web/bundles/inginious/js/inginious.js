@@ -23,7 +23,7 @@ var albumManagerURL = "/albums";//this should be set with environment variables
 var userManagerURL = "/account/users";//this should be set with environment variables
 var uploaded = 0;
 var filesIndex = 0;
-var bannerAlbum = false;
+var bannerAlbumBool = false;
 var posterBannerImage = false;
 var posterBannerImageInWaiting;
 var posterBannerContainerInWaiting;
@@ -71,7 +71,7 @@ function setUser(resolve, reject, userName, email, bannerAlbumID) {
             if (resp.name == "StatusCodeError")
             {
                 $(".photo-set-list").html("Error Trying To Update User Account: " + resp.message);
-                consle.log("Error Trying To Update User Account: " + resp.message);
+                console.log("Error Trying To Update User Account: " + resp.message);
                 reject("Error Trying To Update User Account: " + resp.message);
 
             }
@@ -85,7 +85,8 @@ function setUser(resolve, reject, userName, email, bannerAlbumID) {
             }
         },
         error: function(response){
-            reject("There is an error:" + response.message);
+            console.log("There is an error in the AJAX request to set a user");// + response.message);
+            reject("There is an error in the AJAX request to set a user");// + response.message);
         },
         complete: function () {
             resolve(JSON.parse(data));
@@ -168,7 +169,7 @@ function manageUpload(albumID){
         filesPromise[filesIndex]= new Promise( function (resolve, reject) {
             uploadFile("#" + thumbID, file, albumID, resolve, reject);
         });
-        if(bannerAlbum)
+        if(bannerAlbumBool)
         {
             $('#upload-thumb-proto').clone().prependTo('#upload-thumbs').attr('id',thumbID).attr('display','inline');
         }
@@ -196,7 +197,7 @@ function getFileSize(file) {
     return totalFileSize;
 }
 
-function initAlbum(albumName,resolve, reject, albumDescription)
+function initAlbum(albumName, resolve, reject, albumDescription)
 {
     var data = new FormData;
     data.append("album[name]", albumName );
@@ -216,7 +217,7 @@ function initAlbum(albumName,resolve, reject, albumDescription)
             if (resp.name == "StatusCodeError")
             {
                 $("#loading").html("Error Trying To Upload: " + resp.message);
-                consle.log("Error Trying To Upload: " + resp.message);
+                console.log("Error Trying To Upload: " + resp.message);
                 reject("Error Trying To Upload: " + resp.message);
             }
             else {
@@ -230,7 +231,6 @@ function initAlbum(albumName,resolve, reject, albumDescription)
         complete: function () {
             resolve(album_id);
         }
-
     });
 }
 
@@ -252,7 +252,7 @@ function uploadFile(uploadThumbnail, file, albumID, resolve, reject)
             if (resp.name == "StatusCodeError")
             {
                 $("#loading").html("Error Trying To Upload: " + resp.message);
-                consle.log("Error Trying To Upload: " + resp.message);
+                console.log("Error Trying To Upload: " + resp.message);
                 reject("Error Trying To Upload: " + resp.message);
             }
             else
@@ -318,7 +318,7 @@ function setAlbumPosterImage(imageID,album_id,container)
             $(".upload-thumb img").removeClass("selected");
             $(container +" img").addClass("selected");
             $("#loading").html("Poster Image is set.");
-            if(bannerAlbum)
+            if(bannerAlbumBool)
             {
                 $(".hero").css('background-image', 'url(' + resp.responseJSON.poster_image.large_url + ')');
                 $(".file-size").empty();
@@ -359,7 +359,7 @@ function showHideUploadPanel(callingImage, panel, reloadCatalog)
         $(".upload-button").show();
         $("#album-upload .label").show();
         posterBannerImage = false;
-        //bannerAlbum = false;
+        //bannerAlbumBool = false;
     }
     else if(reloadCatalog)//acts as an indicator that it is the photouploads page
     {
@@ -370,7 +370,7 @@ function showHideUploadPanel(callingImage, panel, reloadCatalog)
     else
     {
         $( "#album-upload" ).submit(function( event ) {
-            uploadBanner(event);bannerAlbum=true;
+            uploadBanner(event);bannerAlbumBool=true;
         });
     }
 

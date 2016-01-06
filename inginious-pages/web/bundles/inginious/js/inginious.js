@@ -5,11 +5,11 @@
 //<script> //this fakes out Intellij to thinking it is Javascript but doesn't render as a script tag in the browser
 
 $(document).ready(function() {
-    $("#update-account-button").click(function(event){updateUser(event)});;
+    $("#update-account-button").click(function (event) {
+        updateUser(event)
+    });
 });
-var mobileMenuIsOpen = false;
 var galleryIsOpen = false;
-var displayImageIndex = {int:1};
 var slideToPosition = 0;
 var photoListUlWidth = {width:0};
 var displayPhoto;
@@ -22,7 +22,7 @@ var uploaderAlbumURL = "/uploader/album";//this should be set with environment v
 var albumManagerURL = "/albums";//this should be set with environment variables
 var userManagerURL = "/account/users";//this should be set with environment variables
 var uploaded = 0;
-var filesIndex = 0
+var filesIndex = 0;
 var bannerAlbum = false;
 var posterBannerImage = false;
 var posterBannerImageInWaiting;
@@ -34,7 +34,6 @@ function updateUser(event)
 {
     event.preventDefault();
     uploaded = 0;
-    var user_id = "";
     var userPromise = new Promise( function (resolve, reject) {
             setUser(resolve, reject,$("#name").val(),$("#email").val());
         }
@@ -42,13 +41,13 @@ function updateUser(event)
     userPromise.then(function(data) {
         $("#account-manager").hide();
         $(".photo-set-list").html("Name is set to " + data.name + "</br>Email is set to " + data.email + "</br>");
-        return;
+
     });
     userPromise.catch(function (error){
         //$("#account-manager").hide();
         $(".photo-set-list").html(error);
         console.log("There is an error: " + error);
-        return;
+
     });
 }
 
@@ -74,7 +73,7 @@ function setUser(resolve, reject, userName, email, bannerAlbumID) {
                 $(".photo-set-list").html("Error Trying To Update User Account: " + resp.message);
                 consle.log("Error Trying To Update User Account: " + resp.message);
                 reject("Error Trying To Update User Account: " + resp.message);
-                return;
+
             }
             else {
                 userName = resp.name;
@@ -152,22 +151,22 @@ function createAlbum(event, thisPromise ) {
     albumIDPromise.catch(function (error){
         $("#loading").html(error);
         console.log("There is an error:" + error);
-        return;
+
     });
 }
 
 function manageUpload(albumID){
     var filesPromise = [];
-    var i = 0;
     uploaded = 0;
-    $("#loading").html(uploaded + " of " + $("#photo-input").prop('files').length + " Images Uploaded");
+    var photoInputLength = $("#photo-input").prop('files').length;
+    $("#loading").html(uploaded + " of " + photoInputLength + " Images Uploaded");
     $("#upload-thumbs").data("album-id", albumID);
-    for( filesIndex = 0; $("#photo-input").prop('files').length > filesIndex; filesIndex++)
+    for( filesIndex = 0; photoInputLength > filesIndex; filesIndex++)
     {
         var file = $("#photo-input").prop('files')[filesIndex];
         var thumbID = "upload-thumb-" + $('.upload-thumb').length;
         filesPromise[filesIndex]= new Promise( function (resolve, reject) {
-            uploadFile("#" + thumbID, file, albumID,resolve, reject);
+            uploadFile("#" + thumbID, file, albumID, resolve, reject);
         });
         if(bannerAlbum)
         {
@@ -414,7 +413,7 @@ function showHideMenu()
         $('.pg-ft').toggle();
         menuIsOpen = false;
         return false;
-    };
+    }
 }
 
 /*****************--------start photo gallery section----------*****************/
@@ -422,7 +421,7 @@ function initPhotoGallery()
 {//this is a callback function for when done that loads and processes the image list
     //alert('the document is ready');
     displayPhoto = document.getElementById('display-photo');
-    displayPhotoList = document.getElementById('photo-list-ul');
+    var displayPhotoList = document.getElementById('photo-list-ul');
     //console.log('DisplayPhoto Object :' + displayPhoto);
     photoHammer = new Hammer(displayPhoto);
     photoListHammer = new Hammer(displayPhotoList);
@@ -452,8 +451,7 @@ function initPhotoGallery()
 
 function showHidePhotoGallery(folder, title, photoset)
 {
-    var photoGalleryURL = "";
-    photoGalleryURL = "/album/" + folder + "/" + photoset;
+    var photoGalleryURL = "/album/" + folder + "/" + photoset;
     photoGalleryURL = encodeURI(photoGalleryURL);
 
     if (galleryIsOpen)
@@ -485,7 +483,6 @@ function setDisplayPhoto(img, photoID, imgID)
     slidePhotoList(sliderPosition);
     var photoPathArray = img.split('/');
     var photoFileName = photoPathArray[photoPathArray.length -1];
-    var currentText = $('#crumb-photo').text();
     $('#crumb-photo').text(photoFileName);//this splits the img path and gets the last of the split array
     $('#display-photo-link').attr('href',img);
     $('#crumb-photo').attr('href',img);
@@ -494,7 +491,6 @@ function setDisplayPhoto(img, photoID, imgID)
 function advancePhoto(direction)
 {
     var index = 0;
-    var img = '';
     var endOfList = $('.inline-list').length - 1;//takes care 0 based counting on index
     if(direction == 'right')
     {
@@ -507,11 +503,11 @@ function advancePhoto(direction)
         //alert('left');
         index = Number($('#display-photo').data('image-list-id'));
         index--;
-    };
+    }
     if (index > endOfList) {index = 0;}
     if (index < 0) { index = endOfList;}
-    var imgID = '#photo-list-image-' + index
-    img = $(imgID).attr('src').replace('thumb','medium');
+    var imgID = '#photo-list-image-' + index;
+    var img = $(imgID).attr('src').replace('thumb','medium');
     setDisplayPhoto(img, index, imgID);
     //return false;
 }

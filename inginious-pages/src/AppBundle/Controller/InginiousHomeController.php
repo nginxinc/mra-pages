@@ -36,6 +36,12 @@ class InginiousHomeController extends Controller
     private $loginRequired = "Welcome, But Please Login To Your Account";
     private $authID = null;
     private $user = null;
+    private $banner = null;
+    private $banner_message = "Upload an image for your banner.";
+    private $bannerImages = null;
+    private $bannerAlbumID = null;
+    private $bannerPosterID = null;
+
 
     public function isAuthenticated(Request $request) {
         $this->authID = $request->headers->get('Auth-ID');
@@ -68,6 +74,16 @@ class InginiousHomeController extends Controller
     {
         if($this->isAuthenticated($request))
         {
+            if($this->user == null)
+            {
+                $user = $this->getUserManager($this->authID)->getUser();
+                $this->user = $user;
+            }
+            if($this->user->getBanner() != null)
+            {
+                $this->banner = $this->user->getBanner();
+                $this->banner_message = "Welcome " . $this->firstName . " " . $this->lastName;
+            }
             $catalog = $this->getPhotoManager($request)->getCatalog();
             return $this->render(
                 '/home.html.twig',
@@ -77,7 +93,10 @@ class InginiousHomeController extends Controller
                     'authenticated' => 'header',
                     'catalogID' => $this->firstName . ' ' . $this->lastName . "&acute;s Photos",
                     'catalog' => $catalog,
-                    'uploader' => $this->getPhotoUploader()->getUploaderPath()
+                    'uploader' => $this->getPhotoUploader()->getUploaderPath(),
+                    'banner' => $this->banner,
+                    'banner_message' => $this->banner_message,
+                    'user' => $this->user
                 ]
             );
         }
@@ -99,6 +118,7 @@ class InginiousHomeController extends Controller
      */
     public function catalogAction(Request $request)
     {
+
         if ($this->isAuthenticated($request)) {
             return $this->render('/catalog.html.twig',
                 [
@@ -108,7 +128,7 @@ class InginiousHomeController extends Controller
                     'authenticated' => 'header',
                     'catalogID' => $this->firstName . ' ' . $this->lastName . "&acute;s Photos",
                     'catalog' => $this->getPhotoManager($request)->getCatalog(),
-                    'uploader' => $this->getPhotoUploader()->getUploaderPath()
+                    'uploader' => $this->getPhotoUploader()->getUploaderPath(),
                 ]
 
             );
@@ -152,17 +172,53 @@ class InginiousHomeController extends Controller
     }
 
     /**
+     * @Route("/album/{banner}", name="banner")
+     */
+
+    public function bannerAction($banner, Request $request)
+    {
+        $album = $this->getPhotoManager($request)->getAlbum($banner);
+        $photos = $album->images;
+
+        if ($this->isAuthenticated($request)) {
+            return $this->render(
+                '/banner.html.twig',
+                [
+                    'firstName' => $this->firstName,
+                    'lastName' => $this->lastName,
+                    'authenticated' => 'header',
+                    'album' => $album,
+                    'images' => $photos
+                ]
+            );
+        }
+        else
+        {
+            $response = new Response();
+            $response->setStatusCode(Response::HTTP_FORBIDDEN);
+            return $response->send();
+        }
+    }
+
+    /**
      * @Route("/account")
      */
 
     public function accountAction(Request $request)
     {
-
         if ($this->isAuthenticated($request)) {
             if($this->user == null)
             {
                 $user = $this->getUserManager($this->authID)->getUser();
                 $this->user = $user;
+            }
+            if($this->user->getBanner() != null)
+            {
+                $this->banner = $this->user->getBanner();
+                $this->banner_message = "Welcome " . $this->firstName . " " . $this->lastName;
+                $this->bannerImages = $this->user->getBannerAlbum()->images;
+                $this->bannerAlbumID = $this->user->getBannerAlbum()->id;
+                $this->bannerPosterID = $this->user->getBannerAlbum()->poster_image_id;
             }
             return $this->render(
                 '/account.html.twig',
@@ -170,7 +226,13 @@ class InginiousHomeController extends Controller
                     'name' => $this->user->getName(),
                     'authenticated' => 'header',
                     'email' => $this->user->getEmail(),
-                    'userManager' => $this->user->getLocalUserPath() . "/" . $this->user->getUserID()
+                    'userManager' => $this->user->getLocalUserPath() . "/" . $this->user->getUserID(),
+                    'uploader' => $this->getPhotoUploader()->getUploaderPath(),
+                    'banner' => $this->banner,
+                    'banner_message' => $this->banner_message,
+                    'bannerImages' => $this->bannerImages,
+                    'bannerAlbumID' => $this->bannerAlbumID,
+                    'bannerPosterID' => $this->bannerPosterID
                 ]
             );
         }

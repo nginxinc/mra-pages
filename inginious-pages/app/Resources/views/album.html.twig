@@ -5,8 +5,8 @@
 <div class="photo-gallery">
     <div class="crumb-trail">
         <a id="crumb-top" href="/photos/">Photos -></a>
-        <a id="crumb-category" href="/photos/family.jsp">{{ catalogID|raw }} -></a>
-        <a id="crumb-photoSets" href="close_x">{{ album.name }} -></a>
+        <a id="crumb-category" href="/photos/">{{ catalogID|raw }} -></a>
+        <a id="crumb-photoSets" href="/photos/">{{ album.name }} -></a>
         <a id="crumb-photo" href="{{ image.large_url }}">{{ image.name }}</a>
     </div>
     <img id="display-photo-left-arrow" class="hover-arrows" onClick="advancePhoto('left');return false;" src="{{ asset('bundles/inginious/images/left_arrow.png', version='1.0') }}">

@@ -163,11 +163,25 @@ input[type="range"][orient="vertical"] {
         display: inline;
         float: left;
         padding: .5em;
+        height: 12em;
+        width: 11em;
+        margin-left: auto;
+        margin-right: auto;
         img {
-            max-width: 10em;
+            max-width: 128px;
+            max-height: 128px;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
             width: initial;
             margin-bottom: 1em;
             margin-top: 1em;
+        }
+        .selected {
+            border: 3px solid rgb(0, 151, 76);
+        }
+        .file-size{
+          text-align: center;
         }
     }
 }

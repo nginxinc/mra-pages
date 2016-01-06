@@ -1,10 +1,22 @@
 {# app/Resources/views/home.html.twig #}
+{# app/Resources/views/banners.html.twig #}
 {% extends 'base.html.twig' %}
+    {% block loginButton %}
+        <div>
+            <img id="login-button" onclick="logout();" src='{{ asset('bundles/inginious/images/logout.png', version='1.0') }}'>
+        </div>
+    {% endblock %}
+
 {% block hero %}
-<section class="hero" style="background-image: url('http://www.metadogs.com/images/hero/photos.jpg');" >
+    <section class="hero" style="background-image: url(
+    {% if banner == null %}{{asset('bundles/inginious/images/banner_upload.png', version='1.0')}}
+    {% else %}{{ banner }}{% endif %}
+            );" >
         <div class="wrapper" >
+            <img onClick="showHideUploadPanel(this, '#upload-panel');bannerAlbum=true; return false;" id="add-banner" src="{{ asset('bundles/inginious/images/add_+.png', version='1.0') }}"
+                 title="Change Your Banner Image">
             <h1 class="headline" >inginious photos</h1>
-            {% block subhead %}<h2 class="subhead" >Select a photo for your banner</h2>{% endblock %}
+            {% block subhead %}<h2 class="subhead" >{{ banner_message }}</h2>{% endblock %}
         </div>
     </section>
 {% endblock %}
@@ -19,18 +31,45 @@
                        maxlength="128" value="{{ name }}">
             </div>
             <div class="labels">
-                <span>email</span>
+                <span>Email</span>
                 <input name="email" id="email" type="text"
                        pattern="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+(?:[A-Z]{2}|com|org|net|gov|mil|biz|info|mobi|name|aero|jobs|museum)\b"
                        required="required"
                        maxlength="128" value="{{ email }}">
             </div>
             <button id="update-account-button" type="submit" name="update-account" value="Update Your Account">Update Your Account</button>
-            <div id="result">
+            <div id="account-result">
             </div>
         </form>
     </div>
 </section>
+    <div id="upload-panel" class="adjustment-controls-panel">
+        <form id="album-upload" action="{{ uploader }}" method="post" >
+            <img class="close-button" alt="closeButton" src="{{ asset('bundles/inginious/images/close_x.png', version='1.0') }}" onclick="showHideUploadPanel(this, '#upload-panel', false)">
+            <div class="label">
+                <span>Select A Banner Image</span>
+                <input id="photo-input" type="file" name="image" accept="image/*" required="required">
+            </div>
+            <div class="label">
+                <span>Banner Album</span>
+                <input name="name" id="album-name" type="hidden" value="banners">
+            </div>
+            <button class="upload-button" id="upload-banner-button" type="submit" name="upload-banner"
+                    value="Upload A Banner Image">Upload A Banner Image</button>
+            <div id="loading"></div><br>
+            <div id="result" style="display: block">
+                <input id="banner-album-id" name="banner-album-id" type="hidden" value="{{ bannerAlbumID }}">
+                <div id="upload-thumbs">
+                    {{ include('banners.html.twig') }}
+                </div>
+            </div>
+            <div class="upload-thumb" id="upload-thumb-proto">
+                <img alt='animation' src='{{ asset('bundles/inginious/images/uploading.gif', version='1.0') }}'>
+                <div class="file-size"></div>
+            </div>
+
+        </form>
+    </div>
 {% endblock %}
 {% block albums %}
 {% endblock %}

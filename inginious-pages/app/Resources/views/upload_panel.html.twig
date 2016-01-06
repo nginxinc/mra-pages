@@ -1,0 +1,24 @@
+<div id="upload-panel" class="adjustment-controls-panel">
+    <form id="album-upload" action="{{ uploader }}" method="post" >
+        <img class="close-button" alt="closeButton" src="{{ asset('bundles/inginious/images/close_x.png', version='1.0') }}" onclick="showHideUploadPanel(this, '#upload-panel', true)">
+        <div class="label">
+            <span>Select Images</span>
+            <input id="photo-input" type="file" name="image" multiple="multiple" accept="image/*" required="required">
+        </div>
+        <div class="label">
+            <span>Album Name</span>
+            <input name="name" id="album-name" type="text" pattern="[A-Za-z0-9_\_\-\.\,\ ]+" required="required" placeholder="letters, numbers, spaces, '_', '-', '.' and ',': no unusual characters" maxlength="128">
+        </div>
+        <button class="upload-button" id="create-album-button" type="submit" name="create-album" value="Create An Album">Create An Album</button>
+        <div id="loading"></div><br>
+        <div id="result">
+            <div id="upload-thumbs">
+            </div>
+        </div>
+        <div class="upload-thumb"  id="upload-thumb-proto">
+            <img alt='animation' src='{{ asset('bundles/inginious/images/uploading.gif', version='1.0') }}'>
+            <div class="file-size"></div>
+        </div>
+
+    </form>
+</div>

@@ -7,17 +7,19 @@
         </div>
     {% endblock %}
  {% block hero %}
-     <section class="hero" style="background-image: url('http://www.metadogs.com/images/hero/orchids.jpg');" >
+     <section class="hero" style="background-image: url(
+              {% if banner == null %}{{asset('bundles/inginious/images/banner_upload.png', version='1.0')}}
+              {% else %}{{ banner }}{% endif %}
+                      );" >
          <div class="wrapper" >
              <h1 class="headline" >inginious photos</h1>
-             {% block subhead %} <h2 class="subhead" >Welcome {{ firstName }} {{ lastName }} </h2> {% endblock %}
+             {% block subhead %} <h2 class="subhead" >{{ banner_message }} </h2> {% endblock %}
          </div>
      </section>
  {% endblock %}
-
+{% block albums %}
+    {{ include('catalog.html.twig') }}
+{% endblock %}
 
   {% block articles %}
   {% endblock %}
-  {% block albums %}
-      {{ include('catalog.html.twig') }}
-   {% endblock %}

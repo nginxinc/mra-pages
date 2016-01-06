@@ -55,19 +55,44 @@ class UserManager
     private $userID;
 
     /**
+     * @var string
+     */
+    private $banner;
+
+    /**
+     * @var string
+     */
+    private $bannerAlbum;//when set, will be an album object
+
+    /**
+     * @return Client
+     */
+
+    /**
+     * @param Client $client
+     */
+    public function setClient($client)
+    {
+        $this->client = $client;
+    }
+
+    /**
      * @var Client
      */
     private $client = null;
 
     /**
      * @param string
-     * PhotoManager constructor.
+     * UserManager constructor.
      */
     public function __construct($authID) {
         $this->url = getenv("USERMANAGER_ENDPOINT_URL");
         $this->userPath = getenv("USERMANAGER_USER_PATH");
         $this->localUserPath = getenv("USERMANAGER_LOCAL_PATH");
         $this->userID = $authID;
+        $photoManager = new PhotoManager($this->userID);
+        //$this->setBannerAlbum(317);
+
     }
 
     /**
@@ -76,15 +101,21 @@ class UserManager
      */
     public function getUser() {
 
-        $body = $this->getRequest($this->userPath . "/" . $this->userID);
-        $this->setEmail($body->email);
-        $this->setName($body->name);
-        if(isset($body->facebook_id))
+        $user = $this->getRequest($this->userPath . "/" . $this->userID);
+        $this->setEmail($user->email);
+        $this->setName($user->name);
+        if(isset($user->banner_album_id))
         {
-            $this->setFacebookID($body->facebook_id);
+            $photoManager = new PhotoManager($this->userID);
+            $this->setBannerAlbum($photoManager->getAlbum($user->banner_album_id));
+            $this->setBanner($this->bannerAlbum->poster_image->large_url);
+        }
+        if(isset($user->facebook_id))
+        {
+            $this->setFacebookID($user->facebook_id);
         }
         else{
-            $this->setGoogleID($body->google_id);
+            $this->setGoogleID($user->google_id);
         }
         return $this;
     }
@@ -128,6 +159,14 @@ class UserManager
     /**
      * @return string
      */
+    public function getBanner()
+    {
+        return $this->banner;
+    }
+
+    /**
+     * @return string
+     */
     public function getUserPath() {
 
         return $this->UserPath;
@@ -140,6 +179,17 @@ class UserManager
 
         return $this->localUserPath;
     }
+
+    /**
+     * @return string
+     */
+    public function getBannerAlbum()
+    {
+        return $this->bannerAlbum;
+    }
+
+
+
 
     /***************************SETTERS***********************?
     /**
@@ -174,6 +224,21 @@ class UserManager
         $this->googleID = $googleID;
     }
 
+    /**
+     * @param string $banner
+     */
+    public function setBanner($banner)
+    {
+        $this->banner = $banner;
+    }
+
+    /**
+     * @param string $bannerAlbum
+     */
+    public function setBannerAlbum($bannerAlbum)
+    {
+        $this->bannerAlbum = $bannerAlbum;
+    }
 
     /***************************UTILS***********************?
     /**
@@ -201,7 +266,7 @@ class UserManager
             $body = $response->getBody()->__toString();
 
             $decoder = new JsonDecode();
-            $user = $decoder->decode($body, 'json');
+            $user = $decoder->decode($body, true);
             return $user;
         }
         catch (RequestException $e)

@@ -1,0 +1,9 @@
+    {% for image in bannerImages|reverse %}
+        <div class="upload-thumb" id="upload-thumb-{{ loop.index }}" data-image-id="{{ image.id }}"
+             display="inline">
+            <img onclick="setAlbumPosterImage({{ image.id }}, {{ bannerAlbumID }},'#upload-thumb-{{ loop.index }}');bannerAlbum=true;" alt='upload-thumb-{{ loop.index }}'
+                 src="{{ image.thumb_url }}" {% if image.id == bannerPosterID %} class="selected" {% endif %}>
+            <div class="file-size">{% if image.id == bannerPosterID %} Banner Image{% endif %}</div>
+        </div>
+    {% endfor %}
+

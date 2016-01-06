@@ -39,8 +39,8 @@ function updateUser(event)
         }
     );
     userPromise.then(function(data) {
-        $("#account-manager").hide();
-        $(".photo-set-list").html("Name is set to " + data.name + "</br>Email is set to " + data.email + "</br>");
+        //$("#account-manager").hide();
+        $("#notification").html("Name is set to " + data.name + "</br>Email is set to " + data.email + "</br>");
 
     });
     userPromise.catch(function (error){
@@ -55,9 +55,9 @@ function setUser(resolve, reject, userName, email, bannerAlbumID) {
     //these will be done in either username/email or bannerAlbumID
     userManagerURL = $("#account-manager").attr('action');
     var data = '{';
-    if (userName != "") {data = data + '"name": "' + userName + '",';}
-    if (email != "") {data = data + '"email": "' + email + '"';}
-    if (bannerAlbumID != "") {data = data + '"banner_album_id": "' + bannerAlbumID + '"';}
+    if (userName != undefined) {data = data + '"name": "' + userName + '",';}
+    if (email != undefined) {data = data + '"email": "' + email + '"';}
+    if (bannerAlbumID != undefined) {data = data + '"banner_album_id": "' + bannerAlbumID + '"';}
     data = data + '}';
     $.ajax({
         url: userManagerURL,

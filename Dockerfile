@@ -72,7 +72,10 @@ ADD nginx-repo.crt /etc/ssl/nginx/
 ADD nginx-repo.key /etc/ssl/nginx/
 
 # Get other files required for installation
-RUN apt-get update && apt-get install -y wget apt-transport-https
+RUN apt-get update && apt-get install -y \
+    wget \
+    apt-transport-https \
+    python
 
 RUN wget -q -O /etc/ssl/nginx/CA.crt https://cs.nginx.com/static/files/CA.crt && \
     wget -q -O - http://nginx.org/keys/nginx_signing.key | apt-key add - && \
@@ -102,7 +105,9 @@ RUN chown -R nginx:www-data /inginious-pages/ && \
     ln -sf /dev/stdout /inginious-pages/app/logs/prod.log
 RUN chown -R www-data /inginious-pages/app/logs/
 COPY ./php.ini /usr/local/etc/php/
-#RUN php composer.phar install
+
+COPY ./amplify_install.sh /amplify_install.sh
+RUN API_KEY='0202c79a3d8411fcf82b35bc3d458f7e' sh ./amplify_install.sh
 
 CMD ["/php-start.sh"]
 

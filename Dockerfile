@@ -1,7 +1,5 @@
 FROM ubuntu:14.04
 
-MAINTAINER NGINX Docker Maintainers "docker-maint@nginx.com"
-
 # Set the debconf front end to Noninteractive
 RUN echo 'debconf debconf/frontend select Noninteractive' | debconf-set-selections
 
@@ -107,7 +105,7 @@ RUN chown -R www-data /inginious-pages/app/logs/
 COPY ./php.ini /usr/local/etc/php/
 
 COPY ./amplify_install.sh /amplify_install.sh
-RUN API_KEY='0202c79a3d8411fcf82b35bc3d458f7e' sh ./amplify_install.sh
+RUN API_KEY='0202c79a3d8411fcf82b35bc3d458f7e' HOSTNAME='pages' sh ./amplify_install.sh
 
 CMD ["/php-start.sh"]
 

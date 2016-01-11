@@ -2,7 +2,7 @@
  * Created by chrisstetson on 11/16/15.
  */
 
-//<script> //this fakes out Intellij to thinking it is Javascript but doesn't render as a script tag in the browser
+//this fakes out Intellij to thinking it is Javascript but doesn't render as a script tag in the browser
 
 $(document).ready(function() {
     $("#update-account-button").click(function (event) {
@@ -605,7 +605,3 @@ var pxToEm = function( value, scope, suffix )
     scopeTest.remove();
     return +(divisor / scopeVal).toFixed(4) + suffix;
 };
-
-
-
-//</script>

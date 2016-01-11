@@ -8,12 +8,13 @@
     {% endblock %}
 
 {% block hero %}
-    <section class="hero" style="background-image: url(
+    <script> $(document).ready(function() {$('.hero').css('cursor', 'hand');});</script>
+    <section onClick="showHideUploadPanel(this, '#upload-panel');bannerAlbumBool=true; return false;" class="hero" style="background-image: url(
     {% if banner == null %}{{asset('bundles/inginious/images/banner_upload.png', version='1.0')}}
     {% else %}{{ banner }}{% endif %}
             );" >
         <div class="wrapper" >
-            <img onClick="showHideUploadPanel(this, '#upload-panel');bannerAlbumBool=true; return false;" id="add-banner" src="{{ asset('bundles/inginious/images/add_+.png', version='1.0') }}"
+            <img id="add-banner" src="{{ asset('bundles/inginious/images/add_+.png', version='1.0') }}"
                  title="Change Your Banner Image">
             <h1 class="headline" >inginious photos</h1>
             {% block subhead %}<h2 class="subhead" >{{ banner_message }}</h2>{% endblock %}

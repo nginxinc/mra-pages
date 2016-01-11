@@ -7,10 +7,12 @@
         </div>
     {% endblock %}
  {% block hero %}
-     <section class="hero" style="background-image: url(
-              {% if banner == null %}{{asset('bundles/inginious/images/banner_upload.png', version='1.0')}}
-              {% else %}{{ banner }}{% endif %}
-                      );" >
+     {% if banner == null %}
+    <script> $(document).ready(function() {$('.hero').css('cursor', 'hand');});</script>
+     <section class="hero" onclick="location.href='/account';t" style="background-image: url( {{asset('bundles/inginious/images/banner_upload.png', version='1.0')}});" >
+      {% else %}
+     <section class="hero" style="background-image: url( {{ banner }});" >
+     {% endif %}
          <div class="wrapper" >
              <h1 class="headline" >inginious photos</h1>
              {% block subhead %} <h2 class="subhead" >{{ banner_message }} </h2> {% endblock %}

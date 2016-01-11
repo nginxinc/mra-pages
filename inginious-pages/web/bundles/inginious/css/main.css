@@ -615,6 +615,12 @@ textarea {
   background-color: #fff;
   padding: .5em;
 }
+.pg-hd #login-panel #status {
+  font-family: Arial, Helvetica, sans-serif;
+  font-weight: normal;
+  font-style: normal;
+  font-size: 0.7em;
+}
 .pg-hd .hamburger {
   position: relative;
   display: inline;

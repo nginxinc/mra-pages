@@ -20,7 +20,6 @@
     {% block favicon %}
     <link rel="icon" type="image/png" href="https://www.nginx.com/wp-content/themes/nginx-theme/assets/img/nginx-favicon.png">
     {% endblock %}
-    <!-- js file links are in the js.jsp file -->
     {% block javascripts %}
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
         <script src="https://hammerjs.github.io/dist/hammer.js"></script>
@@ -48,8 +47,7 @@
                                 <img id="login-button" onclick="showHideControlPanel(this, '#login-panel')" src='{{ asset('bundles/inginious/images/login.png', version='1.0') }}'>
                             </div>
                         {% endblock %}
-                        <img onClick="showHideMenu()" class="hamburger" alt='menu' src='http://www.metadogs.com/images/icon/hamburger.png'>
-                        <!--<a href="/"> <img class="icon" alt='logo' src='{{ asset('bundles/inginious/images/inginious_logo.png', version='1.0') }}'> </a>-->
+                        <img onClick="showHideMenu()" class="hamburger" alt='menu' src='{{ asset('bundles/inginious/images/hamburger.png', version='1.0') }}'>
                     </div>
             </section>
             {% endblock %}
@@ -59,58 +57,11 @@
 
                 <div class="topdown-menu__nav">
                     <ul>
-
                         <li><a href="/">Home</a></li>
-
-                       {# <li><a onClick="showHideSubMenu('ul.photos','img.photos',window.photosSubNavisOpen);return false;" href="/photos/">Photos<img  class="v-down photos" alt='menu' src='http://www.metadogs.com/images/icon/v-down.png'></a></li>
-                        <ul class="subnav photos">
-                            <li><a href="/photos/">Photos Home</a></li>
-
-                            <li><a href="/photos/family/">Family</a></li>
-
-                            <li><a href="/photos/travel.jsp">Travels</a></li>
-
-                            <li><a href="/photos/orchids.jsp">Orchids</a></li>
-
-                            <li><a href="/photos/catalog.jsp">Family Catalog</a></li>
-
-                        </ul>
-
-                        <li><a onClick="showHideSubMenu('ul.chris','img.chris',window.chrisSubNavisOpen);return false;" href="/chris/">Chris<img  class="v-down chris" alt='menu' src='http://www.metadogs.com/images/icon/v-down.png'></a></li>
-                        <ul class="subnav chris">
-                            <li><a href="/chris/">Chris Home</a></li>
-
-                            <li><a href="/chris/musings.jsp">Musings</a></li>
-
-                            <li><a href="/chris/dad.jsp">Dad</a></li>
-
-                            <li><a href="/chris/brenda-and-stan.jsp">Brenda and Stan</a></li>
-
-                            <li><a href="/chris/water.jsp">Water</a></li>
-
-                        </ul>
-#}
                         <li><a href="/myphotos">My Photos</a></li>
                         <li><a href="/account">My Account</a></li>
-
-                        {#<li><a onClick="showHideSubMenu('ul.about','img.about',window.aboutSubNavisOpen);return false;" href="/about/">About<img  class="v-down about" alt='menu' src='http://www.metadogs.com/images/icon/v-down.png'></a></li>
-                        <ul class="subnav about">
-                            <li><a href="/about/">About Home</a></li>
-
-                            <li><a href="/about/policies.jsp">Policies</a></li>
-
-                            <li><a href="/about/principles.jsp">Principio</a></li>
-
-                        </ul>#}
-
                     </ul>
                 </div>
-                <script>
-                    var photosSubNavisOpen = {bool:false};
-                    var chrisSubNavisOpen = {bool:false};
-                    var aboutSubNavisOpen = {bool:false};
-                </script>
-
                 <div class="topdown-menu__branding">
                     <h5>NGINX Reference Architecture</h5>
                     <p class="branding-logo">inginious photos</p>
@@ -125,7 +76,7 @@
         {% block pagebody %}
         <main class="pg-bd">
             {% block hero %}
-            <section class="hero" style="background-image: url('http://www.metadogs.com/images/hero/photos.jpg');" >
+            <section class="hero" style="background-image: url('{{ asset('bundles/inginious/images/cover_images/photos.jpg') }}')" >
                 <div class="wrapper" >
                     <h1 class="headline" >inginious photos</h1>
                     {% block subhead %}<h2 class="subhead" >From the sublime to the bizarre.</h2>{% endblock %}
@@ -142,372 +93,11 @@
             <hr>
             {% endblock %}
             {% block albums %}
-            <section class="photo-set-list">
-                <ul class="navlist">
 
-                    <li class="photo-set">
-                        <a onClick="showHidePhotoGallery('orchids','spring bouquets 03-09', 'spring_bouquets_03-09');return false;" class="photo-set-link" href="/photos/index.jsp">
-                            <img src="http://www.metadogs.com/images/photos/thumbnails/orchids/spring_bouquets_03-09_04.jpg" alt="spring bouquets 03-09">
-                            <div class="description">spring_bouquets_03-09</div>
-                        </a>
-                    </li>
-
-                    <li class="photo-set">
-                        <a onClick="showHidePhotoGallery('orchids','thanksgiving 2005', 'thanksgiving_2005');return false;" class="photo-set-link" href="/photos/index.jsp">
-                            <img src="http://www.metadogs.com/images/photos/thumbnails/orchids/thanksgiving_2005_02.jpg" alt="thanksgiving 2005">
-                            <div class="description">thanksgiving_2005</div>
-                        </a>
-                    </li>
-
-                    <li class="photo-set">
-                        <a onClick="showHidePhotoGallery('orchids','sept orchids 2005', 'sept_orchids_2005');return false;" class="photo-set-link" href="/photos/index.jsp">
-                            <img src="http://www.metadogs.com/images/photos/thumbnails/orchids/sept_orchids_2005_03.jpg" alt="sept orchids 2005">
-                            <div class="description">sept_orchids_2005</div>
-                        </a>
-                    </li>
-
-                    <li class="photo-set">
-                        <a onClick="showHidePhotoGallery('orchids','purple phal 12-03', 'purple_phal_12-03');return false;" class="photo-set-link" href="/photos/index.jsp">
-                            <img src="http://www.metadogs.com/images/photos/thumbnails/orchids/purple_phal_12-03_02.jpg" alt="purple phal 12-03">
-                            <div class="description">purple_phal_12-03</div>
-                        </a>
-                    </li>
-
-                    <li class="photo-set">
-                        <a onClick="showHidePhotoGallery('orchids','double spike vanda 09-03', 'double_spike_vanda_09-03');return false;" class="photo-set-link" href="/photos/index.jsp">
-                            <img src="http://www.metadogs.com/images/photos/thumbnails/orchids/double_spike_vanda_09-03_01.jpg" alt="double spike vanda 09-03">
-                            <div class="description">double_spike_vanda_09-03</div>
-                        </a>
-                    </li>
-
-                    <li class="photo-set">
-                        <a onClick="showHidePhotoGallery('orchids','blue vanda 02-03', 'blue_vanda_02-03');return false;" class="photo-set-link" href="/photos/index.jsp">
-                            <img src="http://www.metadogs.com/images/photos/thumbnails/orchids/blue_vanda_02-03_03.jpg" alt="blue vanda 02-03">
-                            <div class="description">blue_vanda_02-03</div>
-                        </a>
-                    </li>
-
-                    <li class="photo-set">
-                        <a onClick="showHidePhotoGallery('orchids','double phal 02-03', 'double_phal_02-03.jpg');return false;" class="photo-set-link" href="/photos/index.jsp">
-                            <img src="http://www.metadogs.com/images/photos/thumbnails/orchids/double_phal_02-03.jpg" alt="double phal 02-03">
-                            <div class="description">double_phal_02-03.jpg</div>
-                        </a>
-                    </li>
-
-                    <li class="photo-set">
-                        <a onClick="showHidePhotoGallery('orchids','winter orchids 2002', 'winter_orchids_2002');return false;" class="photo-set-link" href="/photos/index.jsp">
-                            <img src="http://www.metadogs.com/images/photos/thumbnails/orchids/winter_orchids_2002_02.jpg" alt="winter orchids 2002">
-                            <div class="description">winter_orchids_2002</div>
-                        </a>
-                    </li>
-
-                    <li class="photo-set">
-                        <a onClick="showHidePhotoGallery('orchids','oakland orchids 11-02', 'oakland_orchids_11-02');return false;" class="photo-set-link" href="/photos/index.jsp">
-                            <img src="http://www.metadogs.com/images/photos/thumbnails/orchids/oakland_orchids_11-02_05.jpg" alt="oakland orchids 11-02">
-                            <div class="description">oakland_orchids_11-02</div>
-                        </a>
-                    </li>
-
-                    <li class="photo-set">
-                        <a onClick="showHidePhotoGallery('orchids','fiery zygo 4-02', 'fiery_zygo_4-02');return false;" class="photo-set-link" href="/photos/index.jsp">
-                            <img src="http://www.metadogs.com/images/photos/thumbnails/orchids/fiery_zygo_4-02_05.jpg" alt="fiery zygo 4-02">
-                            <div class="description">fiery_zygo_4-02</div>
-                        </a>
-                    </li>
-
-                    <li class="photo-set">
-                        <a onClick="showHidePhotoGallery('orchids','winter epis', 'winter_epis');return false;" class="photo-set-link" href="/photos/index.jsp">
-                            <img src="http://www.metadogs.com/images/photos/thumbnails/orchids/winter_epis_01.jpg" alt="winter epis">
-                            <div class="description">winter_epis</div>
-                        </a>
-                    </li>
-
-                    <li class="photo-set">
-                        <a onClick="showHidePhotoGallery('orchids','winter pink phal', 'winter_pink_phal');return false;" class="photo-set-link" href="/photos/index.jsp">
-                            <img src="http://www.metadogs.com/images/photos/thumbnails/orchids/winter_pink_phal_01.jpg" alt="winter pink phal">
-                            <div class="description">winter_pink_phal</div>
-                        </a>
-                    </li>
-
-                    <li class="photo-set">
-                        <a onClick="showHidePhotoGallery('orchids','winter yellow phal', 'winter_yellow_phal');return false;" class="photo-set-link" href="/photos/index.jsp">
-                            <img src="http://www.metadogs.com/images/photos/thumbnails/orchids/winter_yellow_phal_01.jpg" alt="winter yellow phal">
-                            <div class="description">winter_yellow_phal</div>
-                        </a>
-                    </li>
-
-                    <li class="photo-set">
-                        <a onClick="showHidePhotoGallery('orchids','papuakea 11-01', 'papuakea_11-01');return false;" class="photo-set-link" href="/photos/index.jsp">
-                            <img src="http://www.metadogs.com/images/photos/thumbnails/orchids/papuakea_11-01_02.jpg" alt="papuakea 11-01">
-                            <div class="description">papuakea_11-01</div>
-                        </a>
-                    </li>
-
-                    <li class="photo-set">
-                        <a onClick="showHidePhotoGallery('orchids','brandi cattelya june 2001', 'brandi_cattelya_june_2001');return false;" class="photo-set-link" href="/photos/index.jsp">
-                            <img src="http://www.metadogs.com/images/photos/thumbnails/orchids/brandi_cattelya_june_2001_02.jpg" alt="brandi cattelya june 2001">
-                            <div class="description">brandi_cattelya_june_2001</div>
-                        </a>
-                    </li>
-
-                    <li class="photo-set">
-                        <a onClick="showHidePhotoGallery('orchids','asconcenda', 'asconcenda');return false;" class="photo-set-link" href="/photos/index.jsp">
-                            <img src="http://www.metadogs.com/images/photos/thumbnails/orchids/asconcenda_02.jpg" alt="asconcenda">
-                            <div class="description">asconcenda</div>
-                        </a>
-                    </li>
-
-                    <li class="photo-set">
-                        <a onClick="showHidePhotoGallery('orchids','assorted flowers', 'assorted_flowers');return false;" class="photo-set-link" href="/photos/index.jsp">
-                            <img src="http://www.metadogs.com/images/photos/thumbnails/orchids/assorted_flowers_02.jpg" alt="assorted flowers">
-                            <div class="description">assorted_flowers</div>
-                        </a>
-                    </li>
-
-                    <li class="photo-set">
-                        <a onClick="showHidePhotoGallery('orchids','big denbrobium', 'big_denbrobium');return false;" class="photo-set-link" href="/photos/index.jsp">
-                            <img src="http://www.metadogs.com/images/photos/thumbnails/orchids/big_denbrobium_02t.jpg" alt="big denbrobium">
-                            <div class="description">big_denbrobium</div>
-                        </a>
-                    </li>
-
-                    <li class="photo-set">
-                        <a onClick="showHidePhotoGallery('orchids','big denbrobrium', 'big_denbrobrium');return false;" class="photo-set-link" href="/photos/index.jsp">
-                            <img src="http://www.metadogs.com/images/photos/thumbnails/orchids/big_denbrobrium_01.jpg" alt="big denbrobrium">
-                            <div class="description">big_denbrobrium</div>
-                        </a>
-                    </li>
-
-                    <li class="photo-set">
-                        <a onClick="showHidePhotoGallery('orchids','blazing phal', 'blazing_phal');return false;" class="photo-set-link" href="/photos/index.jsp">
-                            <img src="http://www.metadogs.com/images/photos/thumbnails/orchids/blazing_phal_03.jpg" alt="blazing phal">
-                            <div class="description">blazing_phal</div>
-                        </a>
-                    </li>
-
-                    <li class="photo-set">
-                        <a onClick="showHidePhotoGallery('orchids','brandi cattleya', 'brandi_cattleya');return false;" class="photo-set-link" href="/photos/index.jsp">
-                            <img src="http://www.metadogs.com/images/photos/thumbnails/orchids/brandi_cattleya_05.jpg" alt="brandi cattleya">
-                            <div class="description">brandi_cattleya</div>
-                        </a>
-                    </li>
-
-                    <li class="photo-set">
-                        <a onClick="showHidePhotoGallery('orchids','cork vanda', 'cork_vanda');return false;" class="photo-set-link" href="/photos/index.jsp">
-                            <img src="http://www.metadogs.com/images/photos/thumbnails/orchids/cork_vanda_01.jpg" alt="cork vanda">
-                            <div class="description">cork_vanda</div>
-                        </a>
-                    </li>
-
-                    <li class="photo-set">
-                        <a onClick="showHidePhotoGallery('orchids','cymbidium', 'cymbidium');return false;" class="photo-set-link" href="/photos/index.jsp">
-                            <img src="http://www.metadogs.com/images/photos/thumbnails/orchids/cymbidium_07t.jpg" alt="cymbidium">
-                            <div class="description">cymbidium</div>
-                        </a>
-                    </li>
-
-                    <li class="photo-set">
-                        <a onClick="showHidePhotoGallery('orchids','dancing ladies', 'dancing_ladies');return false;" class="photo-set-link" href="/photos/index.jsp">
-                            <img src="http://www.metadogs.com/images/photos/thumbnails/orchids/dancing_ladies_01.jpg" alt="dancing ladies">
-                            <div class="description">dancing_ladies</div>
-                        </a>
-                    </li>
-
-                    <li class="photo-set">
-                        <a onClick="showHidePhotoGallery('orchids','dancing lady', 'dancing_lady');return false;" class="photo-set-link" href="/photos/index.jsp">
-                            <img src="http://www.metadogs.com/images/photos/thumbnails/orchids/dancing_lady_02.jpg" alt="dancing lady">
-                            <div class="description">dancing_lady</div>
-                        </a>
-                    </li>
-
-                    <li class="photo-set">
-                        <a onClick="showHidePhotoGallery('orchids','denbrobium', 'denbrobium');return false;" class="photo-set-link" href="/photos/index.jsp">
-                            <img src="http://www.metadogs.com/images/photos/thumbnails/orchids/denbrobium_04.jpg" alt="denbrobium">
-                            <div class="description">denbrobium</div>
-                        </a>
-                    </li>
-
-                    <li class="photo-set">
-                        <a onClick="showHidePhotoGallery('orchids','dendrobium flowers', 'dendrobium_flowers');return false;" class="photo-set-link" href="/photos/index.jsp">
-                            <img src="http://www.metadogs.com/images/photos/thumbnails/orchids/dendrobium_flowers_5.jpg" alt="dendrobium flowers">
-                            <div class="description">dendrobium_flowers</div>
-                        </a>
-                    </li>
-
-                    <li class="photo-set">
-                        <a onClick="showHidePhotoGallery('orchids','dendrobium pinky', 'dendrobium_pinky');return false;" class="photo-set-link" href="/photos/index.jsp">
-                            <img src="http://www.metadogs.com/images/photos/thumbnails/orchids/dendrobium_pinky_01t.jpg" alt="dendrobium pinky">
-                            <div class="description">dendrobium_pinky</div>
-                        </a>
-                    </li>
-
-                    <li class="photo-set">
-                        <a onClick="showHidePhotoGallery('orchids','dendrobiums horns', 'dendrobiums_horns');return false;" class="photo-set-link" href="/photos/index.jsp">
-                            <img src="http://www.metadogs.com/images/photos/thumbnails/orchids/dendrobiums_horns_04.jpg" alt="dendrobiums horns">
-                            <div class="description">dendrobiums_horns</div>
-                        </a>
-                    </li>
-
-                    <li class="photo-set">
-                        <a onClick="showHidePhotoGallery('orchids','epi cluster', 'epi_cluster');return false;" class="photo-set-link" href="/photos/index.jsp">
-                            <img src="http://www.metadogs.com/images/photos/thumbnails/orchids/epi_cluster_01.jpg" alt="epi cluster">
-                            <div class="description">epi_cluster</div>
-                        </a>
-                    </li>
-
-                    <li class="photo-set">
-                        <a onClick="showHidePhotoGallery('orchids','epidendrum', 'epidendrum');return false;" class="photo-set-link" href="/photos/index.jsp">
-                            <img src="http://www.metadogs.com/images/photos/thumbnails/orchids/epidendrum_02.jpg" alt="epidendrum">
-                            <div class="description">epidendrum</div>
-                        </a>
-                    </li>
-
-                    <li class="photo-set">
-                        <a onClick="showHidePhotoGallery('orchids','mary motes vanda', 'mary_motes_vanda');return false;" class="photo-set-link" href="/photos/index.jsp">
-                            <img src="http://www.metadogs.com/images/photos/thumbnails/orchids/mary_motes_vanda_01.jpg" alt="mary motes vanda">
-                            <div class="description">mary_motes_vanda</div>
-                        </a>
-                    </li>
-
-                    <li class="photo-set">
-                        <a onClick="showHidePhotoGallery('orchids','miltonia purple', 'miltonia_purple');return false;" class="photo-set-link" href="/photos/index.jsp">
-                            <img src="http://www.metadogs.com/images/photos/thumbnails/orchids/miltonia_purple_05.jpg" alt="miltonia purple">
-                            <div class="description">miltonia_purple</div>
-                        </a>
-                    </li>
-
-                    <li class="photo-set">
-                        <a onClick="showHidePhotoGallery('orchids','miltonia purple and white', 'miltonia_purple_and_white');return false;" class="photo-set-link" href="/photos/index.jsp">
-                            <img src="http://www.metadogs.com/images/photos/thumbnails/orchids/miltonia_purple_and_white_03.jpg" alt="miltonia purple and white">
-                            <div class="description">miltonia_purple_and_white</div>
-                        </a>
-                    </li>
-
-                    <li class="photo-set">
-                        <a onClick="showHidePhotoGallery('orchids','oncidium01', 'oncidium01.jpg');return false;" class="photo-set-link" href="/photos/index.jsp">
-                            <img src="http://www.metadogs.com/images/photos/thumbnails/orchids/oncidium01.jpg" alt="oncidium01">
-                            <div class="description">oncidium01.jpg</div>
-                        </a>
-                    </li>
-
-                    <li class="photo-set">
-                        <a onClick="showHidePhotoGallery('orchids','oncidium small', 'oncidium_small');return false;" class="photo-set-link" href="/photos/index.jsp">
-                            <img src="http://www.metadogs.com/images/photos/thumbnails/orchids/oncidium_small_01.jpg" alt="oncidium small">
-                            <div class="description">oncidium_small</div>
-                        </a>
-                    </li>
-
-                    <li class="photo-set">
-                        <a onClick="showHidePhotoGallery('orchids','orchid flower', 'orchid_flower.jpg');return false;" class="photo-set-link" href="/photos/index.jsp">
-                            <img src="http://www.metadogs.com/images/photos/thumbnails/orchids/orchid_flower.jpg" alt="orchid flower">
-                            <div class="description">orchid_flower.jpg</div>
-                        </a>
-                    </li>
-
-                    <li class="photo-set">
-                        <a onClick="showHidePhotoGallery('orchids','orchid shelf', 'orchid_shelf');return false;" class="photo-set-link" href="/photos/index.jsp">
-                            <img src="http://www.metadogs.com/images/photos/thumbnails/orchids/orchid_shelf_062798.jpg" alt="orchid shelf">
-                            <div class="description">orchid_shelf</div>
-                        </a>
-                    </li>
-
-                    <li class="photo-set">
-                        <a onClick="showHidePhotoGallery('orchids','orchidae', 'orchidae');return false;" class="photo-set-link" href="/photos/index.jsp">
-                            <img src="http://www.metadogs.com/images/photos/thumbnails/orchids/orchidae_062798.jpg" alt="orchidae">
-                            <div class="description">orchidae</div>
-                        </a>
-                    </li>
-
-                    <li class="photo-set">
-                        <a onClick="showHidePhotoGallery('orchids','orchids various', 'orchids_various');return false;" class="photo-set-link" href="/photos/index.jsp">
-                            <img src="http://www.metadogs.com/images/photos/thumbnails/orchids/orchids_various_02.jpg" alt="orchids various">
-                            <div class="description">orchids_various</div>
-                        </a>
-                    </li>
-
-                    <li class="photo-set">
-                        <a onClick="showHidePhotoGallery('orchids','papuakea', 'papuakea');return false;" class="photo-set-link" href="/photos/index.jsp">
-                            <img src="http://www.metadogs.com/images/photos/thumbnails/orchids/papuakea_03.jpg" alt="papuakea">
-                            <div class="description">papuakea</div>
-                        </a>
-                    </li>
-
-                    <li class="photo-set">
-                        <a onClick="showHidePhotoGallery('orchids','phalenopsis01', 'phalenopsis01.jpg');return false;" class="photo-set-link" href="/photos/index.jsp">
-                            <img src="http://www.metadogs.com/images/photos/thumbnails/orchids/phalenopsis01.jpg" alt="phalenopsis01">
-                            <div class="description">phalenopsis01.jpg</div>
-                        </a>
-                    </li>
-
-                    <li class="photo-set">
-                        <a onClick="showHidePhotoGallery('orchids','phalenopsis', 'phalenopsis');return false;" class="photo-set-link" href="/photos/index.jsp">
-                            <img src="http://www.metadogs.com/images/photos/thumbnails/orchids/phalenopsis_01t.jpg" alt="phalenopsis">
-                            <div class="description">phalenopsis</div>
-                        </a>
-                    </li>
-
-                    <li class="photo-set">
-                        <a onClick="showHidePhotoGallery('orchids','pink phalenopsis', 'pink_phalenopsis');return false;" class="photo-set-link" href="/photos/index.jsp">
-                            <img src="http://www.metadogs.com/images/photos/thumbnails/orchids/pink_phalenopsis_01.jpg" alt="pink phalenopsis">
-                            <div class="description">pink_phalenopsis</div>
-                        </a>
-                    </li>
-
-                    <li class="photo-set">
-                        <a onClick="showHidePhotoGallery('orchids','purple vanda', 'purple_vanda');return false;" class="photo-set-link" href="/photos/index.jsp">
-                            <img src="http://www.metadogs.com/images/photos/thumbnails/orchids/purple_vanda_06.jpg" alt="purple vanda">
-                            <div class="description">purple_vanda</div>
-                        </a>
-                    </li>
-
-                    <li class="photo-set">
-                        <a onClick="showHidePhotoGallery('orchids','sunflowers01', 'sunflowers01.jpg');return false;" class="photo-set-link" href="/photos/index.jsp">
-                            <img src="http://www.metadogs.com/images/photos/thumbnails/orchids/sunflowers01.jpg" alt="sunflowers01">
-                            <div class="description">sunflowers01.jpg</div>
-                        </a>
-                    </li>
-
-                    <li class="photo-set">
-                        <a onClick="showHidePhotoGallery('orchids','sunflowers02', 'sunflowers02t.jpg');return false;" class="photo-set-link" href="/photos/index.jsp">
-                            <img src="http://www.metadogs.com/images/photos/thumbnails/orchids/sunflowers02t.jpg" alt="sunflowers02">
-                            <div class="description">sunflowers02t.jpg</div>
-                        </a>
-                    </li>
-
-                    <li class="photo-set">
-                        <a onClick="showHidePhotoGallery('orchids','tulips', 'tulips');return false;" class="photo-set-link" href="/photos/index.jsp">
-                            <img src="http://www.metadogs.com/images/photos/thumbnails/orchids/tulips_01t.jpg" alt="tulips">
-                            <div class="description">tulips</div>
-                        </a>
-                    </li>
-
-                    <li class="photo-set">
-                        <a onClick="showHidePhotoGallery('orchids','work orchids', 'work_orchids.jpg');return false;" class="photo-set-link" href="/photos/index.jsp">
-                            <img src="http://www.metadogs.com/images/photos/thumbnails/orchids/work_orchids.jpg" alt="work orchids">
-                            <div class="description">work_orchids.jpg</div>
-                        </a>
-                    </li>
-
-                    <li class="photo-set">
-                        <a onClick="showHidePhotoGallery('orchids','zygo 20071130', 'zygo_20071130');return false;" class="photo-set-link" href="/photos/index.jsp">
-                            <img src="http://www.metadogs.com/images/photos/thumbnails/orchids/zygo_20071130_02.jpg" alt="zygo 20071130">
-                            <div class="description">zygo_20071130</div>
-                        </a>
-                    </li>
-
-                </ul>
-            </section>
             {% endblock %}
             <hr>
         </main>
         {% endblock %}
-
-
-
-
-
-
-
         <section id="photo-list">
         </section>
         <!-- footer -->

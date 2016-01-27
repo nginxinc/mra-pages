@@ -64,24 +64,17 @@ RUN buildDeps=" \
 
 COPY docker-php-ext-* /usr/local/bin/
 
+# Download certificate and key from the customer portal (https://cs.nginx.com)
+# and copy to the build context
+ADD nginx-repo.crt /etc/ssl/nginx/
+ADD nginx-repo.key /etc/ssl/nginx/
+
 # Get other files required for installation
 RUN apt-get update && apt-get install -y \
     wget \
-    jq \
     apt-transport-https \
     python
 
-# Download certificate and key from the the vault and copy to the build context
-ARG VAULT_TOKEN
-RUN mkdir -p /etc/ssl/nginx
-RUN wget -q -O - --header="X-Vault-Token: $VAULT_TOKEN" \
-    http://vault.ngra.ps.nginxlab.com:8200/v1/secret/nginx-repo.crt \
-    | jq -r .data.value > /etc/ssl/nginx/nginx-repo.crt
-RUN wget -q -O - --header="X-Vault-Token: $VAULT_TOKEN" \
-    http://vault.ngra.ps.nginxlab.com:8200/v1/secret/nginx-repo.key \
-    | jq -r .data.value > /etc/ssl/nginx/nginx-repo.key
-
-# Download NGINX Plus
 RUN wget -q -O /etc/ssl/nginx/CA.crt https://cs.nginx.com/static/files/CA.crt && \
     wget -q -O - http://nginx.org/keys/nginx_signing.key | apt-key add - && \
     wget -q -O /etc/apt/apt.conf.d/90nginx https://cs.nginx.com/static/files/90nginx && \

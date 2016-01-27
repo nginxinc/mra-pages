@@ -4,7 +4,7 @@ volumes = -v $(CURDIR)/inginious-pages:/inginious-pages
 ports = -p 80:80
 
 build:
-	docker build  --build-arg VAULT_TOKEN=$(VAULT_TOKEN) -t $(tag) .
+	docker build -t $(tag) .
 
 run:
 	docker run --env-file .env -it $(ports) $(tag)

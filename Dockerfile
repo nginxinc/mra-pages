@@ -98,11 +98,10 @@ RUN curl -sS https://getcomposer.org/installer | php
 RUN php composer.phar require guzzlehttp/guzzle:~6.0
 
 COPY ./inginious-pages/ /inginious-pages
-#RUN ln -sf /dev/stdout /inginious-pages/app/logs/prod.log && \
-RUN chown -R nginx:www-data /inginious-pages/ && \
-    chmod -R 775 /inginious-pages
-#    && \
-#    chmod -R 666 /inginious-pages/app/logs/prod.log
+RUN ln -sf /dev/stdout /inginious-pages/app/logs/prod.log && \
+    chown -R nginx:www-data /inginious-pages/ && \
+    chmod -R 775 /inginious-pages && \
+    chmod -R 666 /inginious-pages/app/logs/prod.log
 COPY ./php.ini /usr/local/etc/php/
 
 COPY ./amplify_install.sh /amplify_install.sh

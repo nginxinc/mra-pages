@@ -1,6 +1,6 @@
-tag = ng-ref-arch/ngra-pages
+tag = ngrefarch/pages
 name = ngra-pages
-volumes = -v $(CURDIR)/inginious-pages:/inginious-pages
+volumes = -v $(CURDIR)/inginious-pages:/inginious-pages -v $(CURDIR)/nginx-php.conf:/etc/nginx/nginx-php.conf
 ports = -p 80:80
 
 build:
@@ -16,4 +16,4 @@ shell:
 	docker run --env-file .env -it $(ports) $(volumes) $(tag) bash
 
 push:
-	docker push $(name)
+	docker push $(tag)

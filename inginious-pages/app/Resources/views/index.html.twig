@@ -1,99 +1,190 @@
-{# app/Resources/views/index.html.twig #}
+
 {% extends 'base.html.twig' %}
 {% block hero %}
-    <section class="hero" style="background-image: url( {{asset('bundles/inginious/images/cover_images/CristoRedentor_PaodeAcucar_1440x420.jpg', version='1.0')}});" >
-        <div class="wrapper" >
-            <h1 class="headline" >inginious photos</h1>
-            {% block subhead %} <h2 class="subhead" >{{ loginRequired | default("From The Sublime To The Bizarre") }}</h2> {% endblock %}
-        </div>
+    <section id="top" class="hero-banner">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="hero-banner-content">
+                    <h1 class="hero-banner-title">Ingenious</h1>
+                    {% block subhead %}
+                    <p class="hero-banner-subtitle">an <img src="{{ asset('bundles/inginious/images/nginx-text-logo.png') }}"> microservies project</p>
+                    {% endblock %}
+                    <a class="scroll-down" href="#about"><img src="{{ asset('bundles/inginious/images/arrow-down.png') }}"></a>
+                </div>
+
+                <div class="gradient"></div>
+            </div>
+        </div> <!--./end container-->
     </section>
 {% endblock %}
 
+{% block about %}
+    <section id="about" class="about">
+        <div class="container">
+            <div class="row">
+                <h2 class="section-title">What is Ingenious?</h2>
+                <p class="section-description">Ingenious is a photo-sharing app built by NGINX to demonstrate microservices architecture. </p>
+                <a class="learn-more" href="#"><img src="{{ asset('bundles/inginious/images/icon-microservices.png') }}"> Learn More</a>
+            </div>
 
+        </div><!--./end container-->
+    </section>
+{% endblock %}
 
 {% block articles %}
-    <section class="articles-container">
+    <section id="about" class="about">
+        <div class="container">
+            <div class="row">
+                <h2 class="section-title">What is Ingenious?</h2>
+                <p class="section-description">Ingenious is a photo-sharing app built by NGINX to demonstrate microservices architecture. </p>
+                <a class="learn-more" href="#"><img src="{{ asset('bundles/inginious/images/icon-microservices.png') }}"> Learn More</a>
+            </div>
 
-        <hr>
-
-
-
-        <div class="article-wrapper">
-
-            <ul class="story">
-                <li class="story-image">
-                    <a class="full-story" href="/#stories/rio-go-for-gold">
-                        <img alt="" src="{{asset('bundles/inginious/images/cover_images/imageRio001_HD.jpg', version='1.0')}}">
-                    </a>
-                </li>
-                <li class="story-content">
-                    <a class="full-story" href="/#stories/rio-go-for-gold">
-                        <h1 class="story-title">Rio -- Go For Gold!</h1>
-                    </a>
-                    <h2 class="story-sub-title"></h2>
-                    <div class="date-line">2016-01-13 23:06:31, Rio, BR</div>
-                    <div class="story-article">
-                        With the summer games coming up this year in Rio, the Inginious staff has decided to publish the best photo series that our users have created of the spectacular vistas and scenes in Rio. Perhaps one of the most enigmatic cities in the world, Rio shows off the beauty and struggle that Brazil, and much of the developing world experiences on a daily basis.
-                    </div>
-                    <a class="full-story" href="/#stories/rio-go-for-gold">Continue Reading</a>
-                    <div class="author">Inginious Editorial Staff</div>
-                </li>
-            </ul>
-        </div>
-
-            <hr>
-
-        <div class="article-wrapper">
-            <ul class="story">
-                <li class="story-image">
-                    <a class="full-story" href="/#stories/paris-glory">
-                        <img alt="" src="{{ asset('bundles/inginious/images/cover_images/eiffel_tower_2000-04_05.jpg')}}">
-                    </a>
-                </li>
-                <li class="story-content">
-                    <a class="full-story" href="/#stories/paris-glory">
-                        <h1 class="story-title">Paris in all it's Glory</h1>
-                    </a>
-                    <h2 class="story-sub-title"></h2>
-                    <div class="date-line">2015-12-07 23:06:31, Paris, FR</div>
-                    <div class="story-article">
-                        Paris has been the center of attention of late for reasons not related to it's beauty, depth of culture, history or fabulous food. The tragic events that unfolded there recently are a stain upon of humanity and are a reminder that even in the most civilized city in the world, barbarism can strike out of the bleu. The editors at Inginious decided to make a photo montage of our favorite, public photos of Paris to remind everyone of its glory, its wonderful people and the beauty that is inherent to the city. Enjoy.
-                    </div>
-                    <a class="full-story" href="/#stories/paris-glory">Continue Reading</a>
-                    <div class="author">Inginious Editorial Staff</div>
-                </li>
-            </ul>
-        </div>
-
-        <hr>
-
-
-
-        <div class="article-wrapper">
-
-            <ul class="story">
-                <li class="story-image">
-                    <a class="full-story" href="/#stories/nyc-b-and-w">
-                        <img alt="" src="{{ asset('bundles/inginious/images/cover_images/an_eye_for_nyc_1999_01.jpg')}}">
-                    </a>
-                </li>
-                <li class="story-content">
-                    <a class="full-story" href="/#stories/nyc-b-and-w">
-                        <h1 class="story-title">Black and White Photos From Around The World</h1>
-                    </a>
-                    <h2 class="story-sub-title"></h2>
-                    <div class="date-line">2015-11-14 23:17:31, Oakland, CA</div>
-                    <div class="story-article">
-                        We have finally gotten around to putting up all the photos we have been taking recently and hopefully they will look better than ever. Shelly, as an early birthday present, got a new Nikon D90 SLR camera. It is basically a good pro-sumer camera that has a good lense, quick focus and high-resolution. The pictures in Adventure Park photos in Double Girl Power  are an example of the kind of pictures that this Camera can take.
-                        <br>
-                    </div>
-                    <a class="full-story" href="/#stories/nyc-b-and-w">Continue Reading</a>
-                    <div class="author">Inginious Editorial Staff</div>
-                </li>
-            </ul>
-        </div>
-
+        </div><!--./end container-->
     </section>
+
+    <section id="articles" class="articles">
+        <div class="container-fluid article-container">
+            <div class="row">
+                <article class="single-post">
+                    <div class="entry-featured col-md-6">
+                        <div class="entry-thumb" style="background-image: url('{{ asset('bundles/inginious/images/rio.jpg') }}');"></div>
+                    </div> <!-- featured image -->
+                    <div class="entry-wrap col-md-6">
+                        <div class="entry-thumb" style="background-image: url('{{ asset('bundles/inginious/images/rio.jpg') }}');"></div>
+                        <div class="entry-inner">
+                            <div class="entry-content">
+                                <h2 class="entry-title"><a href="/stories/rio-go-for-gold">Rio - Go for Gold!</a></h2>
+                                <div class="entry-excerpt">
+                                    <p>With the summer games coming up this year in Rio, the Inginious staff has decided to publish the best photo series that our users have created of the...</p> 
+                                    <a href="/stories/rio-go-for-gold" class="more-link">Read More</a>
+                                </div>
+
+                                <div class="entry-meta">
+                                    <div class="author-meta col-md-6">
+                                        <div class="media">
+                                          <div class="author-avatar media-left">
+                                              <img class="media-object" src="{{ asset('bundles/inginious/images/author-avatar.png') }}" alt="Author">
+                                          </div>
+                                          <div class="media-body">
+                                            <h4 class="author-title">Ingenious Editorial Staff</h4>
+                                          </div>
+                                        </div>
+                                    </div>
+                                    <div class="date-meta col-md-6">
+                                        <p> <time datetime="01-13-16">01/13/16</time> <span class="place-meta">Rio, BR</span></p>
+                                    </div>
+                                </div>
+                            </div><!--./entry content-->
+                        </div><!--./entry inner-->
+                    </div>
+                </article> <!--./single article-->
+                
+                <article class="single-post">
+                    <div class="entry-featured col-md-6">
+                        <div class="entry-thumb" style="background-image: url('{{ asset('bundles/inginious/images/bigsur.jpg') }}');"></div>
+                    </div> <!-- featured image -->
+                    <div class="entry-wrap col-md-6">
+                        <div class="entry-thumb" style="background-image: url('{{ asset('bundles/inginious/images/bigsur.jpg') }}');"></div>
+                        <div class="entry-inner">
+                            <div class="entry-content">
+                                <h2 class="entry-title"><a href="/stories/paris-glory">Big Sur: A California Coast Experience</a></h2>
+                                <div class="entry-excerpt">
+                                    <p>Welcome to one of the world's most unforgettable stretches of coastline. This roughly 90-mile-long stretch of redwood- and fog-trimmed water...</p> 
+                                    <a href="/stories/paris-glory" class="more-link">Read More</a>
+                                </div>
+
+                                <div class="entry-meta">
+                                    <div class="author-meta col-md-6">
+                                        <div class="media">
+                                          <div class="author-avatar media-left">
+                                              <img class="media-object" src="{{ asset('bundles/inginious/images/author-avatar-2.png') }}" alt="Author">
+                                          </div>
+                                          <div class="media-body">
+                                            <h4 class="author-title">Chris Stetson</h4>
+                                          </div>
+                                        </div>
+                                    </div>
+                                    <div class="date-meta col-md-6">
+                                        <p> <time datetime="01-13-16">01/13/16 </time> <span class="place-meta">Posts, CA</span></p>
+                                    </div>
+                                </div>
+                            </div><!--./entry content-->
+                        </div><!--./entry inner-->
+                    </div>
+                </article> <!--./single article-->
+                
+                <article class="single-post">
+                    <div class="entry-featured col-md-6">
+                        <div class="entry-thumb" style="background-image: url('{{ asset('bundles/inginious/images/paris.jpg') }}');"></div>
+                    </div> <!-- featured image -->
+                    <div class="entry-wrap col-md-6">
+                        <div class="entry-thumb" style="background-image: url('{{ asset('bundles/inginious/images/paris.jpg') }}');"></div>
+                        <div class="entry-inner">
+                            <div class="entry-content">
+                                <h2 class="entry-title"><a href="/stories/nyc-b-and-w">Paris in All its Glory</a></h2>
+                                <div class="entry-excerpt">
+                                    <p>Paris has been the center of attention of late for reasons not related to it's beauty, depth of culture, history or fabulous food. The tragic events...</p> 
+                                    <a href="/stories/nyc-b-and-w" class="more-link">Read More</a>
+                                </div>
+
+                                <div class="entry-meta">
+                                    <div class="author-meta col-md-6">
+                                        <div class="media">
+                                          <div class="author-avatar media-left">
+                                              <img class="media-object" src="{{ asset('bundles/inginious/images/author-avatar.png') }}" alt="Author">
+                                          </div>
+                                          <div class="media-body">
+                                            <h4 class="author-title">Ingenious Editorial Staff</h4>
+                                          </div>
+                                        </div>
+                                    </div>
+                                    <div class="date-meta col-md-6">
+                                        <p> <time datetime="01-13-16">01/13/16</time> <span class="place-meta">Paris, FR</span></p>
+                                    </div>
+                                </div>
+                            </div><!--./entry content-->
+                        </div><!--./entry inner-->
+                    </div>
+                </article> <!--./single article-->
+
+                <article class="single-post">
+                    <div class="entry-featured col-md-6">
+                        <div class="entry-thumb" style="background-image: url('{{ asset('bundles/inginious/images/blackandwhite.jpg') }}');"></div>
+                    </div> <!-- featured image -->
+                    <div class="entry-wrap col-md-6">
+                        <div class="entry-thumb" style="background-image: url('{{ asset('bundles/inginious/images/blackandwhite.jpg') }}');"></div>
+                        <div class="entry-inner">
+                            <div class="entry-content">
+                                <h2 class="entry-title"><a href="/stories/nyc-b-and-w">Black and White Photos from Around the World</a></h2>
+                                <div class="entry-excerpt">
+                                    <p>We have finally gotten around to putting up all the photos we have been taking recently and hopefully they will look better than ever. Shelly, as an early...</p> 
+                                    <a href="/stories/nyc-b-and-w" class="more-link">Read More</a>
+                                </div>
+
+                                <div class="entry-meta">
+                                    <div class="author-meta col-md-6">
+                                        <div class="media">
+                                          <div class="author-avatar media-left">
+                                              <img class="media-object" src="{{ asset('bundles/inginious/images/author-avatar.png') }}" alt="Author">
+                                          </div>
+                                          <div class="media-body">
+                                            <h4 class="author-title">Ingenious Editorial Staff</h4>
+                                          </div>
+                                        </div>
+                                    </div>
+                                    <div class="date-meta col-md-6">
+                                        <p> <time datetime="01-13-16">01/13/16</time> <span class="place-meta">Oakland, CA</span></p>
+                                    </div>
+                                </div>
+                            </div><!--./entry content-->
+                        </div><!--./entry inner-->
+                    </div>
+                </article> <!--./single article-->
+            </div>
+
+        </div><!--./end container-->
+    </section><!-- ./ end page content-->
 
 {% endblock %}
 {% block albums %}

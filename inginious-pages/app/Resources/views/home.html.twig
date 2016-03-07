@@ -7,17 +7,28 @@
         </div>
     {% endblock %}
  {% block hero %}
-     {% if banner == null %}
-    <script> $(document).ready(function() {$('.hero').css('cursor', 'hand');});</script>
-     <section class="hero" onclick="location.href='/account';t" style="background-image: url( {{asset('bundles/inginious/images/banner_upload.png', version='1.0')}});" >
-      {% else %}
-     <section class="hero" style="background-image: url( {{ banner }});" >
-     {% endif %}
-         <div class="wrapper" >
-             <h1 class="headline" >inginious photos</h1>
-             {% block subhead %} <h2 class="subhead" >{{ banner_message }} </h2> {% endblock %}
-         </div>
-     </section>
+     
+        <section class="photos hero-banner" style="background: url('{{ banner }}') 50% 50% / cover no-repeat scroll rgba(0, 0, 0, 0);">
+            <div class="inner"></div>
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="profile-content">
+                        <div class="profile-photo">
+                            <img src="{{ asset('bundles/inginious/images/profile-picture.png' ) }}">
+                        </div>
+                        <h1 class="profile-title">{{ firstName }} {{ lastName }}</h1>
+                        <div class="add-cover">
+                            <a href="#" class="photo-set-link">
+                            <img onClick="showHideUploadPanel(this, '#upload-panel',true);return false;"  src="{{ asset('bundles/inginious/images/icon-plus-light.png' ) }}">
+                                <p>Add a <br> cover photo</p>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="gradient"></div>
+                </div>
+            </div> <!--./end container-->
+        </section><!-- ./ end page content-->
+     
  {% endblock %}
 {% block albums %}
     {{ include('catalog.html.twig') }}

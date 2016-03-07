@@ -1,0 +1,42 @@
+{# app/Resources/views/home.html.twig #}
+{# app/Resources/views/banners.html.twig #}
+{% extends 'base.html.twig' %}
+    {% block loginButton %}
+        
+    {% endblock %}
+
+{% block pagebody %}
+<section id="about" class="page hero-banner">
+    <div class="inner"></div>
+    <div class="container-fluid">
+        <div class="row">
+            {% block hero %}
+            <div class="page-header">
+                <img class="page-title-icon" src="{{ asset('bundles/inginious/images/icon-microservices.png') }}">
+                <h1 class="page-title">About Microservices</h1>
+                <a class="learn-more-btn" href="#">Learn more at nignx.com</a>
+            </div>
+            <div class="page-gradient"></div>
+            {% endblock %}
+            {% block article %}
+            <div class="page-content">
+                <h2>Introduction</h2>
+                <p>NGINX has begun exploring the frontiers of microservice application development through our NGINX Microservices Reference Architecture -- a prototypical photo storage and sharing site. This blog post is the first in a series of articles dedicated to exploring the real world problems and solutions that developers, architects and operations engineers deal with on a daily basis in building their web-scale applications. This first article will deal with an area that has been largely ignored in the microservices arena: the web front-end. While many articles and books have been written about service design, there is a paucity of information about how to integrate rich, user-experience-based web development with microservice applications and development processes. This article attempts to provide a solution to the thorny problem of web development in a microservice application.</p>
+
+                <p>In many respects, the most complex component of your microservice-based application is the web front-end. On a technical level, it combines business and display logic using a combination of JavaScript, a server language like PHP, HTML and CSS. Adding more complexity, the user experience of the web app typically crosses backend, microservice boundaries making the web component a default control layer. This is typically implemented through some sort of state machine, but must also be fluid, performant and elegant. These user experience requirements run counter to the design philosophy of the modern, microservice web which is small, focused, and ephemeral. In many respects, it is better to compare the web front-end of an app to an iOS or Android client which is both a service-based client and a rich application unto itself. Our approach to building a web front-end combines the best of both web application design with microservice philosophy; providing a rich user experience that is service-based, stateless and connected. When building a microservice web component, the solution revolves around MVC for control, attached resources to maintain session state and NGINX routing to provide access to services. </p>
+
+                <hr/>
+
+                <h2>MVC for control</h2>
+                <p>One of the most important technical steps forward in web application design has been the adoption of Model-View-Controller (MVC) frameworks. MVC frameworks can be found in every major language from Symfony on PHP to Spring in Java, Sinatra in Ruby, and even on the browser with JavaScript frameworks like EmberJS. MVC frameworks help tease out code into areas of like concerns -- display logic is managed in views, data structures are managed in models and state changes and data manipulation happen through controllers. Without an MVC framework, control logic is often intermixed with display logic on the page -- a pattern that is typical in standard PHP development. </p>
+
+                <p>The clear division of labor found in MVC helps in the process of converting web applications into microservice-like, front-end components. Fortunately, the biggest area of change is confined to the controller layer. Views don’t need to change in any significant way -- the process of displaying data does not change significantly in the stateless, ephemeral manner of a microservice. Similarly, models in an MVC system map to the data structures of microservices and the default approach to interact with the models is through the microservices that manage them. In many respects, this makes model development easier because the data structures and manipulation methods are the domain of the microservice teams that implement them and don’t need to be created by the web front-end team.</p>
+
+                <img src="{{ asset('bundles/inginious/images/diagram.png') }}">
+
+            </div>
+            {% endblock %}
+        </div>
+    </div> <!--./end container-->
+</section><!-- ./ end post content-->
+{% endblock %}

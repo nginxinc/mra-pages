@@ -1,122 +1,101 @@
 {# app/Resources/views/home.html.twig #}
 
-{% block head %}
-<HEAD>
-    <TITLE>Inginious Photos</TITLE>
-
-    {% block meta %}
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimal-ui" />
-    <meta charset="utf-8" />
-    <meta NAME="keywords" CONTENT="NGINX, NGINX Plus, NGRA, Reference Architecture">
-    <meta NAME="description" CONTENT="The NGINX Microservices Reference Architecture">
-    <meta name="google-signin-scope" content="profile email">
-    <meta name="google-signin-client_id" content="129544795844-404ld40323v59g792dp147dspiiseu1b.apps.googleusercontent.com">
+    {% block head %}
+    <head>
+        <title>Inginious Photos</title>
+        
+        {% block meta %}
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <meta name="description" content="">
+        <!--meta name="viewport" content="width=device-width, initial-scale=1"-->
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimal-ui" />
+        <meta NAME="keywords" CONTENT="NGINX, NGINX Plus, NGRA, Reference Architecture">
+        <meta NAME="description" CONTENT="The NGINX Microservices Reference Architecture">
+        <meta name="google-signin-scope" content="profile email">
+        <meta name="google-signin-client_id" content="129544795844-404ld40323v59g792dp147dspiiseu1b.apps.googleusercontent.com">
+        {% endblock %}
+        
+        {% block favicon %}
+        <link rel="icon" type="image/png" href="https://www.nginx.com/wp-content/themes/nginx-theme/assets/images/nginx-favicon.png">
+        {% endblock %}
+        
+        {% block iconset %}
+        <link rel="icon" type="image/png" href="{{ asset('bundles/inginious/images/favicon.png') }}" />
+        <link rel="apple-touch-icon" href="{{ asset('bundles/inginious/images/apple-touch-icon.png') }}">
+        {% endblock %}
+        
+        {% block stylesheets %}
+        <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet" />
+        <link rel="stylesheet" href="{{ asset('bundles/inginious/lightgallery/css/lightgallery.css') }}">
+        <link href="{{ asset('bundles/inginious/css/fonts.css') }}" rel="stylesheet" />
+        <link href="{{ asset('bundles/inginious/css/style.css') }}" rel="stylesheet" />
+        {% endblock %}
+        
+    </head>
     {% endblock %}
-
-    {% block stylesheets %}
-        <link href="{{ asset('bundles/inginious/css/main.css') }}" rel="stylesheet" />
-    {% endblock %}
-
-    {% block favicon %}
-    <link rel="icon" type="image/png" href="https://www.nginx.com/wp-content/themes/nginx-theme/assets/img/nginx-favicon.png">
-    {% endblock %}
-    {% block javascripts %}
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
-        <script src="https://hammerjs.github.io/dist/hammer.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js"></script>
-        <script src="https://apis.google.com/js/platform.js" async defer></script>
-        <script src="{{ asset('bundles/inginious/js/inginious.js') }}"></script>
-        <script src="{{ asset('bundles/inginious/js/js.cookie.js') }}"></script>
-    {% endblock %}
-
-
-</HEAD>
-{% endblock %}
-<body>
+    
+    <body>
     {% block bodycontainer %}
-    <div class="container">
-        <!-- header -->
-        {% block pagehead %}
-        <header class="pg-hd">
-            {% block headlogo %}
-                {{ include('login_panel.html.twig') }}
-                <section>
-                    <div class="menu-login">
-                        {% block loginButton %}
-                            <div id="login-control">
-                                <img id="login-button" onclick="showHideControlPanel(this, '#login-panel')" src='{{ asset('bundles/inginious/images/login.png', version='1.0') }}'>
-                            </div>
-                        {% endblock %}
-                        <img onClick="showHideMenu()" class="hamburger" alt='menu' src='{{ asset('bundles/inginious/images/hamburger.png', version='1.0') }}'>
+        <main role="main">
+            
+            {% block pagehead %}
+                <!--Offcanvas Nav-->
+                {{ include( 'nav_header.html.twig' ) }}
+            {% endblock %}
+            
+            {% block pagebody %}
+                <!-- Page content-->
+                {% block hero %}
+                
+                {% endblock %}
+            
+                {% block article %}
+                    
+                {% endblock %}
+                
+                {% block articles %}
+                    <section class="articles-container">
+        
+                        <div id="next-content"></div>
+        
+                    </section>
+                {% endblock %}
+                
+                {% block albums %}
+
+                {% endblock %}
+            
+            {% endblock %}
+            
+            {% block footer %}
+                <footer class="colophon-bottom">
+                    <div class="footer-inner">
+                        <div class="footer-content">
+                            <h2>an NGINX microservices project</h2>
+                            <img class="footer-logo" src="{{ asset('bundles/inginious/images/nginx-logo.png') }}">
+                            <p class="footer-copyright">&copy; 2015, NGINX Corp., all rights reserved.</p>
+                        </div>
                     </div>
-            </section>
+                </footer>
             {% endblock %}
-             <!-- Mobile Menu -->
-            {% block mobilenav %}
-            <div class="topdown-menu">
-
-                <div class="topdown-menu__nav">
-                    <ul>
-                        <li><a href="/">Home</a></li>
-                        <li><a href="/myphotos">My Photos</a></li>
-                        <li><a href="/account">My Account</a></li>
-                    </ul>
-                </div>
-                <div class="topdown-menu__branding">
-                    <h5>NGINX Reference Architecture</h5>
-                    <p class="branding-logo">inginious photos</p>
-                    <p>&copy; 2015, NGINX Corp</p>
-                </div>
-            </div>
-            {% endblock %}
-            <!--/mobile menu -->
-        </header>
-        {% endblock %}
-
-        {% block pagebody %}
-        <main class="pg-bd">
-            {% block hero %}
-            <section class="hero" style="background-image: url('{{ asset('bundles/inginious/images/cover_images/photos.jpg') }}')" >
-                <div class="wrapper" >
-                    <h1 class="headline" >inginious photos</h1>
-                    {% block subhead %}<h2 class="subhead" >From the sublime to the bizarre.</h2>{% endblock %}
-                </div>
-            </section>
-            {% endblock %}
-            {% block articles %}
-            <section class="articles-container">
-
-                <div id="next-content"></div>
-
-                <hr>
-            </section>
-            <hr>
-            {% endblock %}
-            {% block albums %}
-
-            {% endblock %}
-            <hr>
         </main>
+        
+        {% block javascripts %}
+            <!-- Scripts -->
+            <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+            <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+            <script src="https://hammerjs.github.io/dist/hammer.js"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js"></script>
+            <script src="https://apis.google.com/js/platform.js" async defer></script>
+            <script src="{{ asset('bundles/inginious/js/inginious.js') }}"></script>
+            <script src="{{ asset('bundles/inginious/js/js.cookie.js') }}"></script>
+            <script src="{{ asset('bundles/inginious/lightgallery/js/lightgallery.min.js') }}"></script>
+            <script src="{{ asset('bundles/inginious/js/main.js') }}"></script>
+            <!-- ./Scripts -->
         {% endblock %}
-        <section id="photo-list">
-        </section>
-        <!-- footer -->
-        {% block footer %}
-        <footer class="pg-ft">
-            <div class="wrapper">
-                <ul class="branding">
-                    <li class="copyright">&copy; 2015, NGINX Corp., all rights reserved.</li>
-                    <li class="branding-logo">
-                        inginious photos
-                    </li>
-                </ul>
-            </div>
-
-        </footer>
-        {% endblock %}
-        <!--/footer-->
-    </div>
+    
     {% endblock %}
-
-</body>
+    </body>
+    
 </html>

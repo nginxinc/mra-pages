@@ -9,7 +9,11 @@ $(document).ready(function() {
         updateUser(event)
     });
     $( "#album-upload" ).submit(function( event ) {
-        uploadBanner(event);bannerAlbumBool=true;
+        createAlbum(event);
+    });
+    $( "#upload-banner-button" ).click(function( event ) {
+        uploadBanner(event);
+        bannerAlbumBool=true;
     });
 });
 var galleryIsOpen = false;

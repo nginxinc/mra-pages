@@ -103,7 +103,7 @@
                                 console.log('Welcome!  Fetching your information.... ');
                                 FB.api('/me', function(response) {
                                     console.log('Successful login for: ' + response.name);
-                                    document.getElementById( 'ing_fb_login' ).innerHTML = 'Logged in Facebook';
+                                    document.getElementById( 'ing_fb_login' ).innerHTML = 'Logged in via Facebook';
                     //                document.getElementById('status').innerHTML =
                     //                        'Thanks for logging in, ' + response.name + '!';
                                 });
@@ -163,7 +163,7 @@
                     
                                 if (loggedIn === 'true')
                                 {
-                                    document.getElementById( 'ing_gp_login' ).innerHTML = 'Logged in Google';
+                                    document.getElementById( 'ing_gp_login' ).innerHTML = 'Logged in via Google';
                     //                window.location.href = '/hello';
                                 }
                                 //Cookies.set('logged_in', 'true');

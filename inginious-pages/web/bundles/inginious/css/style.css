@@ -1262,7 +1262,8 @@ form #upload-thumb-proto {
 .albums .page-content {
   max-width: 100%;
   width: 100%;
-  padding: 0 140px;
+  /*padding: 0 140px;*/
+  padding: 0 60px;
 }
 
 .albums .album-container, .albums .cat-album-container {
@@ -1270,8 +1271,10 @@ form #upload-thumb-proto {
 }
 
 .albums .album-thumb {
-  padding: 0 25px;
-  height: 228px;
+  /*padding: 0 25px;
+  height: 228px;*/
+  padding: 0 10px !important;
+  height: 230px;
 }
 
 .albums .album-thumb figure {
@@ -1286,8 +1289,11 @@ form #upload-thumb-proto {
 }
 
 .albums .album-thumb img {
-  height: 90px;
-  max-width: 100%;
+  /*height: 90px;
+  max-width: 100%;*/
+  height: 150px;
+    width: 150px;
+    margin-bottom: 0px;
 }
 
 .albums .album-thumb .album-caption {
@@ -1295,7 +1301,7 @@ form #upload-thumb-proto {
   font-family: "AKTIV GROTESK W01 Thin",sans-serif;
   font-size: 18px;
   letter-spacing: 0.5px;
-  margin: 20px auto;
+  margin: 20px auto 0;
   text-align: center;
 }
 
@@ -1520,8 +1526,10 @@ form #upload-thumb-proto {
 }
 
 .lg-toolbar {
-  background: transparent;
+  display: none;
 }
+
+/* Add photo/album */
 
 .add-photo, .add-cover-photo, .add-album {
   background: rgba(0, 0, 0, 0.9) none repeat scroll 0 0;
@@ -1597,19 +1605,59 @@ form #upload-thumb-proto {
   border: 1px solid #9b9b9b;
 }
 
-.profile-update-form .cancel-upload {
+.profile-update-form .form-loading {
   display: block;
   float: none;
   margin: 40px auto;
   padding: 0;
   width: 30px;
+  opacity: 0;
 }
 
-.profile-update-form .cancel-upload img {
+.profile-update-form .form-loading img {
+  display: block;
+  margin: 0 auto;
+  width: 30px;
+-webkit-animation: spin 2s infinite linear;
+-moz-animation: spin 2s infinite linear;
+-o-animation: spin 2s infinite linear;
+-ms-animation: spin 2s infinite linear;
+}
+
+@-webkit-keyframes spin {
+0% { -webkit-transform: rotate(0deg);}
+100% { -webkit-transform: rotate(360deg);}
+}
+@-moz-keyframes spin {
+0% { -moz-transform: rotate(0deg);}
+100% { -moz-transform: rotate(360deg);}
+}
+@-o-keyframes spin {
+0% { -o-transform: rotate(0deg);}
+100% { -o-transform: rotate(360deg);}
+}
+@-ms-keyframes spin {
+0% { -ms-transform: rotate(0deg);}
+100% { -ms-transform: rotate(360deg);}
+}
+
+.form-loading.show-loader{
+  opacity: 1;
+}
+
+.cancel-upload {
+  position: fixed;
+  top: 50px;
+  right: 50px;
+}
+
+.cancel-upload img {
   display: block;
   margin: 0 auto;
   width: 30px;
 }
+
+
 
 a:focus, a:active, 
 button::-moz-focus-inner,
@@ -1632,15 +1680,21 @@ input[type="file"] > input[type="button"]::-moz-focus-inner {
   display: none;
 }
 
-.add-photo.open,
-.add-cover-photo.open,
-.add-album.open {
-  opacity: 1;
+.add-photo.open, .add-cover-photo.open, .add-album.open {
   display: block;
+  opacity: 1;
+  z-index: 999999;
 }
 
 .hide-overflow{
   overflow: hidden;
 }
 
+
+/* Add loading animation */
+
+.show-loading {
+
+
+}
 

@@ -64,16 +64,23 @@ RUN buildDeps=" \
 
 COPY docker-php-ext-* /usr/local/bin/
 
-# Download certificate and key from the customer portal (https://cs.nginx.com)
-# and copy to the build context
-ADD nginx-repo.crt /etc/ssl/nginx/
-ADD nginx-repo.key /etc/ssl/nginx/
 
 # Get other files required for installation
 RUN apt-get update && apt-get install -y \
     wget \
     apt-transport-https \
+    jq \
     python
+
+# Download certificate and key from the customer portal (https://cs.nginx.com)
+# and copy to the build context
+#ADD nginx-repo.crt /etc/ssl/nginx/
+#ADD nginx-repo.key /etc/ssl/nginx/
+ARG VAULT_TOKEN
+
+RUN mkdir -p /etc/ssl/nginx
+RUN wget -q -O - --header="X-Vault-Token: $VAULT_TOKEN" http://vault.ngra.ps.nginxlab.com:8200/v1/secret/nginx-repo.crt | jq -r .data.value > /etc/ssl/nginx/nginx-repo.crt
+RUN wget -q -O - --header="X-Vault-Token: $VAULT_TOKEN" http://vault.ngra.ps.nginxlab.com:8200/v1/secret/nginx-repo.key | jq -r .data.value > /etc/ssl/nginx/nginx-repo.key
 
 RUN wget -q -O /etc/ssl/nginx/CA.crt https://cs.nginx.com/static/files/CA.crt && \
     wget -q -O - http://nginx.org/keys/nginx_signing.key | apt-key add - && \
@@ -91,6 +98,7 @@ RUN chown -R nginx /var/log/nginx/
 
 COPY ./php5-fpm.conf /etc/php5/fpm/php-fpm.conf
 COPY ./nginx-php.conf /etc/nginx/
+COPY ./nginx-ssl.conf /etc/nginx/
 COPY ./nginx-gz.conf /etc/nginx/
 COPY ./php-start.sh /php-start.sh
 COPY ./composer.phar /composer.phar
@@ -110,4 +118,4 @@ RUN API_KEY='0202c79a3d8411fcf82b35bc3d458f7e' HOSTNAME='pages' sh ./amplify_ins
 
 CMD ["/php-start.sh"]
 
-EXPOSE 80
+EXPOSE 80 443

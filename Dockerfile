@@ -102,6 +102,7 @@ COPY ./nginx-ssl.conf /etc/nginx/
 COPY ./nginx-gz.conf /etc/nginx/
 COPY ./php-start.sh /php-start.sh
 COPY ./composer.phar /composer.phar
+COPY ./*.pem /etc/ssl/nginx/
 
 RUN curl -sS https://getcomposer.org/installer | php
 RUN php composer.phar require guzzlehttp/guzzle:~6.0

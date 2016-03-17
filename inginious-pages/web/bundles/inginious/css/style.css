@@ -1281,6 +1281,8 @@ form #upload-thumb-proto {
   max-height: 300px;
   margin: 0;
   overflow: hidden;
+  width: 150px;
+  height: 150px;
 }
 
 .albums .album-thumb a {
@@ -1291,9 +1293,10 @@ form #upload-thumb-proto {
 .albums .album-thumb img {
   /*height: 90px;
   max-width: 100%;*/
-  height: 150px;
-    width: 150px;
+  /*height: 150px;
+    width: 150px;*/
     margin-bottom: 0px;
+    width: 100%;
 }
 
 .albums .album-thumb .album-caption {

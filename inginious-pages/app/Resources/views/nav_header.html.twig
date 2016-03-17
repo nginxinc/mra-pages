@@ -43,12 +43,12 @@
             <div class="profile-update-form">
                 <h1 class="page-title">Add a Photo</h1>
                 <form id="addPhotoForm" method="post" class="form-horizontal" action="#">
-                    <div class="form-group">
+                    <!--div class="form-group">
                         <label class="col-xs-4 col-sm-3 col-sm-offset-1 control-label">URL</label>
                         <div class="col-xs-8">
                             <input type="text" class="form-control" name="name" placeholder="Paste a URL here" />
                         </div>
-                    </div>
+                    </div-->
 
                     <div class="form-group">
                         <label class="col-xs-4 col-sm-3 col-sm-offset-1 control-label">Upload</label>
@@ -84,6 +84,9 @@
                         </div>
                     </div>
                 </form>
+                <div class="cancel-upload">
+                    <a href="#"><img src="{{ asset('bundles/inginious/images/nav-close-light.png') }}"></a>
+                </div>
             </div>
         </div> <!-- Add photo end -->
 
@@ -129,19 +132,22 @@
                         </div>
                     </div>
                 </form>
+                <div class="cancel-upload">
+                    <a href="#"><img src="{{ asset('bundles/inginious/images/nav-close-light.png') }}"></a>
+                </div>
             </div>
         </div> <!-- Add photo end -->
 
         <div id="add-cover-photo" class="add-cover-photo close">
             <div class="profile-update-form">
-                <h1 class="page-title">Add an Cover Photo</h1>
+                <h1 class="page-title">Add a Cover Photo</h1>
                 <form id="addCoverForm" method="post" class="form-horizontal" action="#">
-                    <div class="form-group">
+                    <!--div class="form-group">
                         <label class="col-xs-4 col-sm-3 col-sm-offset-1 control-label">URL</label>
                         <div class="col-xs-8">
                             <input type="text" class="form-control" name="name" placeholder="Paste a URL here" />
                         </div>
-                    </div>
+                    </div-->
 
                     <div class="form-group">
                         <label class="col-xs-4 col-sm-3 col-sm-offset-1 control-label">Add Photos</label>
@@ -163,6 +169,9 @@
                         </div>
                     </div>
                 </form>
+                <div class="cancel-upload">
+                    <a href="#"><img src="{{ asset('bundles/inginious/images/nav-close-light.png') }}"></a>
+                </div>
             </div>
         </div> <!-- Add cover photo -->
     {% endblock %}

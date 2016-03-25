@@ -115,7 +115,7 @@ RUN ln -sf /dev/stdout /inginious-pages/app/logs/prod.log && \
 COPY ./php.ini /usr/local/etc/php/
 
 COPY ./amplify_install.sh /amplify_install.sh
-RUN API_KEY='0202c79a3d8411fcf82b35bc3d458f7e' HOSTNAME='pages' sh ./amplify_install.sh
+RUN API_KEY='0202c79a3d8411fcf82b35bc3d458f7e' HOSTNAME='mesos-pages' sh ./amplify_install.sh
 
 CMD ["/php-start.sh"]
 

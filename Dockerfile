@@ -1,4 +1,4 @@
-FROM php:5.5.33-fpm
+FROM php:7.0.5-fpm
 
 # Download certificate and key from the customer portal (https://cs.nginx.com)
 # and copy to the build context
@@ -46,6 +46,17 @@ COPY php.ini /usr/local/etc/php/
 
 COPY amplify_install.sh /amplify_install.sh
 RUN API_KEY='0202c79a3d8411fcf82b35bc3d458f7e' HOSTNAME='pages' sh /amplify_install.sh
+
+# install New Relic
+ENV NR_INSTALL_SILENT 1
+ENV NR_INSTALL_KEY 30d86de372edded790894f46704b09866ed3e1c5
+ENV NR_INSTALL_PHPLIST /usr/local/bin
+
+RUN echo newrelic-php5 newrelic-php5/application-name string "Pages" | debconf-set-selections && \
+		wget -O - https://download.newrelic.com/548C16BF.gpg | apt-key add - && \
+		sh -c 'echo "deb http://apt.newrelic.com/debian/ newrelic non-free" > /etc/apt/sources.list.d/newrelic.list'
+
+RUN apt-get update && apt-get install -y newrelic-php5
 
 CMD ["/php-start.sh"]
 

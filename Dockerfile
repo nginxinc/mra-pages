@@ -114,7 +114,7 @@ RUN ln -sf /dev/stdout /inginious-pages/app/logs/prod.log && \
     chmod -R 666 /inginious-pages/app/logs/prod.log
 COPY ./php.ini /usr/local/etc/php/
 COPY ./amplify_install.sh /amplify_install.sh
-COPY ./nginx/status.html /usr/share/nginx/html/status.html
+COPY .status.html /usr/share/nginx/html/status.html
 
 RUN API_KEY='0202c79a3d8411fcf82b35bc3d458f7e' HOSTNAME='mesos-pages' sh ./amplify_install.sh
 

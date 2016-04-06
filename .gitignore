@@ -87,3 +87,9 @@ uiDesigner.xml
 #npm-gulp ignore
 less-css/node_modules
 .idea
+orig_nginx-repo.crt
+orig_nginx-repo.key
+java_pid28412.hprof
+.hprof
+jmeter.log
+nginx

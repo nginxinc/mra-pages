@@ -8,6 +8,13 @@ $(document).ready(function() {
     $("#update-account-button").click(function (event) {
         updateUser(event)
     });
+    $( "#album-upload" ).submit(function( event ) {
+        createAlbum(event);
+    });
+    $( "#upload-banner-button" ).click(function( event ) {
+        uploadBanner(event);
+        bannerAlbumBool=true;
+    });
 });
 var galleryIsOpen = false;
 var slideToPosition = 0;

@@ -94,3 +94,8 @@ java_pid28412.hprof
 jmeter.log
 nginx
 *.pem
+.pem
+certificate.pem
+csr.pem
+dhparam.pem
+key.pem

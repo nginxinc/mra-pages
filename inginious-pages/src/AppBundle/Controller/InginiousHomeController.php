@@ -64,7 +64,12 @@ class InginiousHomeController extends Controller
      */
     public function indexAction(Request $request)
     {
-        return $this->render('/index.html.twig');
+        return $this->render(
+            '/index.html.twig',
+            [
+                'uploader' => $this->getPhotoUploader()->getUploaderPath()
+            ]
+            );
     }
     
     /**
@@ -107,7 +112,8 @@ class InginiousHomeController extends Controller
             $response->setStatusCode(Response::HTTP_FORBIDDEN);
             return $this->render('/index.html.twig',
                 [
-                    'loginRequired' => $this->loginRequired
+                    'loginRequired' => $this->loginRequired,
+                    'uploader' => $this->getPhotoUploader()->getUploaderPath()
                 ]
             );
 
@@ -131,7 +137,7 @@ class InginiousHomeController extends Controller
                     'catelog' => $catalog,
                     'catalogID' => $this->firstName . ' ' . $this->lastName . "&acute;s Photos",
                     'catalog' => $this->getPhotoManager($request)->getCatalog(),
-                    'uploader' => $this->getPhotoUploader()->getUploaderPath(),
+                    'uploader' => $this->getPhotoUploader()->getUploaderPath()
                 ]
 
             );
@@ -157,6 +163,7 @@ class InginiousHomeController extends Controller
                     'firstName' => $this->firstName,
                     'lastName' => $this->lastName,
                     'authenticated' => 'header',
+                    'uploader' => $this->getPhotoUploader()->getUploaderPath(),
                     'catalog' => $catalog
                 ]
             );
@@ -180,6 +187,7 @@ class InginiousHomeController extends Controller
                     'firstName' => $this->firstName,
                     'lastName' => $this->lastName,
                     'authenticated' => 'header',
+                    'uploader' => $this->getPhotoUploader()->getUploaderPath(),
                     'catalog' => $catalog
                 ]
             );
@@ -203,6 +211,7 @@ class InginiousHomeController extends Controller
                     'firstName' => $this->firstName,
                     'lastName' => $this->lastName,
                     'authenticated' => 'header',
+                    'uploader' => $this->getPhotoUploader()->getUploaderPath(),
                     'catalog' => $catalog
                 ]
             );
@@ -233,6 +242,7 @@ class InginiousHomeController extends Controller
                     'catalog' => $catalog,
                     'album' => $album,
                     'albumName' => $albumName,
+                    'uploader' => $this->getPhotoUploader()->getUploaderPath(),
                     'images' => $images
                 ]
             );
@@ -260,6 +270,7 @@ class InginiousHomeController extends Controller
                     'catalogID' => $catalogID,
                     'catalog' => $catalog,
                     'album' => $album,
+                    'uploader' => $this->getPhotoUploader()->getUploaderPath(),
                     'images' => $images
                 ]
             );
@@ -289,6 +300,7 @@ class InginiousHomeController extends Controller
                     'authenticated' => 'header',
                     'album' => $album,
                     'catalog' => $catalog,
+                    'uploader' => $this->getPhotoUploader()->getUploaderPath(),
                     'images' => $photos
                 ]
             );

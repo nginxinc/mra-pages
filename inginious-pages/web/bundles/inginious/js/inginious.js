@@ -144,7 +144,7 @@ function createAlbum(event, thisPromise ) {
      */
     event.preventDefault();
     uploaded = 0;
-    $('#upload-panel').animate({width:'90%'});
+    //$('#upload-panel').animate({width:'90%'});
     $('#result').show();
     var albumIDPromise = new Promise( function (resolve, reject) {
             initAlbum($("#album-name").val(), resolve, reject);

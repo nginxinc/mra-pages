@@ -87,3 +87,4 @@ uiDesigner.xml
 #npm-gulp ignore
 less-css/node_modules
 .idea
+inginious-pages/app/bootstrap.php.cache

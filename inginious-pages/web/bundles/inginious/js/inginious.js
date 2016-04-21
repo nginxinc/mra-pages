@@ -8,6 +8,9 @@ $(document).ready(function() {
     $("#update-account-button").click(function (event) {
         updateUser(event)
     });
+    $( "#album-upload" ).submit(function( event ) {
+        uploadBanner(event);bannerAlbumBool=true;
+    });
 });
 var galleryIsOpen = false;
 var slideToPosition = 0;

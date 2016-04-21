@@ -66,7 +66,7 @@ class InginiousHomeController extends Controller
     {
         return $this->render('/index.html.twig');
     }
-
+    
     /**
      * @Route("/myphotos")
      */
@@ -84,6 +84,7 @@ class InginiousHomeController extends Controller
                 $this->banner = $this->user->getBanner();
                 $this->banner_message = "Welcome " . $this->firstName . " " . $this->lastName;
             }
+            
             $catalog = $this->getPhotoManager($request)->getCatalog();
             return $this->render(
                 '/home.html.twig',
@@ -120,12 +121,14 @@ class InginiousHomeController extends Controller
     {
 
         if ($this->isAuthenticated($request)) {
+            $catalog = $this->getPhotoManager($request)->getCatalog();
             return $this->render('/catalog.html.twig',
                 [
                     'firstName' => $this->firstName,
                     'lastName' => $this->lastName,
                     'authID' => $this->authID,
                     'authenticated' => 'header',
+                    'catelog' => $catalog,
                     'catalogID' => $this->firstName . ' ' . $this->lastName . "&acute;s Photos",
                     'catalog' => $this->getPhotoManager($request)->getCatalog(),
                     'uploader' => $this->getPhotoUploader()->getUploaderPath(),
@@ -135,18 +138,115 @@ class InginiousHomeController extends Controller
         }
         else
         {
-            $response = new Response();
-            $response->setStatusCode(Response::HTTP_FORBIDDEN);
-            return $response->send();
+            $this->_send_forbidden_status_response();
         }
     }
 
     /**
+     * @Route("/stories/{slug}/{id}")
+     * @Route("/stories/{slug}/")
+     */
+    //public function storiesAction( $slug, $id, Request $request ) {
+    public function storiesAction( $slug, Request $request ) {
+        if ($this->isAuthenticated($request)) {
+            $catalog = $this->getPhotoManager($request)->getCatalog();
+            // Get the post here by ID
+            return $this->render(
+                '/post-article.html.twig',
+                [
+                    'firstName' => $this->firstName,
+                    'lastName' => $this->lastName,
+                    'authenticated' => 'header',
+                    'catalog' => $catalog
+                ]
+            );
+        }
+        else
+        {
+            $this->_send_forbidden_status_response();
+        }
+    }
+    
+    /**
+     * @Route ("/login/")
+     */
+    public function loginAction( Request $request ) {
+        if ($this->isAuthenticated($request)) {
+            $catalog = $this->getPhotoManager($request)->getCatalog();
+            // Get the post here by ID
+            return $this->render(
+                '/login.html.twig',
+                [
+                    'firstName' => $this->firstName,
+                    'lastName' => $this->lastName,
+                    'authenticated' => 'header',
+                    'catalog' => $catalog
+                ]
+            );
+        }
+        else
+        {
+            $this->_send_forbidden_status_response();
+        }
+    }
+    
+    /**
+     * @Route ("/about/")
+     */
+    public function aboutAction( Request $request ) {
+        if ($this->isAuthenticated($request)) {
+            $catalog = $this->getPhotoManager($request)->getCatalog();
+            // Get the post here by ID
+            return $this->render(
+                '/about.html.twig',
+                [
+                    'firstName' => $this->firstName,
+                    'lastName' => $this->lastName,
+                    'authenticated' => 'header',
+                    'catalog' => $catalog
+                ]
+            );
+        }
+        else
+        {
+            $this->_send_forbidden_status_response();
+        }
+    }
+    
+    /**
+     * @Route("/photos/{catelogID}/{albumName}/{albumID}")
+     */
+    public function photosAction( $catelogID, $albumName, $albumID, Request $request ) {
+        
+        $catalog = $this->getPhotoManager($request)->getCatalog();
+        $album = $this->getPhotoManager( $request )->getAlbum( $albumID );
+        $images = $album->images;
+        
+        if($this->isAuthenticated( $request ) ) {
+            return $this->render(
+                '/photos.html.twig',
+                [
+                    'firstName' => $this->firstName,
+                    'lastName' => $this->lastName,
+                    'authenticated' => 'header',
+                    'catalogID' => $catelogID,
+                    'catalog' => $catalog,
+                    'album' => $album,
+                    'albumName' => $albumName,
+                    'images' => $images
+                ]
+            );
+        }else{
+            $this->_send_forbidden_status_response();
+        }
+    }
+    
+    /**
      * @Route("/album/{catalog}/{album}", name="album")
      */
-
-    public function albumAction($catalog, $album, Request $request)
+    public function albumAction($catalogID, $album, Request $request)
     {
+        $catalog = $this->getPhotoManager($request)->getCatalog();
         $album = $this->getPhotoManager($request)->getAlbum($album);
         $images = $album->images;
 
@@ -157,7 +257,8 @@ class InginiousHomeController extends Controller
                     'firstName' => $this->firstName,
                     'lastName' => $this->lastName,
                     'authenticated' => 'header',
-                    'catalogID' => $catalog,
+                    'catalogID' => $catalogID,
+                    'catalog' => $catalog,
                     'album' => $album,
                     'images' => $images
                 ]
@@ -165,9 +266,7 @@ class InginiousHomeController extends Controller
         }
         else
         {
-            $response = new Response();
-            $response->setStatusCode(Response::HTTP_FORBIDDEN);
-            return $response->send();
+            $this->_send_forbidden_status_response();
         }
     }
 
@@ -177,6 +276,7 @@ class InginiousHomeController extends Controller
 
     public function bannerAction($banner, Request $request)
     {
+        $catalog = $this->getPhotoManager($request)->getCatalog();
         $album = $this->getPhotoManager($request)->getAlbum($banner);
         $photos = $album->images;
 
@@ -188,15 +288,14 @@ class InginiousHomeController extends Controller
                     'lastName' => $this->lastName,
                     'authenticated' => 'header',
                     'album' => $album,
+                    'catalog' => $catalog,
                     'images' => $photos
                 ]
             );
         }
         else
         {
-            $response = new Response();
-            $response->setStatusCode(Response::HTTP_FORBIDDEN);
-            return $response->send();
+            $this->_send_forbidden_status_response();
         }
     }
 
@@ -220,27 +319,27 @@ class InginiousHomeController extends Controller
                 $this->bannerAlbumID = $this->user->getBannerAlbum()->id;
                 $this->bannerPosterID = $this->user->getBannerAlbum()->poster_image_id;
             }
+            $catalog = $this->getPhotoManager($request)->getCatalog();
             return $this->render(
                 '/account.html.twig',
                 [
                     'name' => $this->user->getName(),
                     'authenticated' => 'header',
                     'email' => $this->user->getEmail(),
-                    'userManager' => $this->user->getLocalUserPath() . "/" . $this->user->getUserID(),
+                    'userManager' => trim( $this->user->getLocalUserPath() ) . "/" . $this->user->getUserID(),
                     'uploader' => $this->getPhotoUploader()->getUploaderPath(),
                     'banner' => $this->banner,
                     'banner_message' => $this->banner_message,
                     'bannerImages' => $this->bannerImages,
                     'bannerAlbumID' => $this->bannerAlbumID,
-                    'bannerPosterID' => $this->bannerPosterID
+                    'bannerPosterID' => $this->bannerPosterID,
+                    'catalog' => $catalog
                 ]
             );
         }
         else
         {
-            $response = new Response();
-            $response->setStatusCode(Response::HTTP_FORBIDDEN);
-            return $response->send();
+            $this->_send_forbidden_status_response();
         }
     }
 
@@ -258,10 +357,20 @@ class InginiousHomeController extends Controller
         }
         else
         {
-            $response = new Response();
-            $response->setStatusCode(Response::HTTP_FORBIDDEN);
-            return $response->send();
+            $this->_send_forbidden_status_response();
         }
+    }
+    
+    /**
+     * @return Forbiddedn Status response
+     */
+    private function _send_forbidden_status_response( $response = null ) {
+        if( $response == null ) {
+            $response = Response::HTTP_FORBIDDEN;
+        }
+        $response = new Response();
+        $response->setStatusCode( $response );
+        return $response->send();
     }
 
     /**

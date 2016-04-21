@@ -1,23 +1,30 @@
-
-<section class="photo-set-list">
-    <ul class="navlist">
-        <li class="photo-set">
-            <a class="photo-set-link" href="#">
-                <img onClick="showHideUploadPanel(this, '#upload-panel',true);return false;" src="{{ asset('bundles/inginious/images/upload.png', version='1.0') }}" alt="upload-icon">
-                <div class="description">Click to upload.</div>
-            </a>
-        </li>
-
-    {% for album in catalog|reverse %}
-        <li class="photo-set">
-            <a onClick="showHidePhotoGallery('{{ catalogID }}','{{ album.name }}', '{{ album.id }}');return false;" class="photo-set-link" href="#">
-                {% if album.poster_image is defined %}
-                    <img src="{{ album.poster_image.thumb_url }}" alt="{{ album.name }}">
-                {% endif %}
-                <div class="description">{{ album.name }}</div>
-            </a>
-        </li>
-    {% endfor %}
-    </ul>
-</section>
-    {{ include('upload_panel.html.twig') }}
+        <section id="albums" class="albums">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="page-content">
+                        <h3 class="page-title">My Albums</h3>
+                        <div class="cat-album-container">
+                            {% for album in catalog|reverse %}
+                            <div class="col-sm-2 col-xs-4 album-thumb">
+                                <!--a onClick="showHidePhotoGallery('{{ catalogID }}','{{ album.name }}', '{{ album.id }}');return false;" class="photo-set-link" href="#"-->
+                                <a class="photo-set-link" href="/photos/{{ catalogID }}/{{ album.name }}/{{ album.id }}">
+                                    {% if album.poster_image is defined %}
+                                    <figure>
+                                      <img src="{{ album.poster_image.thumb_url }}" alt="{{ album.name }}">
+                                    </figure>
+                                    {% else %}
+                                    <div style="height: 150px; width: 100%;"></div>
+                                    {% endif %}
+                                    <h3 class="album-caption">{{ album.name }}</h3>
+                                </a>
+                            </div><!--./single album thumb-->
+                            {% endfor %}
+                            
+                        </div>
+                    </div>
+                    <div class="gradient"></div>
+                </div>
+            </div> <!--./end container-->
+        </section>
+        <section id="photo-list"></section>
+        {{ include('upload_panel.html.twig') }}

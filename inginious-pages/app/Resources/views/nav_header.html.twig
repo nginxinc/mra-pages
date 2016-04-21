@@ -1,0 +1,177 @@
+        {% block mobilenav %}
+        <nav class="main-nav nav-close">
+            <a class="nav-close-btn" href="#"><img src="{{ asset('bundles/inginious/images/nav-close.png') }}"></a>
+            <ul class="main-nav-items">
+                <li class="nav-item"><a href="/">Home</a></li>
+                <li class="nav-item"><a href="/myphotos">My Photos</a></li>
+                <li class="nav-item"><a href="/account">My Account</a></li>
+                <li class="nav-item"><a href="/about">About</a></li>
+            </ul>
+            {% block loginButton %}
+            <a class="login-btn" href="/login">Login</a>
+            {% endblock %}
+        </nav><!--./Offcanvas Nav-->
+        
+        <!--Offcanvas Right Nav-->
+        <nav class="right-nav nav-close">
+            <a class="nav-close-btn" href="#"><img src="{{ asset('bundles/inginious/images/nav-close.png') }}"></a>
+            <ul class="right-nav-items">
+                <li class="nav-item"><a href="#" class="add-album-btn">Add an Album</a></li>
+                <li class="nav-item"><a href="#" class="add-photo-btn">Add a Photo</a></li>
+            </ul>
+        </nav><!--./Offcanvas Right Nav-->
+        {% endblock %}
+        
+        {% block header_hero %}
+        <header class="fixed-top-header">
+            <div class="nav-btn main-nav-btn">
+                <a href="#"><img src="{{ asset('bundles/inginious/images/hamburger.png') }}"></a>
+            </div>
+            
+            {% block headlogo %}
+            <div class="header-logo">
+                <a href="/"><img src="{{ asset('bundles/inginious/images/logo.png') }}"></a>
+            </div>
+            {% endblock %}
+            
+            <div class="right-nav-btn">
+                <a href="#"><img src="{{ asset('bundles/inginious/images/icon-plus.png') }}"></a>
+            </div>
+            
+        </header> <!-- ./header end-->
+        <div id="add-photo" class="add-photo close">
+            <div class="profile-update-form">
+                <h1 class="page-title">Add a Photo</h1>
+                <form id="addPhotoForm" method="post" class="form-horizontal" action="#">
+                    <!--div class="form-group">
+                        <label class="col-xs-4 col-sm-3 col-sm-offset-1 control-label">URL</label>
+                        <div class="col-xs-8">
+                            <input type="text" class="form-control" name="name" placeholder="Paste a URL here" />
+                        </div>
+                    </div-->
+
+                    <div class="form-group">
+                        <label class="col-xs-4 col-sm-3 col-sm-offset-1 control-label">Upload</label>
+
+                        <div class="col-xs-8">
+                            <div class="col-xs-4 update-pp">
+                                <input type="file" class="form-control"  name="file-upload">
+                                <span>Browse</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-xs-4 col-sm-3 col-sm-offset-1 control-label">Album</label>
+
+                        <div class="col-xs-8">
+                            <div class="col-xs-12 col-sm-8 select-album">
+                                <select class="form-control">
+                                    {% for album in catalog|reverse %}
+                                    <option value="{{ album.id }}">{{ album.name }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-md-12 update-account">
+                            <button type="submit" class="btn">Add Photo</button>
+                        </div>
+                        <div class="col-md-12 cancel-upload">
+                            <a href="#"><img src="{{ asset('bundles/inginious/images/hex-icon.png') }}"></a>
+                        </div>
+                    </div>
+                </form>
+                <div class="cancel-upload">
+                    <a href="#"><img src="{{ asset('bundles/inginious/images/nav-close-light.png') }}"></a>
+                </div>
+            </div>
+        </div> <!-- Add photo end -->
+
+        <div id="add-album" class="add-album close">
+            <div class="profile-update-form">
+                <h1 class="page-title">Add an Album</h1>
+                <form id="album-upload" action="{{ uploader }}" method="post" class="form-horizontal">
+                    <div class="form-group">
+                        <label class="col-xs-4 col-sm-3 col-sm-offset-1 control-label">Name</label>
+                        <div class="col-xs-8">
+                            <input class="form-control" name="name" id="album-name" type="text" pattern="[A-Za-z0-9_\_\-\.\,\ ]+" required="required" placeholder="letters, numbers, spaces, '_', '-', '.' and ',': no unusual characters" maxlength="128">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-xs-4 col-sm-3 col-sm-offset-1 control-label">Add Photos</label>
+
+                        <div class="col-xs-8">
+                            <div class="col-xs-4 update-pp">
+                                <input class="form-control" id="photo-input" type="file" name="image" multiple="multiple" accept="image/*" required="required">
+                                <span>Browse</span>
+                            </div>
+                        </div>
+                    </div> 
+
+                    <div class="form-group">
+                        <div class="col-md-12 update-account">
+                            <button class="upload-button btn" id="create-album-button" type="submit" name="create-album" value="Create An Album">Add Album</button>
+                        </div>
+                        
+                        <div id="loading"></div><br>
+                        <div id="result">
+                            <div id="upload-thumbs">
+                            </div>
+                        </div>
+                        <div class="upload-thumb"  id="upload-thumb-proto">
+                            <img alt='animation' src='{{ asset('bundles/inginious/images/uploading.gif', version='1.0') }}'>
+                            <div class="file-size"></div>
+                        </div>
+                        
+                        <div class="col-md-12 cancel-upload">
+                            <a href="#"><img src="{{ asset('bundles/inginious/images/hex-icon.png') }}"></a>
+                        </div>
+                    </div>
+                </form>
+                <div class="cancel-upload">
+                    <a href="#"><img src="{{ asset('bundles/inginious/images/nav-close-light.png') }}"></a>
+                </div>
+            </div>
+        </div> <!-- Add photo end -->
+
+        <div id="add-cover-photo" class="add-cover-photo close">
+            <div class="profile-update-form">
+                <h1 class="page-title">Add a Cover Photo</h1>
+                <form id="addCoverForm" method="post" class="form-horizontal" action="#">
+                    <!--div class="form-group">
+                        <label class="col-xs-4 col-sm-3 col-sm-offset-1 control-label">URL</label>
+                        <div class="col-xs-8">
+                            <input type="text" class="form-control" name="name" placeholder="Paste a URL here" />
+                        </div>
+                    </div-->
+
+                    <div class="form-group">
+                        <label class="col-xs-4 col-sm-3 col-sm-offset-1 control-label">Add Photos</label>
+
+                        <div class="col-xs-8">
+                            <div class="col-xs-4 update-pp">
+                                <input type="file" class="form-control"  name="file-upload">
+                                <span>Browse</span>
+                            </div>
+                        </div>
+                    </div> 
+
+                    <div class="form-group">
+                        <div class="col-md-12 update-account">
+                            <button type="submit" class="btn">Add Cover Photo</button>
+                        </div>
+                        <div class="col-md-12 cancel-upload">
+                            <a href="#"><img src="{{ asset('bundles/inginious/images/hex-icon.png') }}"></a>
+                        </div>
+                    </div>
+                </form>
+                <div class="cancel-upload">
+                    <a href="#"><img src="{{ asset('bundles/inginious/images/nav-close-light.png') }}"></a>
+                </div>
+            </div>
+        </div> <!-- Add cover photo -->
+    {% endblock %}

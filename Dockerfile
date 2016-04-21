@@ -49,12 +49,10 @@ COPY amplify_install.sh /amplify_install.sh
 RUN API_KEY='0202c79a3d8411fcf82b35bc3d458f7e' HOSTNAME='pages' sh /amplify_install.sh
 
 # install application
+ENV SYMFONY_ENV=prod
 COPY inginious-pages/ /inginious-pages
-RUN ln -sf /dev/stdout /inginious-pages/app/logs/prod.log && \
-    chown -R nginx:www-data /inginious-pages/ && \
-    chmod -R 775 /inginious-pages && \
-    chmod -R 666 /inginious-pages/app/logs/prod.log
-RUN cd /inginious-pages && php composer.phar install
+RUN chown -R nginx:www-data /inginious-pages/ && chmod -R 775 /inginious-pages
+RUN cd /inginious-pages && php composer.phar install --no-dev --optimize-autoloader
 
 CMD ["/php-start.sh"]
 

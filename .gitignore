@@ -99,3 +99,5 @@ certificate.pem
 csr.pem
 dhparam.pem
 key.pem
+ngra-pages.iml
+inginious-pages/vendor

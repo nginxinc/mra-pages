@@ -1,15 +1,26 @@
 #!/bin/sh
-pid="/var/run/nginx.pid"    # /   (root directory)
+pid="/var/run/nginx.pid";    # /   (root directory)
+fpm_pid="/var/run/php-fpm.pid";
+nginx_conf="/etc/nginx/nginx-php.conf";
+nginx_fabric="/etc/nginx/nginx-fabric.conf";
 
-nginx -c /etc/nginx/nginx-php.conf -g "pid $pid;" &
+if [ "$FABRIC" = "true" ]
+then
+    $nginx_conf = $nginx_fabric;
+    echo fabric configuration set;
+fi
 
-service amplify-agent start
+nginx -c $nginx_conf -g "pid $pid;" &
 
-php-fpm -y /etc/php5/fpm/php-fpm.conf -R
+service amplify-agent start;
 
-sleep 500
+php-fpm -y /etc/php5/fpm/php-fpm.conf -R &
 
-while [ -f "$pid" ]
-do 
-	sleep 500;
+echo launched processes;
+sleep 10;
+
+while [ -f "$pid" ] &&  [ -f "$fpm_pid" ];
+do
+	sleep 5;
+    #echo in the while loop;
 done

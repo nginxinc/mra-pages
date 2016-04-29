@@ -101,3 +101,6 @@ dhparam.pem
 key.pem
 ngra-pages.iml
 inginious-pages/vendor
+inginious-pages/app/bootstrap.php.cache
+ngra-pages.iml
+.idea/modules.xml

@@ -6,11 +6,12 @@ nginx_fabric="/etc/nginx/nginx-fabric.conf";
 
 if [ "$FABRIC" = "true" ]
 then
-    $nginx_conf = $nginx_fabric;
+    nginx_conf=$nginx_fabric;
+    echo This is the nginx conf = $nginx_conf;
     echo fabric configuration set;
 fi
 
-nginx -c $nginx_conf -g "pid $pid;" &
+nginx -c "$nginx_conf" -g "pid $pid;" &
 
 service amplify-agent start;
 

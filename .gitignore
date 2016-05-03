@@ -88,3 +88,5 @@ uiDesigner.xml
 less-css/node_modules
 .idea
 inginious-pages/app/bootstrap.php.cache
+ngra-pages.iml
+.idea/modules.xml

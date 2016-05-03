@@ -16,11 +16,7 @@ imports:
 monolog:
     handlers:
         main:
-            type:         fingers_crossed
-            action_level: error
-            handler:      nested
-        nested:
-            type:  syslog
-            level: debug
+            type:         syslog
+            action_level: debug
         console:
             type:  console

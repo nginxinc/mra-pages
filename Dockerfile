@@ -1,28 +1,35 @@
 FROM php:7.0.5-fpm
 
-# Download certificate and key from the customer portal (https://cs.nginx.com)
-# and copy to the build context
-ADD nginx-repo.crt /etc/ssl/nginx/
-ADD nginx-repo.key /etc/ssl/nginx/
-
-# Get other files required for installation
 RUN apt-get update && apt-get install -y \
-    wget \
     apt-transport-https \
+    git \
+    libcurl3-gnutls \
+    lsb-release \
     python \
-		git \
-		unzip \
-		libcurl3-gnutls \
-		lsb-release
+    unzip \
+    wget
 
 # New Relic dependencies
-ENV NR_INSTALL_SILENT 1
-ENV NR_INSTALL_KEY 30d86de372edded790894f46704b09866ed3e1c5
-ENV NR_INSTALL_PHPLIST /usr/local/bin
+ENV NR_INSTALL_SILENT=1 \
+    NR_INSTALL_KEY=30d86de372edded790894f46704b09866ed3e1c5 \
+    NR_INSTALL_PHPLIST=/usr/local/bin
 
 RUN echo newrelic-php5 newrelic-php5/application-name string "Pages" | debconf-set-selections && \
 		wget -O - https://download.newrelic.com/548C16BF.gpg | apt-key add - && \
 		sh -c 'echo "deb http://apt.newrelic.com/debian/ newrelic non-free" > /etc/apt/sources.list.d/newrelic.list'
+
+# Install vault client
+RUN wget https://releases.hashicorp.com/vault/0.5.2/vault_0.5.2_linux_amd64.zip && \
+	  unzip -d /usr/local/bin vault_0.5.2_linux_amd64.zip
+
+# Download certificate and key from the the vault and copy to the build context
+ENV VAULT_TOKEN=4b9f8249-538a-d75a-e6d3-69f5355c1751 \
+    VAULT_ADDR=http://vault.ngra.ps.nginxlab.com:8200
+
+RUN mkdir -p /etc/ssl/nginx && \
+	  vault token-renew && \
+	  vault read -field=value secret/nginx-repo.crt > /etc/ssl/nginx/nginx-repo.crt && \
+	  vault read -field=value secret/nginx-repo.key > /etc/ssl/nginx/nginx-repo.key
 
 RUN wget -q -O /etc/ssl/nginx/CA.crt https://cs.nginx.com/static/files/CA.crt && \
     wget -q -O - http://nginx.org/keys/nginx_signing.key | apt-key add - && \

@@ -4,7 +4,7 @@ fpm_pid="/var/run/php-fpm.pid";
 nginx_conf="/etc/nginx/nginx-php.conf";
 nginx_fabric="/etc/nginx/nginx-fabric.conf";
 
-if [ "$FABRIC" = "true" ]
+if [ "$NETWORK" = "fabric" ]
 then
     nginx_conf=$nginx_fabric;
     echo This is the nginx conf = $nginx_conf;

@@ -99,5 +99,10 @@
         $("body").removeClass("hide-overflow");         
       });
 
+      $("#photo-input").change(function(){
+          var files = $(this)[0].files;
+          $("#browse-button").text(files.length + " photos selected");
+      });
+
   
 })(jQuery);

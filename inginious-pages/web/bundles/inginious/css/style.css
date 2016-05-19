@@ -945,10 +945,10 @@ footer.colophon-bottom {
   width: 35em;
 }
 #loading {
-  display: inline;
+  /*display: inline;
   font-family: "Arial Rounded MT Bold", sans-serif;
   font-size: 1.5em;
-  margin-left: 2em;
+  margin-left: 2em;*/
 }
 #result {
   display: none;
@@ -1547,7 +1547,7 @@ form #upload-thumb-proto {
 .add-photo .profile-update-form,
 .add-cover-photo .profile-update-form,
 .add-album .profile-update-form {
-  margin-top: 150px;
+  margin-top: 75px;
 }
 
 .add-photo .page-title, .add-cover-photo .page-title, .add-album .page-title {
@@ -1555,7 +1555,7 @@ form #upload-thumb-proto {
   font-family: "Aktiv Grotesk W01 Hairline",sans-serif;
   font-size: 60px;
   line-height: 76px;
-  margin-bottom: 120px;
+  margin-bottom: 60px;
   padding-top: 50px;
   text-align: center;
 }
@@ -1687,6 +1687,7 @@ input[type="file"] > input[type="button"]::-moz-focus-inner {
   display: block;
   opacity: 1;
   z-index: 999999;
+  overflow: auto;
 }
 
 .hide-overflow{

@@ -64,7 +64,12 @@ class InginiousHomeController extends Controller
      */
     public function indexAction(Request $request)
     {
-        return $this->render('/index.html.twig');
+        return $this->render(
+            '/index.html.twig',
+            [
+                'uploader' => $this->getPhotoUploader()->getUploaderPath(),
+            ]
+        );
     }
     
     /**
@@ -79,12 +84,6 @@ class InginiousHomeController extends Controller
                 $user = $this->getUserManager($this->authID)->getUser();
                 $this->user = $user;
             }
-            if($this->user->getBanner() != null)
-            {
-                $this->banner = $this->user->getBanner();
-                $this->banner_message = "Welcome " . $this->firstName . " " . $this->lastName;
-            }
-            
             $catalog = $this->getPhotoManager($request)->getCatalog();
             return $this->render(
                 '/home.html.twig',
@@ -103,13 +102,7 @@ class InginiousHomeController extends Controller
         }
         else
         {
-            $response = new Response();
-            $response->setStatusCode(Response::HTTP_FORBIDDEN);
-            return $this->render('/index.html.twig',
-                [
-                    'loginRequired' => $this->loginRequired
-                ]
-            );
+            $this->_send_forbidden_status_response();
 
         }
     }
@@ -157,6 +150,7 @@ class InginiousHomeController extends Controller
                     'firstName' => $this->firstName,
                     'lastName' => $this->lastName,
                     'authenticated' => 'header',
+                    'uploader' => $this->getPhotoUploader()->getUploaderPath(),
                     'catalog' => $catalog
                 ]
             );
@@ -172,11 +166,16 @@ class InginiousHomeController extends Controller
      */
     public function loginAction( Request $request ) {
         if ($this->isAuthenticated($request)) {
-            return $this->redirectToRoute('/myphotos');
+            return $this->redirectToRoute('app_inginioushome_myphotos');
         }
         else
         {
-            return $this->render('/login.html.twig');
+            return $this->render(
+                '/login.html.twig',
+                [
+                    'uploader' => $this->getPhotoUploader()->getUploaderPath()
+                ]
+            );
         }
     }
     
@@ -184,7 +183,12 @@ class InginiousHomeController extends Controller
      * @Route ("/about")
      */
     public function aboutAction() {
-        return $this->render('/about.html.twig');
+        return $this->render(
+            '/about.html.twig',
+            [
+                'uploader' => $this->getPhotoUploader()->getUploaderPath(),
+            ]
+        );
     }
     
     /**
@@ -207,6 +211,7 @@ class InginiousHomeController extends Controller
                     'catalog' => $catalog,
                     'album' => $album,
                     'albumName' => $albumName,
+                    'uploader' => $this->getPhotoUploader()->getUploaderPath(),
                     'images' => $images
                 ]
             );
@@ -234,6 +239,7 @@ class InginiousHomeController extends Controller
                     'catalogID' => $catalogID,
                     'catalog' => $catalog,
                     'album' => $album,
+                    'uploader' => $this->getPhotoUploader()->getUploaderPath(),
                     'images' => $images
                 ]
             );
@@ -263,6 +269,7 @@ class InginiousHomeController extends Controller
                     'authenticated' => 'header',
                     'album' => $album,
                     'catalog' => $catalog,
+                    'uploader' => $this->getPhotoUploader()->getUploaderPath(),
                     'images' => $photos
                 ]
             );

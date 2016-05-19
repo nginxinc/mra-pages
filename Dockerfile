@@ -1,3 +1,4 @@
+
 FROM php:7.0.5-fpm
 
 # Get other files required for installation
@@ -40,11 +41,15 @@ RUN apt-get update && apt-get install -y \
     nginx-plus \
     newrelic-php5
 
+RUN chown -R nginx /var/log/nginx/
+
+COPY amplify_install.sh /amplify_install.sh
+RUN API_KEY='0202c79a3d8411fcf82b35bc3d458f7e' HOSTNAME='mesos-pages' sh /amplify_install.sh
+COPY ./status.html /usr/share/nginx/html/status.html
+
 # forward request logs to Docker log collector
 RUN ln -sf /dev/stdout /var/log/nginx/access.log && \
     ln -sf /dev/stdout /var/log/nginx/error.log
-
-RUN chown -R nginx /var/log/nginx/
 
 COPY php5-fpm.conf /etc/php5/fpm/php-fpm.conf
 COPY php.ini /usr/local/etc/php/
@@ -59,16 +64,21 @@ COPY amplify_install.sh /amplify_install.sh
 RUN API_KEY='0202c79a3d8411fcf82b35bc3d458f7e' HOSTNAME='pages' sh /amplify_install.sh
 
 # Install XDebug
-# RUN yes | pecl install xdebug \
-#     && echo "zend_extension=$(find /usr/local/lib/php/extensions/ -name xdebug.so)" > /usr/local/etc/php/conf.d/xdebug.ini \
-#     && echo "xdebug.remote_enable=on" >> /usr/local/etc/php/conf.d/xdebug.ini \
-#     && echo "xdebug.remote_autostart=off" >> /usr/local/etc/php/conf.d/xdebug.ini
+#RUN yes | pecl install xdebug \
+#    && echo "zend_extension=$(find /usr/local/lib/php/extensions/ -name xdebug.so)" > /usr/local/etc/php/conf.d/xdebug.ini \
+#    && echo "xdebug.remote_enable=on" >> /usr/local/etc/php/conf.d/xdebug.ini \
+#    && echo "xdebug.remote_autostart=off" >> /usr/local/etc/php/conf.d/xdebug.ini
 
 # install application
 ENV SYMFONY_ENV=prod
 COPY inginious-pages/ /inginious-pages
-RUN chown -R nginx:www-data /inginious-pages/ && chmod -R 775 /inginious-pages
-RUN cd /inginious-pages && php composer.phar install --no-dev --optimize-autoloader
+
+RUN ln -sf /dev/stdout /inginious-pages/app/logs/prod.log && \
+    chown -R nginx:www-data /inginious-pages/ && \
+    chmod -R 775 /inginious-pages && \
+    chmod -R 777 /inginious-pages/app/cache && \
+    chmod -R 666 /inginious-pages/app/logs/prod.log
+RUN cd /inginious-pages && SYMFONY_ENV=prod php composer.phar install --no-dev --optimize-autoloader
 
 CMD ["/php-start.sh"]
 

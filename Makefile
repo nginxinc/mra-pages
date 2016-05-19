@@ -1,5 +1,6 @@
-name = ngrefarch/pages
+name = trainees/pages
 volumes = -v $(CURDIR)/inginious-pages:/inginious-pages -v $(CURDIR)/php-start.sh:/php-start.sh
+
 ports = -p 80:80
 
 build:

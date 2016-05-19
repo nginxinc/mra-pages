@@ -19,7 +19,7 @@ RUN echo newrelic-php5 newrelic-php5/application-name string "Pages" | debconf-s
 		sh -c 'echo "deb http://apt.newrelic.com/debian/ newrelic non-free" > /etc/apt/sources.list.d/newrelic.list'
 
 # Install vault client
-RUN wget https://releases.hashicorp.com/vault/0.5.2/vault_0.5.2_linux_amd64.zip && \
+RUN wget -q https://releases.hashicorp.com/vault/0.5.2/vault_0.5.2_linux_amd64.zip && \
 	  unzip -d /usr/local/bin vault_0.5.2_linux_amd64.zip
 
 # Download certificate and key from the the vault and copy to the build context

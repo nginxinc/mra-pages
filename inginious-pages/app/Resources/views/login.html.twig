@@ -2,7 +2,7 @@
 {# app/Resources/views/banners.html.twig #}
 {% extends 'base.html.twig' %}
     {% block loginButton %}
-        
+
     {% endblock %}
 
 {% block hero %}
@@ -28,10 +28,10 @@
                                     // Logged into your app and Facebook.
                                     testAPI();
                                     var loggedIn = Cookies.get('logged_in')
-                    
+
                                     Cookies.set('auth_provider', 'facebook');
                                     Cookies.set('auth_token', response.authResponse.accessToken);
-                    
+
                                     if (loggedIn === 'true')
                                     {
                     //                    window.location.href = '/hello';
@@ -50,7 +50,7 @@
                                             'into Facebook.';
                                 }
                             }
-                    
+
                             // This function is called when someone finishes with the Login
                             // Button.  See the onlogin handler attached to it in the sample
                             // code below.
@@ -59,7 +59,7 @@
                                     statusChangeCallback(response);
                                 });
                             }
-                    
+
                             window.fbAsyncInit = function() {
                                 FB.init({
                                     appId: '999273380132142',
@@ -68,7 +68,7 @@
                                     xfbml: true, // parse social plugins on this page
                                     version: 'v2.2' // use version 2.2
                                 });
-                    
+
                                 // Now that we've initialized the JavaScript SDK, we call
                                 // FB.getLoginStatus().  This function gets the state of the
                                 // person visiting this page and can return one of three states to
@@ -80,13 +80,13 @@
                                 //    your app or not.
                                 //
                                 // These three cases are handled in the callback function.
-                    
+
                                 FB.getLoginStatus(function(response) {
                                     statusChangeCallback(response);
                                 });
-                    
+
                             };
-                    
+
                             // Load the SDK asynchronously
                             (function(d, s, id) {
                                 var js, fjs = d.getElementsByTagName(s)[0];
@@ -96,7 +96,7 @@
                                 js.src = "//connect.facebook.net/en_US/sdk.js";
                                 fjs.parentNode.insertBefore(js, fjs);
                             }(document, 'script', 'facebook-jssdk'));
-                    
+
                             // Here we run a very simple test of the Graph API after login is
                             // successful.  See statusChangeCallback() for when this call is made.
                             function testAPI() {
@@ -108,29 +108,29 @@
                     //                        'Thanks for logging in, ' + response.name + '!';
                                 });
                             }
-                            
-                            
+
+
                             function fb_login(){
                                 FB.login(function(response) {
-                            
+
                                     if (response.authResponse) {
                                         console.log('Welcome!  Fetching your information.... ');
                                         //console.log(response); // dump complete info
                                         access_token = response.authResponse.accessToken; //get access token
                                         user_id = response.authResponse.userID; //get FB UID
-                            
+
                                         FB.api('/me', function(response) {
                                             user_email = response.email; //get user email
-                                      // you can store this data into your database             
+                                      // you can store this data into your database
                                         });
-                            
+
                                     } else {
                                         //user hit cancel button
                                         console.log('User cancelled login or did not fully authorize.');
-                            
+
                                     }
                                 }, {
-                                    scope: 'publish_stream,email'
+                                    scope: 'email'
                                 });
                             }
                         </script>
@@ -151,23 +151,23 @@
                                 console.log("Name: " + profile.getName());
                                 console.log("Image URL: " + profile.getImageUrl());
                                 console.log("Email: " + profile.getEmail());
-                    
+
                                 // The ID token you need to pass to your backend:
                                 var id_token = googleUser.getAuthResponse().id_token;
                                 var auth_provider =  Cookies.get('auth_provider')
                                 console.log("ID Token: " + id_token);
-                    
+
                                 var loggedIn = Cookies.get('logged_in');
                                 Cookies.set('auth_provider', 'google');
                                 Cookies.set('auth_token', id_token);
-                    
+
                                 if (loggedIn === 'true')
                                 {
                                     document.getElementById( 'ing_gp_login' ).innerHTML = 'Logged in via Google';
                     //                window.location.href = '/hello';
                                 }
                                 //Cookies.set('logged_in', 'true');
-                    
+
                             };
                         </script>
                     </div>

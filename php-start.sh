@@ -1,17 +1,27 @@
 #!/bin/sh
-newrelic-install install
+pid="/var/run/nginx.pid";    # /   (root directory)
+fpm_pid="/var/run/php-fpm.pid";
+nginx_conf="/etc/nginx/nginx-php.conf";
+nginx_fabric="/etc/nginx/nginx-fabric.conf";
 
-pid="/var/run/nginx.pid"    # /   (root directory)
+if [ "$NETWORK" = "fabric" ]
+then
+    nginx_conf=$nginx_fabric;
+    echo This is the nginx conf = $nginx_conf;
+    echo fabric configuration set;
+fi
 
-nginx -c /etc/nginx/nginx-php.conf -g "pid $pid;" &
+nginx -c "$nginx_conf" -g "pid $pid;" &
 
-service amplify-agent start
+service amplify-agent start;
 
-php-fpm -y /etc/php5/fpm/php-fpm.conf -R
+php-fpm -y /etc/php5/fpm/php-fpm.conf -R &
 
-sleep 500
+echo launched processes;
+sleep 10;
 
-while [ -f "$pid" ]
+while [ -f "$pid" ] &&  [ -f "$fpm_pid" ];
 do
-	sleep 500;
+	sleep 5;
+    #echo in the while loop;
 done

@@ -242,39 +242,38 @@ input[type="range"][orient="vertical"] {
   width: 35em;
 }
 #loading {
-  display: inline;
-  font-family: "Arial Rounded MT Bold", sans-serif;
-  font-size: 1.5em;
-  margin-left: 2em;
+/*display: inline;
+font-size: 1.5em;
+margin-left: 2em;*/
 }
 #result {
-  display: none;
-  float: left;
+display: none;
+float: left;
 }
 #result .upload-thumb {
-  display: inline;
-  float: left;
-  padding: .5em;
-  height: 12em;
-  width: 11em;
-  margin-left: auto;
-  margin-right: auto;
+display: inline;
+float: left;
+padding: .5em;
+height: 12em;
+width: 11em;
+margin-left: auto;
+margin-right: auto;
 }
 #result .upload-thumb img {
-  max-width: 128px;
-  max-height: 128px;
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
-  width: initial;
-  margin-bottom: 1em;
-  margin-top: 1em;
+max-width: 128px;
+max-height: 128px;
+display: block;
+margin-left: auto;
+margin-right: auto;
+width: initial;
+margin-bottom: 1em;
+margin-top: 1em;
 }
 #result .upload-thumb .selected {
-  border: 3px solid #00974c;
+border: 3px solid #00974c;
 }
 #result .upload-thumb .file-size {
-  text-align: center;
+text-align: center;
 }
 /*
 * What follows is the result of much research on cross-browser styling.
@@ -568,7 +567,7 @@ textarea {
   display: inline-block;
   top: 0.2em;
   overflow: hidden;
-  font-family: "Arial Rounded MT Bold", serif;
+  font-family: "Aktiv Grotesk W01",sans-serif;
   font-weight: normal;
   font-style: normal;
   font-size: 1em;
@@ -666,7 +665,7 @@ html.touch .pg-hd .hamburger {
   display: inline-block;
   margin: 0 1em;
   color: #5b5b5b;
-  font-family: "Arial Rounded MT Bold", serif;
+  font-family: "Aktiv Grotesk W01",sans-serif;
   font-weight: normal;
   font-style: normal;
   font-size: 0.8em;
@@ -685,7 +684,7 @@ html.touch .pg-hd .hamburger {
   text-align: center;
 }
 .pg-ft .branding .branding-logo {
-  font-family: "Arial Rounded MT Bold", serif;
+  font-family: "Aktiv Grotesk W01",sans-serif;
   font-weight: normal;
   font-style: normal;
   font-size: 2em;
@@ -747,7 +746,7 @@ html.touch .pg-hd .hamburger {
 }
 .pg-bd .hero .wrapper {
   position: relative;
-  font-family: "Arial Rounded MT Bold", serif;
+  font-family: "Aktiv Grotesk W01",sans-serif;
   font-weight: normal;
   font-style: normal;
   font-size: 7em;
@@ -757,7 +756,7 @@ html.touch .pg-hd .hamburger {
 }
 @media only screen and (max-width: 959px) and (min-width: 600px) {
   .pg-bd .hero .wrapper {
-    font-family: "Arial Rounded MT Bold", serif;
+    font-family: "Aktiv Grotesk W01",sans-serif;
     font-weight: normal;
     font-style: normal;
     font-size: 5em;
@@ -765,7 +764,7 @@ html.touch .pg-hd .hamburger {
 }
 @media only screen and (max-width: 599px) and (min-width: 0) {
   .pg-bd .hero .wrapper {
-    font-family: "Arial Rounded MT Bold", serif;
+    font-family: "Aktiv Grotesk W01",sans-serif;
     font-weight: normal;
     font-style: normal;
     font-size: 3em;
@@ -779,7 +778,7 @@ html.touch .pg-hd .hamburger {
   -webkit-margin-after: inherit;
 }
 .pg-bd .hero .wrapper .subhead {
-  font-family: "Arial Rounded MT Bold", serif;
+  font-family: "Aktiv Grotesk W01",sans-serif;
   font-weight: normal;
   font-style: normal;
   font-size: 0.4em;
@@ -854,7 +853,7 @@ html.touch .pg-hd .hamburger {
   }
 }
 .pg-bd .articles-container .article-wrapper .story .story-content .story-title {
-  font-family: "Arial Rounded MT Bold", serif;
+  font-family: "Aktiv Grotesk W01",sans-serif;
   font-weight: normal;
   font-style: normal;
   font-size: 1.5em;
@@ -862,14 +861,14 @@ html.touch .pg-hd .hamburger {
   text-transform: none;
 }
 .pg-bd .articles-container .article-wrapper .story .story-content .story-sub-title {
-  font-family: "Arial Rounded MT Bold", serif;
+  font-family: "Aktiv Grotesk W01",sans-serif;
   font-weight: normal;
   font-style: normal;
   font-size: 1em;
   margin: 0;
 }
 .pg-bd .articles-container .article-wrapper .story .story-content .date-line {
-  font-family: "Arial Rounded MT Bold", serif;
+  font-family: "Aktiv Grotesk W01",sans-serif;
   font-weight: normal;
   font-style: normal;
   font-size: 0.8em;
@@ -879,7 +878,7 @@ html.touch .pg-hd .hamburger {
   margin-top: 1em;
 }
 .pg-bd .articles-container .article-wrapper .story .story-content .story-article a {
-  font-family: "Arial Rounded MT Bold", serif;
+  font-family: "Aktiv Grotesk W01",sans-serif;
   font-weight: normal;
   font-style: normal;
   text-transform: none;
@@ -890,7 +889,7 @@ html.touch .pg-hd .hamburger {
 }
 .pg-bd .articles-container .article-wrapper .story .story-content .author {
   margin-top: 1em;
-  font-family: "Arial Rounded MT Bold", serif;
+  font-family: "Aktiv Grotesk W01",sans-serif;
   font-weight: normal;
   font-style: normal;
   font-size: 1em;
@@ -901,7 +900,7 @@ html.touch .pg-hd .hamburger {
 .pg-bd .single-article-container .article-wrapper {
   width: 100%;
   text-align: left;
-  font-family: "Arial Rounded MT Bold", serif;
+  font-family: "Aktiv Grotesk W01",sans-serif;
   font-weight: normal;
   font-style: normal;
   font-size: 1.1em;
@@ -919,7 +918,7 @@ html.touch .pg-hd .hamburger {
   clear: both;
 }
 .pg-bd .single-article-container .article-wrapper .date-line {
-  font-family: "Arial Rounded MT Bold", serif;
+  font-family: "Aktiv Grotesk W01",sans-serif;
   font-weight: normal;
   font-style: normal;
   font-size: 1em;
@@ -929,7 +928,7 @@ html.touch .pg-hd .hamburger {
   margin: 1.3em 0;
 }
 .pg-bd .single-article-container .article-wrapper .story-article a {
-  font-family: "Arial Rounded MT Bold", serif;
+  font-family: "Aktiv Grotesk W01",sans-serif;
   font-weight: normal;
   font-style: normal;
   text-transform: none;
@@ -965,7 +964,7 @@ html.touch .pg-hd .hamburger {
   margin-left: 1em;
 }
 .pg-bd .single-article-container .article-wrapper .author {
-  font-family: "Arial Rounded MT Bold", serif;
+  font-family: "Aktiv Grotesk W01",sans-serif;
   font-weight: normal;
   font-style: normal;
   font-size: 1em;
@@ -1008,7 +1007,7 @@ html.touch .pg-hd .hamburger {
 .topdown-menu__nav a {
   display: block;
   padding: 2em;
-  font-family: "Arial Rounded MT Bold", serif;
+  font-family: "Aktiv Grotesk W01",sans-serif;
   font-weight: normal;
   font-style: normal;
   font-size: 1em;
@@ -1057,13 +1056,13 @@ html.touch .pg-hd .hamburger {
 }
 .topdown-menu__branding h5 {
   margin: 2em 0 0 0;
-  font-family: "Arial Rounded MT Bold", serif;
+  font-family: "Aktiv Grotesk W01",sans-serif;
   font-weight: normal;
   font-style: normal;
   font-size: 1.35em;
 }
 .topdown-menu__branding p {
-  font-family: "Arial Rounded MT Bold", serif;
+  font-family: "Aktiv Grotesk W01",sans-serif;
   font-weight: normal;
   font-style: normal;
   font-size: inherit;

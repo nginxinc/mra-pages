@@ -1,0 +1,99 @@
+{% macro location(uri, proxy_uri, proxy_host) -%}
+  location {{ uri }} {
+    proxy_pass {{ proxy_uri }};
+    proxy_set_header Host {{ proxy_host }};
+
+    proxy_ssl_session_reuse     on;
+    proxy_ssl_protocols         TLSv1.2;
+    proxy_ssl_verify            off;
+    proxy_read_timeout          3600;
+    proxy_connect_timeout       3600;
+
+    proxy_http_version 1.1;
+    proxy_set_header Connection "";
+    proxy_set_header Accept-Encoding "";
+  }
+{%- endmacro %}
+
+error_log /var/log/nginx/error.log debug;
+worker_processes  auto;
+
+events {
+  worker_connections  1024;
+}
+
+daemon off;
+
+http {
+
+  include mime.types;
+  include nginx-gz.conf;
+  resolver {{ resolver.host }} valid={{ resolver.ttl }};  #use local DNS and override TTL to whatever value makes sense
+  resolver_timeout 2s;
+  client_max_body_size 30M;
+
+  {% for name, service in services.iteritems() %}
+  upstream {{ name }} {
+    server        {{ service.server }} resolve;
+    zone backend  64k;
+    least_time 		last_byte;
+    keepalive 		300;
+  }
+  {% endfor %}
+
+  server {
+    listen 80;
+
+    {% for name, service in services.iteritems() %}
+      {{ location(service.location, service.proxy_uri, service.proxy_host) }}
+    {% endfor %}
+
+    location / {
+      return         301 https://$host$request_uri;
+    }
+  }
+
+  server {
+    listen       443 ssl;
+
+    ssl_certificate      /etc/ssl/nginx/certificate.pem;
+    ssl_certificate_key  /etc/ssl/nginx/key.pem;
+    include nginx-ssl.conf;
+
+    keepalive_timeout	3600s;
+    keepalive_disable	none;
+    keepalive_requests  100000;
+
+    server_name {{ server_name }};
+    status_zone {{ status_zone }};
+
+    root /inginious-pages/web;
+
+    ## Default location
+    location / {
+      # try to serve file directly, fallback to app.php
+      try_files $uri /app.php$is_args$args;
+    }
+
+    {% for name, service in services.iteritems() if service.expose_external%}
+      {{ location(service.location, service.proxy_uri, service.proxy_host) }}
+    {% endfor %}
+
+    location ~ "^(.+\.php)($|/)" {
+      fastcgi_split_path_info ^(.+\.php)(.*)$;
+      fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+      fastcgi_param SCRIPT_NAME $fastcgi_script_name;
+      fastcgi_param PATH_INFO $fastcgi_path_info;
+      fastcgi_pass unix:/var/run/php5-fpm.sock;
+      include fastcgi_params;
+    }
+
+    location = /status.html {
+      root /usr/share/nginx/html/;
+    }
+
+    location /status {
+      status;
+    }
+  }
+}

@@ -43,8 +43,8 @@ RUN apt-get update && apt-get install -y \
 
 RUN chown -R nginx /var/log/nginx/
 
-COPY amplify_install.sh /amplify_install.sh
-RUN API_KEY='0202c79a3d8411fcf82b35bc3d458f7e' HOSTNAME='mesos-pages' sh /amplify_install.sh
+#COPY amplify_install.sh /amplify_install.sh
+#RUN API_KEY='0202c79a3d8411fcf82b35bc3d458f7e' HOSTNAME='mesos-pages' sh /amplify_install.sh
 COPY ./status.html /usr/share/nginx/html/status.html
 
 # forward request logs to Docker log collector
@@ -60,8 +60,9 @@ COPY ./nginx-ssl.conf /etc/nginx/
 COPY php-start.sh /php-start.sh
 COPY ./*.pem /etc/ssl/nginx/
 
-COPY amplify_install.sh /amplify_install.sh
-RUN API_KEY='0202c79a3d8411fcf82b35bc3d458f7e' HOSTNAME='pages' sh /amplify_install.sh
+# Install Amplify]
+RUN curl -sS -L -O  https://github.com/nginxinc/nginx-amplify-agent/raw/master/packages/install.sh && \
+	API_KEY='0202c79a3d8411fcf82b35bc3d458f7e' AMPLIFY_HOSTNAME='mesos-pages' sh ./install.sh
 
 # Install XDebug
 #RUN yes | pecl install xdebug \
@@ -77,7 +78,8 @@ RUN ln -sf /dev/stdout /inginious-pages/app/logs/prod.log && \
     chown -R nginx:www-data /inginious-pages/ && \
     chmod -R 775 /inginious-pages && \
     chmod -R 777 /inginious-pages/app/cache && \
-    chmod -R 666 /inginious-pages/app/logs/prod.log
+    chmod -R 666 /inginious-pages/app/logs/prod.log && \
+    rm -r /inginious-pages/app/cache/prod
 RUN cd /inginious-pages && SYMFONY_ENV=prod php composer.phar install --no-dev --optimize-autoloader
 
 CMD ["/php-start.sh"]

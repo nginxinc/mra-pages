@@ -549,7 +549,7 @@ footer.colophon-bottom {
 }
 
 .login-content {
-  margin-top: 150px;
+  margin-top: 50px;
   padding: 50px 0;
   position: relative;
   text-align: center;
@@ -764,7 +764,108 @@ footer.colophon-bottom {
   padding: 6px 12px;
   text-transform: uppercase;
 }
+/** Login Screen **/
 
+.login-form{
+    width: 80%;
+    max-width: 1000px;
+    margin: 0 auto;
+    display: block;
+    font-family: "Aktiv Grotesk W01 Thin",sans-serif;
+}
+
+.login-form .control-label {
+    color: #01dd60;
+    font-family: "Aktiv Grotesk W01 Thin",sans-serif;
+    font-size: 18px;
+    letter-spacing: 1.5px;
+    line-height: 22px;
+    text-align: right;
+    text-transform: uppercase;
+}
+
+.login-form .form-control {
+    border-radius: 0;
+    font-family: "Aktiv Grotesk W01 Thin",sans-serif;
+    font-size: 21px;
+    height: 40px;
+    letter-spacing: 0.5px;
+    max-width: 370px;
+    width: 100%;
+}
+
+.login-form .small-pp {
+    margin: 0;
+    width: 80px;
+    padding: 0;
+}
+
+.login-form .small-pp  img{
+    width: 64px;
+    float: left;
+}
+
+.login-form .update-pp input {
+    height: 60px;
+    left: 0;
+    opacity: 0;
+    position: absolute;
+    top: 0;
+    width: 100%;
+    z-index: 3;
+    cursor: pointer;
+}
+
+.login-form .update-pp span {
+    border: 1px solid #9b9b9b;
+    border-radius: 2px;
+    color: #9b9b9b;
+    cursor: pointer;
+    font-size: 14px;
+    left: 20px;
+    letter-spacing: 1px;
+    padding: 6px 12px;
+    position: absolute;
+    text-transform: uppercase;
+    top: 13px;
+}
+
+.login-form .remove-pp a{
+    border: 1px solid #9b9b9b;
+    border-radius: 2px;
+    color: #9b9b9b;
+    cursor: pointer;
+    font-size: 14px;
+    left: -90px;
+    letter-spacing: 1px;
+    padding: 6px 12px;
+    position: absolute;
+    text-decoration: none;
+    text-transform: uppercase;
+    top: 13px;
+    z-index: 3;
+}
+
+.login-form .form-group {
+    margin: 40px auto;
+}
+
+.login-form .form-group .login-field{
+    width: 60%;
+}
+
+.login-form .login-submit .btn {
+    background: transparent none repeat scroll 0 0;
+    border: 1px solid #01dd60;
+    border-radius: 0;
+    color: #01dd60;
+    font-family: "Aktiv Grotesk W01 Thin",sans-serif;
+    font-size: 14px;
+    letter-spacing: 1px;
+    padding: 6px 12px;
+    text-transform: uppercase;
+    margin-left: 30%;
+}
 
 /** Photo Album **/
 #photo-list {

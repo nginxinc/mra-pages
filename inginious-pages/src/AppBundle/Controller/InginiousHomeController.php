@@ -166,7 +166,13 @@ class InginiousHomeController extends Controller
      */
     public function loginAction( Request $request ) {
         if ($this->isAuthenticated($request)) {
-            return $this->redirectToRoute('app_inginioushome_myphotos');
+            //return $this->redirectToRoute('app_inginioushome_myphotos');
+            return $this->render(
+                '/login.html.twig',
+                [
+                    'uploader' => $this->getPhotoUploader()->getUploaderPath()
+                ]
+            );
         }
         else
         {

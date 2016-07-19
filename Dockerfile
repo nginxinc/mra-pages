@@ -9,17 +9,7 @@ RUN apt-get update && apt-get install -y \
     git \
     libcurl3-gnutls \
     lsb-release \
-    python \
     unzip
-
-# New Relic dependencies
-ENV NR_INSTALL_SILENT=1 \
-    NR_INSTALL_KEY=30d86de372edded790894f46704b09866ed3e1c5 \
-    NR_INSTALL_PHPLIST=/usr/local/bin
-
-RUN echo newrelic-php5 newrelic-php5/application-name string "Dcos-Pages" | debconf-set-selections && \
-		wget -O - https://download.newrelic.com/548C16BF.gpg | apt-key add - && \
-		sh -c 'echo "deb http://apt.newrelic.com/debian/ newrelic non-free" > /etc/apt/sources.list.d/newrelic.list'
 
 # Install vault client
 RUN wget -q https://releases.hashicorp.com/vault/0.6.0/vault_0.6.0_linux_amd64.zip && \
@@ -44,30 +34,17 @@ RUN wget -q -O /etc/ssl/nginx/CA.crt https://cs.nginx.com/static/files/CA.crt &&
     printf "deb https://plus-pkgs.nginx.com/debian `lsb_release -cs` nginx-plus\n" | tee /etc/apt/sources.list.d/nginx-plus.list
 
 # Install NGINX Plus and New Relic
-RUN apt-get update && apt-get install -y \
-    nginx-plus \
-    newrelic-php5
+RUN apt-get update && apt-get install -y nginx-plus
 
 RUN chown -R nginx /var/log/nginx/
 
 COPY amplify_install.sh /amplify_install.sh
-RUN API_KEY='0202c79a3d8411fcf82b35bc3d458f7e' HOSTNAME='mesos-pages' sh /amplify_install.sh
+RUN API_KEY='0202c79a3d8411fcf82b35bc3d458f7e' HOSTNAME='pages' sh /amplify_install.sh
 COPY ./status.html /usr/share/nginx/html/status.html
 
 # forward request logs to Docker log collector
 RUN ln -sf /dev/stdout /var/log/nginx/access.log && \
     ln -sf /dev/stdout /var/log/nginx/error.log
-
-COPY php5-fpm.conf /etc/php5/fpm/php-fpm.conf
-COPY php.ini /usr/local/etc/php/
-COPY ./nginx-php.conf /etc/nginx/
-COPY ./nginx-fabric.conf /etc/nginx/
-COPY ./nginx-gz.conf /etc/nginx/
-COPY ./nginx-ssl.conf /etc/nginx/
-COPY php-start.sh /php-start.sh
-
-COPY amplify_install.sh /amplify_install.sh
-RUN API_KEY='0202c79a3d8411fcf82b35bc3d458f7e' HOSTNAME='pages' sh /amplify_install.sh
 
 # Install XDebug
 #RUN yes | pecl install xdebug \
@@ -82,9 +59,20 @@ COPY inginious-pages/ /inginious-pages
 RUN ln -sf /dev/stdout /inginious-pages/app/logs/prod.log && \
     chown -R nginx:www-data /inginious-pages/ && \
     chmod -R 775 /inginious-pages
-    
+
 RUN cd /inginious-pages && SYMFONY_ENV=prod php composer.phar install --no-dev --optimize-autoloader
+
+COPY php5-fpm.conf /etc/php5/fpm/php-fpm.conf
+COPY php.ini /usr/local/etc/php/
+COPY nginx /etc/nginx/
+
+# Install and run NGINX config generator
+RUN wget -q https://s3.amazonaws.com/nginx-config-generator/generate_config
+RUN chmod +x generate_config && \
+    ./generate_config -p /etc/nginx/fabric_config.yaml -t /etc/nginx/nginx-fabric.conf.j2 > /etc/nginx/nginx-fabric.conf
+
+COPY php-start.sh /php-start.sh
 
 CMD ["/php-start.sh"]
 
-EXPOSE 443 80
+EXPOSE 443

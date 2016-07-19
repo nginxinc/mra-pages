@@ -1,0 +1,16 @@
+name: pages
+resolver:
+  host: 127.0.0.11
+  ttl: 1s
+root: /inginious-pages/web
+services:
+  album-manager:
+    expose_external: true
+    healthcheck: true
+  uploader:
+    expose_external: true
+    healthcheck: true
+  user-manager:
+    expose_external: true
+    healthcheck: true
+    healthcheck_uri: /v1/

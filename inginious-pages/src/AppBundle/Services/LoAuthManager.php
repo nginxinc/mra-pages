@@ -1,8 +1,8 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: benhorowitz
- * Date: 12/4/15
+ * Created by Intellij.
+ * User: Chris Stetson
+ * Date: 5/20/16
  * Time: 3:04 PM
  */
 
@@ -14,10 +14,10 @@ use GuzzleHttp\Exception\RequestException;
 use Symfony\Component\Serializer\Encoder\JsonDecode;
 
 /**
- * Class UserManager
+ * Class LoAuthManager
  * @package AppBundle\Services
  */
-class UserManager
+class LoAuthManager
 {
     /**
      * @var string
@@ -26,43 +26,21 @@ class UserManager
     /**
      * @var string
      */
-    private $userPath;
+    private $loAuthPath;
     /**
      * @var string
      */
-    private $localUserPath; //used for local, proxied XHR puts to the user manager
+    private $localloAuthPath; //used for local, proxied XHR puts to the user manager
 
     /**
      * @var string
      */
-    private $name;
-    /**
-     * @var string
-     */
     private $email;
-    /**
-     * @var string
-     */
-    private $facebookID;
-    /**
-     * @var string
-     */
-    private $googleID;
 
     /**
      * @var string
      */
     private $userID;
-
-    /**
-     * @var string
-     */
-    private $banner;
-
-    /**
-     * @var string
-     */
-    private $bannerAlbum;//when set, will be an album object
 
     /**
      * @return Client
@@ -86,13 +64,10 @@ class UserManager
      * UserManager constructor.
      */
     public function __construct($authID) {
-        $this->url = getenv("USERMANAGER_ENDPOINT_URL");
-        $this->userPath = getenv("USERMANAGER_USER_PATH");
-        $this->localUserPath = getenv("USERMANAGER_LOCAL_PATH");
+        $this->url = getenv("LOAUTH_ENDPOINT_URL");
+        $this->userPath = getenv("LOAUTH_USER_PATH");
+        $this->localUserPath = getenv("LOAUTH_LOCAL_PATH");
         $this->userID = $authID;
-        $photoManager = new PhotoManager($this->userID);
-        //$this->setBannerAlbum(317);
-
     }
 
     /**
@@ -108,7 +83,7 @@ class UserManager
         {
             $photoManager = new PhotoManager($this->userID);
             $this->setBannerAlbum($photoManager->getAlbum($user->banner_album_id));
-            $this->setBanner($user->banner_url);
+            $this->setBanner($this->bannerAlbum->poster_image->large_url);
         }
         if(isset($user->facebook_id))
         {

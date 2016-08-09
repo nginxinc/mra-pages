@@ -53,10 +53,7 @@ RUN ln -sf /dev/stdout /var/log/nginx/access.log && \
 
 COPY php5-fpm.conf /etc/php5/fpm/php-fpm.conf
 COPY php.ini /usr/local/etc/php/
-COPY ./nginx-php.conf /etc/nginx/
-COPY ./nginx-fabric.conf /etc/nginx/
-COPY ./nginx-gz.conf /etc/nginx/
-COPY ./nginx-ssl.conf /etc/nginx/
+COPY ./nginx*.conf /etc/nginx/
 COPY php-start.sh /php-start.sh
 COPY ./*.pem /etc/ssl/nginx/
 

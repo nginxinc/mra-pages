@@ -108,7 +108,7 @@ class UserManager
         {
             $photoManager = new PhotoManager($this->userID);
             $this->setBannerAlbum($photoManager->getAlbum($user->banner_album_id));
-            $this->setBanner($this->bannerAlbum->poster_image->large_url);
+            $this->setBanner($user->banner_url);
         }
         if(isset($user->facebook_id))
         {

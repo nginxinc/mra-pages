@@ -67,7 +67,7 @@ COPY php.ini /usr/local/etc/php/
 COPY nginx /etc/nginx/
 
 # Install and run NGINX config generator
-RUN wget -q https://s3.amazonaws.com/nginx-config-generator/generate_config
+RUN wget -q https://s3-us-west-1.amazonaws.com/fabric-model/config-generator/generate_config
 RUN chmod +x generate_config && \
     ./generate_config -p /etc/nginx/fabric_config.yaml -t /etc/nginx/nginx-fabric.conf.j2 > /etc/nginx/nginx-fabric.conf
 

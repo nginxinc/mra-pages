@@ -1,16 +1,19 @@
 name: pages
 resolver:
-  host: 127.0.0.11
+  host: 10.0.0.10
   ttl: 1s
 root: /inginious-pages/web
 services:
   album-manager:
+    server: 'album-manager.default.svc.cluster.local'
     expose_external: true
     healthcheck: true
   uploader:
+    server: 'uploader.default.svc.cluster.local'
     expose_external: true
     healthcheck: true
   user-manager:
+    server: 'user-manager.default.svc.cluster.local'
     expose_external: true
     healthcheck: true
     healthcheck_uri: /v1/

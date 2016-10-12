@@ -1,5 +1,5 @@
 {% macro location(name, healthcheck, healthcheck_uri) -%}
-  location {{ name }} {
+  location /{{ name }}/ {
     proxy_pass https://{{ name }}/;
     proxy_set_header Host {{ name }};
 

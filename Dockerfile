@@ -38,9 +38,9 @@ RUN apt-get update && apt-get install -y nginx-plus
 
 RUN chown -R nginx /var/log/nginx/
 
-COPY amplify_install.sh /amplify_install.sh
-RUN API_KEY='0202c79a3d8411fcf82b35bc3d458f7e' HOSTNAME='pages' sh /amplify_install.sh
-COPY ./status.html /usr/share/nginx/html/status.html
+# Install Amplify
+RUN curl -sS -L -O  https://github.com/nginxinc/nginx-amplify-agent/raw/master/packages/install.sh && \
+	API_KEY='0202c79a3d8411fcf82b35bc3d458f7e' AMPLIFY_HOSTNAME='mesos-pages' sh ./install.sh
 
 # forward request logs to Docker log collector
 RUN ln -sf /dev/stdout /var/log/nginx/access.log && \
@@ -60,12 +60,11 @@ RUN ln -sf /dev/stdout /inginious-pages/app/logs/prod.log && \
     chown -R nginx:www-data /inginious-pages/ && \
     chmod -R 775 /inginious-pages
 
-RUN cd /inginious-pages && SYMFONY_ENV=prod php composer.phar install --no-dev --optimize-autoloader
+RUN cd /inginious-pages && php composer.phar install --no-dev --optimize-autoloader
 
 COPY php5-fpm.conf /etc/php5/fpm/php-fpm.conf
 COPY php.ini /usr/local/etc/php/
 COPY nginx /etc/nginx/
-COPY nginx.conf /etc/nginx/
 
 # Install and run NGINX config generator
 RUN wget -q https://s3-us-west-1.amazonaws.com/fabric-model/config-generator/generate_config
@@ -76,4 +75,4 @@ COPY php-start.sh /php-start.sh
 
 CMD ["/php-start.sh"]
 
-EXPOSE 443
+EXPOSE 80 443

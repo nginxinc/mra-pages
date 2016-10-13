@@ -1,5 +1,5 @@
-tag = ngrefarch/pages
-volumes = -v $(CURDIR)/inginious-pages:/inginious-pages -v $(CURDIR)/nginx-php.conf:/etc/nginx/nginx-php.conf -v $(CURDIR)/php-start.sh:/php-start.sh
+tag = ngrefarch/pages:mesos
+volumes = -v $(CURDIR)/inginious-pages:/inginious-pages -v $(CURDIR)/php-start.sh:/php-start.sh
 ports = -p 80:80 -p 443:443
 env = --env-file=.env
 

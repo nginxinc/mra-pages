@@ -94,7 +94,7 @@ class InginiousHomeController extends Controller
                     'catalogID' => $this->firstName . ' ' . $this->lastName . "&acute;s Photos",
                     'catalog' => $catalog,
                     'uploader' => $this->getPhotoUploader()->getUploaderPath(),
-                    'banner' => $this->banner,
+                    'banner' => $user->getBanner(),
                     'banner_message' => $this->banner_message,
                     'user' => $this->user
                 ]
@@ -166,7 +166,13 @@ class InginiousHomeController extends Controller
      */
     public function loginAction( Request $request ) {
         if ($this->isAuthenticated($request)) {
-            return $this->redirectToRoute('app_inginioushome_myphotos');
+            //return $this->redirectToRoute('app_inginioushome_myphotos');
+            return $this->render(
+                '/login.html.twig',
+                [
+                    'uploader' => $this->getPhotoUploader()->getUploaderPath()
+                ]
+            );
         }
         else
         {
@@ -294,11 +300,11 @@ class InginiousHomeController extends Controller
             }
             if($this->user->getBanner() != null)
             {
-                $this->banner = $this->user->getBanner();
+                $this->banner = $user->getBanner();
                 $this->banner_message = "Welcome " . $this->firstName . " " . $this->lastName;
-                $this->bannerImages = $this->user->getBannerAlbum()->images;
-                $this->bannerAlbumID = $this->user->getBannerAlbum()->id;
-                $this->bannerPosterID = $this->user->getBannerAlbum()->poster_image_id;
+                $this->bannerImages = $user->getBannerAlbum()->images;
+                $this->bannerAlbumID = $user->getBannerAlbum()->id;
+                $this->bannerPosterID = $user->getBannerAlbum()->poster_image_id;
             }
             $catalog = $this->getPhotoManager($request)->getCatalog();
             return $this->render(

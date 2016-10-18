@@ -10,7 +10,7 @@
             <div class="container-fluid">
                 <div class="row">
                     <div class="login-content">
-                        <h1 class="login-title">Log In</h1>
+                        <h1 class="login-title">OAuth Log In</h1>
                         <a class="fb-login" onclick="fb_login();" href="#"><img src="{{ asset('bundles/inginious/images/facebook-icon.png') }}"> <span id="ing_fb_login">Log in with Facebook</span></a>
                         <a class="google-login" href="#"><img src="{{ asset('bundles/inginious/images/google-icon.png') }}"> <span id="ing_gp_login">Log in with Google</span></a>
                         <script>
@@ -66,7 +66,7 @@
                                     cookie: true, // enable cookies to allow the server to access
                                     // the session
                                     xfbml: true, // parse social plugins on this page
-                                    version: 'v2.2' // use version 2.2
+                                    version: 'v2.6' // use version 2.2
                                 });
 
                                 // Now that we've initialized the JavaScript SDK, we call
@@ -170,6 +170,28 @@
 
                             };
                         </script>
+                        <h1 class="login-title">Ingenious Log In</h1>
+                        <div class="login-form">
+                            <form id="user-login" method="put" class="form-horizontal" action="">
+                                <div class="form-group">
+                                    <label class="col-xs-4 col-sm-3 col-sm-offset-1 control-label">Email</label>
+                                    <div class="col-xs-4 login-field">
+                                        <input name="email" id="email" type="text" class="form-control" pattern="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+(?:[A-Z]{2}|com|org|net|gov|mil|biz|info|mobi|name|aero|jobs|museum)\b" required="required" maxlength="128" value="">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-xs-4 col-sm-3 col-sm-offset-1 control-label">Password</label>
+                                    <div class="col-xs-4 login-field">
+                                        <input name="password" id="password" type="password" class="form-control"  required="required" maxlength="128">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-md-12 login-submit">
+                                        <button id="update-account-button" name="update-account" type="submit" class="btn">Login</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
                     </div>
 
                     <div class="gradient"></div>

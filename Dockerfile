@@ -33,18 +33,18 @@ RUN wget -q -O /etc/ssl/nginx/CA.crt https://cs.nginx.com/static/files/CA.crt &&
     wget -q -O /etc/apt/apt.conf.d/90nginx https://cs.nginx.com/static/files/90nginx && \
     printf "deb https://plus-pkgs.nginx.com/debian `lsb_release -cs` nginx-plus\n" | tee /etc/apt/sources.list.d/nginx-plus.list
 
-# Install NGINX Plus and New Relic
+# Install NGINX Plus
 RUN apt-get update && apt-get install -y nginx-plus
 
 RUN chown -R nginx /var/log/nginx/
 
-COPY amplify_install.sh /amplify_install.sh
-RUN API_KEY='0202c79a3d8411fcf82b35bc3d458f7e' HOSTNAME='pages' sh /amplify_install.sh
-COPY ./status.html /usr/share/nginx/html/status.html
+# Install Amplify
+RUN curl -sS -L -O  https://github.com/nginxinc/nginx-amplify-agent/raw/master/packages/install.sh && \
+	API_KEY='0202c79a3d8411fcf82b35bc3d458f7e' AMPLIFY_HOSTNAME='mesos-pages' sh ./install.sh
 
 # forward request logs to Docker log collector
 RUN ln -sf /dev/stdout /var/log/nginx/access.log && \
-    ln -sf /dev/stdout /var/log/nginx/error.log
+    ln -sf /dev/stderr /var/log/nginx/error.log
 
 # Install XDebug
 RUN yes | pecl install xdebug
@@ -57,7 +57,7 @@ RUN ln -sf /dev/stdout /inginious-pages/app/logs/prod.log && \
     chown -R nginx:www-data /inginious-pages/ && \
     chmod -R 775 /inginious-pages
 
-RUN cd /inginious-pages && SYMFONY_ENV=prod php composer.phar install --no-dev --optimize-autoloader
+RUN cd /inginious-pages && php composer.phar install --no-dev --optimize-autoloader
 
 COPY php5-fpm.conf /etc/php5/fpm/php-fpm.conf
 COPY php.ini /usr/local/etc/php/
@@ -72,4 +72,4 @@ COPY php-start.sh /php-start.sh
 
 CMD ["/php-start.sh"]
 
-EXPOSE 443
+EXPOSE 80 443

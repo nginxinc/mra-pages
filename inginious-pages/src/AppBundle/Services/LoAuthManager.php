@@ -221,7 +221,7 @@ class LoAuthManager
      */
     private function getClient() {
         if ($this->client == null) {
-            $this->client = new Client(['base_uri' => 'http://' . $this->url ]);
+            $this->client = new Client(['base_uri' => $this->url ]);
         }
 
         return $this->client;

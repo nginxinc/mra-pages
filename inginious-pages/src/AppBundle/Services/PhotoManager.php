@@ -83,7 +83,7 @@ class PhotoManager
      */
     private function getClient() {
         if ($this->client == null) {
-            $this->client = new Client(['base_uri' => 'http://' . $this->url, 'headers' => [
+            $this->client = new Client(['base_uri' => $this->url, 'headers' => [
                 'Auth-ID' => $this->authID
             ]]);
         }

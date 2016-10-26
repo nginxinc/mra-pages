@@ -11,6 +11,9 @@ $(document).ready(function() {
     $( "#album-upload" ).submit(function( event ) {
         uploadBanner(event);bannerAlbumBool=true;
     });
+    $( "#photo-upload" ).submit(function( event ) {
+        uploadBanner(event);bannerAlbumBool=true;
+    });
 });
 var galleryIsOpen = false;
 var slideToPosition = 0;

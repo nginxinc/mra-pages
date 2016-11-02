@@ -1635,7 +1635,7 @@ form #upload-thumb-proto {
 
 /* Add photo/album */
 
-.add-photo, .add-cover-photo, .add-album {
+.add-photo, .add-cover-photo, .add-album, .delete-album {
   background: rgba(0, 0, 0, 0.9) none repeat scroll 0 0;
   left: 0;
   position: absolute;
@@ -1647,11 +1647,12 @@ form #upload-thumb-proto {
 
 .add-photo .profile-update-form,
 .add-cover-photo .profile-update-form,
-.add-album .profile-update-form {
+.add-album .profile-update-form,
+.delete-album .profile-update-form {
   margin-top: 75px;
 }
 
-.add-photo .page-title, .add-cover-photo .page-title, .add-album .page-title {
+.add-photo .page-title, .add-cover-photo .page-title, .add-album .page-title, .delete-album .page-title {
   color: #fff;
   font-family: "Aktiv Grotesk W01 Hairline",sans-serif;
   font-size: 60px;
@@ -1664,7 +1665,8 @@ form #upload-thumb-proto {
 
 .add-photo .profile-update-form .update-account,
 .add-cover-photo .profile-update-form .update-account,
-.add-album .profile-update-form .update-account {
+.add-album .profile-update-form .update-account,
+.delete-album .profile-update-form .update-account{
   display: block;
   float: none;
   margin: 20px auto;
@@ -1679,7 +1681,7 @@ form #upload-thumb-proto {
   padding: 0;
 }
 
-.add-photo, .add-cover-photo, .add-album {
+.add-photo, .add-cover-photo, .add-album, .delete-album {
   transition: all .3s;
 }
 
@@ -1689,7 +1691,8 @@ form #upload-thumb-proto {
 
 .add-photo .profile-update-form .update-pp span,
 .add-cover-photo .profile-update-form .update-pp span,
-.add-album .profile-update-form .update-pp span {
+.add-album .profile-update-form .update-pp span,
+.delete-album .profile-update-form .update-pp span {
   left: 0;
   top: 0;
 }
@@ -1779,12 +1782,13 @@ input[type="file"] > input[type="button"]::-moz-focus-inner {
 
 .add-photo.close,
 .add-cover-photo.close,
-.add-album.close {
+.add-album.close,
+.delete-album.close {
   opacity: 0;
   display: none;
 }
 
-.add-photo.open, .add-cover-photo.open, .add-album.open {
+.add-photo.open, .add-cover-photo.open, .add-album.open, .delete-album.open {
   display: block;
   opacity: 1;
   z-index: 999999;

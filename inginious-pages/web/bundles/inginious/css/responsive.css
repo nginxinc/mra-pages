@@ -484,7 +484,7 @@ footer.colophon-bottom {
   padding-bottom: 25px;
 }
 
-.add-photo .page-title, .add-cover-photo .page-title, .add-album .page-title {
+.add-photo .page-title, .add-cover-photo .page-title, .add-album, .delete-album, .page-title {
   font-size: 30px;
   letter-spacing: 2px;
   line-height: 50px;
@@ -492,11 +492,11 @@ footer.colophon-bottom {
   padding-top: 10px;
 }
 
-.add-photo .profile-update-form .update-account, .add-cover-photo .profile-update-form .update-account, .add-album .profile-update-form .update-account {
+.add-photo .profile-update-form .update-account, .add-cover-photo .profile-update-form .update-account, .add-album, .delete-album, .profile-update-form .update-account {
   margin: 10px auto;
 }
 
-.add-photo .profile-update-form, .add-cover-photo .profile-update-form, .add-album .profile-update-form {
+.add-photo .profile-update-form, .add-cover-photo .profile-update-form, .add-album, .delete-album .profile-update-form {
   margin-top: 100px;
 }
 

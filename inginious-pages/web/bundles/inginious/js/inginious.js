@@ -46,6 +46,7 @@ function updateUser(event)
     );
     userPromise.then(function(data) {
         //$("#account-manager").hide();
+        $("#name-user").html(data.name);
         $("#notification").html("Name is set to " + data.name + "</br>Email is set to " + data.email + "</br>");
 
     });

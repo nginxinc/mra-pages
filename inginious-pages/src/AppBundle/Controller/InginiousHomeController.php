@@ -136,29 +136,15 @@ class InginiousHomeController extends Controller
     }
 
     /**
-     * @Route("/stories/{slug}/{id}")
-     * @Route("/stories/{slug}/")
+     * @Route("/stories/{slug}")
      */
-    //public function storiesAction( $slug, $id, Request $request ) {
-    public function storiesAction( $slug, Request $request ) {
-        if ($this->isAuthenticated($request)) {
-            $catalog = $this->getPhotoManager($request)->getCatalog();
-            // Get the post here by ID
-            return $this->render(
-                '/post-article.html.twig',
-                [
-                    'firstName' => $this->firstName,
-                    'lastName' => $this->lastName,
-                    'authenticated' => 'header',
-                    'uploader' => $this->getPhotoUploader()->getUploaderPath(),
-                    'catalog' => $catalog
-                ]
-            );
-        }
-        else
-        {
-            $this->_send_forbidden_status_response();
-        }
+    public function storiesAction() {
+        return $this->render(
+            '/post-article.html.twig',
+            [
+                'uploader' => $this->getPhotoUploader()->getUploaderPath(),
+            ]
+        );
     }
     
     /**

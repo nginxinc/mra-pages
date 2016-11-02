@@ -1,4 +1,3 @@
-
 FROM php:7.0.5-fpm
 
 # Get other files required for installation
@@ -9,7 +8,8 @@ RUN apt-get update && apt-get install -y \
     git \
     libcurl3-gnutls \
     lsb-release \
-    unzip
+    unzip \
+    ca-certificates
 
 # Install vault client
 RUN wget -q https://releases.hashicorp.com/vault/0.6.0/vault_0.6.0_linux_amd64.zip && \
@@ -20,13 +20,13 @@ ENV VAULT_TOKEN=4b9f8249-538a-d75a-e6d3-69f5355c1751 \
     VAULT_ADDR=http://vault.ngra.ps.nginxlab.com:8200
 
 RUN mkdir -p /etc/ssl/nginx && \
-	  vault token-renew && \
-	  vault read -field=value secret/nginx-repo.crt > /etc/ssl/nginx/nginx-repo.crt && \
-	  vault read -field=value secret/nginx-repo.key > /etc/ssl/nginx/nginx-repo.key && \
-    vault read -field=value secret/ssl/csr.pem > /etc/ssl/nginx/csr.pem && \
-    vault read -field=value secret/ssl/certificate.pem > /etc/ssl/nginx/certificate.pem && \
-    vault read -field=value secret/ssl/key.pem > /etc/ssl/nginx/key.pem && \
-    vault read -field=value secret/ssl/dhparam.pem > /etc/ssl/nginx/dhparam.pem
+	vault token-renew && \
+	vault read -field=value secret/nginx-repo.crt > /etc/ssl/nginx/nginx-repo.crt && \
+	vault read -field=value secret/nginx-repo.key > /etc/ssl/nginx/nginx-repo.key && \
+	vault read -field=value secret/ssl/csr.pem > /etc/ssl/nginx/csr.pem && \
+	vault read -field=value secret/ssl/certificate.pem > /etc/ssl/nginx/certificate.pem && \
+	vault read -field=value secret/ssl/key.pem > /etc/ssl/nginx/key.pem && \
+	vault read -field=value secret/ssl/dhparam.pem > /etc/ssl/nginx/dhparam.pem
 
 RUN wget -q -O /etc/ssl/nginx/CA.crt https://cs.nginx.com/static/files/CA.crt && \
     wget -q -O - http://nginx.org/keys/nginx_signing.key | apt-key add - && \

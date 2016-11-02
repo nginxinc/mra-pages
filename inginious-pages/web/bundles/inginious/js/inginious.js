@@ -14,6 +14,9 @@ $(document).ready(function() {
     $( "#photo-upload" ).submit(function( event ) {
         uploadBanner(event);bannerAlbumBool=true;
     });
+    $( "#album-delete" ).submit(function( event ) {
+        deleteAlbum(event);
+    });
 });
 var galleryIsOpen = false;
 var slideToPosition = 0;
@@ -101,7 +104,33 @@ function setUser(resolve, reject, userName, email, bannerAlbumID) {
 
     });
 }
+/** DELETE ALBUM **/
 
+function deleteAlbum(event) {
+    event.preventDefault();
+    var album_id = $("#banner-album-id").val();
+    var albumURL = albumManagerURL + "/" + album_id;
+    if (album_id != "" || album_id != null) {
+        $.ajax({
+            url: albumURL,
+            data: null,
+            cache: false,
+            contentType: false,
+            processData: false,
+            type: 'DELETE',
+            success: function(resp){
+                console.log("Album Deleted");
+            },
+            error: function(response){
+                console.log("There is an error:" + response);
+            },
+            complete: function () {
+                //resolve(album_id);
+                console.log("Completed");
+            }
+        });
+    }
+}
 /*****************--------start uploader section----------*****************/
 
 function uploadBanner(event)

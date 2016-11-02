@@ -33,7 +33,7 @@ http {
   include mime.types;
   include nginx-gz.conf;
   resolver {{ resolver.host }} valid={{ resolver.ttl }};  #use local DNS and override TTL to whatever value makes sense
-  resolver_timeout 2s;
+  resolver_timeout 10s;
   client_max_body_size 30M;
 
   {% for name, service in services.iteritems() %}

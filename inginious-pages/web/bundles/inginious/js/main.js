@@ -74,6 +74,7 @@
 
     // Add album
     $(".add-album-btn").click(function() {
+        $("#banner-album-id").val("");
         $(".add-album").toggleClass("open");
         $("body").toggleClass("hide-overflow");         
     });
@@ -104,7 +105,7 @@
         $("body").removeClass("hide-overflow");         
     });
 
-    $("#photo-input").change(function(){
+    $("#album-photo-input").change(function(){
           var files = $(this)[0].files;
           $("#browse-button-album").text(files.length + " photos selected");
     });

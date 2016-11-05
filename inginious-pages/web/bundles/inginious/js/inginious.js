@@ -108,7 +108,7 @@ function setUser(resolve, reject, userName, email, bannerAlbumID) {
 
 function deleteAlbum(event) {
     event.preventDefault();
-    var album_id = $("#banner-album-id").val();
+    var album_id = $("#delete-album-id").val();
     var albumURL = albumManagerURL + "/" + album_id;
     if (album_id != "" || album_id != null) {
         $.ajax({
@@ -144,21 +144,24 @@ function uploadBanner(event)
      * update banner hero
      */
     event.preventDefault();
+    var isNewAlbum = true;
     var album_id = $("#banner-album-id").val();
     if(album_id == "" || album_id == null)
     {
-         createAlbum(event, function(albumID){new Promise( function (resolve, reject) {
+         createAlbum(event, isNewAlbum, function(albumID){new Promise( function (resolve, reject) {
             setUser(resolve, reject,"","", albumID)})
         });
 
     }
     else
     {
-        manageUpload(album_id);
+        //album_id = $("#add-photo-album-id").val();
+        isNewAlbum = false;
+        manageUpload(album_id, isNewAlbum);
     }
 }
 
-function createAlbum(event, thisPromise ) {
+function createAlbum(event, isNewAlbum, thisPromise ) {
 
     /*
      * Get name of album
@@ -181,7 +184,7 @@ function createAlbum(event, thisPromise ) {
     );
     albumIDPromise.then(
         function(data) {
-            manageUpload(data);
+            manageUpload(data, isNewAlbum);
             thisPromise(data);
             return data;
         });
@@ -192,15 +195,21 @@ function createAlbum(event, thisPromise ) {
     });
 }
 
-function manageUpload(albumID){
+function manageUpload(albumID, isNewAlbum){
+    var input;
+    if (isNewAlbum) {
+        input = $('#album-photo-input');
+    } else {
+        input = $('#add-photo-input');
+    }
     var filesPromise = [];
     uploaded = 0;
-    var photoInputLength = $("#photo-input").prop('files').length;
+    var photoInputLength = input.prop('files').length;
     $("#loading").html(uploaded + " of " + photoInputLength + " Images Uploaded");
     $("#upload-thumbs").data("album-id", albumID);
     for( filesIndex = 0; photoInputLength > filesIndex; filesIndex++)
     {
-        var file = $("#photo-input").prop('files')[filesIndex];
+        var file = input.prop('files')[filesIndex];
         var thumbID = "upload-thumb-" + $('.upload-thumb').length;
         filesPromise[filesIndex]= new Promise( function (resolve, reject) {
             uploadFile("#" + thumbID, file, albumID, resolve, reject);

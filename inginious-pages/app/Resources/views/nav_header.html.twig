@@ -42,49 +42,6 @@
         </div>
     </header> <!-- ./header end-->
 
-    <!-- Add photo to an existent album form -->
-    <div id="add-photo" class="add-photo close">
-        <div class="profile-update-form">
-            <h1 class="page-title">Add a Photo</h1>
-            <form id="photo-upload" action="{{ uploader }}" method="post" class="form-horizontal">
-                <div class="form-group">
-                    <label class="col-xs-4 col-sm-3 col-sm-offset-1 control-label">Album</label>
-                    <div class="col-xs-8">
-                        <div class="col-xs-12 col-sm-8 select-album">
-                            <select class="form-control" id="banner-album-id">
-                                {% if catalog is defined %}
-                                    {% for album in catalog|reverse %}
-                                        <option value="{{ album.id }}">{{ album.name }}</option>
-                                    {% endfor %}
-                                {% endif %}
-                            </select>
-                        </div>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="col-xs-4 col-sm-3 col-sm-offset-1 control-label">Upload</label>
-                    <div class="col-xs-8">
-                        <div class="col-xs-4 update-pp">
-                            <input class="form-control" id="add-photo-input" type="file" name="image" multiple="multiple" accept="image/*" required="required">
-                            <span id="browse-button-photo">Browse</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div class="col-md-12 update-account">
-                        <button type="submit" class="btn">Add Photo</button>
-                    </div>
-                    <div class="col-md-12 cancel-upload">
-                        <a href="#"><img src="{{ asset('bundles/inginious/images/hex-icon.png') }}"></a>
-                    </div>
-                </div>
-            </form>
-            <div class="cancel-upload">
-                <a href="#"><img src="{{ asset('bundles/inginious/images/nav-close-light.png') }}"></a>
-            </div>
-        </div>
-    </div> <!-- Add photo form end -->
-
     <!-- Add album form -->
     <div id="add-album" class="add-album close">
         <div class="profile-update-form">
@@ -100,7 +57,7 @@
                     <label class="col-xs-4 col-sm-3 col-sm-offset-1 control-label">Add Photos</label>
                     <div class="col-xs-8">
                         <div class="col-xs-4 update-pp">
-                            <input class="form-control" id="photo-input" type="file" name="image" multiple="multiple" accept="image/*" required="required">
+                            <input class="form-control" id="album-photo-input" type="file" name="image" multiple="multiple" accept="image/*" required="required">
                             <span id="browse-button-album">Browse</span>
                         </div>
                     </div>
@@ -129,16 +86,61 @@
         </div>
     </div> <!-- Add album form end -->
 
-    <!-- Delete an album form -->
-    <div id="delete-album" class="delete-album close">
+    <!-- Add photo to an existent album form -->
+    <div id="add-photo" class="add-photo close">
         <div class="profile-update-form">
-            <h1 class="page-title">Delete an Album</h1>
-            <form id="album-delete" action="{{ uploader }}" method="post" class="form-horizontal">
+            <h1 class="page-title">Add a Photo</h1>
+            <form id="photo-upload" action="{{ uploader }}" method="post" class="form-horizontal">
                 <div class="form-group">
                     <label class="col-xs-4 col-sm-3 col-sm-offset-1 control-label">Album</label>
                     <div class="col-xs-8">
                         <div class="col-xs-12 col-sm-8 select-album">
-                            <select class="form-control" id="selected-album-id">
+                            <select class="form-control" id="banner-album-id">
+                                <option value="">---</option>
+                                {% if catalog is defined %}
+                                    {% for album in catalog|reverse %}
+                                        <option value="{{ album.id }}">{{ album.name }}</option>
+                                    {% endfor %}
+                                {% endif %}
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-4 col-sm-3 col-sm-offset-1 control-label">Upload</label>
+                    <div class="col-xs-8">
+                        <div class="col-xs-4 update-pp">
+                            <input class="form-control" id="add-photo-input" type="file" name="image" multiple="multiple" accept="image/*" required="required">
+                            <span id="browse-button-photo">Browse</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-12 update-account">
+                        <button class="upload-button btn" id="add-photo-button" type="submit" name="add-photos" value="Add photos to the album">Add Photo</button>
+                    </div>
+                    <div class="col-md-12 cancel-upload">
+                        <a href="#"><img src="{{ asset('bundles/inginious/images/hex-icon.png') }}"></a>
+                    </div>
+                </div>
+            </form>
+            <div class="cancel-upload">
+                <a href="#"><img src="{{ asset('bundles/inginious/images/nav-close-light.png') }}"></a>
+            </div>
+        </div>
+    </div> <!-- Add photo form end -->
+
+    <!-- Delete an album form -->
+    <div id="delete-album" class="delete-album close">
+        <div class="profile-update-form">
+            <h1 class="page-title">Delete an Album</h1>
+            <form id="album-delete" class="form-horizontal">
+                <div class="form-group">
+                    <label class="col-xs-4 col-sm-3 col-sm-offset-1 control-label">Album</label>
+                    <div class="col-xs-8">
+                        <div class="col-xs-12 col-sm-8 select-album">
+                            <select class="form-control" id="delete-album-id">
+                                <option value="">---</option>
                                 {% if catalog is defined %}
                                     {% for album in catalog|reverse %}
                                         <option value="{{ album.id }}">{{ album.name }}</option>

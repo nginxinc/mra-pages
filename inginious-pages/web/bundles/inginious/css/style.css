@@ -1051,11 +1051,11 @@ footer.colophon-bottom {
   font-size: 1.5em;
   margin-left: 2em;*/
 }
-#result {
+.result {
   display: none;
   float: left;
 }
-#result .upload-thumb {
+.result .upload-thumb {
   display: inline;
   float: left;
   padding: .5em;
@@ -1064,7 +1064,7 @@ footer.colophon-bottom {
   margin-left: auto;
   margin-right: auto;
 }
-#result .upload-thumb img {
+.result .upload-thumb img {
   max-width: 128px;
   max-height: 128px;
   display: block;
@@ -1074,13 +1074,13 @@ footer.colophon-bottom {
   margin-bottom: 1em;
   margin-top: 1em;
 }
-#result .upload-thumb .selected {
+.result .upload-thumb .selected {
   border: 3px solid #00974c;
 }
-#result .upload-thumb .file-size {
+.result .upload-thumb .file-size {
   text-align: center;
 }
-form #upload-thumb-proto {
+form .upload-thumb {
   display: none;
 }
 

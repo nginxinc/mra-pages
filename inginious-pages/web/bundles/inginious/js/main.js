@@ -60,9 +60,39 @@
         
         return false;
     } );
-    
+
+    // Add album
+    $(".add-album-btn").click(function() {
+        $("#album-name").val("");
+        $("#album-photo-input").val("");
+        $("#browse-button-album").text("Browse");
+        $("#create-album-button").show();
+        $("#album-result").hide();
+        $("#album-loading").empty();
+        $("#album-loading").hide();
+        $(".add-album").toggleClass("open");
+        $("body").toggleClass("hide-overflow");
+    });
+
+    $(".add-album .cancel-upload").click(function() {
+        $(".add-album").removeClass("open");
+        $("body").removeClass("hide-overflow");
+    });
+
+    $("#album-photo-input").change(function(){
+        var files = $(this)[0].files;
+        $("#browse-button-album").text(files.length + " photos selected");
+    });
+
     // Add photo
     $(".add-photo-btn").click(function() {
+        $("#add-photos-album-id").val("undefined");
+        $("#add-photo-input").val("");
+        $("#browse-button-photos").text("Browse");
+        $("#add-photo-button").show();
+        $("#photos-result").hide();
+        $("#photos-loading").empty();
+        $("#photos-loading").hide();
         $(".add-photo").toggleClass("open");
         $("body").toggleClass("hide-overflow");
     });
@@ -72,47 +102,20 @@
         $("body").removeClass("hide-overflow");
     });
 
-    // Add album
-    $(".add-album-btn").click(function() {
-        $("#banner-album-id").val("");
-        $(".add-album").toggleClass("open");
-        $("body").toggleClass("hide-overflow");         
-    });
-    
-    $(".add-album .cancel-upload").click(function() {
-        $(".add-album").removeClass("open");         
-        $("body").removeClass("hide-overflow");         
+    $("#add-photo-input").change(function(){
+        var files = $(this)[0].files;
+        $("#browse-button-photos").text(files.length + " photos selected");
     });
 
     // Delete album
     $(".delete-album-btn").click(function() {
+        $("#delete-album-id").val("undefined");
         $(".delete-album").toggleClass("open");
         $("body").toggleClass("hide-overflow");
     });
     $(".delete-album .cancel-upload").click(function() {
         $(".delete-album").removeClass("open");
         $("body").removeClass("hide-overflow");
-    });
-
-    // Add cover photo
-    $(".add-cover").click(function() {
-        $(".add-cover-photo").toggleClass("open");         
-        $("body").toggleClass("hide-overflow");         
-    });
-    
-    $(".add-cover-photo .cancel-upload").click(function() {
-        $(".add-cover-photo").removeClass("open");         
-        $("body").removeClass("hide-overflow");         
-    });
-
-    $("#album-photo-input").change(function(){
-          var files = $(this)[0].files;
-          $("#browse-button-album").text(files.length + " photos selected");
-    });
-
-    $("#add-photo-input").change(function(){
-        var files = $(this)[0].files;
-        $("#browse-button-photo").text(files.length + " photos selected");
     });
 
 })(jQuery);

@@ -2,32 +2,39 @@
  * Created by chrisstetson on 11/16/15.
  */
 
-//this fakes out Intellij to thinking it is Javascript but doesn't render as a script tag in the browser
-
 $(document).ready(function() {
-    $("#update-account-button").click(function (event) {
+    $("#update-account-button").click(function(event) {
         updateUser(event)
     });
-    $( "#album-upload" ).submit(function( event ) {
-        uploadBanner(event);bannerAlbumBool=true;
+    $("#album-upload").submit(function(event) {
+        isNewAlbum = true;
+        setVar();
+        bannerAlbumBool = true;
+        uploadBanner(event);
     });
-    $( "#photo-upload" ).submit(function( event ) {
-        uploadBanner(event);bannerAlbumBool=true;
+    $("#photo-upload").submit(function(event) {
+        isNewAlbum = false;
+        setVar();
+        bannerAlbumBool = true;
+        uploadBanner(event);
     });
-    $( "#album-delete" ).submit(function( event ) {
+    $("#album-delete").submit(function(event) {
         deleteAlbum(event);
     });
 });
+
+var isNewAlbum;
+var input, loading, result, uploadButton, uploadThumbProto, uploadThumbs, uploadThumbsStr;
+
 var galleryIsOpen = false;
 var slideToPosition = 0;
 var photoListUlWidth = {width:0};
 var displayPhoto;
 var photoHammer = {};
 var photoListHammer = {};
-var previousDisplayPhoto = '#photo-list-image-1';
+var previousDisplayPhoto = "#photo-list-image-1";
 var menuIsOpen = false;
 var uploaderURL = "/uploader/image";//this should be set with environment variables
-var uploaderAlbumURL = "/uploader/album";//this should be set with environment variables
 var albumManagerURL = "/albums";//this should be set with environment variables
 var userManagerURL = "/account/users";//this should be set with environment variables
 var uploaded = 0;
@@ -37,32 +44,45 @@ var posterBannerImage = false;
 var posterBannerImageInWaiting;
 var posterBannerContainerInWaiting;
 
+
+function setVar() {
+    if (isNewAlbum) {
+        input = $("#album-photo-input");
+        loading = $("#album-loading");
+        result = $("#album-result");
+        uploadButton = $("#create-album-button");
+        uploadThumbProto = $("#album-upload-thumb-proto");
+        uploadThumbs = $("#album-upload-thumbs");
+        uploadThumbsStr = "#album-upload-thumbs";
+    } else {
+        input = $("#add-photo-input");
+        loading = $("#photos-loading");
+        result = $("#photos-result");
+        uploadButton = $("#add-photo-button");
+        uploadThumbProto = $("#photos-upload-thumb-proto");
+        uploadThumbs = $("#photos-upload-thumbs");
+        uploadThumbsStr = "#photos-upload-thumbs";
+    }
+}
 /*****************--------start user account section----------*****************/
 
-function updateUser(event)
-{
+function updateUser(event) {
     event.preventDefault();
     uploaded = 0;
-    var userPromise = new Promise( function (resolve, reject) {
-            setUser(resolve, reject,$("#name").val(),$("#email").val());
-        }
-    );
+    var userPromise = new Promise(function(resolve, reject) {
+        setUser(resolve, reject, $("#name").val(), $("#email").val());
+    });
     userPromise.then(function(data) {
-        //$("#account-manager").hide();
         $("#name-user").html(data.name);
         $("#notification").html("Name is set to " + data.name + "</br>Email is set to " + data.email + "</br>");
-
     });
     userPromise.catch(function (error){
-        //$("#account-manager").hide();
         $(".photo-set-list").html(error);
-        console.log("There is an error: " + error);
-
+        console.log("ERROR: " + error);
     });
 }
 
 function setUser(resolve, reject, userName, email, bannerAlbumID) {
-    //these will be done in either username/email or bannerAlbumID
     userManagerURL = $("#account-manager").attr('action');
     var data = '{';
     if (userName != undefined && userName != '') {data = data + '"name": "' + userName + '",';}
@@ -133,104 +153,63 @@ function deleteAlbum(event) {
 }
 /*****************--------start uploader section----------*****************/
 
-function uploadBanner(event)
-{
-    /***
-     * Check if there is an album ID
-     * if not, create album
-     * upload photo
-     * set album poster
-     * set banner photo
-     * update banner hero
-     */
+function uploadBanner(event) {
     event.preventDefault();
-    var isNewAlbum = true;
-    var album_id = $("#banner-album-id").val();
-    if(album_id == "" || album_id == null)
-    {
-         createAlbum(event, isNewAlbum, function(albumID){new Promise( function (resolve, reject) {
+    if (isNewAlbum) {
+        createAlbum(event, function(albumID) { new Promise(function(resolve, reject) {
             setUser(resolve, reject,"","", albumID)})
         });
-
-    }
-    else
-    {
-        //album_id = $("#add-photo-album-id").val();
-        isNewAlbum = false;
-        manageUpload(album_id, isNewAlbum);
+    } else {
+        manageUpload($("#add-photos-album-id").val());
     }
 }
 
-function createAlbum(event, isNewAlbum, thisPromise ) {
-
-    /*
-     * Get name of album
-     * Submit name and get back album_id
-     * Get images from the form
-     * Make a map of images
-     * Create progress event listeners for each image
-     * submit images to uploader with album_id (I may need to put this as a header/alternate value because of the way files are submitted)
-     * get response back for each image with the thumbnail URL
-     * place into page showing upload progress and thumbnail when done
-     * close panel refreshes album list
-     */
+function createAlbum(event, thisPromise ) {
     event.preventDefault();
     uploaded = 0;
-    $('#upload-panel').animate({width:'90%'});
-    $('#result').show();
-    var albumIDPromise = new Promise( function (resolve, reject) {
-            initAlbum($("#album-name").val(), resolve, reject);
-        }
-    );
-    albumIDPromise.then(
-        function(data) {
-            manageUpload(data, isNewAlbum);
-            thisPromise(data);
-            return data;
-        });
-    albumIDPromise.catch(function (error){
-        $("#loading").html(error);
-        console.log("There is an error:" + error);
-
+    var albumIDPromise = new Promise(function(resolve, reject) {
+        initAlbum($("#album-name").val(), resolve, reject);
+    });
+    albumIDPromise.then(function(data) {
+        manageUpload(data);
+        thisPromise(data);
+        return data;
+    });
+    albumIDPromise.catch(function(error) {
+        loading.show();
+        loading.html(error);
+        console.log("ERROR: " + error);
     });
 }
 
-function manageUpload(albumID, isNewAlbum){
-    var input;
-    if (isNewAlbum) {
-        input = $('#album-photo-input');
-    } else {
-        input = $('#add-photo-input');
-    }
+function manageUpload(albumID){
     var filesPromise = [];
     uploaded = 0;
     var photoInputLength = input.prop('files').length;
-    $("#loading").html(uploaded + " of " + photoInputLength + " Images Uploaded");
-    $("#upload-thumbs").data("album-id", albumID);
-    for( filesIndex = 0; photoInputLength > filesIndex; filesIndex++)
-    {
+    loading.show();
+    loading.html(uploaded + " of " + photoInputLength + " Images Uploaded");
+    result.show();
+    uploadThumbs.data("album-id", albumID); // TODO
+    for(filesIndex = 0; filesIndex < photoInputLength; filesIndex++) {
         var file = input.prop('files')[filesIndex];
         var thumbID = "upload-thumb-" + $('.upload-thumb').length;
         filesPromise[filesIndex]= new Promise( function (resolve, reject) {
             uploadFile("#" + thumbID, file, albumID, resolve, reject);
         });
-        if(bannerAlbumBool)
-        {
-            $('#upload-thumb-proto').clone().prependTo('#upload-thumbs').attr('id',thumbID).attr('display','inline');
-        }
-        else
-        {
-            $('#upload-thumb-proto').clone().appendTo('#upload-thumbs').attr('id',thumbID).attr('display','inline');
+        if(bannerAlbumBool) {
+            uploadThumbProto.clone().prependTo(uploadThumbsStr).attr('id',thumbID).attr('display','inline');
+        } else {
+            uploadThumbProto.clone().appendTo(uploadThumbsStr).attr('id',thumbID).attr('display','inline');
         }
     }
     Promise.all(filesPromise).then(function(){
-        $(".upload-button").hide();
-        $("#album-upload .label").hide();
-        $("#loading").append("<br/> Click on an image to set the photo album poster image.");
+        uploadButton.hide();
+        $("#album-upload .label").hide(); // TODO
+        loading.append("<br/>Click on an image to set the photo album poster image.");
 
     }).catch(function (error){
-            $("#loading").html(error);
-        })
+        loading.html(error);
+    })
 }
 
 function getFileSize(file) {
@@ -242,8 +221,7 @@ function getFileSize(file) {
     return totalFileSize;
 }
 
-function initAlbum(albumName, resolve, reject, albumDescription)
-{
+function initAlbum(albumName, resolve, reject, albumDescription) {
     var data = new FormData;
     data.append("album[name]", albumName );
     if(albumDescription !== undefined)
@@ -261,13 +239,13 @@ function initAlbum(albumName, resolve, reject, albumDescription)
         success: function(resp){
             if (resp.name == "StatusCodeError")
             {
-                $("#loading").html("Error Trying To Upload: " + resp.message);
+                $("#album-loading").html("Error Trying To Upload: " + resp.message);
                 console.log("Error Trying To Upload: " + resp.message);
                 reject("Error Trying To Upload: " + resp.message);
             }
             else {
                 album_id = resp.id;
-                $("#upload-thumbs").data("album-id", album_id);
+                uploadThumbs.data("album-id", album_id);
             }
         },
         error: function(response){
@@ -279,8 +257,7 @@ function initAlbum(albumName, resolve, reject, albumDescription)
     });
 }
 
-function uploadFile(uploadThumbnail, file, albumID, resolve, reject)
-{
+function uploadFile(uploadThumbnail, file, albumID, resolve, reject) {
     var fileSize = getFileSize(file);
     var data = new FormData;
     data.append("image", file );
@@ -294,19 +271,16 @@ function uploadFile(uploadThumbnail, file, albumID, resolve, reject)
         processData: false,
         type: 'POST',
         success: function(resp){
-            if (resp.name == "StatusCodeError")
-            {
-                $("#loading").html("Error Trying To Upload: " + resp.message);
+            if (resp.name == "StatusCodeError") {
+                loading.html("Error Trying To Upload: " + resp.message);
                 console.log("Error Trying To Upload: " + resp.message);
                 reject("Error Trying To Upload: " + resp.message);
-            }
-            else
-            {
+            } else {
                 var thumbnail = resp.thumb_url;
                 var imageID = resp.id;
                 $(uploadThumbnail + " img").attr('src',thumbnail);
                 $(uploadThumbnail).data('image-id',imageID);
-                $("#loading").html(++uploaded + " of " + filesIndex + " Images Uploaded");
+                loading.html(++uploaded + " of " + filesIndex + " Images Uploaded");
                 $(uploadThumbnail).click(function(evt){
                     setAlbumPosterImage(imageID, albumID, uploadThumbnail);
                 });
@@ -316,7 +290,7 @@ function uploadFile(uploadThumbnail, file, albumID, resolve, reject)
         },
         error: function(response){
             console.log("There is an error:" + response.message);
-            $("#loading").html("There is an error:" + response.message);
+            loading.html("There is an error:" + response.message);
             reject("There is an error:" + response.message);
             //retry logic
         },
@@ -336,8 +310,7 @@ function uploadFile(uploadThumbnail, file, albumID, resolve, reject)
     });
 }
 
-function setAlbumPosterImage(imageID,album_id,container)
-{
+function setAlbumPosterImage(imageID,album_id,container) {
     var data = new FormData;
     data.append("album[poster_image_id]", imageID);
     var putURL = albumManagerURL + "/" +  album_id;
@@ -362,7 +335,7 @@ function setAlbumPosterImage(imageID,album_id,container)
             //change to class=selected
             $(".upload-thumb img").removeClass("selected");
             $(container +" img").addClass("selected");
-            $("#loading").html("Poster Image is set.");
+            loading.html("Poster Image is set.");
             if(bannerAlbumBool)
             {
                 $(".hero").css('background-image', 'url(' + resp.responseJSON.poster_image.large_url + ')');
@@ -374,8 +347,7 @@ function setAlbumPosterImage(imageID,album_id,container)
     });
 }
 
-function showHideUploadPanel(callingImage, panel, reloadCatalog)
-{
+function showHideUploadPanel(callingImage, panel, reloadCatalog) {
     var img = $(callingImage).offset();
     var leftPosi = img.left ;
     var topPosi;
@@ -390,16 +362,16 @@ function showHideUploadPanel(callingImage, panel, reloadCatalog)
     {
         if(!posterBannerImage && $('.upload-button').css('display') == 'none')
         {
-            setAlbumPosterImage(posterBannerImageInWaiting, $("#upload-thumbs").data("album-id"), posterBannerContainerInWaiting);//auto sets the poster/Banner image
+            setAlbumPosterImage(posterBannerImageInWaiting, uploadThumbs.data("album-id"), posterBannerContainerInWaiting);//auto sets the poster/Banner image
         }
         $('#photo-input').val('');
-        $('#loading').empty();
+        loading.empty();
         $(panel).height("");
         $(panel).width("");
         if(reloadCatalog) {
             $('.photo-set-list').load("/catalog");
-            $('#upload-thumbs').empty();
-            $("#results").hide();
+            uploadThumbs.empty();
+            $("#album-results").hide();
         }
         $(".upload-button").show();
         $("#album-upload .label").show();

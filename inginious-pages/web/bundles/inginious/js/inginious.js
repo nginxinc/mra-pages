@@ -64,6 +64,7 @@ function setVar() {
         uploadThumbsStr = "#photos-upload-thumbs";
     }
 }
+
 /*****************--------start user account section----------*****************/
 
 function updateUser(event) {
@@ -189,7 +190,7 @@ function manageUpload(albumID){
     loading.show();
     loading.html(uploaded + " of " + photoInputLength + " Images Uploaded");
     result.show();
-    uploadThumbs.data("album-id", albumID); // TODO
+    uploadThumbs.data("album-id", albumID);
     for(filesIndex = 0; filesIndex < photoInputLength; filesIndex++) {
         var file = input.prop('files')[filesIndex];
         var thumbID = "upload-thumb-" + $('.upload-thumb').length;

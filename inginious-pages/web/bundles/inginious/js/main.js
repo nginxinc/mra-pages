@@ -70,6 +70,7 @@
         $("#album-result").hide();
         $("#album-loading").empty();
         $("#album-loading").hide();
+        $("#album-upload-thumbs").empty();
         $(".add-album").toggleClass("open");
         $("body").toggleClass("hide-overflow");
     });
@@ -93,6 +94,7 @@
         $("#photos-result").hide();
         $("#photos-loading").empty();
         $("#photos-loading").hide();
+        $("#photos-upload-thumbs").empty();
         $(".add-photo").toggleClass("open");
         $("body").toggleClass("hide-overflow");
     });

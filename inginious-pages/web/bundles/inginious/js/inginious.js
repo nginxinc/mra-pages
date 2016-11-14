@@ -11,15 +11,18 @@ $(document).ready(function() {
         setVar();
         bannerAlbumBool = true;
         uploadBanner(event);
+        $("#albums").load(location.href+" #albums>*","");
     });
     $("#photo-upload").submit(function(event) {
         isNewAlbum = false;
         setVar();
         bannerAlbumBool = true;
         uploadBanner(event);
+        $("#albums").load(location.href+" #albums>*","");
     });
     $("#album-delete").submit(function(event) {
         deleteAlbum(event);
+        $("#albums").load(location.href+" #albums>*","");
     });
 });
 

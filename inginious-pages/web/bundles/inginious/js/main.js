@@ -113,6 +113,8 @@
     $(".delete-album-btn").click(function() {
         $("#delete-album-id").val("undefined");
         $(".delete-album").toggleClass("open");
+        $("#delete-info").empty();
+        $("#delete-info").hide();
         $("body").toggleClass("hide-overflow");
     });
     $(".delete-album .cancel-upload").click(function() {

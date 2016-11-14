@@ -12,16 +12,19 @@ $(document).ready(function() {
         bannerAlbumBool = true;
         uploadBanner(event);
         $("#albums").load(location.href+" #albums>*","");
+        $("#photos-list-existent-albums").load(location.href+" #photos-list-existent-albums>*","");
+        $("#delete-list-existent-albums").load(location.href+" #delete-list-existent-albums>*","");
     });
     $("#photo-upload").submit(function(event) {
         isNewAlbum = false;
         setVar();
         bannerAlbumBool = true;
         uploadBanner(event);
-        $("#albums").load(location.href+" #albums>*","");
     });
     $("#album-delete").submit(function(event) {
         deleteAlbum(event);
+        $("#delete-list-existent-albums").load(location.href+" #delete-list-existent-albums>*","");
+        $("#photos-list-existent-albums").load(location.href+" #photos-list-existent-albums>*","");
         $("#albums").load(location.href+" #albums>*","");
     });
 });
@@ -151,6 +154,8 @@ function deleteAlbum(event) {
             complete: function () {
                 //resolve(album_id);
                 console.log("Completed");
+                $("#delete-info").show();
+                $("#delete-info").html("Album deleted.");
             }
         });
     }
@@ -347,6 +352,7 @@ function setAlbumPosterImage(imageID,album_id,container) {
                 $(container + " .file-size").html("Banner Image");
             }
             posterBannerImage = true;
+            $("#albums").load(location.href+" #albums>*","");
         }
     });
 }

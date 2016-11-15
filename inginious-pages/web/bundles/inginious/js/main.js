@@ -112,14 +112,32 @@
     // Delete album
     $(".delete-album-btn").click(function() {
         $("#delete-album-id").val("undefined");
-        $(".delete-album").toggleClass("open");
         $("#delete-info").empty();
         $("#delete-info").hide();
+        $(".delete-album").toggleClass("open");
         $("body").toggleClass("hide-overflow");
     });
+
     $(".delete-album .cancel-upload").click(function() {
         $(".delete-album").removeClass("open");
         $("body").removeClass("hide-overflow");
+    });
+
+    // Add cover
+    $(".add-cover-btn").click(function() {
+        $(".add-cover-photo").toggleClass("open");
+        $("body").toggleClass("hide-overflow");
+    });
+
+    $(".add-cover-photo .cancel-upload").click(function() {
+        $("#browse-button-cover").text("Browse");
+        $(".add-cover-photo").removeClass("open");
+        $("body").removeClass("hide-overflow");
+    });
+
+    $("#add-cover-input").change(function(){
+        var files = $(this)[0].files;
+        $("#browse-button-cover").text(files.length + " photo selected");
     });
 
 })(jQuery);

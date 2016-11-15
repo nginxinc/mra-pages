@@ -1409,18 +1409,18 @@ form .upload-thumb {
   text-align: center;
 }
 
-.add-cover {
+.add-cover-btn {
   bottom: 75px;
   left: 150px;
   position: absolute;
 }
 
-.add-cover img {
+.add-cover-btn img {
   float: left;
   width: 32px;
 }
 
-.add-cover p {
+.add-cover-btn p {
   color: #9b9b9b;
   float: left;
   font-family: "Aktiv Grotesk W01 Thin",sans-serif;
@@ -1432,7 +1432,7 @@ form .upload-thumb {
 }
 
 
-.add-cover p { 
+.add-cover-btn p {
   opacity: 1; /* If no cover photo */
 }
 

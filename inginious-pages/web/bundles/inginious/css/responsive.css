@@ -440,16 +440,16 @@ footer.colophon-bottom {
   height: 336px;
 }
 
-.add-cover {
+.add-cover-btn {
   bottom: 152px;
   left: 15px;
 }
 
-.add-cover img {
+.add-cover-btn img {
   width: 20px;
 }
 
-.add-cover p {
+.add-cover-btn p {
   font-size: 9px;
   line-height: 12px;
   margin-left: 8px;

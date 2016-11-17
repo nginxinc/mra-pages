@@ -27,6 +27,9 @@ $(document).ready(function() {
         $("#photos-list-existent-albums").load(location.href+" #photos-list-existent-albums>*","");
         $("#albums").load(location.href+" #albums>*","");
     });
+    $("#cover-upload").submit(function(event) {
+
+    })
 });
 
 var isNewAlbum;

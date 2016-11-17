@@ -24,7 +24,7 @@ use Symfony\Component\Serializer\Encoder\JsonDecode;
 use Symfony\Component\Serializer\Encoder\JsonEncode;
 
 
-class InginiousHomeController extends Controller
+class IngeniousHomeController extends Controller
 {
 
     private $name;
@@ -152,7 +152,7 @@ class InginiousHomeController extends Controller
      */
     public function loginAction( Request $request ) {
         if ($this->isAuthenticated($request)) {
-            //return $this->redirectToRoute('app_inginioushome_myphotos');
+            //return $this->redirectToRoute('app_ingenioushome_myphotos');
             return $this->render(
                 '/login.html.twig',
                 [

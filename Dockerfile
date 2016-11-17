@@ -51,13 +51,13 @@ RUN yes | pecl install xdebug
 
 # install application
 ENV SYMFONY_ENV=prod
-COPY inginious-pages/ /inginious-pages
+COPY ingenious-pages/ /ingenious-pages
 
-RUN ln -sf /dev/stdout /inginious-pages/app/logs/prod.log && \
-    chown -R nginx:www-data /inginious-pages/ && \
-    chmod -R 775 /inginious-pages
+RUN ln -sf /dev/stdout /ingenious-pages/app/logs/prod.log && \
+    chown -R nginx:www-data /ingenious-pages/ && \
+    chmod -R 775 /ingenious-pages
 
-RUN cd /inginious-pages && php composer.phar install --no-dev --optimize-autoloader
+RUN cd /ingenious-pages && php composer.phar install --no-dev --optimize-autoloader
 
 COPY php5-fpm.conf /etc/php5/fpm/php-fpm.conf
 COPY php.ini /usr/local/etc/php/

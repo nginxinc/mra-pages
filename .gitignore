@@ -40,28 +40,28 @@ gen
 
 ### Symfony template
 # Cache and logs (Symfony2)
-/inginious-pages/app/cache/*
-/inginious-pages/app/logs/*
+/ingenious-pages/app/cache/*
+/ingenious-pages/app/logs/*
 !app/cache/.gitkeep
 !app/logs/.gitkeep
 
 # Cache and logs (Symfony3)
-/inginious-pages/var/cache/*
-/inginious-pages/var/logs/*
-/inginious-pages/app/logs/dev.log
+/ingenious-pages/var/cache/*
+/ingenious-pages/var/logs/*
+/ingenious-pages/app/logs/dev.log
 !var/cache/.gitkeep
 !var/logs/.gitkeep
 
 # Parameters
-/inginious-pages/app/config/parameters.yml
-/inginious-pages/app/config/parameters.ini
+/ingenious-pages/app/config/parameters.yml
+/ingenious-pages/app/config/parameters.ini
 
 # Managed by Composer
-/inginious-pages/var/bootstrap.php.cache
-/inginious-pages/bin/*
+/ingenious-pages/var/bootstrap.php.cache
+/ingenious-pages/bin/*
 !bin/console
 !bin/symfony_requirements
-/inginious-pages/vendor/
+/ingenious-pages/vendor/
 
 # Assets and user uploads
 /web/bundles/
@@ -97,10 +97,10 @@ csr.pem
 dhparam.pem
 key.pem
 ngra-pages.iml
-inginious-pages/vendor
-inginious-pages/app/bootstrap.php.cache
+ingenious-pages/vendor
+ingenious-pages/app/bootstrap.php.cache
 ngra-pages.iml
 .idea/modules.xml
-inginious-pages.iml
+ingenious-pages.iml
 /.idea
 nginx.iml

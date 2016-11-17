@@ -5,7 +5,7 @@ var path = require('path');
 var paths = {
   less: './*.less',
   main: './main.less',
-  css: '../inginious-pages/web/bundles/inginious/css/'
+  css: '../ingenious-pages/web/bundles/ingenious/css/'
 };
 
 gulp.task('less', function () {

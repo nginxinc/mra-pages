@@ -2,7 +2,7 @@ name: pages
 resolver:
   host: 198.51.100.1 198.51.100.2 198.51.100.3
   ttl: 1s
-root: /inginious-pages/web
+root: /ingenious-pages/web
 services:
   album-manager:
     server: 'marathon.mesos service=_album-manager._tcp'

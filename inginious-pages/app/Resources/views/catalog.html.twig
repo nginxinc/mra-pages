@@ -6,14 +6,12 @@
                         <div class="cat-album-container">
                             {% for album in catalog|reverse %}
                             <div class="col-sm-2 col-xs-4 album-thumb">
-                                <!--a onClick="showHidePhotoGallery('{{ catalogID }}','{{ album.name }}', '{{ album.id }}');return false;" class="photo-set-link" href="#"-->
                                 <a class="photo-set-link" href="/photos/{{ catalogID }}/{{ album.name }}/{{ album.id }}">
                                     {% if album.poster_image is defined %}
                                     <figure>
                                       <img src="{{ album.poster_image.thumb_url }}" alt="{{ album.name }}">
                                     </figure>
                                     {% else %}
-                                    <div style="height: 150px; width: 100%;"></div>
                                     {% endif %}
                                     <h3 class="album-caption">{{ album.name }}</h3>
                                 </a>

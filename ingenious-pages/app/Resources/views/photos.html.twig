@@ -30,7 +30,7 @@
                         <div class="album-container">
                             {% for image in images %}
                             <!--single-photo-->
-                            <a href="{{ image.large_url }}" data-sub-html='<h1 class="photo-title">{{ albumName }}</h1>
+                            <a class="hideOverflow" href="{{ image.large_url }}" data-sub-html='<h1 class="photo-title">{{ albumName }}</h1>
                             <div class="album-meta">
                                 <div class="author-meta">
                                     <img class="pull-left" src="{{ asset('bundles/ingenious/images/author-avatar-2.png' ) }}" alt="Author">

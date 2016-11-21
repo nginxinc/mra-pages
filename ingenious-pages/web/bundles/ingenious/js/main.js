@@ -55,11 +55,19 @@
     $( document ).on( 'click', '.back-to-album', function( e ) {
         e.preventDefault();
         
-        var $lg = $( '.album-container' );
-        $lg.data( 'lightGallery' ).destroy();
+        var $lg = $('.album-container');
+        $lg.data('lightGallery').destroy();
         
         return false;
     } );
+
+    $(".hideOverflow").click(function() {
+        $('html, body').css('overflow', 'hidden');
+    });
+
+    $('.album-container').lightGallery().on('onCloseAfter.lg', function(event) {
+        $('html, body').css('overflow', 'auto');
+    });
 
     // Add album
     $(".add-album-btn").click(function() {

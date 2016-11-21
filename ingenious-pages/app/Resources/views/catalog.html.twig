@@ -7,13 +7,15 @@
                             {% for album in catalog|reverse %}
                             <div class="col-sm-2 col-xs-4 album-thumb">
                                 <a class="photo-set-link" href="/photos/{{ catalogID }}/{{ album.name }}/{{ album.id }}">
-                                    {% if album.poster_image is defined %}
-                                    <figure>
-                                      <img src="{{ album.poster_image.thumb_url }}" alt="{{ album.name }}">
-                                    </figure>
-                                    {% else %}
-                                    {% endif %}
-                                    <h3 class="album-caption">{{ album.name }}</h3>
+                                    <div class="photo-and-caption">
+                                        {% if album.poster_image is defined %}
+                                            <figure>
+                                                <img src="{{ album.poster_image.thumb_url }}" alt="{{ album.name }}">
+                                            </figure>
+                                        {% else %}
+                                        {% endif %}
+                                        <h3 class="album-caption">{{ album.name }}</h3>
+                                    </div>
                                 </a>
                             </div><!--./single album thumb-->
                             {% endfor %}

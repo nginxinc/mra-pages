@@ -1393,12 +1393,15 @@ form .upload-thumb {
   cursor: pointer;
 }
 
+.photo-and-caption {
+  width: 128px;
+}
+
 .album-caption {
   color: #01dd60;
   font-family: "AKTIV GROTESK W01 Thin",sans-serif;
   font-size: 18px;
   letter-spacing: 0.5px;
-  margin: 20px auto 0;
   text-align: center;
 }
 

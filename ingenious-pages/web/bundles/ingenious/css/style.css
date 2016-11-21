@@ -727,6 +727,7 @@ footer.colophon-bottom {
   position: absolute;
   text-transform: uppercase;
   top: 13px;
+  text-shadow: none;
 }
 
 .profile-update-form .remove-pp a{

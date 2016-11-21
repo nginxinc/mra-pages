@@ -352,7 +352,7 @@ function setAlbumPosterImage(imageID,album_id,container) {
             {
                 $(".hero").css('background-image', 'url(' + resp.responseJSON.poster_image.large_url + ')');
                 $(".file-size").empty();
-                $(container + " .file-size").html("Banner Image");
+                $(container + " .file-size").html("Poster Image");
             }
             posterBannerImage = true;
             $("#albums").load(location.href+" #albums>*","");

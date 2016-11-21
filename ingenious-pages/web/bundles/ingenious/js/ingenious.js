@@ -32,7 +32,7 @@ $(document).ready(function() {
     });
 });
 
-var isNewAlbum;
+var isNewAlbum, isPosterImageSettedAutomatically;
 var input, loading, result, uploadButton, uploadThumbProto, uploadThumbs, uploadThumbsStr;
 
 var galleryIsOpen = false;
@@ -293,7 +293,12 @@ function uploadFile(uploadThumbnail, file, albumID, resolve, reject) {
                 $(uploadThumbnail + " img").attr('src',thumbnail);
                 $(uploadThumbnail).data('image-id',imageID);
                 loading.html(++uploaded + " of " + filesIndex + " Images Uploaded");
+                if (uploaded == 1 && isNewAlbum) {
+                    isPosterImageSettedAutomatically = true;
+                    setAlbumPosterImage(imageID, albumID, uploadThumbnail);
+                }
                 $(uploadThumbnail).click(function(evt){
+                    isPosterImageSettedAutomatically = false;
                     setAlbumPosterImage(imageID, albumID, uploadThumbnail);
                 });
                 posterBannerImageInWaiting = imageID;
@@ -345,14 +350,15 @@ function setAlbumPosterImage(imageID,album_id,container) {
         complete: function (resp) {
             //clear the previous selected img
             //change to class=selected
-            $(".upload-thumb img").removeClass("selected");
-            $(container +" img").addClass("selected");
-            loading.html("Poster Image is set.");
-            if(bannerAlbumBool)
-            {
-                $(".hero").css('background-image', 'url(' + resp.responseJSON.poster_image.large_url + ')');
-                $(".file-size").empty();
-                $(container + " .file-size").html("Poster Image");
+            if (!isPosterImageSettedAutomatically) {
+                $(".upload-thumb img").removeClass("selected");
+                $(container +" img").addClass("selected");
+                loading.html("Poster Image is set.");
+                if(bannerAlbumBool) {
+                    $(".hero").css('background-image', 'url(' + resp.responseJSON.poster_image.large_url + ')');
+                    $(".file-size").empty();
+                    $(container + " .file-size").html("Poster Image");
+                }
             }
             posterBannerImage = true;
             $("#albums").load(location.href+" #albums>*","");

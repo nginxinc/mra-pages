@@ -29,7 +29,7 @@ $(document).ready(function() {
     });
     $("#cover-upload").submit(function(event) {
 
-    })
+    });
 });
 
 var isNewAlbum;

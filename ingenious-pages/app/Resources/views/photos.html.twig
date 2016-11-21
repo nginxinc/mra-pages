@@ -7,7 +7,7 @@
         </div>
     {% endblock %}
  {% block hero %}
-     
+
         <section class="single-album hero-banner">
             <div class="inner"></div>
             <div class="container-fluid">
@@ -20,7 +20,7 @@
                 </div>
             </div> <!--./end container-->
         </section><!-- ./ end page content-->
-     
+
  {% endblock %}
 {% block albums %}
         <section id="single-album" class="albums album-single">
@@ -28,8 +28,6 @@
                 <div class="row">
                     <div class="page-content">
                         <div class="album-container">
-                        
-                        
                             {% for image in images %}
                             <!--single-photo-->
                             <a href="{{ image.large_url }}" data-sub-html='<h1 class="photo-title">{{ albumName }}</h1>
@@ -48,7 +46,7 @@
                             </div>
                             <a href="#" class="back-to-album lg-close">Back to Album</a>'> <!--./lightbox content for each photo-->
 
-                                <div class="col-sm-2 col-xs-4 album-thumb">
+                                <div class="col-sm-2 col-xs-4 photo-thumb">
                                     <figure>
                                       <img src="{{ image.thumb_url }}" alt="Europe">
                                     </figure>
@@ -56,10 +54,6 @@
                                 </div><!--./single album thumb-->
                             </a> <!-- ./single-photo-->
                             {% endfor %}
-                        
-                            
-
-
                         </div> <!--./album-container-->
                         <div class="back-to-photos">
                             <a href="/myphotos">Back to my photos</a>

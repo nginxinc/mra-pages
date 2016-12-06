@@ -41,6 +41,7 @@ class IngeniousHomeController extends Controller
     private $bannerImages = null;
     private $bannerAlbumID = null;
     private $bannerPosterID = null;
+    private $allImages = null;
 
 
     public function isAuthenticated(Request $request) {
@@ -77,14 +78,13 @@ class IngeniousHomeController extends Controller
      */
     public function myphotosAction(Request $request)
     {
-        if($this->isAuthenticated($request))
-        {
-            if($this->user == null)
-            {
+        if($this->isAuthenticated($request)) {
+            if ($this->user == null) {
                 $user = $this->getUserManager($this->authID)->getUser();
                 $this->user = $user;
             }
             $catalog = $this->getPhotoManager($request)->getCatalog();
+            $allImages = $this->getPhotoManager($request)->getAllImages();
             return $this->render(
                 '/home.html.twig',
                 [
@@ -96,14 +96,13 @@ class IngeniousHomeController extends Controller
                     'uploader' => $this->getPhotoUploader()->getUploaderPath(),
                     'banner' => $user->getBanner(),
                     'banner_message' => $this->banner_message,
-                    'user' => $this->user
+                    'user' => $this->user,
+                    'allImages' => $allImages,
+                    'userManager' => trim( $this->user->getLocalUserPath() ) . "/" . $this->user->getUserID()
                 ]
             );
-        }
-        else
-        {
+        } else {
             $this->_send_forbidden_status_response();
-
         }
     }
 
@@ -287,10 +286,6 @@ class IngeniousHomeController extends Controller
             if($this->user->getBanner() != null)
             {
                 $this->banner = $user->getBanner();
-                $this->banner_message = "Welcome " . $this->firstName . " " . $this->lastName;
-                $this->bannerImages = $user->getBannerAlbum()->images;
-                $this->bannerAlbumID = $user->getBannerAlbum()->id;
-                $this->bannerPosterID = $user->getBannerAlbum()->poster_image_id;
             }
             $catalog = $this->getPhotoManager($request)->getCatalog();
             return $this->render(

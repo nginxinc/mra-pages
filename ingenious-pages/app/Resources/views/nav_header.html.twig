@@ -176,34 +176,49 @@
         </div>
     </div> <!-- Delete album form end -->
 
-    <!-- Add cover form -->
-    <div id="add-cover-photo" class="add-cover-photo close">
-        <div class="profile-update-form">
-            <h1 class="page-title">Add Cover Photo</h1>
-            <form id="cover-upload" action="{{ uploader }}" method="post" class="form-horizontal">
-                <div class="form-group">
-                    <label class="col-xs-4 col-sm-3 col-sm-offset-1 control-label">Photo</label>
-                    <div class="col-xs-8">
-                        <div class="col-xs-4 update-pp">
-                            <input class="form-control" id="add-cover-input" type="file" accept="image/*"
-                                   required="required">
-                            <span id="browse-button-cover">Browse</span>
+    {% if "/app_dev.php/myphotos" == path(app.request.attributes.get('_route'),
+                    app.request.attributes.get('_route_params')) or or "/myphotos" == path(app.request.attributes.get('_route'),
+                    app.request.attributes.get('_route_params')) %}
+        <!-- Add cover form -->
+        <div id="add-cover-photo" class="add-cover-photo close">
+            <div class="profile-update-form">
+                <h1 class="page-title">Add Cover Photo</h1>
+                <form id="cover-upload" action="{{ userManager }}" method="put" class="form-horizontal">
+                    <div class="form-group">
+                        <label class="col-xs-4 col-sm-3 col-sm-offset-1 control-label">Photo</label>
+                        <div class="col-xs-8">
+                            <div class="col-xs-4 update-pp">
+                                <input class="form-control" id="add-cover-input" type="file" accept="image/*"
+                                       required="required">
+                                <span id="browse-button-cover">Browse</span>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="form-group">
-                    <div class="col-md-12 update-account">
-                        <button class="btn" id="add-cover-button" type="submit">Add Cover</button>
+                    <div class="form-group">
+                        <div class="col-md-12 update-account">
+                            <button class="btn" id="add-cover-button" type="submit">Add Cover</button>
+                        </div>
+                        <label class="col-sm-offset-1 control-label" id="cover-info"></label><br>
+                        <div class="col-md-12 cancel-upload">
+                            <a href="#"><img src="{{ asset('bundles/ingenious/images/hex-icon.png') }}"></a>
+                        </div>
                     </div>
-                    <div class="col-md-12 cancel-upload">
-                        <a href="#"><img src="{{ asset('bundles/ingenious/images/hex-icon.png') }}"></a>
-                    </div>
+                    <div class="album-container-cover">
+                        {% for image in allImages %}
+                            <!--single-photo-->
+                            <div class="col-sm-2 col-xs-4 photo-thumb">
+                                <figure>
+                                    <img class="cover-thumb" id="{{ image.large_url }}" src="{{ image.thumb_url }}" alt="Europe">
+                                </figure>
+                            </div><!--./single album thumb-->
+                        {% endfor %}
+                    </div> <!--./album-container-->
+                </form>
+                <div class="cancel-upload">
+                    <a href="#"><img src="{{ asset('bundles/ingenious/images/nav-close-light.png') }}"></a>
                 </div>
-            </form>
-            <div class="cancel-upload">
-                <a href="#"><img src="{{ asset('bundles/ingenious/images/nav-close-light.png') }}"></a>
             </div>
-        </div>
-    </div> <!-- Add cover photo form end -->
+        </div> <!-- Add cover photo form end -->
+    {% endif %}
 
 {% endblock %}

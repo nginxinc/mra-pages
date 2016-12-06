@@ -30,6 +30,46 @@ $(document).ready(function() {
     $("#cover-upload").submit(function(event) {
 
     });
+
+    $(".cover-thumb").click(function(evt) {
+        var idCoverLarge = this.id;
+        $(".cover-thumb").css({"border-width": "0px"});
+        $("#cover-info").show();
+        $("#cover-info").html("Cover photo added.");
+        $(this).css({
+            "border-color": "#00974c",
+            "border-width": "3px",
+            "border-style": "solid"
+        });
+        $(".hero-banner").css({"background": "url(" + idCoverLarge + ")"});
+
+        userManagerURL = $("#cover-upload").attr('action');
+        var data = '{';
+        data = data + '"banner_url": "' + idCoverLarge + '"';
+        data = data + '}';
+        $.ajax({
+            url: userManagerURL,
+            data: data,
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            cache: false,
+            processData: false,
+            type: 'PUT',
+            success: function (resp) {
+                if (resp.name == "StatusCodeError") {
+                    console.log("Error Trying To Update User Account: " + resp.message);
+                }
+                console.log("success");
+            },
+            error: function (response) {
+                console.log("There is an error in the AJAX request to set a user");// + response.message);
+            },
+            complete: function () {
+                resolve(JSON.parse(data));
+            }
+
+        });
+    });
 });
 
 var isNewAlbum, isPosterImageSettedAutomatically;

@@ -78,6 +78,11 @@ class PhotoManager
         return $this->getRequest($path);
     }
 
+    public function getAllImages() {
+        $path = '/images';
+        return $this->getRequest($path);
+    }
+
     /**
      * @return Client
      */

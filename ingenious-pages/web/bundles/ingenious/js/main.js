@@ -133,6 +133,9 @@
 
     // Add cover
     $(".add-cover-btn").click(function() {
+        $(".cover-thumb").css({"border-width":"0px"});
+        $("#delete-info").empty();
+        $("#delete-info").hide();
         $(".add-cover-photo").toggleClass("open");
         $("body").toggleClass("hide-overflow");
     });
@@ -144,8 +147,7 @@
     });
 
     $("#add-cover-input").change(function(){
-        var files = $(this)[0].files;
-        $("#browse-button-cover").text(files.length + " photo selected");
+        $("#browse-button-cover").text("Photo selected");
     });
 
 })(jQuery);

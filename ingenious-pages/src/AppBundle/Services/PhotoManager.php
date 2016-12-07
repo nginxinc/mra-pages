@@ -105,7 +105,7 @@ class PhotoManager
         try
         {
             $client = $this->getClient();
-            //$client->
+
             $response = $client->request('GET', $path, $params);
             $body = $response->getBody()->__toString();
 

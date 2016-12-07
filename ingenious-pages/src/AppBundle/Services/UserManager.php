@@ -60,11 +60,6 @@ class UserManager
     private $banner;
 
     /**
-     * @var string
-     */
-    private $bannerAlbum;//when set, will be an album object
-
-    /**
      * @return Client
      */
 
@@ -174,14 +169,6 @@ class UserManager
         return $this->localUserPath;
     }
 
-    /**
-     * @return string
-     */
-    public function getBannerAlbum()
-    {
-        return $this->bannerAlbum;
-    }
-
 
 
 
@@ -224,14 +211,6 @@ class UserManager
     public function setBanner($banner)
     {
         $this->banner = $banner;
-    }
-
-    /**
-     * @param string $bannerAlbum
-     */
-    public function setBannerAlbum($bannerAlbum)
-    {
-        $this->bannerAlbum = $bannerAlbum;
     }
 
     /***************************UTILS***********************?

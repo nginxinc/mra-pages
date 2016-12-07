@@ -137,7 +137,6 @@ function setUser(resolve, reject, userName, email, bannerAlbumID) {
     var data = '{';
     if (userName != undefined && userName != '') {data = data + '"name": "' + userName + '",';}
     if (email != undefined && email != '') {data = data + '"email": "' + email + '"';}
-    if (bannerAlbumID != undefined && bannerAlbumID != '') {data = data + '"banner_album_id": "' + bannerAlbumID + '"';}
     data = data + '}';
     $.ajax({
         url: userManagerURL,

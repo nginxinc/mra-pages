@@ -206,9 +206,9 @@
                     <div class="album-container-cover">
                         {% for image in allImages %}
                             <!--single-photo-->
-                            <div class="col-sm-2 col-xs-4 photo-thumb">
-                                <figure>
-                                    <img class="cover-thumb" id="{{ image.large_url }}" src="{{ image.thumb_url }}" alt="Europe">
+                            <div class="col-sm-2 col-xs-4 album-thumb">
+                                <figure class="cover-thumb" id="{{ image.large_url }}">
+                                    <img src="{{ image.thumb_url }}" alt="Europe">
                                 </figure>
                             </div><!--./single album thumb-->
                         {% endfor %}

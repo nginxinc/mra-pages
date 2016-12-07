@@ -41,7 +41,6 @@ class IngeniousHomeController extends Controller
     private $bannerImages = null;
     private $bannerAlbumID = null;
     private $bannerPosterID = null;
-    private $allImages = null;
 
 
     public function isAuthenticated(Request $request) {
@@ -83,8 +82,8 @@ class IngeniousHomeController extends Controller
                 $user = $this->getUserManager($this->authID)->getUser();
                 $this->user = $user;
             }
-            $catalog = $this->getPhotoManager($request)->getCatalog();
             $allImages = $this->getPhotoManager($request)->getAllImages();
+            $catalog = $this->getPhotoManager($request)->getCatalog();
             return $this->render(
                 '/home.html.twig',
                 [

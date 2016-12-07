@@ -79,17 +79,12 @@ class LoAuthManager
         $user = $this->getRequest($this->userPath . "/" . $this->userID);
         $this->setEmail($user->email);
         $this->setName($user->name);
-        if(isset($user->banner_album_id))
-        {
-            $photoManager = new PhotoManager($this->userID);
-            $this->setBannerAlbum($photoManager->getAlbum($user->banner_album_id));
-            $this->setBanner($this->bannerAlbum->poster_image->large_url);
+        if (isset($user->banner_url)) {
+            $this->setBanner($user->banner_url);
         }
-        if(isset($user->facebook_id))
-        {
+        if (isset($user->facebook_id)) {
             $this->setFacebookID($user->facebook_id);
-        }
-        else{
+        } else {
             $this->setGoogleID($user->google_id);
         }
         return $this;

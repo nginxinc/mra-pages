@@ -88,6 +88,12 @@ class IngeniousHomeController extends Controller
             if($this->user->getProfilePicture() != null) {
                 $this->profilePicture = $user->getProfilePicture();
             }
+            if($this->user->getProfilePicturesID() != null) {
+                $this->profilePicturesID = $user->getProfilePicturesID();
+            }
+            if($this->user->getCoverPicturesID() != null) {
+                $this->coverPicturesID = $user->getCoverPicturesID();
+            }
             $allImages = $this->getPhotoManager($request)->getAllImages();
             $catalog = $this->getPhotoManager($request)->getCatalog();
             return $this->render(
@@ -104,6 +110,7 @@ class IngeniousHomeController extends Controller
                     'user' => $this->user,
                     'allImages' => $allImages,
                     'coverPicturesID' => $this->coverPicturesID,
+                    'profilePicturesID' => $this->profilePicturesID,
                     'profilePicture' => $this->profilePicture,
                     'userManager' => trim( $this->user->getLocalUserPath() ) . "/" . $this->user->getUserID()
                 ]

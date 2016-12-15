@@ -14,7 +14,11 @@
                 <div class="row">
                     <div class="profile-content">
                         <div class="profile-photo">
-                            <img src="{{ asset('bundles/ingenious/images/profile-picture.png' ) }}">
+                            {% if profilePicture == "generic" %}
+                                <img id="profile-picture" src="{{ asset('bundles/ingenious/images/profile-picture.png') }}">
+                            {% else %}
+                                <img id="profile-picture" src="{{ profilePicture }}">
+                            {% endif %}
                         </div>
                         <h1 class="profile-title">{{ firstName }} {{ lastName }}</h1>
                         <div class="add-cover-btn">

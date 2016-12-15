@@ -43,10 +43,6 @@ class LoAuthManager
     private $userID;
 
     /**
-     * @return Client
-     */
-
-    /**
      * @param Client $client
      */
     public function setClient($client)
@@ -79,8 +75,13 @@ class LoAuthManager
         $user = $this->getRequest($this->userPath . "/" . $this->userID);
         $this->setEmail($user->email);
         $this->setName($user->name);
+        $this->setCoverPicturesID($user->$cover_pictures_id);
+        $this->setProfilePicturesID($user->$profile_pictures_id);
         if (isset($user->banner_url)) {
             $this->setBanner($user->banner_url);
+        }
+        if (isset($user->profile_picture_url)) {
+            $this->setBanner($user->profile_picture_url);
         }
         if (isset($user->facebook_id)) {
             $this->setFacebookID($user->facebook_id);
@@ -132,6 +133,14 @@ class LoAuthManager
     public function getBanner()
     {
         return $this->banner;
+    }
+
+    /**
+     * @return string
+     */
+    public function getProfilePicture()
+    {
+        return $this->profilePicture;
     }
 
     /**
@@ -200,6 +209,14 @@ class LoAuthManager
     public function setBanner($banner)
     {
         $this->banner = $banner;
+    }
+
+    /**
+     * @param string $profilePicture
+     */
+    public function setProfilePicture($profilePicture)
+    {
+        $this->profilePicture = $profilePicture;
     }
 
     /**

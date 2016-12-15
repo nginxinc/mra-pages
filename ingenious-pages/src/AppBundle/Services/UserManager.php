@@ -60,16 +60,19 @@ class UserManager
     private $banner;
 
     /**
-     * @return Client
+     * @var string
      */
+    private $profilePicture;
 
     /**
-     * @param Client $client
+     * @var number
      */
-    public function setClient($client)
-    {
-        $this->client = $client;
-    }
+    private $profilePicturesID;
+
+    /**
+     * @var number
+     */
+    private $coverPicturesID;
 
     /**
      * @var Client
@@ -89,16 +92,19 @@ class UserManager
     }
 
     /**
-     *
      * @return string
      */
     public function getUser() {
-
         $user = $this->getRequest($this->userPath . "/" . $this->userID);
         $this->setEmail($user->email);
         $this->setName($user->name);
+        $this->setCoverPicturesID($user->cover_pictures_id);
+        $this->setProfilePicturesID($user->profile_pictures_id);
         if(isset($user->banner_url)) {
             $this->setBanner($user->banner_url);
+        }
+        if(isset($user->profile_picture_url)) {
+            $this->setProfilePicture($user->profile_picture_url);
         }
         if(isset($user->facebook_id)) {
             $this->setFacebookID($user->facebook_id);
@@ -109,7 +115,6 @@ class UserManager
         return $this;
     }
 
-    /***************************GETTERS***********************?
     /**
      * @return string
      */
@@ -148,16 +153,35 @@ class UserManager
     /**
      * @return string
      */
-    public function getBanner()
-    {
+    public function getBanner() {
         return $this->banner;
     }
 
     /**
      * @return string
      */
-    public function getUserPath() {
+    public function getProfilePicture() {
+        return $this->profilePicture;
+    }
 
+    /**
+     * @return number
+     */
+    public function getProfilePicturesID() {
+        return $this->profilePicturesID;
+    }
+
+    /**
+     * @return number
+     */
+    public function getCoverPicturesID() {
+        return $this->coverPicturesID;
+    }
+
+    /**
+     * @return string
+     */
+    public function getUserPath() {
         return $this->UserPath;
     }
 
@@ -165,55 +189,9 @@ class UserManager
      * @return string
      */
     public function getLocalUserPath() {
-
         return $this->localUserPath;
     }
 
-
-
-
-    /***************************SETTERS***********************?
-    /**
-     * @param string $name
-     */
-    public function setName($name)
-    {
-        $this->name = $name;
-    }
-
-    /**
-     * @param string $email
-     */
-    public function setEmail($email)
-    {
-        $this->email = $email;
-    }
-
-    /**
-     * @param string $facebookID
-     */
-    public function setFacebookID($facebookID)
-    {
-        $this->facebookID = $facebookID;
-    }
-
-    /**
-     * @param string $googleID
-     */
-    public function setGoogleID($googleID)
-    {
-        $this->googleID = $googleID;
-    }
-
-    /**
-     * @param string $banner
-     */
-    public function setBanner($banner)
-    {
-        $this->banner = $banner;
-    }
-
-    /***************************UTILS***********************?
     /**
      * @return Client
      */
@@ -221,9 +199,74 @@ class UserManager
         if ($this->client == null) {
             $this->client = new Client(['base_uri' => $this->url ]);
         }
-
         return $this->client;
     }
+
+    /***************************SETTERS***********************?
+    /**
+     * @param string $name
+     */
+    public function setName($name) {
+        $this->name = $name;
+    }
+
+    /**
+     * @param string $email
+     */
+    public function setEmail($email) {
+        $this->email = $email;
+    }
+
+    /**
+     * @param string $facebookID
+     */
+    public function setFacebookID($facebookID) {
+        $this->facebookID = $facebookID;
+    }
+
+    /**
+     * @param string $googleID
+     */
+    public function setGoogleID($googleID) {
+        $this->googleID = $googleID;
+    }
+
+    /**
+     * @param string $banner
+     */
+    public function setBanner($banner) {
+        $this->banner = $banner;
+    }
+
+    /**
+     * @param string $profilePicture
+     */
+    public function setProfilePicture($profilePicture) {
+        $this->profilePicture = $profilePicture;
+    }
+
+    /**
+     * @param string $profilePicturesID
+     */
+    public function setProfilePicturesID($profilePicturesID) {
+        $this->profilePicturesID = $profilePicturesID;
+    }
+
+    /**
+     * @param string $coverPicturesID
+     */
+    public function setCoverPicturesID($coverPicturesID) {
+        $this->coverPicturesID = $coverPicturesID;
+    }
+
+    /**
+     * @param Client $client
+     */
+    public function setClient($client) {
+        $this->client = $client;
+    }
+
+    /***************************UTILS***********************?
 
     /**
      * @param $path
@@ -231,8 +274,7 @@ class UserManager
      * @return string
      */
     private function getRequest($path, $params = []) {
-        try
-        {
+        try {
             $client = $this->getClient();
             $response = $client->request('GET', $path, $params);
 
@@ -241,9 +283,7 @@ class UserManager
             $decoder = new JsonDecode();
             $user = $decoder->decode($body, true);
             return $user;
-        }
-        catch (RequestException $e)
-        {
+        } catch (RequestException $e) {
             echo $e;
         }
     }

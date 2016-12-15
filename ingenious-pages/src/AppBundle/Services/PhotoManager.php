@@ -30,6 +30,10 @@ class PhotoManager
     /**
      * @var string
      */
+    private $imagesPath;
+    /**
+     * @var string
+     */
     private $albumPath;
     /**
      * @var string
@@ -55,6 +59,7 @@ class PhotoManager
         $this->url = getenv("PHOTOMANAGER_ENDPOINT_URL");
         $this->catalogPath = getenv("PHOTOMANAGER_CATALOG_PATH");
         $this->albumPath = getenv("PHOTOMANAGER_ALBUM_PATH");
+        $this->imagesPath = getenv("PHOTOMANAGER_IMAGES_PATH");
         $this->authID = $authID;
 
     }
@@ -79,8 +84,7 @@ class PhotoManager
     }
 
     public function getAllImages() {
-        $path = '/images';
-        return $this->getRequest($path);
+        return $this->getRequest($this->imagesPath);
     }
 
     /**

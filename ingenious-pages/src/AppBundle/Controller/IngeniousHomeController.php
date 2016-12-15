@@ -41,6 +41,9 @@ class IngeniousHomeController extends Controller
     private $bannerImages = null;
     private $bannerAlbumID = null;
     private $bannerPosterID = null;
+    private $profilePicture = "null";
+    private $profilePicturesID = null;
+    private $coverPicturesID = null;
 
 
     public function isAuthenticated(Request $request) {
@@ -97,6 +100,7 @@ class IngeniousHomeController extends Controller
                     'banner_message' => $this->banner_message,
                     'user' => $this->user,
                     'allImages' => $allImages,
+                    'coverPicturesID' => $this->coverPicturesID,
                     'userManager' => trim( $this->user->getLocalUserPath() ) . "/" . $this->user->getUserID()
                 ]
             );
@@ -277,14 +281,18 @@ class IngeniousHomeController extends Controller
     public function accountAction(Request $request)
     {
         if ($this->isAuthenticated($request)) {
-            if($this->user == null)
-            {
+            if($this->user == null) {
                 $user = $this->getUserManager($this->authID)->getUser();
                 $this->user = $user;
             }
-            if($this->user->getBanner() != null)
-            {
+            if($this->user->getBanner() != null) {
                 $this->banner = $user->getBanner();
+            }
+            if($this->user->getProfilePicture() != null) {
+                $this->profilePicture = $user->getProfilePicture();
+            }
+            if($this->user->getProfilePicturesID() != null) {
+                $this->profilePicturesID = $user->getProfilePicturesID();
             }
             $catalog = $this->getPhotoManager($request)->getCatalog();
             return $this->render(
@@ -300,7 +308,9 @@ class IngeniousHomeController extends Controller
                     'bannerImages' => $this->bannerImages,
                     'bannerAlbumID' => $this->bannerAlbumID,
                     'bannerPosterID' => $this->bannerPosterID,
-                    'catalog' => $catalog
+                    'catalog' => $catalog,
+                    'profilePicturesID' => $this->profilePicturesID,
+                    'profilePicture' => $this->profilePicture
                 ]
             );
         }

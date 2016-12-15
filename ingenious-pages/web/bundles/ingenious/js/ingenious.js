@@ -70,6 +70,89 @@ $(document).ready(function() {
 
         });
     });
+
+    $(".remove-pp").click(function(event) {
+        $("#profile-picture").attr("src", "/bundles/ingenious/images/profile-picture.png");
+
+        userManagerURL = $("#remove-pp-id").attr('action');
+        var data = '{';
+        data = data + '"profile_picture_url": "' + 'generic' + '"';
+        data = data + '}';
+        $.ajax({
+            url: userManagerURL,
+            data: data,
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            cache: false,
+            processData: false,
+            type: 'PUT',
+            success: function (resp) {
+                if (resp.name == "StatusCodeError") {
+                    console.log("Error Trying To Update User Account: " + resp.message);
+                }
+                console.log("success");
+            },
+            error: function (response) {
+                console.log("There is an error in the AJAX request to set a user");// + response.message);
+            }
+        });
+    });
+
+    $(".update-pp").change(function(event) {
+        var file = $("#profile-picture-input").prop('files')[0];
+        userManagerURL = $(this).attr('title');
+        var data = new FormData;
+        data.append("image", file );
+        var albumID = $(this).attr('id');
+        data.append("album_id", albumID);
+
+        $.ajax({
+            url: uploaderURL,
+            data: data,
+            cache: false,
+            contentType: false,
+            processData: false,
+            type: 'POST',
+            success: function(resp){
+                if (resp.name == "StatusCodeError") {
+                    console.log("Error Trying To Upload: " + resp.message);
+                } else {
+                    var thumbnail = resp.thumb_url;
+                    $("#profile-picture").attr("src", thumbnail);
+
+                    var data = '{';
+                    data = data + '"profile_picture_url": "' + thumbnail + '"';
+                    data = data + '}';
+                    $.ajax({
+                        url: userManagerURL,
+                        data: data,
+                        contentType: "application/json; charset=utf-8",
+                        dataType: "json",
+                        cache: false,
+                        processData: false,
+                        type: 'PUT',
+                        success: function (resp) {
+                            if (resp.name == "StatusCodeError") {
+                                console.log("Error Trying To Update User Account: " + resp.message);
+                            }
+                            console.log("success");
+                        },
+                        error: function (response) {
+                            console.log("There is an error in the AJAX request to set a user");// + response.message);
+                        },
+                        complete: function () {
+                            resolve(JSON.parse(data));
+                        }
+
+                    });
+
+                }
+            },
+            error: function(response){
+                console.log("There is an error:" + response.message);
+            },
+        });
+    });
 });
 
 var isNewAlbum, isPosterImageSettedAutomatically;

@@ -765,6 +765,11 @@ footer.colophon-bottom {
   padding: 6px 12px;
   text-transform: uppercase;
 }
+
+.btn-group {
+  margin-bottom: 20px;
+}
+
 /** Login Screen **/
 
 .login-form{

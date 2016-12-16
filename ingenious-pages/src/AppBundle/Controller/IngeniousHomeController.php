@@ -305,6 +305,9 @@ class IngeniousHomeController extends Controller
             if($this->user->getProfilePicturesID() != null) {
                 $this->profilePicturesID = $user->getProfilePicturesID();
             }
+            if($this->user->getCoverPicturesID() != null) {
+                $this->coverPicturesID = $user->getCoverPicturesID();
+            }
             $catalog = $this->getPhotoManager($request)->getCatalog();
             return $this->render(
                 '/account.html.twig',
@@ -321,6 +324,7 @@ class IngeniousHomeController extends Controller
                     'bannerPosterID' => $this->bannerPosterID,
                     'catalog' => $catalog,
                     'profilePicturesID' => $this->profilePicturesID,
+                    'coverPicturesID' => $this->coverPicturesID,
                     'profilePicture' => $this->profilePicture
                 ]
             );

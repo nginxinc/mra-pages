@@ -33,67 +33,13 @@ $(document).ready(function() {
 
         var file = $("#add-cover-input").prop('files')[0];
         userManagerURL = $(this).attr('userManager');
-        var data = new FormData;
-        data.append("image", file );
         var albumID = $(this).attr('coverPicturesID');
-        data.append("album_id", albumID);
-        $.ajax({
-            url: uploaderURL,
-            data: data,
-            cache: false,
-            contentType: false,
-            processData: false,
-            type: 'POST',
-            success: function(resp){
-                if (resp.name == "StatusCodeError") {
-                    console.log("Error Trying To Upload: " + resp.message);
-                } else {
-                    var large = resp.large_url;
-                    $(".hero-banner").css({
-                        "background": "url(" + large + ")",
-                        "background-repeat": "no-repeat",
-                        "background-attachment": "scroll",
-                        "background-size": "cover",
-                        "background-position": "center"
-                    });
 
-                    $("#cover-info").html("Cover photo added.");
-
-                    var data = '{';
-                    data = data + '"banner_url": "' + large + '"';
-                    data = data + '}';
-                    $.ajax({
-                        url: userManagerURL,
-                        data: data,
-                        contentType: "application/json; charset=utf-8",
-                        dataType: "json",
-                        cache: false,
-                        processData: false,
-                        type: 'PUT',
-                        success: function (resp) {
-                            if (resp.name == "StatusCodeError") {
-                                console.log("Error Trying To Update User Account: " + resp.message);
-                            }
-                            console.log("success");
-                        },
-                        error: function (response) {
-                            console.log("There is an error in the AJAX request to set a user");// + response.message);
-                        },
-                        complete: function () {
-                            resolve(JSON.parse(data));
-                        }
-
-                    });
-                }
-            },
-            error: function(response){
-                console.log("There is an error:" + response.message);
-            }
-        });
+        uploadSupportImage(file, albumID, true);
     });
 
     $(".cover-thumb").click(function(evt) {
-        var idCoverLarge = this.id;
+        var imageURL = this.id;
         $(".cover-thumb").css({"border-width": "0px"});
         $("#cover-info").show();
         $("#cover-info").html("Cover photo added.");
@@ -103,120 +49,32 @@ $(document).ready(function() {
             "border-style": "solid"
         });
         $(".hero-banner").css({
-            "background": "url(" + idCoverLarge + ")",
+            "background": "url(" + imageURL + ")",
             "background-repeat": "no-repeat",
             "background-attachment": "scroll",
             "background-size": "cover",
             "background-position": "center"
         });
 
-        userManagerURL = $("#cover-upload").attr('action');
-        var data = '{';
-        data = data + '"banner_url": "' + idCoverLarge + '"';
-        data = data + '}';
-        $.ajax({
-            url: userManagerURL,
-            data: data,
-            contentType: "application/json; charset=utf-8",
-            dataType: "json",
-            cache: false,
-            processData: false,
-            type: 'PUT',
-            success: function (resp) {
-                if (resp.name == "StatusCodeError") {
-                    console.log("Error Trying To Update User Account: " + resp.message);
-                }
-                console.log("success");
-            },
-            error: function (response) {
-                console.log("There is an error in the AJAX request to set a user");// + response.message);
-            },
-            complete: function () {
-                resolve(JSON.parse(data));
-            }
-        });
+        userManagerURL = $("#add-cover-button").attr('userManager');
+
+        setSupportImage(imageURL, true);
     });
 
     $(".remove-pp").click(function(event) {
         $("#profile-picture").attr("src", "/bundles/ingenious/images/profile-picture.png");
 
         userManagerURL = $("#remove-pp-id").attr('action');
-        var data = '{';
-        data = data + '"profile_picture_url": "' + 'generic' + '"';
-        data = data + '}';
-        $.ajax({
-            url: userManagerURL,
-            data: data,
-            contentType: "application/json; charset=utf-8",
-            dataType: "json",
-            cache: false,
-            processData: false,
-            type: 'PUT',
-            success: function (resp) {
-                if (resp.name == "StatusCodeError") {
-                    console.log("Error Trying To Update User Account: " + resp.message);
-                }
-                console.log("success");
-            },
-            error: function (response) {
-                console.log("There is an error in the AJAX request to set a user");// + response.message);
-            }
-        });
+
+        setSupportImage(null, false);
     });
 
     $("#updateProfilePicture").change(function(event) {
         var file = $("#profile-picture-input").prop('files')[0];
         userManagerURL = $(this).attr('title');
-        var data = new FormData;
-        data.append("image", file );
         var albumID = $(this).attr('profilePicturesID');
-        data.append("album_id", albumID);
 
-        $.ajax({
-            url: uploaderURL,
-            data: data,
-            cache: false,
-            contentType: false,
-            processData: false,
-            type: 'POST',
-            success: function(resp){
-                if (resp.name == "StatusCodeError") {
-                    console.log("Error Trying To Upload: " + resp.message);
-                } else {
-                    var thumbnail = resp.thumb_url;
-                    $("#profile-picture").attr("src", thumbnail);
-
-                    var data = '{';
-                    data = data + '"profile_picture_url": "' + thumbnail + '"';
-                    data = data + '}';
-                    $.ajax({
-                        url: userManagerURL,
-                        data: data,
-                        contentType: "application/json; charset=utf-8",
-                        dataType: "json",
-                        cache: false,
-                        processData: false,
-                        type: 'PUT',
-                        success: function (resp) {
-                            if (resp.name == "StatusCodeError") {
-                                console.log("Error Trying To Update User Account: " + resp.message);
-                            }
-                            console.log("success");
-                        },
-                        error: function (response) {
-                            console.log("There is an error in the AJAX request to set a user");// + response.message);
-                        },
-                        complete: function () {
-                            resolve(JSON.parse(data));
-                        }
-
-                    });
-                }
-            },
-            error: function(response){
-                console.log("There is an error:" + response.message);
-            }
-        });
+        uploadSupportImage(file, albumID, false);
     });
 });
 
@@ -263,6 +121,80 @@ function setVar() {
 }
 
 /*****************--------start user account section----------*****************/
+
+function uploadSupportImage(file, albumID, cover) {
+    var data = new FormData;
+    data.append("image", file );
+    data.append("album_id", albumID);
+
+    $.ajax({
+        url: uploaderURL,
+        data: data,
+        cache: false,
+        contentType: false,
+        processData: false,
+        type: 'POST',
+        success: function(resp){
+            if (resp.name == "StatusCodeError") {
+                console.log("Error Trying To Upload: " + resp.message);
+            } else {
+                var imageURL;
+                if (cover) {
+                    imageURL = resp.large_url;
+                    $(".hero-banner").css({
+                        "background": "url(" + imageURL + ")",
+                        "background-repeat": "no-repeat",
+                        "background-attachment": "scroll",
+                        "background-size": "cover",
+                        "background-position": "center"
+                    });
+                    $("#cover-info").html("Cover photo added.");
+                } else {
+                    imageURL = resp.thumb_url;
+                    $("#profile-picture").attr("src", imageURL);
+                }
+
+                setSupportImage(imageURL, cover);
+            }
+        },
+        error: function(response){
+            console.log("There is an error:" + response.message);
+        }
+    });
+}
+
+function setSupportImage(imageURL, cover) {
+    var data = '{';
+    if (cover) {
+        data = data + '"banner_url": "' + imageURL + '"';
+    } else if (!imageURL) {
+        data = data + '"profile_picture_url": "' + 'generic' + '"';
+    } else {
+        data = data + '"profile_picture_url": "' + imageURL + '"';
+    }
+    data = data + '}';
+    $.ajax({
+        url: userManagerURL,
+        data: data,
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        cache: false,
+        processData: false,
+        type: 'PUT',
+        success: function (resp) {
+            if (resp.name == "StatusCodeError") {
+                console.log("Error Trying To Update User Account: " + resp.message);
+            }
+            console.log("success");
+        },
+        error: function (response) {
+            console.log("There is an error in the AJAX request to set a user");// + response.message);
+        },
+        complete: function () {
+            resolve(JSON.parse(data));
+        }
+    });
+}
 
 function updateUser(event) {
     event.preventDefault();

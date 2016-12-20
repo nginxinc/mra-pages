@@ -134,8 +134,8 @@
     // Add cover
     $(".add-cover-btn").click(function() {
         $(".cover-thumb").css({"border-width":"0px"});
-        $("#delete-info").empty();
-        $("#delete-info").hide();
+        $("#cover-info").empty();
+        $("#cover-info").hide();
         $(".add-cover-photo").toggleClass("open");
         $("body").toggleClass("hide-overflow");
     });

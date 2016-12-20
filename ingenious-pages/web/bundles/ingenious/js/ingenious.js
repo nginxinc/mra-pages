@@ -6,6 +6,7 @@ $(document).ready(function() {
     $("#update-account-button").click(function(event) {
         updateUser(event)
     });
+
     $("#album-upload").submit(function(event) {
         isNewAlbum = true;
         setVar();
@@ -15,18 +16,21 @@ $(document).ready(function() {
         $("#photos-list-existent-albums").load(location.href+" #photos-list-existent-albums>*","");
         $("#delete-list-existent-albums").load(location.href+" #delete-list-existent-albums>*","");
     });
+
     $("#photo-upload").submit(function(event) {
         isNewAlbum = false;
         setVar();
         bannerAlbumBool = true;
         uploadBanner(event);
     });
+
     $("#album-delete").submit(function(event) {
         deleteAlbum(event);
         $("#delete-list-existent-albums").load(location.href+" #delete-list-existent-albums>*","");
         $("#photos-list-existent-albums").load(location.href+" #photos-list-existent-albums>*","");
         $("#albums").load(location.href+" #albums>*","");
     });
+
     $("#add-cover-button").click(function(event) {
         $("#cover-info").show();
         $("#cover-info").html("Uploading...");
@@ -42,19 +46,13 @@ $(document).ready(function() {
         var imageURL = this.id;
         $(".cover-thumb").css({"border-width": "0px"});
         $("#cover-info").show();
-        $("#cover-info").html("Cover photo added.");
+
         $(this).css({
             "border-color": "#00974c",
             "border-width": "3px",
             "border-style": "solid"
         });
-        $(".hero-banner").css({
-            "background": "url(" + imageURL + ")",
-            "background-repeat": "no-repeat",
-            "background-attachment": "scroll",
-            "background-size": "cover",
-            "background-position": "center"
-        });
+        setBanner(imageURL);
 
         userManagerURL = $("#add-cover-button").attr('userManager');
 
@@ -71,7 +69,7 @@ $(document).ready(function() {
 
     $("#updateProfilePicture").change(function(event) {
         var file = $("#profile-picture-input").prop('files')[0];
-        userManagerURL = $(this).attr('title');
+        userManagerURL = $(this).attr('userManager');
         var albumID = $(this).attr('profilePicturesID');
 
         uploadSupportImage(file, albumID, false);
@@ -141,14 +139,7 @@ function uploadSupportImage(file, albumID, cover) {
                 var imageURL;
                 if (cover) {
                     imageURL = resp.large_url;
-                    $(".hero-banner").css({
-                        "background": "url(" + imageURL + ")",
-                        "background-repeat": "no-repeat",
-                        "background-attachment": "scroll",
-                        "background-size": "cover",
-                        "background-position": "center"
-                    });
-                    $("#cover-info").html("Cover photo added.");
+                    setBanner(imageURL);
                 } else {
                     imageURL = resp.thumb_url;
                     $("#profile-picture").attr("src", imageURL);
@@ -196,6 +187,18 @@ function setSupportImage(imageURL, cover) {
     });
 }
 
+function setBanner(imageURL) {
+    $(".hero-banner").css({
+        "background": "url(" + imageURL + ")",
+        "background-repeat": "no-repeat",
+        "background-attachment": "scroll",
+        "background-size": "cover",
+        "background-position": "center"
+    });
+
+    $("#cover-info").html("Cover photo added.");
+}
+
 function updateUser(event) {
     event.preventDefault();
     uploaded = 0;
@@ -215,8 +218,8 @@ function updateUser(event) {
 function setUser(resolve, reject, userName, email, bannerAlbumID) {
     userManagerURL = $("#account-manager").attr('action');
     var data = '{';
-    if (userName != undefined && userName != '') {data = data + '"name": "' + userName + '",';}
-    if (email != undefined && email != '') {data = data + '"email": "' + email + '"';}
+    if (userName) {data = data + '"name": "' + userName + '",';}
+    if (email) {data = data + '"email": "' + email + '"';}
     data = data + '}';
     $.ajax({
         url: userManagerURL,
@@ -259,7 +262,7 @@ function deleteAlbum(event) {
     event.preventDefault();
     var album_id = $("#delete-album-id").val();
     var albumURL = albumManagerURL + "/" + album_id;
-    if (album_id != "" || album_id != null) {
+    if (album_id) {
         $.ajax({
             url: albumURL,
             data: null,
@@ -288,7 +291,7 @@ function uploadBanner(event) {
     event.preventDefault();
     if (isNewAlbum) {
         createAlbum(event, function(albumID) { new Promise(function(resolve, reject) {
-            setUser(resolve, reject,"","", albumID)})
+            setUser(resolve, reject, null, null, albumID)})
         });
     } else {
         manageUpload($("#add-photos-album-id").val());

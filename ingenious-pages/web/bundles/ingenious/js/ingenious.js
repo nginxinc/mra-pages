@@ -49,8 +49,14 @@ $(document).ready(function() {
                     console.log("Error Trying To Upload: " + resp.message);
                 } else {
                     var large = resp.large_url;
-                    $(".hero-banner").css({"background": "url(" + large + ")"});
-                    
+                    $(".hero-banner").css({
+                        "background": "url(" + large + ")",
+                        "background-repeat": "no-repeat",
+                        "background-attachment": "scroll",
+                        "background-size": "cover",
+                        "background-position": "center"
+                    });
+
                     $("#cover-info").html("Cover photo added.");
 
                     var data = '{';
@@ -96,7 +102,13 @@ $(document).ready(function() {
             "border-width": "3px",
             "border-style": "solid"
         });
-        $(".hero-banner").css({"background": "url(" + idCoverLarge + ")"});
+        $(".hero-banner").css({
+            "background": "url(" + idCoverLarge + ")",
+            "background-repeat": "no-repeat",
+            "background-attachment": "scroll",
+            "background-size": "cover",
+            "background-position": "center"
+        });
 
         userManagerURL = $("#cover-upload").attr('action');
         var data = '{';

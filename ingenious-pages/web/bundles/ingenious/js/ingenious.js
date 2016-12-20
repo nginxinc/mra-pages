@@ -27,8 +27,63 @@ $(document).ready(function() {
         $("#photos-list-existent-albums").load(location.href+" #photos-list-existent-albums>*","");
         $("#albums").load(location.href+" #albums>*","");
     });
-    $("#cover-upload").submit(function(event) {
+    $("#add-cover-button").click(function(event) {
+        $("#cover-info").show();
+        $("#cover-info").html("Uploading...");
 
+        var file = $("#add-cover-input").prop('files')[0];
+        userManagerURL = $(this).attr('userManager');
+        var data = new FormData;
+        data.append("image", file );
+        var albumID = $(this).attr('coverPicturesID');
+        data.append("album_id", albumID);
+        $.ajax({
+            url: uploaderURL,
+            data: data,
+            cache: false,
+            contentType: false,
+            processData: false,
+            type: 'POST',
+            success: function(resp){
+                if (resp.name == "StatusCodeError") {
+                    console.log("Error Trying To Upload: " + resp.message);
+                } else {
+                    var large = resp.large_url;
+                    $(".hero-banner").css({"background": "url(" + large + ")"});
+                    
+                    $("#cover-info").html("Cover photo added.");
+
+                    var data = '{';
+                    data = data + '"banner_url": "' + large + '"';
+                    data = data + '}';
+                    $.ajax({
+                        url: userManagerURL,
+                        data: data,
+                        contentType: "application/json; charset=utf-8",
+                        dataType: "json",
+                        cache: false,
+                        processData: false,
+                        type: 'PUT',
+                        success: function (resp) {
+                            if (resp.name == "StatusCodeError") {
+                                console.log("Error Trying To Update User Account: " + resp.message);
+                            }
+                            console.log("success");
+                        },
+                        error: function (response) {
+                            console.log("There is an error in the AJAX request to set a user");// + response.message);
+                        },
+                        complete: function () {
+                            resolve(JSON.parse(data));
+                        }
+
+                    });
+                }
+            },
+            error: function(response){
+                console.log("There is an error:" + response.message);
+            }
+        });
     });
 
     $(".cover-thumb").click(function(evt) {
@@ -67,7 +122,6 @@ $(document).ready(function() {
             complete: function () {
                 resolve(JSON.parse(data));
             }
-
         });
     });
 
@@ -98,12 +152,12 @@ $(document).ready(function() {
         });
     });
 
-    $(".update-pp").change(function(event) {
+    $("#updateProfilePicture").change(function(event) {
         var file = $("#profile-picture-input").prop('files')[0];
         userManagerURL = $(this).attr('title');
         var data = new FormData;
         data.append("image", file );
-        var albumID = $(this).attr('id');
+        var albumID = $(this).attr('profilePicturesID');
         data.append("album_id", albumID);
 
         $.ajax({
@@ -145,12 +199,11 @@ $(document).ready(function() {
                         }
 
                     });
-
                 }
             },
             error: function(response){
                 console.log("There is an error:" + response.message);
-            },
+            }
         });
     });
 });

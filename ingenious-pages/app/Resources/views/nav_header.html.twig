@@ -187,7 +187,7 @@
         <div id="add-cover-photo" class="add-cover-photo close">
             <div class="profile-update-form">
                 <h1 class="page-title">Add Cover Photo</h1>
-                <form id="cover-upload" action="{{ userManager }}" method="put" class="form-horizontal">
+                <div id="cover-upload"  action="{{ uploader }}" method="post" class="form-horizontal">
                     <div class="form-group">
                         <label class="col-xs-4 col-sm-3 col-sm-offset-1 control-label">Photo</label>
                         <div class="col-xs-8">
@@ -200,7 +200,7 @@
                     </div>
                     <div class="form-group">
                         <div class="col-md-12 update-account">
-                            <button class="btn" id="add-cover-button" type="submit">Add Cover</button>
+                            <button class="btn" id="add-cover-button" coverPicturesID="{{ coverPicturesID }}" userManager="{{ userManager }}" type="submit">Add Cover</button>
                         </div>
                         <label class="col-sm-offset-1 control-label" id="cover-info"></label><br>
                         <div class="col-md-12 cancel-upload">
@@ -217,7 +217,7 @@
                             </div><!--./single album thumb-->
                         {% endfor %}
                     </div> <!--./album-container-->
-                </form>
+                </div>
                 <div class="cancel-upload">
                     <a href="#"><img src="{{ asset('bundles/ingenious/images/nav-close-light.png') }}"></a>
                 </div>

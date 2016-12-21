@@ -85,10 +85,6 @@ h6 {
   margin:1.67em 0
 }
 
-ul li {
-  list-style: none;
-}
-
 .login-btn {
   border: 1px solid #01dd60;
   color: #01dd60;
@@ -1177,12 +1173,27 @@ form .upload-thumb {
   color: #fff;
   font-size: 24px;
   line-height: 34px;
+  margin: 0 0 20px;
 }
 
 .page-content hr {
   border-color: #4a4a4a;
   border-width: 1px;
   margin: 30px auto;
+}
+
+.page-content li {
+    color: #fff;
+    font-size: 24px;
+    line-height: 34px;
+    margin: 0 0 20px;
+}
+
+.page-content code {
+    color: #fff;
+    font-size: 24px;
+    line-height: 34px;
+    background: initial;
 }
 
 /* -------------------------------- 

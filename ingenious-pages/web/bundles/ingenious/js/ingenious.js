@@ -76,6 +76,10 @@ $(document).ready(function() {
 
         uploadSupportImage(file, albumID, false);
     });
+
+    $(".logout-btn").click(function(event) {
+        logout();
+    });
 });
 
 var isNewAlbum, isPosterImageSettedAutomatically;
@@ -395,8 +399,7 @@ function setAlbumPosterImage(imageID, album_id, container) {
 
 /*****************--------start menus/login section----------*****************/
 
-function logout()
-{
+function logout() {
     var cookies = document.cookie.split(";");
     for (var i = 0; i < cookies.length; i++) {
         eraseCookie(cookies[i].split("=")[0]);

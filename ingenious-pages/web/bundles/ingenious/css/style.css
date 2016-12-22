@@ -97,6 +97,7 @@ h6 {
   text-transform: uppercase;
   -webkit-transition: all 0.3s;
   transition: all 0.3s;
+  background: transparent;
 }
 
 .login-btn:hover, .logout-btn:hover {

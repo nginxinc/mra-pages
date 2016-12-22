@@ -8,10 +8,10 @@
             <li class="nav-item"><a href="/about">About</a></li>
         </ul>
         {% block loginButton %}
-            {% if authenticated %}
+            {% if not authenticated %}
                 <a class="login-btn" href="/login">Log In</a>
             {% else %}
-                <a class="logout-btn">Log Out</a>
+                <button class="logout-btn">Log Out</button>
             {% endif %}
         {% endblock %}
     </nav><!--./Offcanvas Nav-->

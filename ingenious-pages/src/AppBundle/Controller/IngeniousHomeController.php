@@ -65,12 +65,13 @@ class IngeniousHomeController extends Controller
     /**
      * @Route("/")
      */
-    public function indexAction(Request $request)
-    {
+    public function indexAction(Request $request) {
+        $authenticated = $this->isAuthenticated($request);
         return $this->render(
             '/index.html.twig',
             [
                 'uploader' => $this->getPhotoUploader()->getUploaderPath(),
+                'authenticated' => $authenticated
             ]
         );
     }
@@ -78,9 +79,9 @@ class IngeniousHomeController extends Controller
     /**
      * @Route("/myphotos")
      */
-    public function myphotosAction(Request $request)
-    {
+    public function myphotosAction(Request $request) {
         if($this->isAuthenticated($request)) {
+            $authenticated = true;
             if ($this->user == null) {
                 $user = $this->getUserManager($this->authID)->getUser();
                 $this->user = $user;
@@ -101,7 +102,7 @@ class IngeniousHomeController extends Controller
                 [
                     'firstName' => $this->firstName,
                     'lastName' => $this->lastName,
-                    'authenticated' => 'header',
+                    'authenticated' => $authenticated,
                     'catalogID' => $this->firstName . ' ' . $this->lastName . "&acute;s Photos",
                     'catalog' => $catalog,
                     'uploader' => $this->getPhotoUploader()->getUploaderPath(),
@@ -127,13 +128,14 @@ class IngeniousHomeController extends Controller
     {
 
         if ($this->isAuthenticated($request)) {
+            $authenticated = true;
             $catalog = $this->getPhotoManager($request)->getCatalog();
             return $this->render('/catalog.html.twig',
                 [
                     'firstName' => $this->firstName,
                     'lastName' => $this->lastName,
                     'authID' => $this->authID,
-                    'authenticated' => 'header',
+                    'authenticated' => $authenticated,
                     'catelog' => $catalog,
                     'catalogID' => $this->firstName . ' ' . $this->lastName . "&acute;s Photos",
                     'catalog' => $this->getPhotoManager($request)->getCatalog(),
@@ -165,7 +167,6 @@ class IngeniousHomeController extends Controller
      */
     public function loginAction( Request $request ) {
         if ($this->isAuthenticated($request)) {
-            //return $this->redirectToRoute('app_ingenioushome_myphotos');
             return $this->render(
                 '/login.html.twig',
                 [
@@ -173,8 +174,7 @@ class IngeniousHomeController extends Controller
                 ]
             );
         }
-        else
-        {
+        else {
             return $this->render(
                 '/login.html.twig',
                 [
@@ -187,11 +187,13 @@ class IngeniousHomeController extends Controller
     /**
      * @Route ("/about")
      */
-    public function aboutAction() {
+    public function aboutAction(Request $request) {
+        $authenticated = $this->isAuthenticated($request);
         return $this->render(
             '/about.html.twig',
             [
                 'uploader' => $this->getPhotoUploader()->getUploaderPath(),
+                'authenticated' => $authenticated
             ]
         );
     }
@@ -206,12 +208,13 @@ class IngeniousHomeController extends Controller
         $images = $album->images;
         
         if($this->isAuthenticated( $request ) ) {
+            $authenticated = true;
             return $this->render(
                 '/photos.html.twig',
                 [
                     'firstName' => $this->firstName,
                     'lastName' => $this->lastName,
-                    'authenticated' => 'header',
+                    'authenticated' => $authenticated,
                     'catalogID' => $catelogID,
                     'catalog' => $catalog,
                     'album' => $album,
@@ -235,12 +238,13 @@ class IngeniousHomeController extends Controller
         $images = $album->images;
 
         if ($this->isAuthenticated($request)) {
+            $authenticated = true;
             return $this->render(
                 '/album.html.twig',
                 [
                     'firstName' => $this->firstName,
                     'lastName' => $this->lastName,
-                    'authenticated' => 'header',
+                    'authenticated' => $authenticated,
                     'catalogID' => $catalogID,
                     'catalog' => $catalog,
                     'album' => $album,
@@ -266,12 +270,13 @@ class IngeniousHomeController extends Controller
         $photos = $album->images;
 
         if ($this->isAuthenticated($request)) {
+            $authenticated = true;
             return $this->render(
                 '/banner.html.twig',
                 [
                     'firstName' => $this->firstName,
                     'lastName' => $this->lastName,
-                    'authenticated' => 'header',
+                    'authenticated' => $authenticated,
                     'album' => $album,
                     'catalog' => $catalog,
                     'uploader' => $this->getPhotoUploader()->getUploaderPath(),
@@ -292,6 +297,7 @@ class IngeniousHomeController extends Controller
     public function accountAction(Request $request)
     {
         if ($this->isAuthenticated($request)) {
+            $authenticated = true;
             if($this->user == null) {
                 $user = $this->getUserManager($this->authID)->getUser();
                 $this->user = $user;
@@ -313,7 +319,7 @@ class IngeniousHomeController extends Controller
                 '/account.html.twig',
                 [
                     'name' => $this->user->getName(),
-                    'authenticated' => 'header',
+                    'authenticated' => $authenticated,
                     'email' => $this->user->getEmail(),
                     'userManager' => trim( $this->user->getLocalUserPath() ) . "/" . $this->user->getUserID(),
                     'uploader' => $this->getPhotoUploader()->getUploaderPath(),

@@ -85,7 +85,7 @@ h6 {
   margin:1.67em 0
 }
 
-.login-btn {
+.login-btn, .logout-btn {
   border: 1px solid #01dd60;
   color: #01dd60;
   border-radius: 3px;
@@ -99,12 +99,12 @@ h6 {
   transition: all 0.3s;
 }
 
-.login-btn:hover {
+.login-btn:hover, .logout-btn:hover {
   color: #fff;
   border-color: #fff;
 }
 
-.login-btn:hover, .login-btn:active, .login-btn:visited{
+.login-btn:hover, .login-btn:active, .login-btn:visited, .logout-btn:hover, .logout-btn:active, .logout-btn:visited {
   text-decoration: none;
 }
 
@@ -150,7 +150,7 @@ h6 {
   width: 50px;
 }
 
-.fixed-top-header .login-btn-container {
+.fixed-top-header, .login-btn-container .logout-btn-container {
   position: absolute;
   right: 50px;
   top: 50px;

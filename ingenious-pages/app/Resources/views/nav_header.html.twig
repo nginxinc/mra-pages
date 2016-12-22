@@ -8,7 +8,11 @@
             <li class="nav-item"><a href="/about">About</a></li>
         </ul>
         {% block loginButton %}
-            <a class="login-btn" href="/login">Login</a>
+            {% if authenticated %}
+                <a class="login-btn" href="/login">Log In</a>
+            {% else %}
+                <a class="logout-btn">Log Out</a>
+            {% endif %}
         {% endblock %}
     </nav><!--./Offcanvas Nav-->
         

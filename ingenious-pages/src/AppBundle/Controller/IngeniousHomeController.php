@@ -24,8 +24,8 @@ use Symfony\Component\Serializer\Encoder\JsonDecode;
 use Symfony\Component\Serializer\Encoder\JsonEncode;
 
 
-class IngeniousHomeController extends Controller
-{
+
+class IngeniousHomeController extends Controller {
 
     private $name;
     private $firstName;
@@ -33,7 +33,6 @@ class IngeniousHomeController extends Controller
     private $photoManager = null;
     private $photoUploader = null;
     private $userManager = null;
-    private $loginRequired = "Welcome, But Please Login To Your Account";
     private $authID = null;
     private $user = null;
     private $banner = null;
@@ -48,14 +47,11 @@ class IngeniousHomeController extends Controller
 
     public function isAuthenticated(Request $request) {
         $this->authID = $request->headers->get('Auth-ID');
-
         if ($this->authID != "") {
             $this->name = $request->headers->get('Auth-Name');
-
             $names = explode(' ', $this->name);
             $this->firstName = $names[0];
             $this->lastName = $names[1];
-
             return true;
         } else {
             return false;
@@ -66,12 +62,12 @@ class IngeniousHomeController extends Controller
      * @Route("/")
      */
     public function indexAction(Request $request) {
-        $authenticated = $this->isAuthenticated($request);
+        $isAuthenticated = $this->isAuthenticated($request);
         return $this->render(
             '/index.html.twig',
             [
                 'uploader' => $this->getPhotoUploader()->getUploaderPath(),
-                'authenticated' => $authenticated
+                'authenticated' => $isAuthenticated
             ]
         );
     }
@@ -81,7 +77,7 @@ class IngeniousHomeController extends Controller
      */
     public function myphotosAction(Request $request) {
         if($this->isAuthenticated($request)) {
-            $authenticated = true;
+            $isAuthenticated = true;
             if ($this->user == null) {
                 $user = $this->getUserManager($this->authID)->getUser();
                 $this->user = $user;
@@ -102,7 +98,7 @@ class IngeniousHomeController extends Controller
                 [
                     'firstName' => $this->firstName,
                     'lastName' => $this->lastName,
-                    'authenticated' => $authenticated,
+                    'authenticated' => $isAuthenticated,
                     'catalogID' => $this->firstName . ' ' . $this->lastName . "&acute;s Photos",
                     'catalog' => $catalog,
                     'uploader' => $this->getPhotoUploader()->getUploaderPath(),
@@ -124,10 +120,8 @@ class IngeniousHomeController extends Controller
     /**
      * @Route("/catalog")
      */
-    public function catalogAction(Request $request)
-    {
-
-        if ($this->isAuthenticated($request)) {
+    public function catalogAction(Request $request) {
+        if($this->isAuthenticated($request)) {
             $authenticated = true;
             $catalog = $this->getPhotoManager($request)->getCatalog();
             return $this->render('/catalog.html.twig',
@@ -141,11 +135,8 @@ class IngeniousHomeController extends Controller
                     'catalog' => $this->getPhotoManager($request)->getCatalog(),
                     'uploader' => $this->getPhotoUploader()->getUploaderPath(),
                 ]
-
             );
-        }
-        else
-        {
+        } else {
             $this->_send_forbidden_status_response();
         }
     }
@@ -165,16 +156,15 @@ class IngeniousHomeController extends Controller
     /**
      * @Route ("/login")
      */
-    public function loginAction( Request $request ) {
-        if ($this->isAuthenticated($request)) {
+    public function loginAction(Request $request) {
+        if($this->isAuthenticated($request)) {
             return $this->render(
                 '/login.html.twig',
                 [
                     'uploader' => $this->getPhotoUploader()->getUploaderPath()
                 ]
             );
-        }
-        else {
+        } else {
             return $this->render(
                 '/login.html.twig',
                 [
@@ -201,13 +191,11 @@ class IngeniousHomeController extends Controller
     /**
      * @Route("/photos/{catelogID}/{albumName}/{albumID}")
      */
-    public function photosAction( $catelogID, $albumName, $albumID, Request $request ) {
-        
+    public function photosAction($catelogID, $albumName, $albumID, Request $request) {
         $catalog = $this->getPhotoManager($request)->getCatalog();
         $album = $this->getPhotoManager( $request )->getAlbum( $albumID );
         $images = $album->images;
-        
-        if($this->isAuthenticated( $request ) ) {
+        if($this->isAuthenticated($request)) {
             $authenticated = true;
             return $this->render(
                 '/photos.html.twig',
@@ -223,69 +211,7 @@ class IngeniousHomeController extends Controller
                     'images' => $images
                 ]
             );
-        }else{
-            $this->_send_forbidden_status_response();
-        }
-    }
-    
-    /**
-     * @Route("/album/{catalog}/{album}", name="album")
-     */
-    public function albumAction($catalogID, $album, Request $request)
-    {
-        $catalog = $this->getPhotoManager($request)->getCatalog();
-        $album = $this->getPhotoManager($request)->getAlbum($album);
-        $images = $album->images;
-
-        if ($this->isAuthenticated($request)) {
-            $authenticated = true;
-            return $this->render(
-                '/album.html.twig',
-                [
-                    'firstName' => $this->firstName,
-                    'lastName' => $this->lastName,
-                    'authenticated' => $authenticated,
-                    'catalogID' => $catalogID,
-                    'catalog' => $catalog,
-                    'album' => $album,
-                    'uploader' => $this->getPhotoUploader()->getUploaderPath(),
-                    'images' => $images
-                ]
-            );
-        }
-        else
-        {
-            $this->_send_forbidden_status_response();
-        }
-    }
-
-    /**
-     * @Route("/album/{banner}", name="banner")
-     */
-
-    public function bannerAction($banner, Request $request)
-    {
-        $catalog = $this->getPhotoManager($request)->getCatalog();
-        $album = $this->getPhotoManager($request)->getAlbum($banner);
-        $photos = $album->images;
-
-        if ($this->isAuthenticated($request)) {
-            $authenticated = true;
-            return $this->render(
-                '/banner.html.twig',
-                [
-                    'firstName' => $this->firstName,
-                    'lastName' => $this->lastName,
-                    'authenticated' => $authenticated,
-                    'album' => $album,
-                    'catalog' => $catalog,
-                    'uploader' => $this->getPhotoUploader()->getUploaderPath(),
-                    'images' => $photos
-                ]
-            );
-        }
-        else
-        {
+        } else {
             $this->_send_forbidden_status_response();
         }
     }
@@ -293,9 +219,7 @@ class IngeniousHomeController extends Controller
     /**
      * @Route("/account")
      */
-
-    public function accountAction(Request $request)
-    {
+    public function accountAction(Request $request) {
         if ($this->isAuthenticated($request)) {
             $authenticated = true;
             if($this->user == null) {
@@ -334,9 +258,7 @@ class IngeniousHomeController extends Controller
                     'profilePicture' => $this->profilePicture
                 ]
             );
-        }
-        else
-        {
+        } else {
             $this->_send_forbidden_status_response();
         }
     }
@@ -347,14 +269,11 @@ class IngeniousHomeController extends Controller
      */
     private function getPhotoManager($request) {
         if($this->isAuthenticated($request)) {
-            if ($this->photoManager == null) {
+            if($this->photoManager == null) {
                 $this->photoManager = new PhotoManager($this->authID);
             }
-
             return $this->photoManager;
-        }
-        else
-        {
+        } else {
             $this->_send_forbidden_status_response();
         }
     }
@@ -362,9 +281,9 @@ class IngeniousHomeController extends Controller
     /**
      * @return Forbidden Status response
      */
-    private function _send_forbidden_status_response( $statusCode = null ) {
+    private function _send_forbidden_status_response($statusCode = null) {
         $response = new Response();
-        $response->setStatusCode( $statusCode ?? Response::HTTP_FORBIDDEN );
+        $response->setStatusCode($statusCode ?? Response::HTTP_FORBIDDEN);
         return $response->send();
     }
 
@@ -372,10 +291,9 @@ class IngeniousHomeController extends Controller
      * @return PhotoUploader
      */
     private function getPhotoUploader() {
-        if ($this->photoUploader == null) {
+        if($this->photoUploader == null) {
             $this->photoUploader = new PhotoUploader();
         }
-
         return $this->photoUploader;
     }
 
@@ -383,10 +301,9 @@ class IngeniousHomeController extends Controller
      * @return UserManager
      */
     private function getUserManager($authID) {
-        if ($this->userManager == null) {
+        if($this->userManager == null) {
             $this->userManager = new UserManager($authID);
         }
-
         return $this->userManager;
     }
 }

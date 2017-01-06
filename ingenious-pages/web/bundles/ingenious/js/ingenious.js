@@ -149,7 +149,13 @@ function uploadSupportImage(file, albumID, cover) {
                     setUser(null, null, coverURL, null);
                 } else {
                     profileURL = resp.thumb_url;
-                    $("#profile-picture").attr("src", profileURL);
+                    $(".hexagon1").css({
+                        "background": "url(" + profileURL + ")",
+                        "background-repeat": "no-repeat",
+                        "background-attachment": "scroll",
+                        "background-size": "cover",
+                        "background-position": "center"
+                    });
                     setUser(null, null, null, profileURL);
                 }
             }

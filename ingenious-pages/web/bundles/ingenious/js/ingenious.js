@@ -62,7 +62,13 @@ $(document).ready(function() {
     });
 
     $(".remove-pp").click(function(event) {
-        $("#profile-picture").attr("src", "/bundles/ingenious/images/profile-picture.png");
+        $(".hexagon1").css({
+            "background": "url(/bundles/ingenious/images/profile-picture.png)",
+            "background-repeat": "no-repeat",
+            "background-attachment": "scroll",
+            "background-size": "cover",
+            "background-position": "center"
+        });
 
         userManagerURL = $("#remove-pp-id").attr('action');
 

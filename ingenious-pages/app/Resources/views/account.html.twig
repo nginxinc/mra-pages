@@ -13,9 +13,15 @@
             <div class="profile-content">
                 <div class="profile-photo">
                     {% if profilePicture == "generic" %}
-                        <img id="profile-picture" src="{{ asset('bundles/ingenious/images/profile-picture.png') }}">
+                        <div class="hexagon1 pic">
+                            <span class="top1"></span>
+                            <span class="bottom1"></span>
+                        </div>
                     {% else %}
-                        <img id="profile-picture" src="{{ profilePicture }}">
+                        <div class="hexagon1 pic" style="background: url('{{ profilePicture }}') no-repeat scroll center center / cover;">
+                            <span class="top1"></span>
+                            <span class="bottom1"></span>
+                        </div>
                     {% endif %}
                 </div>
 

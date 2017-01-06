@@ -1821,30 +1821,11 @@ input[type="file"] > input[type="button"]::-moz-focus-inner {
 
 }
 
-.hexagon1 span {
-    position: absolute;
-    display: block;
-    float: left;
-    border-left: 75px solid #000;
-    border-right: 75px solid #000;
-}
-
-.top1 {
-    top: 0;
-    border-top: 0px solid transparent;
-    border-bottom: 42.82px solid transparent;
-}
-
-.bottom1{
-    bottom: 0px;
-    border-bottom: 0px solid transparent;
-    border-top: 42.82px solid transparent;
-}
-
 .hexagon1 {
     background: url("../images/profile-picture.png") no-repeat scroll center center / cover ;
     width: 150px;
     height: 180.46px;
     position: relative;
     display: inline-block;
+    clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
 }

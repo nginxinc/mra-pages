@@ -15,15 +15,9 @@
                     <div class="profile-content">
                         <div class="profile-photo">
                             {% if profilePicture == "generic" %}
-                                <div class="hexagon1 pic">
-                                    <span class="top1"></span>
-                                    <span class="bottom1"></span>
-                                </div>
+                                <div class="hexagon1 pic"></div>
                             {% else %}
-                                <div class="hexagon1 pic" style="background: url('{{ profilePicture }}') no-repeat scroll center center / cover;">
-                                    <span class="top1"></span>
-                                    <span class="bottom1"></span>
-                                </div>
+                                <div class="hexagon1 pic" style="background: url('{{ profilePicture }}') no-repeat scroll center center / cover;"></div>
                             {% endif %}
                         </div>
                         <h1 class="profile-title">{{ firstName }} {{ lastName }}</h1>

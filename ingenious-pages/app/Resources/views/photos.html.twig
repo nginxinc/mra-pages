@@ -33,7 +33,11 @@
                             <a class="hideOverflow" href="{{ image.large_url }}" data-sub-html='<h1 class="photo-title">{{ albumName }}</h1>
                             <div class="album-meta">
                                 <div class="author-meta">
-                                    <img class="pull-left" src="{{ asset('bundles/ingenious/images/author-avatar-2.png' ) }}" alt="Author">
+                                    {% if profilePicture == "generic" %}
+                                        <div class="miniHexagon pull-left"></div>
+                                    {% else %}
+                                        <div class="miniHexagon pull-left" style="background: url({{ profilePicture }}) no-repeat scroll center center / cover;"></div>
+                                    {% endif %}
                                     <h4 class="pull-left">{{ firstName }} {{ lastName }}</h4>
                                 </div>
                                 <div class="date-meta pull-left">

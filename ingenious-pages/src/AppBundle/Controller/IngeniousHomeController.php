@@ -197,6 +197,19 @@ class IngeniousHomeController extends Controller {
         $images = $album->images;
         if($this->isAuthenticated($request)) {
             $authenticated = true;
+            if ($this->user == null) {
+                $user = $this->getUserManager($this->authID)->getUser();
+                $this->user = $user;
+            }
+            if($this->user->getProfilePicture() != null) {
+                $this->profilePicture = $user->getProfilePicture();
+            }
+            if($this->user->getProfilePicturesID() != null) {
+                $this->profilePicturesID = $user->getProfilePicturesID();
+            }
+            if($this->user->getCoverPicturesID() != null) {
+                $this->coverPicturesID = $user->getCoverPicturesID();
+            }
             return $this->render(
                 '/photos.html.twig',
                 [
@@ -207,6 +220,9 @@ class IngeniousHomeController extends Controller {
                     'catalog' => $catalog,
                     'album' => $album,
                     'albumName' => $albumName,
+                    'coverPicturesID' => $this->coverPicturesID,
+                    'profilePicturesID' => $this->profilePicturesID,
+                    'profilePicture' => $this->profilePicture,
                     'uploader' => $this->getPhotoUploader()->getUploaderPath(),
                     'images' => $images
                 ]

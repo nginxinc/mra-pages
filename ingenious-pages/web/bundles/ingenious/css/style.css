@@ -1829,3 +1829,13 @@ input[type="file"] > input[type="button"]::-moz-focus-inner {
     display: inline-block;
     clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
 }
+
+.miniHexagon {
+  background: url("../images/author-avatar-2.png") no-repeat scroll center center / cover ;
+  width: 28px;
+  height: 31.719px;
+  position: relative;
+  display: inline-block;
+  clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+  margin-right: 10px;
+}

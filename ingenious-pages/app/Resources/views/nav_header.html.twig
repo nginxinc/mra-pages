@@ -11,7 +11,19 @@
             {% if not authenticated %}
                 <a class="login-btn" href="/login">Log In</a>
             {% else %}
-                <button class="logout-btn">Log Out</button>
+                <div style="display: none" class="g-signin2"></div>
+                <a class="logout-btn" href="#" onclick="signOut();">Log Out</a>
+                <script>
+                    function signOut() {
+                        var auth2 = gapi.auth2.getAuthInstance();
+                        auth2.signOut().then(function () {
+                            console.log('User signed out.');
+                        });
+
+                        logout();
+                    }
+                </script>
+
             {% endif %}
         {% endblock %}
     </nav><!--./Offcanvas Nav-->

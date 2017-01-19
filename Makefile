@@ -1,4 +1,4 @@
-tag = ngrefarch/pages
+tag = ngrefarch/pages:mesos
 volumes = -v $(CURDIR)/ingenious-pages:/ingenious-pages
 ports = -p 80:80 -p 443:443
 env = --env-file=.env

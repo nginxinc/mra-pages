@@ -494,7 +494,6 @@ function statusChangeCallback(response) {
     }
 }
 
-// TODO
 function onSignIn(googleUser) {
     // Useful data for your client-side scripts:
     var profile = googleUser.getBasicProfile();
@@ -505,15 +504,16 @@ function onSignIn(googleUser) {
 
     // The ID token you need to pass to your backend:
     var id_token = googleUser.getAuthResponse().id_token;
-    var auth_provider =  Cookies.get('auth_provider')
+    var auth_provider =  Cookies.get('auth_provider');
     console.log("ID Token: " + id_token);
 
     var loggedIn = Cookies.get('logged_in');
     Cookies.set('auth_provider', 'google');
     Cookies.set('auth_token', id_token);
 
-    if (loggedIn === 'true') {
+    // TODO
+    //if (loggedIn === 'true') {
         document.getElementById( 'ing_gp_login' ).innerHTML = 'Logged in via Google';
-    }
+    //}
     //Cookies.set('logged_in', 'true');
 }

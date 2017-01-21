@@ -62,7 +62,9 @@ class IngeniousHomeController extends Controller {
      * @Route("/")
      */
     public function indexAction(Request $request) {
-        $isAuthenticated = $this->isAuthenticated($request);
+        if(isset($_COOKIE["auth_token"])) {
+            $isAuthenticated = true;
+        }
         return $this->render(
             '/index.html.twig',
             [
@@ -145,10 +147,14 @@ class IngeniousHomeController extends Controller {
      * @Route("/stories/{slug}")
      */
     public function storiesAction() {
+        if(isset($_COOKIE["auth_token"])) {
+            $isAuthenticated = true;
+        }
         return $this->render(
             '/post-article.html.twig',
             [
                 'uploader' => $this->getPhotoUploader()->getUploaderPath(),
+                'authenticated' => $isAuthenticated
             ]
         );
     }
@@ -157,33 +163,30 @@ class IngeniousHomeController extends Controller {
      * @Route ("/login")
      */
     public function loginAction(Request $request) {
-        if($this->isAuthenticated($request)) {
-            return $this->render(
-                '/login.html.twig',
-                [
-                    'uploader' => $this->getPhotoUploader()->getUploaderPath()
-                ]
-            );
-        } else {
-            return $this->render(
-                '/login.html.twig',
-                [
-                    'uploader' => $this->getPhotoUploader()->getUploaderPath()
-                ]
-            );
+        if(isset($_COOKIE["auth_token"])) {
+            $isAuthenticated = true;
         }
+        return $this->render(
+            '/login.html.twig',
+            [
+                'uploader' => $this->getPhotoUploader()->getUploaderPath(),
+                'authenticated' => $isAuthenticated
+            ]
+        );
     }
     
     /**
      * @Route ("/about")
      */
     public function aboutAction(Request $request) {
-        $authenticated = $this->isAuthenticated($request);
+        if(isset($_COOKIE["auth_token"])) {
+            $isAuthenticated = true;
+        }
         return $this->render(
             '/about.html.twig',
             [
                 'uploader' => $this->getPhotoUploader()->getUploaderPath(),
-                'authenticated' => $authenticated
+                'authenticated' => $isAuthenticated
             ]
         );
     }

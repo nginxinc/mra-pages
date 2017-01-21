@@ -1,5 +1,5 @@
 {% block mobilenav %}
-    <nav class="main-nav nav-close">
+    <nav class="main-nav nav-close" id="left-menu">
         <a class="nav-close-btn" href="#"><img src="{{ asset('bundles/ingenious/images/nav-close.png') }}"></a>
         <ul class="main-nav-items">
             <li class="nav-item"><a href="/">Home</a></li>
@@ -9,21 +9,10 @@
         </ul>
         {% block loginButton %}
             {% if not authenticated %}
-                <a class="login-btn" href="/login">Log In</a>
+                <a id="logInlogOutB" class="login-btn" href="/login">Log In</a>
             {% else %}
                 <div style="display: none" class="g-signin2"></div>
                 <a class="logout-btn" href="#" onclick="signOut();">Log Out</a>
-                <script>
-                    function signOut() {
-                        var auth2 = gapi.auth2.getAuthInstance();
-                        auth2.signOut().then(function () {
-                            console.log('User signed out.');
-                        });
-
-                        logout();
-                    }
-                </script>
-
             {% endif %}
         {% endblock %}
     </nav><!--./Offcanvas Nav-->

@@ -124,14 +124,14 @@ class IngeniousHomeController extends Controller {
      */
     public function catalogAction(Request $request) {
         if($this->isAuthenticated($request)) {
-            $authenticated = true;
+            $isAuthenticated = true;
             $catalog = $this->getPhotoManager($request)->getCatalog();
             return $this->render('/catalog.html.twig',
                 [
                     'firstName' => $this->firstName,
                     'lastName' => $this->lastName,
                     'authID' => $this->authID,
-                    'authenticated' => $authenticated,
+                    'authenticated' => $isAuthenticated,
                     'catelog' => $catalog,
                     'catalogID' => $this->firstName . ' ' . $this->lastName . "&acute;s Photos",
                     'catalog' => $this->getPhotoManager($request)->getCatalog(),
@@ -199,7 +199,7 @@ class IngeniousHomeController extends Controller {
         $album = $this->getPhotoManager( $request )->getAlbum( $albumID );
         $images = $album->images;
         if($this->isAuthenticated($request)) {
-            $authenticated = true;
+            $isAuthenticated = true;
             if ($this->user == null) {
                 $user = $this->getUserManager($this->authID)->getUser();
                 $this->user = $user;
@@ -218,7 +218,7 @@ class IngeniousHomeController extends Controller {
                 [
                     'firstName' => $this->firstName,
                     'lastName' => $this->lastName,
-                    'authenticated' => $authenticated,
+                    'authenticated' => $isAuthenticated,
                     'catalogID' => $catelogID,
                     'catalog' => $catalog,
                     'album' => $album,
@@ -240,7 +240,7 @@ class IngeniousHomeController extends Controller {
      */
     public function accountAction(Request $request) {
         if ($this->isAuthenticated($request)) {
-            $authenticated = true;
+            $isAuthenticated = true;
             if($this->user == null) {
                 $user = $this->getUserManager($this->authID)->getUser();
                 $this->user = $user;
@@ -262,7 +262,7 @@ class IngeniousHomeController extends Controller {
                 '/account.html.twig',
                 [
                     'name' => $this->user->getName(),
-                    'authenticated' => $authenticated,
+                    'authenticated' => $isAuthenticated,
                     'email' => $this->user->getEmail(),
                     'userManager' => trim( $this->user->getLocalUserPath() ) . "/" . $this->user->getUserID(),
                     'uploader' => $this->getPhotoUploader()->getUploaderPath(),

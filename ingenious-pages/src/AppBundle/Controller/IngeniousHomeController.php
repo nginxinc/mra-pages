@@ -62,8 +62,10 @@ class IngeniousHomeController extends Controller {
      * @Route("/")
      */
     public function indexAction(Request $request) {
-        if(isset($_COOKIE["auth_token"])) {
+        if(isset($_COOKIE["auth_token"]) && ($_COOKIE["expires_at"]) > time()) {
             $isAuthenticated = true;
+        } else {
+            $isAuthenticated = false;
         }
         return $this->render(
             '/index.html.twig',
@@ -147,8 +149,10 @@ class IngeniousHomeController extends Controller {
      * @Route("/stories/{slug}")
      */
     public function storiesAction() {
-        if(isset($_COOKIE["auth_token"])) {
+        if(isset($_COOKIE["auth_token"]) && ($_COOKIE["expires_at"]) > time()) {
             $isAuthenticated = true;
+        } else {
+            $isAuthenticated = false;
         }
         return $this->render(
             '/post-article.html.twig',
@@ -163,8 +167,10 @@ class IngeniousHomeController extends Controller {
      * @Route ("/login")
      */
     public function loginAction(Request $request) {
-        if(isset($_COOKIE["auth_token"])) {
+        if(isset($_COOKIE["auth_token"]) && ($_COOKIE["expires_at"]) > time()) {
             $isAuthenticated = true;
+        } else {
+            $isAuthenticated = false;
         }
         return $this->render(
             '/login.html.twig',
@@ -179,8 +185,10 @@ class IngeniousHomeController extends Controller {
      * @Route ("/about")
      */
     public function aboutAction(Request $request) {
-        if(isset($_COOKIE["auth_token"])) {
+        if(isset($_COOKIE["auth_token"]) && ($_COOKIE["expires_at"]) > time()) {
             $isAuthenticated = true;
+        } else {
+            $isAuthenticated = false;
         }
         return $this->render(
             '/about.html.twig',

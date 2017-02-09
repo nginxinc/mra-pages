@@ -503,8 +503,13 @@ window.fbAsyncInit = function() {
 // This is called with the results from from FB.getLoginStatus().
 function statusChangeCallback(response) {
     if (response.status === 'connected') {
+        var d = new Date();
+        var now = d.getTime();
+        var expiresAt = now + response.authResponse.expiresIn;
+
         Cookies.set('auth_provider', 'facebook');
         Cookies.set('auth_token', response.authResponse.accessToken);
+        Cookies.set('expires_at', expiresAt);
 
         document.getElementById( 'ing_fb_login' ).innerHTML = 'Logged in via Facebook';
         $("#left-menu").load(location.href+" #left-menu>*","");
@@ -523,9 +528,11 @@ function fbLogin() {
 
 function onSignIn(googleUser) {
     var id_token = googleUser.getAuthResponse().id_token;
+    var expiresAt = googleUser.getAuthResponse().expires_at;
 
     Cookies.set('auth_provider', 'google');
     Cookies.set('auth_token', id_token);
+    Cookies.set('expires_at', expiresAt);
 
     if (id_token) {
         document.getElementById('ing_gp_login').innerHTML = 'Logged in via Google';

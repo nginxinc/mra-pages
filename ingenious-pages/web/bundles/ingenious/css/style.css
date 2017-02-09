@@ -1569,7 +1569,23 @@ form .upload-thumb {
   font-family: "Aktiv Grotesk W01 Thin",sans-serif;
   font-size: 14px;
   letter-spacing: 1px;
-  margin: 120px auto 50px;
+  margin: 120px auto auto;
+  padding: 5px 10px;
+  text-align: center;
+  text-decoration: none;
+  text-transform: uppercase;
+  width: 160px;
+}
+
+.delete-image-btn, .delete-image-btn:hover, .delete-image-btn:visited, .delete-image-btn:focus {
+  border: 1px solid red;
+  clear: both;
+  color: red;
+  display: block;
+  font-family: "Aktiv Grotesk W01 Thin",sans-serif;
+  font-size: 14px;
+  letter-spacing: 1px;
+  margin: 10px auto 50px;
   padding: 5px 10px;
   text-align: center;
   text-decoration: none;

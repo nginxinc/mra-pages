@@ -90,6 +90,51 @@ $(document).ready(function() {
     $("#fb_login").click(function(event) {
         fbLogin();
     });
+
+    $(".delete-image-btn").click(function(e) {
+        e.preventDefault();
+
+        var $lg = $('.album-container');
+        $lg.data('lightGallery').destroy();
+
+        return false;
+    });
+});
+
+$(document).on( 'click', '.delete-image-btn', function( e ) {
+    e.preventDefault();
+
+    var imageID = $(this).attr('id');
+    var urlS3 = $(this).attr('urlS3');
+    var uuid = urlS3.substring(51, 87);
+
+    var imageURL = imageManagerURL + "/" + imageID + "/" + uuid;
+    if (confirm("Are you sure you want to delete the photo?")) {
+        $.ajax({
+            url: imageURL,
+            data: null,
+            cache: false,
+            contentType: false,
+            processData: false,
+            type: 'DELETE',
+            success: function(resp){
+                console.log("Image deleted");
+            },
+            error: function(response){
+                console.log("There is an error:" + response);
+            },
+            complete: function () {
+                console.log("Completed");
+                //$("#single-album").load(location.href+" #single-album>*","");
+                location.reload();
+            }
+        });
+
+        var $lg = $('.album-container');
+        $lg.data('lightGallery').destroy();
+    }
+
+    return false;
 });
 
 var isNewAlbum, isPosterImageSettedAutomatically;
@@ -97,6 +142,7 @@ var input, loading, result, uploadButton, uploadThumbProto, uploadThumbs, upload
 
 var uploaderURL = "/uploader/image";//this should be set with environment variables
 var albumManagerURL = "/albums";//this should be set with environment variables
+var imageManagerURL = "/images";
 var userManagerURL = "/account/users";//this should be set with environment variables
 var uploaded = 0;
 var filesIndex = 0;

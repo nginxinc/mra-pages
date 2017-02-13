@@ -115,7 +115,7 @@ h6 {
 
 .hero-banner {
   background: rgba(0, 0, 0, 0) url("../images/aurora.png") no-repeat scroll center center / cover ;
-  height: calc(100vh + 250px);
+  height: calc(95vh + 300px);
   position: relative;
 }
 
@@ -180,7 +180,7 @@ h6 {
   font-weight: 100;
   letter-spacing: 4px;
   line-height: 1;
-  margin: 200px auto 50px;
+  margin: 10% auto 2%;
   font-family: "Aktiv Grotesk W01 Hairline", sans-serif;
 }
 
@@ -198,7 +198,7 @@ h6 {
 
 a.scroll-down {
   display: block;
-  margin: 60px auto 0;
+  margin: 2% auto 0;
 }
 
 a.scroll-down img{
@@ -305,8 +305,7 @@ a.scroll-down img{
 -------------------------------- */
 
 .about {
-  min-height: 300px;
-  padding: 150px 0;
+  min-height: 270px;
   text-align: center;
 }
 
@@ -366,7 +365,7 @@ a.scroll-down img{
 }
 
 .single-post:first-child {
-  margin-top: 50px;
+  margin-top: 30px;
 }
 
 .single-post:nth-child(2n) .entry-featured{
@@ -498,7 +497,7 @@ a.scroll-down img{
 footer.colophon-bottom {
   background: rgba(0, 0, 0, 0) url("../images/aurora.png") no-repeat scroll center center / cover ;
   color: #fff;
-  min-height: 400px;
+  min-height: 250px;
   position: relative;
   text-align: center;
 }
@@ -515,7 +514,7 @@ footer.colophon-bottom {
 }
 
 .footer-content {
-  padding-top: 100px;
+  padding-top: 10px;
 }
 
 .footer-content h2 {
@@ -614,8 +613,8 @@ footer.colophon-bottom {
 
 .profile.hero-banner {
   background: rgba(0, 0, 0, 0) url("../images/mountains2.jpg") no-repeat scroll center center / cover ;
-  height: calc(100vh + 200px);
   position: relative;
+  max-height: 1116px;
 }
 
 .profile .inner {
@@ -638,7 +637,6 @@ footer.colophon-bottom {
 
 .profile-content {
   margin-top: 200px;
-  padding: 50px 0;
   position: relative;
   text-align: center;
   z-index: 3;
@@ -748,7 +746,7 @@ footer.colophon-bottom {
 }
 
 .profile-update-form .update-account {
-  margin: 100px auto;
+  margin: 20px auto;
 }
 
 .profile-update-form .update-account .btn {
@@ -1121,7 +1119,7 @@ form .upload-thumb {
 }
 
 .page-header {
-  padding: 100px 0;
+  padding: 70px 0;
   text-align: center;
 }
 
@@ -1144,7 +1142,7 @@ form .upload-thumb {
   font-family: "Aktiv Grotesk W01 Hairline",sans-serif;
   font-size: 60px;
   line-height: 76px;
-  margin: 60px 0 35px;
+  margin: 0px 0 35px;
 }
 
 .page-header .learn-more-btn {
@@ -1329,7 +1327,7 @@ form .upload-thumb {
 
 .photos.hero-banner {
   background: rgba(0, 0, 0, 0) url("../images/mountains2.jpg") no-repeat scroll center center / cover ;
-  height: 650px;
+  height: 550px;
   position: relative;
 }
 
@@ -1473,7 +1471,7 @@ form .upload-thumb {
 }
 
 .albums.album-single {
-  padding-bottom: 170px;
+  padding-bottom: 100px;
 }
 
 .single-album .header-content .page-title {
@@ -1507,7 +1505,7 @@ form .upload-thumb {
   font-family: "Aktiv Grotesk W01 Thin",sans-serif;
   font-size: 14px;
   letter-spacing: 1px;
-  margin-top: 120px;
+  margin-top: 5px;
   padding: 5px 10px;
   position: absolute;
   text-align: center;

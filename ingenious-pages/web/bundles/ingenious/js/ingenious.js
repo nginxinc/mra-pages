@@ -17,6 +17,7 @@ $(document).ready(function() {
         $("#albums").load(location.href+" #albums>*","");
         $("#photos-list-existent-albums").load(location.href+" #photos-list-existent-albums>*","");
         $("#delete-list-existent-albums").load(location.href+" #delete-list-existent-albums>*","");
+        $("#all-images-cover").load(location.href+" #all-images-cover>*","");
     });
 
     $("#photo-upload").submit(function(event) {
@@ -24,6 +25,7 @@ $(document).ready(function() {
         setVar();
         bannerAlbumBool = true;
         uploadBanner(event);
+        $("#all-images-cover").load(location.href+" #all-images-cover>*","");
     });
 
     $("#album-delete").submit(function(event) {
@@ -31,6 +33,7 @@ $(document).ready(function() {
         $("#delete-list-existent-albums").load(location.href+" #delete-list-existent-albums>*","");
         $("#photos-list-existent-albums").load(location.href+" #photos-list-existent-albums>*","");
         $("#albums").load(location.href+" #albums>*","");
+        $("#all-images-cover").load(location.href+" #all-images-cover>*","");
     });
 
     $("#add-cover-button").click(function(event) {
@@ -125,7 +128,6 @@ $(document).on( 'click', '.delete-image-btn', function( e ) {
             },
             complete: function () {
                 console.log("Completed");
-                //$("#single-album").load(location.href+" #single-album>*","");
                 location.reload();
             }
         });

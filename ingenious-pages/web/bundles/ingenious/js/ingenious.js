@@ -37,10 +37,12 @@ $(document).ready(function() {
     });
 
     $("#add-cover-button").click(function(event) {
-        $("#cover-info").show();
-        $("#cover-info").html("Uploading...");
-
         var file = $("#add-cover-input").prop('files')[0];
+        if (file) {
+            var coverInfo = $("#cover-info");
+            coverInfo.show();
+            coverInfo.html("Uploading...");
+        }
         userManagerURL = $(this).attr('userManager');
         var albumID = $(this).attr('coverPicturesID');
 

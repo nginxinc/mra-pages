@@ -105,7 +105,7 @@
                                 <option value="undefined">---</option>
                                 {% if catalog is defined %}
                                     {% for album in catalog|reverse %}
-                                        {% if album.id != profilePicturesID and album.id != coverPicturesID %}
+                                        {% if album.id != profilePicturesID and album.id != coverPicturesID and album.state == 'active' %}
                                             <option value="{{ album.id }}">{{ album.name }}</option>
                                         {% endif %}
                                     {% endfor %}
@@ -160,7 +160,7 @@
                                 <option value="undefined">---</option>
                                 {% if catalog is defined %}
                                     {% for album in catalog|reverse %}
-                                        {% if album.id != profilePicturesID and album.id != coverPicturesID %}
+                                        {% if album.id != profilePicturesID and album.id != coverPicturesID and album.state == 'active' %}
                                             <option value="{{ album.id }}">{{ album.name }}</option>
                                         {% endif %}
                                     {% endfor %}

@@ -64,7 +64,7 @@
                     <div class="col-xs-8">
                         <div class="col-xs-4 update-pp">
                             <input class="form-control" id="album-photo-input" type="file" multiple="multiple"
-                                   accept="image/*" required="required">
+                                   accept="image/*" required/>
                             <span id="browse-button-album">Browse</span>
                         </div>
                     </div>
@@ -119,7 +119,7 @@
                     <div class="col-xs-8">
                         <div class="col-xs-4 update-pp">
                             <input class="form-control" id="add-photo-input" type="file" multiple="multiple"
-                                   accept="image/*" required="required">
+                                   accept="image/*" required/>
                             <span id="browse-button-photos">Browse</span>
                         </div>
                     </div>
@@ -192,13 +192,13 @@
         <div id="add-cover-photo" class="add-cover-photo close">
             <div class="profile-update-form">
                 <h1 class="page-title">Add Cover Photo</h1>
-                <div id="cover-upload" class="form-horizontal">
+                <form id="cover-upload" class="form-horizontal">
                     <div class="form-group">
                         <label class="col-xs-4 col-sm-3 col-sm-offset-1 control-label">Photo</label>
                         <div class="col-xs-8">
                             <div class="col-xs-4 update-pp">
                                 <input class="form-control" id="add-cover-input" type="file" accept="image/*"
-                                       required="required">
+                                       required/>
                                 <span id="browse-button-cover">Browse</span>
                             </div>
                         </div>
@@ -222,7 +222,7 @@
                             </div><!--./single album thumb-->
                         {% endfor %}
                     </div> <!--./album-container-->
-                </div>
+                </form>
                 <div class="cancel-upload">
                     <a href="#"><img src="{{ asset('bundles/ingenious/images/nav-close-light.png') }}"></a>
                 </div>

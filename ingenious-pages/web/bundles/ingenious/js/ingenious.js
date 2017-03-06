@@ -347,6 +347,30 @@ function manageUpload(albumID){
         $("#album-upload .label").hide(); // TODO
         loading.append("<br/>Click on an image to set the photo album poster image.");
     }).catch(function (error){
+        if (isNewAlbum) {
+            var albumURL = albumManagerURL + "/" + albumID;
+            if (confirm("An error occurred during the uploading process. Would you like to delete the album?")) {
+                $.ajax({
+                    url: albumURL,
+                    data: null,
+                    cache: false,
+                    contentType: false,
+                    processData: false,
+                    type: 'DELETE',
+                    success: function(resp){
+                        console.log("Album Deleted");
+                    },
+                    error: function(response){
+                        console.log("There is an error:" + response);
+                    },
+                    complete: function () {
+                        console.log("Completed");
+                        $(".add-album").removeClass("open");
+                        $("body").removeClass("hide-overflow");
+                    }
+                });
+            }
+        }
         loading.html(error);
     })
 }

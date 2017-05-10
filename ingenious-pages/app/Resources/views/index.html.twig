@@ -46,141 +46,41 @@
     <section id="articles" class="articles">
         <div class="container-fluid article-container">
             <div class="row">
-                <article class="single-post">
-                    <div class="entry-featured col-md-6">
-                        <div class="entry-thumb" style="background-image: url('{{ asset('bundles/ingenious/images/rio.jpg') }}');"></div>
-                    </div> <!-- featured image -->
-                    <div class="entry-wrap col-md-6">
-                        <div class="entry-thumb" style="background-image: url('{{ asset('bundles/ingenious/images/rio.jpg') }}');"></div>
-                        <div class="entry-inner">
-                            <div class="entry-content">
-                                <h2 class="entry-title"><a href="/stories/rio-go-for-gold">Rio - Go for Gold!</a></h2>
-                                <div class="entry-excerpt">
-                                    <p>With the summer games coming up this year in Rio, the Ingenious staff has decided to publish the best photo series that our users have created of the...</p>
-                                    <a href="/stories/rio-go-for-gold" class="more-link">Read More</a>
-                                </div>
+                {%  for article in articles %}
+                    <article class="single-post">
+                        <div class="entry-featured col-md-6">
+                            <div class="entry-thumb" style="background-image: url('{{ article.photo }}');"></div>
+                        </div> <!-- featured image -->
+                        <div class="entry-wrap col-md-6">
+                            <div class="entry-thumb" style="background-image: url('{{ article.photo }}');"></div>
+                            <div class="entry-inner">
+                                <div class="entry-content">
+                                    <h2 class="entry-title"><a href="/stories/{{ article.id }}/{{ article.title | lower | replace({' ':'-', "'":''}) }}">{{ article.title }}</a></h2>
+                                    <div class="entry-excerpt">
+                                        <p>{{ article.extract }}</p>
+                                        <a href="/stories/{{ article.id }}/{{ article.title | lower | replace({' ':'-', "'":''}) }}" class="more-link">Read More</a>
+                                    </div>
 
-                                <div class="entry-meta">
-                                    <div class="author-meta col-md-6">
-                                        <div class="media">
-                                          <div class="author-avatar media-left">
-                                              <img class="media-object" src="{{ asset('bundles/ingenious/images/author-avatar.png') }}" alt="Author">
-                                          </div>
-                                          <div class="media-body">
-                                            <h4 class="author-title">Ingenious Editorial Staff</h4>
-                                          </div>
+                                    <div class="entry-meta">
+                                        <div class="author-meta col-md-6">
+                                            <div class="media">
+                                            <div class="author-avatar media-left">
+                                                <img class="media-object" src="{{ asset('bundles/ingenious/images/author-avatar.png') }}" alt="Author">
+                                            </div>
+                                            <div class="media-body">
+                                                <h4 class="author-title">{{ article.author }}</h4>
+                                            </div>
+                                            </div>
+                                        </div>
+                                        <div class="date-meta col-md-6">
+                                            <p> <time datetime="01-13-16">{{ article.date | date("m/d/Y") }}</time> <span class="place-meta">{{ article.location }}</span></p>
                                         </div>
                                     </div>
-                                    <div class="date-meta col-md-6">
-                                        <p> <time datetime="01-13-16">01/13/16</time> <span class="place-meta">Rio, BR</span></p>
-                                    </div>
-                                </div>
-                            </div><!--./entry content-->
-                        </div><!--./entry inner-->
-                    </div>
-                </article> <!--./single article-->
-
-                <article class="single-post">
-                    <div class="entry-featured col-md-6">
-                        <div class="entry-thumb" style="background-image: url('{{ asset('bundles/ingenious/images/bigsur.jpg') }}');"></div>
-                    </div> <!-- featured image -->
-                    <div class="entry-wrap col-md-6">
-                        <div class="entry-thumb" style="background-image: url('{{ asset('bundles/ingenious/images/bigsur.jpg') }}');"></div>
-                        <div class="entry-inner">
-                            <div class="entry-content">
-                                <h2 class="entry-title"><a href="/stories/paris-glory">Big Sur: A California Coast Experience</a></h2>
-                                <div class="entry-excerpt">
-                                    <p>Welcome to one of the world's most unforgettable stretches of coastline. This roughly 90-mile-long stretch of redwood- and fog-trimmed water...</p>
-                                    <a href="/stories/paris-glory" class="more-link">Read More</a>
-                                </div>
-
-                                <div class="entry-meta">
-                                    <div class="author-meta col-md-6">
-                                        <div class="media">
-                                          <div class="author-avatar media-left">
-                                              <img class="media-object" src="{{ asset('bundles/ingenious/images/author-avatar-2.png') }}" alt="Author">
-                                          </div>
-                                          <div class="media-body">
-                                            <h4 class="author-title">Chris Stetson</h4>
-                                          </div>
-                                        </div>
-                                    </div>
-                                    <div class="date-meta col-md-6">
-                                        <p> <time datetime="01-13-16">01/13/16 </time> <span class="place-meta">Posts, CA</span></p>
-                                    </div>
-                                </div>
-                            </div><!--./entry content-->
-                        </div><!--./entry inner-->
-                    </div>
-                </article> <!--./single article-->
-
-                <article class="single-post">
-                    <div class="entry-featured col-md-6">
-                        <div class="entry-thumb" style="background-image: url('{{ asset('bundles/ingenious/images/paris.jpg') }}');"></div>
-                    </div> <!-- featured image -->
-                    <div class="entry-wrap col-md-6">
-                        <div class="entry-thumb" style="background-image: url('{{ asset('bundles/ingenious/images/paris.jpg') }}');"></div>
-                        <div class="entry-inner">
-                            <div class="entry-content">
-                                <h2 class="entry-title"><a href="/stories/nyc-b-and-w">Paris in All its Glory</a></h2>
-                                <div class="entry-excerpt">
-                                    <p>Paris has been the center of attention of late for reasons not related to it's beauty, depth of culture, history or fabulous food. The tragic events...</p>
-                                    <a href="/stories/nyc-b-and-w" class="more-link">Read More</a>
-                                </div>
-
-                                <div class="entry-meta">
-                                    <div class="author-meta col-md-6">
-                                        <div class="media">
-                                          <div class="author-avatar media-left">
-                                              <img class="media-object" src="{{ asset('bundles/ingenious/images/author-avatar.png') }}" alt="Author">
-                                          </div>
-                                          <div class="media-body">
-                                            <h4 class="author-title">Ingenious Editorial Staff</h4>
-                                          </div>
-                                        </div>
-                                    </div>
-                                    <div class="date-meta col-md-6">
-                                        <p> <time datetime="01-13-16">01/13/16</time> <span class="place-meta">Paris, FR</span></p>
-                                    </div>
-                                </div>
-                            </div><!--./entry content-->
-                        </div><!--./entry inner-->
-                    </div>
-                </article> <!--./single article-->
-
-                <article class="single-post">
-                    <div class="entry-featured col-md-6">
-                        <div class="entry-thumb" style="background-image: url('{{ asset('bundles/ingenious/images/blackandwhite.jpg') }}');"></div>
-                    </div> <!-- featured image -->
-                    <div class="entry-wrap col-md-6">
-                        <div class="entry-thumb" style="background-image: url('{{ asset('bundles/ingenious/images/blackandwhite.jpg') }}');"></div>
-                        <div class="entry-inner">
-                            <div class="entry-content">
-                                <h2 class="entry-title"><a href="/stories/nyc-b-and-w">Black and White Photos from Around the World</a></h2>
-                                <div class="entry-excerpt">
-                                    <p>We have finally gotten around to putting up all the photos we have been taking recently and hopefully they will look better than ever. Shelly, as an early...</p>
-                                    <a href="/stories/nyc-b-and-w" class="more-link">Read More</a>
-                                </div>
-
-                                <div class="entry-meta">
-                                    <div class="author-meta col-md-6">
-                                        <div class="media">
-                                          <div class="author-avatar media-left">
-                                              <img class="media-object" src="{{ asset('bundles/ingenious/images/author-avatar.png') }}" alt="Author">
-                                          </div>
-                                          <div class="media-body">
-                                            <h4 class="author-title">Ingenious Editorial Staff</h4>
-                                          </div>
-                                        </div>
-                                    </div>
-                                    <div class="date-meta col-md-6">
-                                        <p> <time datetime="01-13-16">01/13/16</time> <span class="place-meta">Oakland, CA</span></p>
-                                    </div>
-                                </div>
-                            </div><!--./entry content-->
-                        </div><!--./entry inner-->
-                    </div>
-                </article> <!--./single article-->
+                                </div><!--./entry content-->
+                            </div><!--./entry inner-->
+                        </div>
+                    </article> <!--./single article-->
+                {% endfor %}
             </div>
 
         </div><!--./end container-->

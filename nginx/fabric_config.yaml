@@ -8,6 +8,10 @@ services:
     server: 'marathon.mesos service=_album-manager._tcp'
     expose_external: true
     healthcheck: true
+  content-service:
+      server: 'marathon.mesos service=_content-service._tcp'
+      expose_external: true
+      healthcheck: true
   uploader:
     server: 'marathon.mesos service=_uploader._tcp'
     expose_external: true

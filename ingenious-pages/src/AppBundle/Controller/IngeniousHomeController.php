@@ -8,6 +8,7 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Services\ContentManager;
 use AppBundle\Services\PhotoManager;
 use AppBundle\Services\PhotoUploader;
 use AppBundle\Services\UserManager;
@@ -31,6 +32,7 @@ class IngeniousHomeController extends Controller {
     private $firstName;
     private $lastName;
     private $photoManager = null;
+    private $contentManager = null;
     private $photoUploader = null;
     private $userManager = null;
     private $authID = null;
@@ -67,11 +69,13 @@ class IngeniousHomeController extends Controller {
         } else {
             $isAuthenticated = false;
         }
+        $articles = $this->getContentManager()->getArticles();
         return $this->render(
             '/index.html.twig',
             [
                 'uploader' => $this->getPhotoUploader()->getUploaderPath(),
-                'authenticated' => $isAuthenticated
+                'authenticated' => $isAuthenticated,
+                'articles' => $articles
             ]
         );
     }
@@ -146,19 +150,21 @@ class IngeniousHomeController extends Controller {
     }
 
     /**
-     * @Route("/stories/{slug}")
+     * @Route("/stories/{articleId}/{slug}")
      */
-    public function storiesAction() {
+    public function storiesAction($articleId, $slug) {
         if(isset($_COOKIE["auth_token"]) && ($_COOKIE["expires_at"]) > time()) {
             $isAuthenticated = true;
         } else {
             $isAuthenticated = false;
         }
+        $article = $this->getContentManager()->getArticle($articleId);
         return $this->render(
             '/post-article.html.twig',
             [
                 'uploader' => $this->getPhotoUploader()->getUploaderPath(),
-                'authenticated' => $isAuthenticated
+                'authenticated' => $isAuthenticated,
+                'article' => $article
             ]
         );
     }
@@ -303,6 +309,16 @@ class IngeniousHomeController extends Controller {
         } else {
             $this->_send_forbidden_status_response();
         }
+    }
+
+    /**
+     * @return ContentManager
+     */
+    private function getContentManager() {
+        if($this->contentManager == null) {
+            $this->contentManager = new ContentManager();
+        }
+        return $this->contentManager;
     }
     
     /**

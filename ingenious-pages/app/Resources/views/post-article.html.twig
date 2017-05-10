@@ -12,10 +12,10 @@
             {% block hero %}
             <div class="post-hero-banner">
                 <div class="post-header">
-                    <img class="post-featured-image" src="{{ asset('bundles/ingenious/images/bigsur.jpg') }}">
+                    <img class="post-featured-image" src="{{ article[0].photo }}">
 
                     <div class="single-post-title">
-                        <h1> Big Sur: A California Coast Experience</h1>
+                        <h1>{{ article[0].title }}</h1>
                         <div class="post-navigation">
                             <div class="post-prev">
                                 <a href="#"><img src="{{ asset('bundles/ingenious/images/arrow-left.png') }}" alt="Author"></a>
@@ -28,15 +28,15 @@
 
                     <div class="single-post-meta">
                         <div class="author-meta">
-                            <img class="pull-left" src="{{ asset('bundles/ingenious/images/author-avatar-2.png') }}" alt="Author">
-                            <h4 class="pull-left">Chris Stetson</h4>
+                            <img class="pull-left" src="{{ asset('bundles/ingenious/images/author-avatar.png') }}" alt="Author">
+                            <h4 class="pull-left">{{ article[0].author }}</h4>
                         </div>
                         <div class="date-meta pull-left">
-                            <p> <time datetime="01-13-16">01/13/16 </time> </p>
+                            <p> <time datetime="01-13-16">{{ article[0].date | date("m/d/Y") }} </time> </p>
                         </div>
                         <div class="place-meta">
                             <img class="pull-left" src="{{ asset('bundles/ingenious/images/icon-map-marker.png') }}" alt="Location">
-                            <h4 class="pull-left">Posts, CA</h4>
+                            <h4 class="pull-left">{{ article[0].location }}</h4>
                         </div>
                     </div>
                 </div>
@@ -45,7 +45,7 @@
             {% block article %}
             <div class="post-content">
                 <div class="content-inner">
-                    <p>Welcome to one of the world’s most unforgettable stretches of coastline. This ?   roughly 90-mile-long stretch of redwood- and fog-trimmed waterfront between Carmel-by-the-Sea and Hearst Castle has no specific boundaries, no urban core, drawing you (and writers like Henry Miller and Beat Generation darling Jack Kerouac) in with a magic allure that is almost palpable. This is, quite simply, a place you want to be —bluffs, sea, and sky.??Drive Big Sur’s length via twisting Highway One, with plenty of pullovers at places like Bixby Bridge. Another favorite photo op: McWay Falls, a silvery cascade that falls some 70 feet from the sea cliffs to a remote beach below. Look up to see endangered California condors, North America’s largest birds, or look down to scan the swells for migrating whales or sea otters floating among dense beds of kelp, California’s signature seaweed. Try the famous Ambrosia burger on the deck of Nepenthe, then nurse your beer to watch the sunset. Campgrounds abound, as do rustic cabins at Deetjen’s and other (sometimes funky) resorts. The region’s beauty also makes it a magnet for exclusive, splurge-worthy hotels like the cliff-hugging Post Ranch Inn, or luxurious Ventana Inn.??Continue north along Highway One towards your next stop, romantic Carmel and historic Monterey. Consider a detour to explore Andrew Molera State Park, where you can ride horses right next to crashing waves.</p>
+                    <p>{{ article[0].body }}</p>
                 </div>
 
             </div>

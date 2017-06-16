@@ -81,9 +81,6 @@
                         <img alt='animation' src='{{ asset('bundles/ingenious/images/uploading.gif', version='1.0') }}'>
                         <div class="control-label file-size"></div>
                     </div>
-                    <div class="col-md-12 cancel-upload">
-                        <a href="#"><img src="{{ asset('bundles/ingenious/images/hex-icon.png') }}"></a>
-                    </div>
                 </div>
             </form>
             <div class="cancel-upload">
@@ -136,9 +133,6 @@
                         <img alt='animation' src='{{ asset('bundles/ingenious/images/uploading.gif', version='1.0') }}'>
                         <div class="control-label file-size"></div>
                     </div>
-                    <div class="col-md-12 cancel-upload">
-                        <a href="#"><img src="{{ asset('bundles/ingenious/images/hex-icon.png') }}"></a>
-                    </div>
                 </div>
             </form>
             <div class="cancel-upload">
@@ -174,9 +168,6 @@
                         <button class="btn" type="submit">Delete Album</button>
                     </div>
                     <label class="col-sm-offset-1 control-label" id="delete-info"></label><br>
-                    <div class="col-md-12 cancel-upload">
-                        <a href="#"><img src="{{ asset('bundles/ingenious/images/hex-icon.png') }}"></a>
-                    </div>
                 </div>
             </form>
             <div class="cancel-upload">
@@ -208,9 +199,6 @@
                             <button class="btn" id="add-cover-button" coverPicturesID="{{ coverPicturesID }}" userManager="{{ userManager }}" type="submit">Add Cover</button>
                         </div>
                         <label class="col-sm-offset-1 control-label" id="cover-info"></label><br>
-                        <div class="col-md-12 cancel-upload">
-                            <a href="#"><img src="{{ asset('bundles/ingenious/images/hex-icon.png') }}"></a>
-                        </div>
                     </div>
                     <div class="album-container-cover" id="all-images-cover">
                         {% for image in allImages %}

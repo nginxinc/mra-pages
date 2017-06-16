@@ -2180,7 +2180,14 @@ input[type="file"] > input[type="button"]::-moz-focus-inner {
     letter-spacing: 1px;
     margin-bottom: 0;
   }
-  .albums .album-caption {
+  .albums .photo-and-caption {
+    width: 7.5em;
+  }
+  .albums .photo-and-caption figure {
+    width: 7.5em;
+    height: 7.5em;
+  }
+  .albums .photo-and-caption .album-caption {
     font-size: 14px;
     letter-spacing: 0.3px;
     margin: 15px auto 0;
@@ -2193,7 +2200,7 @@ input[type="file"] > input[type="button"]::-moz-focus-inner {
     letter-spacing: 2px;
     line-height: 50px;
     padding-top: 0px;
-    height: ;
+    height: 100vh;
   }
   .add-photo .profile-update-form {
     margin-top: 0;
@@ -2235,7 +2242,8 @@ input[type="file"] > input[type="button"]::-moz-focus-inner {
     font-size: 30px;
     letter-spacing: 2px;
     line-height: 50px;
-    padding-top: 0px;
+    padding-top: 0;
+    height: 100vh;
   }
   .add-cover-photo .profile-update-form {
     margin-top: 0;
@@ -2276,10 +2284,11 @@ input[type="file"] > input[type="button"]::-moz-focus-inner {
     font-size: 30px;
     letter-spacing: 2px;
     line-height: 50px;
-    padding-top: 0px;
+    padding-top: 0;
+    height: 100vh;
   }
   .add-album .profile-update-form {
-    margin-top: 0px;
+    margin-top: 0;
   }
   .add-album .profile-update-form .form-group {
     margin: 0 0 0.3em;
@@ -2318,10 +2327,11 @@ input[type="file"] > input[type="button"]::-moz-focus-inner {
     font-size: 30px;
     letter-spacing: 2px;
     line-height: 50px;
-    padding-top: 0px;
+    padding-top: 0;
+    height: 100vh;
   }
   .delete-album .profile-update-form {
-    margin-top: 0px;
+    margin-top: 0;
   }
   .delete-album .profile-update-form .form-group {
     margin: 0 0 0.3em;
@@ -2357,6 +2367,7 @@ input[type="file"] > input[type="button"]::-moz-focus-inner {
     font-size: 11px;
     letter-spacing: 1px;
     line-height: 14px;
+    margin-bottom: 0;
   }
   .single-album .header-content .album-title {
     font-size: 30px;
@@ -2366,6 +2377,13 @@ input[type="file"] > input[type="button"]::-moz-focus-inner {
   }
   .albums.album-single {
     padding-bottom: 120px;
+  }
+  .albums.album-single .photo-thumb {
+    height: 7em;
+  }
+  .albums.album-single .photo-thumb figure {
+    height: 7.5em;
+    width: 7.5em;
   }
   .back-to-photos a {
     margin-top: 80px;

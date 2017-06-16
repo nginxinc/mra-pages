@@ -2385,7 +2385,7 @@ input[type="file"] > input[type="button"]::-moz-focus-inner {
     padding-bottom: 120px;
   }
   .albums.album-single .photo-thumb {
-    height: 7em;
+    height: 8.5em;
   }
   .albums.album-single .photo-thumb figure {
     height: 7.5em;

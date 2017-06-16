@@ -1020,10 +1020,6 @@ form .upload-thumb {
   line-height: 1.417em;
   background: initial;
 }
-.page-content img {
-  width: 100%;
-  height: auto;
-}
 .page-content .page-title {
   color: #01DD60;
   font-family: "aktiv_grotesk_thin", sans-serif;
@@ -1797,6 +1793,12 @@ input[type="file"] > input[type="button"]::-moz-focus-inner {
 /* single album CSS */
 /* lightbox CSS */
 /* end responsive CSS */
+@media only screen and (max-width: 930px) {
+  .page-content img {
+    width: 100%;
+    height: auto;
+  }
+}
 @media only screen and (max-width: 767px) {
   .main-nav {
     width: 18em;
@@ -2004,6 +2006,10 @@ input[type="file"] > input[type="button"]::-moz-focus-inner {
   .page-content code {
     font-size: 1em;
     line-height: 1.571em;
+  }
+  .page-content img {
+    width: 100%;
+    height: auto;
   }
   .post-header {
     margin: 0;

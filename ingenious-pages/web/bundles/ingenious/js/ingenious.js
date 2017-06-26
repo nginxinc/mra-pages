@@ -1,5 +1,8 @@
 /**
- * Created by chrisstetson on 11/16/15.
+ //  ingenious.js
+ //  Pages
+ //
+ //  Copyright © 2017 NGINX Inc. All rights reserved.
  */
 
 $(document).ready(function() {

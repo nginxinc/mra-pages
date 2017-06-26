@@ -1,3 +1,9 @@
+/**
+ //  main.js
+ //  Pages
+ //
+ //  Copyright © 2017 NGINX Inc. All rights reserved.
+ */
 
 (function($) {
 

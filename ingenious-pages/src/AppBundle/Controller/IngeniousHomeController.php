@@ -1,9 +1,9 @@
 <?php
 /**
- * Created by IntelliJ IDEA.
- * User: chrisstetson
- * Date: 11/16/15
- * Time: 9:58 AM
+//  IngeniousHomeController.php
+//  Pages
+//
+//  Copyright © 2017 NGINX Inc. All rights reserved.
  */
 
 namespace AppBundle\Controller;
@@ -15,14 +15,9 @@ use AppBundle\Services\UserManager;
 use GuzzleHttp\Exception\RequestException;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\HeaderBag;
 use GuzzleHttp\Client;
-use Symfony\Component\Serializer\Encoder\JsonDecode;
-use Symfony\Component\Serializer\Encoder\JsonEncode;
 
 
 
@@ -63,7 +58,7 @@ class IngeniousHomeController extends Controller {
     /**
      * @Route("/")
      */
-    public function indexAction(Request $request) {
+    public function indexAction() {
         if(isset($_COOKIE["auth_token"]) && ($_COOKIE["expires_at"]) > time()) {
             $isAuthenticated = true;
         } else {
@@ -79,9 +74,11 @@ class IngeniousHomeController extends Controller {
             ]
         );
     }
-    
+
     /**
      * @Route("/myphotos")
+     * @param Request $request
+     * @return Response
      */
     public function myphotosAction(Request $request) {
         if($this->isAuthenticated($request)) {
@@ -127,6 +124,8 @@ class IngeniousHomeController extends Controller {
 
     /**
      * @Route("/catalog")
+     * @param Request $request
+     * @return Response
      */
     public function catalogAction(Request $request) {
         if($this->isAuthenticated($request)) {
@@ -151,8 +150,10 @@ class IngeniousHomeController extends Controller {
 
     /**
      * @Route("/stories/{articleId}/{slug}")
+     * @param $articleId
+     * @return Response
      */
-    public function storiesAction($articleId, $slug) {
+    public function storiesAction($articleId) {
         if(isset($_COOKIE["auth_token"]) && ($_COOKIE["expires_at"]) > time()) {
             $isAuthenticated = true;
         } else {
@@ -172,7 +173,7 @@ class IngeniousHomeController extends Controller {
     /**
      * @Route ("/login")
      */
-    public function loginAction(Request $request) {
+    public function loginAction() {
         if(isset($_COOKIE["auth_token"]) && ($_COOKIE["expires_at"]) > time()) {
             $isAuthenticated = true;
         } else {
@@ -190,7 +191,7 @@ class IngeniousHomeController extends Controller {
     /**
      * @Route ("/about")
      */
-    public function aboutAction(Request $request) {
+    public function aboutAction() {
         if(isset($_COOKIE["auth_token"]) && ($_COOKIE["expires_at"]) > time()) {
             $isAuthenticated = true;
         } else {
@@ -204,11 +205,16 @@ class IngeniousHomeController extends Controller {
             ]
         );
     }
-    
+
     /**
      * @Route("/photos/{catelogID}/{albumName}/{albumID}")
+     * @param $catalogID
+     * @param $albumName
+     * @param $albumID
+     * @param Request $request
+     * @return Response
      */
-    public function photosAction($catelogID, $albumName, $albumID, Request $request) {
+    public function photosAction($catalogID, $albumName, $albumID, Request $request) {
         $catalog = $this->getPhotoManager($request)->getCatalog();
         $album = $this->getPhotoManager( $request )->getAlbum( $albumID );
         $images = $album->images;
@@ -233,7 +239,7 @@ class IngeniousHomeController extends Controller {
                     'firstName' => $this->firstName,
                     'lastName' => $this->lastName,
                     'authenticated' => $isAuthenticated,
-                    'catalogID' => $catelogID,
+                    'catalogID' => $catalogID,
                     'catalog' => $catalog,
                     'album' => $album,
                     'albumName' => $albumName,
@@ -251,6 +257,8 @@ class IngeniousHomeController extends Controller {
 
     /**
      * @Route("/account")
+     * @param Request $request
+     * @return Response
      */
     public function accountAction(Request $request) {
         if ($this->isAuthenticated($request)) {
@@ -298,6 +306,7 @@ class IngeniousHomeController extends Controller {
 
 
     /**
+     * @param $request
      * @return PhotoManager
      */
     private function getPhotoManager($request) {
@@ -320,8 +329,9 @@ class IngeniousHomeController extends Controller {
         }
         return $this->contentManager;
     }
-    
+
     /**
+     * @param null $statusCode
      * @return Forbidden Status response
      */
     private function _send_forbidden_status_response($statusCode = null) {
@@ -341,6 +351,7 @@ class IngeniousHomeController extends Controller {
     }
 
     /**
+     * @param $authID
      * @return UserManager
      */
     private function getUserManager($authID) {

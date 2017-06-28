@@ -21,8 +21,6 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\HeaderBag;
 use GuzzleHttp\Client;
-use Symfony\Component\Serializer\Encoder\JsonDecode;
-use Symfony\Component\Serializer\Encoder\JsonEncode;
 
 
 
@@ -63,7 +61,7 @@ class IngeniousHomeController extends Controller {
     /**
      * @Route("/")
      */
-    public function indexAction(Request $request) {
+    public function indexAction() {
         if(isset($_COOKIE["auth_token"]) && ($_COOKIE["expires_at"]) > time()) {
             $isAuthenticated = true;
         } else {
@@ -178,7 +176,7 @@ class IngeniousHomeController extends Controller {
     /**
      * @Route ("/login")
      */
-    public function loginAction(Request $request) {
+    public function loginAction() {
         if(isset($_COOKIE["auth_token"]) && ($_COOKIE["expires_at"]) > time()) {
             $isAuthenticated = true;
         } else {
@@ -196,7 +194,7 @@ class IngeniousHomeController extends Controller {
     /**
      * @Route ("/about")
      */
-    public function aboutAction(Request $request) {
+    public function aboutAction() {
         if(isset($_COOKIE["auth_token"]) && ($_COOKIE["expires_at"]) > time()) {
             $isAuthenticated = true;
         } else {
@@ -334,8 +332,9 @@ class IngeniousHomeController extends Controller {
         }
         return $this->contentManager;
     }
-    
+
     /**
+     * @param null $statusCode
      * @return Forbidden Status response
      */
     private function _send_forbidden_status_response($statusCode = null) {
@@ -355,6 +354,7 @@ class IngeniousHomeController extends Controller {
     }
 
     /**
+     * @param $authID
      * @return UserManager
      */
     private function getUserManager($authID) {

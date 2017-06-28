@@ -715,7 +715,7 @@ footer.colophon-bottom {
   border-radius: 0;
   color: #01DD60;
   font-family: "aktiv_grotesk_thin", sans-serif;
-  font-size: 0.667em;
+  font-size: 1em;
   letter-spacing: 0.071em;
   padding: 0.429em 0.857em;
   text-transform: uppercase;
@@ -915,11 +915,8 @@ footer.colophon-bottom {
   max-width: 3.368em;
   max-height: 3.368em;
   display: block;
-  margin-left: auto;
-  margin-right: auto;
   width: initial;
-  margin-bottom: 1em;
-  margin-top: 1em;
+  margin: 1em auto;
 }
 .result .upload-thumb .selected {
   border: 0.167em solid #00974C;
@@ -1735,63 +1732,11 @@ input[type="file"] > input[type="button"]::-moz-focus-inner {
   -webkit-clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
   margin-right: 0.625em;
 }
-@font-face {
-  font-family: 'aktiv_grotesk_bold';
-  src: url('../fonts/AktivGrotesk_Bd.ttf') format('truetype');
-  font-weight: normal;
-  font-style: normal;
-}
-@font-face {
-  font-family: 'aktiv_grotesk_hair';
-  src: url('../fonts/AktivGrotesk_Hair.ttf') format('truetype');
-  font-weight: normal;
-  font-style: normal;
-}
-@font-face {
-  font-family: 'aktiv_grotesk_italic';
-  src: url('../fonts/AktivGrotesk_It.ttf') format('truetype');
-  font-weight: normal;
-  font-style: normal;
-}
-@font-face {
-  font-family: 'aktiv_grotesk_medium';
-  src: url('../fonts/AktivGrotesk_Md.ttf') format('truetype');
-  font-weight: normal;
-  font-style: normal;
-}
-@font-face {
-  font-family: 'aktiv_grotesk_medium_italic';
-  src: url('../fonts/AktivGrotesk_MdIt.ttf') format('truetype');
-  font-weight: normal;
-  font-style: normal;
-}
-@font-face {
-  font-family: 'aktiv_grotesk_regular';
-  src: url('../fonts/AktivGrotesk_Rg.ttf') format('truetype');
-  font-weight: normal;
-  font-style: normal;
-}
-@font-face {
-  font-family: 'aktiv_grotesk_thin';
-  src: url('../fonts/AktivGrotesk_Th.ttf') format('truetype');
-  font-weight: normal;
-  font-style: normal;
-}
 /*
 ====================================================
-* [Ingeniuous Responsive Stylesheet]
+* [Ingenious Responsive Stylesheet]
 ====================================================
 */
-/* For large Mobile screens */
-/* home page */
-/* Login page */
-/* page template */
-/* single post */
-/* my account page */
-/* photos page CSS */
-/* single album CSS */
-/* lightbox CSS */
-/* end responsive CSS */
 @media only screen and (max-width: 930px) {
   .page-content img {
     width: 100%;

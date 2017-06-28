@@ -207,7 +207,7 @@ class IngeniousHomeController extends Controller {
     }
 
     /**
-     * @Route("/photos/{catelogID}/{albumName}/{albumID}")
+     * @Route("/photos/{catalogID}/{albumName}/{albumID}")
      * @param $catalogID
      * @param $albumName
      * @param $albumID

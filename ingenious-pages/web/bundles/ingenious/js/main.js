@@ -6,7 +6,6 @@
  */
 
 (function($) {
-
     // Toggle main offcanvas navigation
     $(".main-nav-btn a").click(function() {
         $(".main-nav").addClass("nav-open");
@@ -71,7 +70,7 @@
         $('html, body').css('overflow', 'hidden');
     });
 
-    $('.album-container').lightGallery().on('onCloseAfter.lg', function(event) {
+    $('.album-container').lightGallery().on('onCloseAfter.lg', function() {
         $('html, body').css('overflow', 'auto');
     });
 
@@ -82,8 +81,9 @@
         $("#browse-button-album").text("Browse");
         $("#create-album-button").show();
         $("#album-result").hide();
-        $("#album-loading").empty();
-        $("#album-loading").hide();
+        var albumLoading = $("#album-loading");
+        albumLoading.empty();
+        albumLoading.hide();
         $("#album-upload-thumbs").empty();
         $(".add-album").toggleClass("open");
         $("body").toggleClass("hide-overflow");
@@ -106,8 +106,9 @@
         $("#browse-button-photos").text("Browse");
         $("#add-photo-button").show();
         $("#photos-result").hide();
-        $("#photos-loading").empty();
-        $("#photos-loading").hide();
+        var photosLoading = $("#photos-loading");
+        photosLoading.empty();
+        photosLoading.hide();
         $("#photos-upload-thumbs").empty();
         $(".add-photo").toggleClass("open");
         $("body").toggleClass("hide-overflow");
@@ -126,8 +127,9 @@
     // Delete album
     $(".delete-album-btn").click(function() {
         $("#delete-album-id").val("undefined");
-        $("#delete-info").empty();
-        $("#delete-info").hide();
+        var deleteInfo = $("#delete-info");
+        deleteInfo.empty();
+        deleteInfo.hide();
         $(".delete-album").toggleClass("open");
         $("body").toggleClass("hide-overflow");
     });
@@ -140,8 +142,9 @@
     // Add cover
     $(".add-cover-btn").click(function() {
         $(".cover-thumb").css({"border-width":"0px"});
-        $("#cover-info").empty();
-        $("#cover-info").hide();
+        var coverInfo = $("#cover-info");
+        coverInfo.empty();
+        coverInfo.hide();
         $(".add-cover-photo").toggleClass("open");
         $("body").toggleClass("hide-overflow");
     });

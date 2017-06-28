@@ -1,9 +1,9 @@
 <?php
 /**
- * Created by IntelliJ IDEA.
- * User: chrisstetson
- * Date: 11/16/15
- * Time: 9:58 AM
+//  IngeniousHomeController.php
+//  Pages
+//
+//  Copyright © 2017 NGINX Inc. All rights reserved.
  */
 
 namespace AppBundle\Controller;
@@ -79,9 +79,11 @@ class IngeniousHomeController extends Controller {
             ]
         );
     }
-    
+
     /**
      * @Route("/myphotos")
+     * @param Request $request
+     * @return Response
      */
     public function myphotosAction(Request $request) {
         if($this->isAuthenticated($request)) {
@@ -127,6 +129,8 @@ class IngeniousHomeController extends Controller {
 
     /**
      * @Route("/catalog")
+     * @param Request $request
+     * @return Response
      */
     public function catalogAction(Request $request) {
         if($this->isAuthenticated($request)) {
@@ -151,8 +155,10 @@ class IngeniousHomeController extends Controller {
 
     /**
      * @Route("/stories/{articleId}/{slug}")
+     * @param $articleId
+     * @return Response
      */
-    public function storiesAction($articleId, $slug) {
+    public function storiesAction($articleId) {
         if(isset($_COOKIE["auth_token"]) && ($_COOKIE["expires_at"]) > time()) {
             $isAuthenticated = true;
         } else {
@@ -204,11 +210,16 @@ class IngeniousHomeController extends Controller {
             ]
         );
     }
-    
+
     /**
      * @Route("/photos/{catelogID}/{albumName}/{albumID}")
+     * @param $catalogID
+     * @param $albumName
+     * @param $albumID
+     * @param Request $request
+     * @return Response
      */
-    public function photosAction($catelogID, $albumName, $albumID, Request $request) {
+    public function photosAction($catalogID, $albumName, $albumID, Request $request) {
         $catalog = $this->getPhotoManager($request)->getCatalog();
         $album = $this->getPhotoManager( $request )->getAlbum( $albumID );
         $images = $album->images;
@@ -233,7 +244,7 @@ class IngeniousHomeController extends Controller {
                     'firstName' => $this->firstName,
                     'lastName' => $this->lastName,
                     'authenticated' => $isAuthenticated,
-                    'catalogID' => $catelogID,
+                    'catalogID' => $catalogID,
                     'catalog' => $catalog,
                     'album' => $album,
                     'albumName' => $albumName,
@@ -251,6 +262,8 @@ class IngeniousHomeController extends Controller {
 
     /**
      * @Route("/account")
+     * @param Request $request
+     * @return Response
      */
     public function accountAction(Request $request) {
         if ($this->isAuthenticated($request)) {
@@ -298,6 +311,7 @@ class IngeniousHomeController extends Controller {
 
 
     /**
+     * @param $request
      * @return PhotoManager
      */
     private function getPhotoManager($request) {

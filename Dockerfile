@@ -38,16 +38,9 @@ RUN apt-get update && apt-get install -y nginx-plus
 
 RUN chown -R nginx /var/log/nginx/
 
-# Install Amplify
-RUN curl -sS -L -O  https://github.com/nginxinc/nginx-amplify-agent/raw/master/packages/install.sh && \
-	API_KEY='0202c79a3d8411fcf82b35bc3d458f7e' AMPLIFY_HOSTNAME='mesos-pages' sh ./install.sh
-
 # forward request logs to Docker log collector
 RUN ln -sf /dev/stdout /var/log/nginx/access.log && \
     ln -sf /dev/stderr /var/log/nginx/error.log
-
-# Install XDebug
-RUN yes | pecl install xdebug
 
 # install application
 ENV SYMFONY_ENV=prod

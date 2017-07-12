@@ -1,8 +1,6 @@
 FROM php:7.0.5-fpm
 
 ENV USE_NGINX_PLUS true
-ENV AMPLIFY_KEY ''
-ENV AMPLIFY_HOSTNAME "mesos-pages"
 
 # Get other files required for installation
 RUN apt-get update && apt-get install -y \

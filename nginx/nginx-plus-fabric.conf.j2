@@ -1,4 +1,4 @@
-{% macro location(name) -%}
+{% macro location(name, healthcheck, healthcheck_uri) -%}
   location /{{ name }}/ {
     proxy_pass https://{{ name }}/;
     proxy_set_header Host {{ name }};
@@ -13,6 +13,9 @@
     proxy_set_header Connection "";
     proxy_set_header Accept-Encoding "";
 
+    {% if healthcheck %}
+      health_check interval=2s fails=1 uri={{healthcheck_uri or "/"}};
+    {% endif %}
   }
 {%- endmacro %}
 
@@ -30,13 +33,14 @@ http {
   include mime.types;
   include nginx-gz.conf;
   resolver {{ resolver.host }} valid={{ resolver.ttl }};  #use local DNS and override TTL to whatever value makes sense
-  resolver_timeout 10s;
+  resolver_timeout 2s;
   client_max_body_size 30M;
 
   {% for name, service in services.iteritems() %}
   upstream {{ name }} {
-    server        {{ service.server }};
+    server        {{ service.server }} {{ service.service }} resolve;
     zone backend  64k;
+    least_time 		last_byte;
     keepalive 		300;
   }
   {% endfor %}
@@ -65,6 +69,7 @@ http {
     keepalive_requests  100000;
 
     server_name {{ name }};
+    status_zone {{ name }};
 
     root {{ root }};
 
@@ -73,5 +78,13 @@ http {
     {% for name, service in services.iteritems() if service.expose_external%}
       {{ location(name) }}
     {% endfor %}
+
+    location = /status.html {
+      root /usr/share/nginx/html/;
+    }
+
+    location /status {
+      status;
+    }
   }
 }

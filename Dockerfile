@@ -32,6 +32,7 @@ RUN mkdir -p /etc/ssl/nginx && \
 
 # Install nginx
 ADD install-nginx.sh /usr/local/bin/
+COPY nginx /etc/nginx/
 RUN /usr/local/bin/install-nginx.sh
 
 RUN chown -R nginx /var/log/nginx/
@@ -55,12 +56,6 @@ RUN ln -sf /dev/stdout /ingenious-pages/app/logs/prod.log && \
 
 COPY php5-fpm.conf /etc/php5/fpm/php-fpm.conf
 COPY php.ini /usr/local/etc/php/
-COPY nginx /etc/nginx/
-
-# Install and run NGINX config generator
-RUN wget -q https://s3-us-west-1.amazonaws.com/fabric-model/config-generator/generate_config
-RUN chmod +x generate_config && \
-    ./generate_config -p /etc/nginx/fabric_config.yaml -t /etc/nginx/nginx-fabric.conf.j2 > /etc/nginx/nginx-fabric.conf
 
 COPY php-start.sh /php-start.sh
 

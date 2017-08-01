@@ -13,8 +13,6 @@ fi
 
 nginx -c "$nginx_conf" -g "pid $pid;" &
 
-service amplify-agent start;
-
 php-fpm -y /etc/php5/fpm/php-fpm.conf -R &
 
 ################----AN UGLY HACK TO DEAL WITH DOCKERCLOUD'S RELIANCE ON SEARCH DOMAINS---################

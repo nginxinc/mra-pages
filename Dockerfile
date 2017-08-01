@@ -1,6 +1,6 @@
 FROM php:7.0.5-fpm
 
-ENV USE_NGINX_PLUS=false \
+ENV USE_NGINX_PLUS=true \
     VAULT_TOKEN=4b9f8249-538a-d75a-e6d3-69f5355c1751 \
     VAULT_ADDR=http://vault.mra.nginxps.com:8200 \
     SYMFONY_ENV=prod

@@ -5,19 +5,27 @@ resolver:
 root: /ingenious-pages/web
 services:
   album-manager:
-    server: 'marathon.mesos service=_album-manager._tcp'
+    server: 'marathon.mesos'
+    service: 'service=_album-manager._tcp'
     expose_external: true
     healthcheck: true
+    oss_port: 12001
   content-service:
-      server: 'marathon.mesos service=_content-service._tcp'
-      expose_external: true
-      healthcheck: true
-  uploader:
-    server: 'marathon.mesos service=_uploader._tcp'
+    server: 'marathon.mesos'
+    service: 'service=_content-service._tcp'
     expose_external: true
     healthcheck: true
+    oss_port: 12002
+  uploader:
+    server: 'marathon.mesos'
+    service: 'service=_uploader._tcp'
+    expose_external: true
+    healthcheck: true
+    oss_port: 12006
   user-manager:
-    server: 'marathon.mesos service=_user-manager._tcp'
+    server: 'marathon.mesos'
+    service: 'service=_user-manager._tcp'
     expose_external: true
     healthcheck: true
     healthcheck_uri: /v1/
+    oss_port: 12007

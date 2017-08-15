@@ -2,14 +2,6 @@
 pid="/var/run/nginx.pid";    # /   (root directory)
 fpm_pid="/var/run/php-fpm.pid";
 nginx_conf="/etc/nginx/nginx.conf";
-nginx_fabric="/etc/nginx/nginx-fabric.conf";
-
-if [ "$NETWORK" = "fabric" ]
-then
-    nginx_conf=$nginx_fabric;
-    echo This is the nginx conf = $nginx_conf;
-    echo fabric configuration set;
-fi
 
 nginx -c "$nginx_conf" -g "pid $pid;" &
 

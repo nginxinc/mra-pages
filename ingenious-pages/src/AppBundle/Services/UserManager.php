@@ -1,9 +1,9 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: benhorowitz
- * Date: 12/4/15
- * Time: 3:04 PM
+//  UserManager.php
+//  Pages
+//
+//  Copyright © 2017 NGINX Inc. All rights reserved.
  */
 
 namespace AppBundle\Services;
@@ -17,8 +17,7 @@ use Symfony\Component\Serializer\Encoder\JsonDecode;
  * Class UserManager
  * @package AppBundle\Services
  */
-class UserManager
-{
+class UserManager {
     /**
      * @var string
      */
@@ -88,7 +87,6 @@ class UserManager
         $this->userPath = getenv("USERMANAGER_USER_PATH");
         $this->localUserPath = getenv("USERMANAGER_LOCAL_PATH");
         $this->userID = $authID;
-        $photoManager = new PhotoManager($this->userID);
     }
 
     /**
@@ -182,7 +180,7 @@ class UserManager
      * @return string
      */
     public function getUserPath() {
-        return $this->UserPath;
+        return $this->userPath;
     }
 
     /**

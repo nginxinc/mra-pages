@@ -1,6 +1,9 @@
 <?php
 /**
- * User: Eduard Borges
+//  ContentManager.php
+//  Pages
+//
+//  Copyright © 2017 NGINX Inc. All rights reserved.
  */
 
 namespace AppBundle\Services;

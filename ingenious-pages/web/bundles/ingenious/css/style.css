@@ -715,7 +715,7 @@ footer.colophon-bottom {
   border-radius: 0;
   color: #01DD60;
   font-family: "aktiv_grotesk_thin", sans-serif;
-  font-size: 0.667em;
+  font-size: 1em;
   letter-spacing: 0.071em;
   padding: 0.429em 0.857em;
   text-transform: uppercase;
@@ -912,14 +912,11 @@ footer.colophon-bottom {
   margin-right: auto;
 }
 .result .upload-thumb img {
-  max-width: 3.368em;
-  max-height: 3.368em;
+  max-width: 6.368em;
+  max-height: 6.368em;
   display: block;
-  margin-left: auto;
-  margin-right: auto;
   width: initial;
-  margin-bottom: 1em;
-  margin-top: 1em;
+  margin: 1em auto;
 }
 .result .upload-thumb .selected {
   border: 0.167em solid #00974C;
@@ -1004,8 +1001,7 @@ form .upload-thumb {
   margin: 0 0 0.833em;
 }
 .page-content hr {
-  border-color: #4A4A4A;
-  border-width: 0.071em;
+  border: 0.071em #4A4A4A;
   margin: 2.143em auto;
 }
 .page-content li {
@@ -1159,7 +1155,7 @@ form .upload-thumb {
 }
 .album-thumb {
   padding: 0 0.714em !important;
-  height: 16.429em;
+  height: 14.429em;
 }
 .album-thumb figure {
   overflow: hidden;
@@ -1172,6 +1168,27 @@ form .upload-thumb {
   cursor: pointer;
 }
 .album-thumb img {
+  min-height: 100%;
+  min-width: 100%;
+  position: relative;
+  left: 100%;
+  margin-left: -200%;
+}
+.album-container-cover .album-thumb {
+  padding: 0 0.714em !important;
+  height: 10.35em;
+}
+.album-container-cover .album-thumb figure {
+  overflow: hidden;
+  width: 8.143em;
+  height: 8.143em;
+  text-align: center;
+}
+.album-container-cover .album-thumb a {
+  text-decoration: none;
+  cursor: pointer;
+}
+.album-container-cover .album-thumb img {
   min-height: 100%;
   min-width: 100%;
   position: relative;
@@ -1736,70 +1753,53 @@ input[type="file"] > input[type="button"]::-moz-focus-inner {
   -webkit-clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
   margin-right: 0.625em;
 }
-@font-face {
-  font-family: 'aktiv_grotesk_bold';
-  src: url('../fonts/AktivGrotesk_Bd.ttf') format('truetype');
-  font-weight: normal;
-  font-style: normal;
-}
-@font-face {
-  font-family: 'aktiv_grotesk_hair';
-  src: url('../fonts/AktivGrotesk_Hair.ttf') format('truetype');
-  font-weight: normal;
-  font-style: normal;
-}
-@font-face {
-  font-family: 'aktiv_grotesk_italic';
-  src: url('../fonts/AktivGrotesk_It.ttf') format('truetype');
-  font-weight: normal;
-  font-style: normal;
-}
-@font-face {
-  font-family: 'aktiv_grotesk_medium';
-  src: url('../fonts/AktivGrotesk_Md.ttf') format('truetype');
-  font-weight: normal;
-  font-style: normal;
-}
-@font-face {
-  font-family: 'aktiv_grotesk_medium_italic';
-  src: url('../fonts/AktivGrotesk_MdIt.ttf') format('truetype');
-  font-weight: normal;
-  font-style: normal;
-}
-@font-face {
-  font-family: 'aktiv_grotesk_regular';
-  src: url('../fonts/AktivGrotesk_Rg.ttf') format('truetype');
-  font-weight: normal;
-  font-style: normal;
-}
-@font-face {
-  font-family: 'aktiv_grotesk_thin';
-  src: url('../fonts/AktivGrotesk_Th.ttf') format('truetype');
-  font-weight: normal;
-  font-style: normal;
-}
 /*
 ====================================================
-* [Ingeniuous Responsive Stylesheet]
+* [Ingenious Responsive Stylesheet]
 ====================================================
 */
-/* For large Mobile screens */
-/* home page */
-/* Login page */
-/* page template */
-/* single post */
-/* my account page */
-/* photos page CSS */
-/* single album CSS */
-/* lightbox CSS */
-/* end responsive CSS */
+@media only screen and (max-width: 1367px) {
+  .album-container-cover .album-thumb {
+    height: 8.6em;
+  }
+  .album-container-cover .album-thumb figure {
+    width: 6.7em;
+    height: 6.7em;
+  }
+}
+@media only screen and (max-width: 1025px) {
+  .album-container-cover .album-thumb {
+    height: 6.6em;
+  }
+  .album-container-cover .album-thumb figure {
+    width: 5.7em;
+    height: 5.7em;
+  }
+}
 @media only screen and (max-width: 930px) {
   .page-content img {
     width: 100%;
     height: auto;
   }
+  .album-container-cover .album-thumb {
+    height: 5.8em;
+  }
+  .album-container-cover .album-thumb figure {
+    width: 4.7em;
+    height: 4.7em;
+  }
 }
 @media only screen and (max-width: 767px) {
+  .album-thumb {
+    height: 11.429em;
+  }
+  .album-container-cover .album-thumb {
+    height: 4.1em;
+  }
+  .result .upload-thumb img {
+    max-width: 3.368em;
+    max-height: 3.368em;
+  }
   .main-nav {
     width: 18em;
     padding: 1.786em 0 0 1.786em;
@@ -1836,7 +1836,7 @@ input[type="file"] > input[type="button"]::-moz-focus-inner {
     top: 1.429em;
   }
   .fixed-top-header .right-nav-btn img {
-    width: 3m;
+    width: 3em;
   }
   .fixed-top-header .header-logo {
     margin: 1.286em auto 0;
@@ -2205,7 +2205,7 @@ input[type="file"] > input[type="button"]::-moz-focus-inner {
     font-size: 30px;
     letter-spacing: 2px;
     line-height: 50px;
-    padding-top: 0px;
+    padding-top: 0;
     height: 100vh;
   }
   .add-photo .profile-update-form {

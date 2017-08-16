@@ -1,18 +1,33 @@
 /*
 ====================================================
-* [Ingeniuous Responsive Stylesheet]
+* [Ingenious Responsive Stylesheet]
 ====================================================
 */
-/* For large Mobile screens */
-/* home page */
-/* Login page */
-/* page template */
-/* single post */
-/* my account page */
-/* photos page CSS */
-/* single album CSS */
-/* lightbox CSS */
-/* end responsive CSS */
+
+@media only screen and (max-width: 1367px) {
+  .album-container-cover {
+    .album-thumb {
+      height: 8.6em;
+      figure {
+        width: 6.7em;
+        height: 6.7em;
+      }
+    }
+  }
+}
+
+@media only screen and (max-width: 1025px) {
+  .album-container-cover {
+    .album-thumb {
+      height: 6.6em;
+      figure {
+        width: 5.7em;
+        height: 5.7em;
+      }
+    }
+  }
+}
+
 @media only screen and (max-width: 930px) {
   .page-content {
     img {
@@ -20,8 +35,37 @@
       height: auto;
     }
   }
+
+  .album-container-cover {
+    .album-thumb {
+      height: 5.8em;
+      figure {
+        width: 4.7em;
+        height: 4.7em;
+      }
+    }
+  }
 }
 @media only screen and (max-width: 767px) {
+  .album-thumb {
+    height: 11.429em;
+  }
+
+  .album-container-cover {
+    .album-thumb {
+      height: 4.1em;
+    }
+  }
+
+  .result {
+    .upload-thumb {
+      img {
+        max-width: 3.368em;
+        max-height: 3.368em;
+      }
+    }
+  }
+
   .main-nav {
     width: 18em;
     padding: 1.786em 0 0 1.786em;
@@ -55,7 +99,7 @@
       right: 1.429em;
       top: 1.429em;
       img {
-        width: 3m;
+        width: 3em;
       }
     }
     .header-logo {
@@ -459,7 +503,7 @@
     font-size: 30px;
     letter-spacing: 2px;
     line-height: 50px;
-    padding-top: 0px;
+    padding-top: 0;
     height: 100vh;
     .profile-update-form {
       margin-top: 0;

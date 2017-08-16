@@ -7,9 +7,9 @@ framework:
         strict_requirements: true
     profiler: { only_exceptions: false }
 
-web_profiler:
-    toolbar: true
-    intercept_redirects: false
+#web_profiler:
+#    toolbar: false
+#    intercept_redirects: false
 
 monolog:
     handlers:
@@ -43,6 +43,10 @@ monolog:
 
 assetic:
     use_controller: true
+
+twig:
+    auto_reload: true
+    debug: true
 
 #swiftmailer:
 #    delivery_address: me@example.com

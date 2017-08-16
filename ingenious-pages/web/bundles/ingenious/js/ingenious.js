@@ -1,5 +1,8 @@
 /**
- * Created by chrisstetson on 11/16/15.
+ //  ingenious.js
+ //  Pages
+ //
+ //  Copyright © 2017 NGINX Inc. All rights reserved.
  */
 
 $(document).ready(function() {
@@ -36,7 +39,7 @@ $(document).ready(function() {
         $("#all-images-cover").load(location.href+" #all-images-cover>*","");
     });
 
-    $("#add-cover-button").click(function(event) {
+    $("#add-cover-button").click(function() {
         var file = $("#add-cover-input").prop('files')[0];
         if (file) {
             var coverInfo = $("#cover-info");
@@ -49,7 +52,7 @@ $(document).ready(function() {
         uploadSupportImage(file, albumID, true);
     });
 
-    $(".cover-thumb").click(function(evt) {
+    $(".cover-thumb").click(function() {
         var imageURL = this.id;
         $(".cover-thumb").css({"border-width": "0px"});
         $("#cover-info").show();
@@ -66,7 +69,7 @@ $(document).ready(function() {
         setUser(null, null, imageURL, null);
     });
 
-    $(".remove-pp").click(function(event) {
+    $(".remove-pp").click(function() {
         $(".hexagon1").css({
             "background": "url(/bundles/ingenious/images/profile-picture.png)",
             "background-repeat": "no-repeat",
@@ -80,7 +83,7 @@ $(document).ready(function() {
         setUser(null, null, null, "generic");
     });
 
-    $("#updateProfilePicture").change(function(event) {
+    $("#updateProfilePicture").change(function() {
         var file = $("#profile-picture-input").prop('files')[0];
         userManagerURL = $(this).attr('userManager');
         var albumID = $(this).attr('profilePicturesID');
@@ -88,11 +91,11 @@ $(document).ready(function() {
         uploadSupportImage(file, albumID, false);
     });
 
-    $(".logout-btn").click(function(event) {
+    $(".logout-btn").click(function() {
         logout();
     });
 
-    $("#fb_login").click(function(event) {
+    $("#fb_login").click(function() {
         fbLogin();
     });
 
@@ -122,7 +125,7 @@ $(document).on( 'click', '.delete-image-btn', function( e ) {
             contentType: false,
             processData: false,
             type: 'DELETE',
-            success: function(resp){
+            success: function(){
                 console.log("Image deleted");
             },
             error: function(response){
@@ -190,7 +193,7 @@ function uploadSupportImage(file, albumID, cover) {
         processData: false,
         type: 'POST',
         success: function(resp){
-            if (resp.name == "StatusCodeError") {
+            if (resp.name === "StatusCodeError") {
                 console.log("Error Trying To Upload: " + resp.message);
             } else {
                 if (cover) {
@@ -229,7 +232,7 @@ function setBanner(imageURL) {
 }
 
 function updateUser(event, name, email) {
-    event.preventDefault()
+    event.preventDefault();
     userManagerURL = $("#account-manager").attr('action');
     setUser(name, email, null, null);
     $("#name-user").html(name);
@@ -237,7 +240,7 @@ function updateUser(event, name, email) {
 }
 
 function setUser(name, email, coverURL, profileURL) {
-    var obj = new Object();
+    var obj = {};
     if (name) { obj.name = name; }
     if (email) { obj.email = email; }
     if (coverURL) { obj.banner_url = coverURL; }
@@ -253,7 +256,7 @@ function setUser(name, email, coverURL, profileURL) {
         processData: false,
         type: 'PUT',
         success: function(resp) {
-            if (resp.name == "StatusCodeError") {
+            if (resp.name === "StatusCodeError") {
                 if (!coverURL) { $(".photo-set-list").html("Error Trying To Update User Account: " + resp.message); }
                 console.log("Error Trying To Update User Account: " + resp.message);
             } else {
@@ -279,7 +282,7 @@ function deleteAlbum(event) {
             contentType: false,
             processData: false,
             type: 'DELETE',
-            success: function(resp){
+            success: function(){
                 console.log("Album Deleted");
             },
             error: function(response){
@@ -344,7 +347,7 @@ function manageUpload(albumID){
     }
     Promise.all(filesPromise).then(function(){
         uploadButton.hide();
-        $("#album-upload .label").hide(); // TODO
+        $("#album-upload").find(".label").hide();
         loading.append("<br/>Click on an image to set the photo album poster image.");
     }).catch(function (error){
         if (isNewAlbum) {
@@ -357,7 +360,7 @@ function manageUpload(albumID){
                     contentType: false,
                     processData: false,
                     type: 'DELETE',
-                    success: function(resp){
+                    success: function(){
                         console.log("Album Deleted");
                     },
                     error: function(response){
@@ -387,7 +390,7 @@ function initAlbum(albumName, resolve, reject) {
         processData: false,
         type: 'POST',
         success: function(resp){
-            if (resp.name == "StatusCodeError") {
+            if (resp.name === "StatusCodeError") {
                 $("#album-loading").html("Error Trying To Upload: " + resp.message);
                 console.log("Error Trying To Upload: " + resp.message);
                 reject("Error Trying To Upload: " + resp.message);
@@ -418,7 +421,7 @@ function uploadFile(uploadThumbnail, file, albumID, resolve, reject) {
         processData: false,
         type: 'POST',
         success: function(resp) {
-            if (resp.name == "StatusCodeError") {
+            if (resp.name === "StatusCodeError") {
                 loading.html("Error Trying To Upload: " + resp.message);
                 console.log("Error Trying To Upload: " + resp.message);
                 reject("Error Trying To Upload: " + resp.message);
@@ -429,11 +432,11 @@ function uploadFile(uploadThumbnail, file, albumID, resolve, reject) {
                 $(uploadThumbnail + " img").attr('src',thumbnail);
                 $(uploadThumbnail).data('image-id',imageID);
                 loading.html(++uploaded + " of " + filesIndex + " Images Uploaded");
-                if (uploaded == 1 && isNewAlbum) {
+                if (uploaded === 1 && isNewAlbum) {
                     isPosterImageSettedAutomatically = true;
                     setAlbumPosterImage(imageID, albumID, uploadThumbnail);
                 }
-                $(uploadThumbnail).click(function(evt){
+                $(uploadThumbnail).click(function(){
                     isPosterImageSettedAutomatically = false;
                     setAlbumPosterImage(imageID, albumID, uploadThumbnail);
                 });

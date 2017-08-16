@@ -1,9 +1,9 @@
 <?php
 /**
- * Created by Intellij.
- * User: Chris Stetson
- * Date: 12/4/15
- * Time: 3:04 PM
+//  PhotoManager.php
+//  Pages
+//
+//  Copyright © 2017 NGINX Inc. All rights reserved.
  */
 
 namespace AppBundle\Services;
@@ -17,8 +17,7 @@ use Symfony\Component\Serializer\Encoder\JsonDecode;
  * Class PhotoManager
  * @package AppBundle\Services
  */
-class PhotoManager
-{
+class PhotoManager {
     /**
      * @var string
      */
@@ -36,14 +35,6 @@ class PhotoManager
      */
     private $albumPath;
     /**
-     * @var string
-     */
-    private $uploaderURL;
-    /**
-     * @var string
-     */
-    private $uploaderPath;
-    /**
      * @var Client
      */
     private $client = null;
@@ -54,6 +45,7 @@ class PhotoManager
 
     /**
      * PhotoManager constructor.
+     * @param $authID
      */
     public function __construct($authID) {
         $this->url = getenv("PHOTOMANAGER_ENDPOINT_URL");
@@ -65,8 +57,8 @@ class PhotoManager
     }
 
     /**
-     * @param $userId
      * @return string
+     * @internal param $userId
      */
     public function getCatalog() {
 
@@ -106,8 +98,7 @@ class PhotoManager
      * @return string
      */
     private function getRequest($path, $params = []) {
-        try
-        {
+        try {
             $client = $this->getClient();
 
             $response = $client->request('GET', $path, $params);
@@ -115,9 +106,7 @@ class PhotoManager
 
             $decoder = new JsonDecode();
             return $decoder->decode($body, 'json');
-        }
-        catch (RequestException $e)
-        {
+        } catch (RequestException $e) {
             echo $e;
         }
     }

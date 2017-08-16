@@ -1,9 +1,9 @@
 <?php
 /**
- * Created by Intellij.
- * User: Chris Stetson
- * Date: 12/4/15
- * Time: 3:04 PM
+//  PhotoUploader.php
+//  Pages
+//
+//  Copyright © 2017 NGINX Inc. All rights reserved.
  */
 
 namespace AppBundle\Services;
@@ -11,14 +11,12 @@ namespace AppBundle\Services;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\RequestException;
-use Symfony\Component\Serializer\Encoder\JsonDecode;
 
 /**
  * Class PhotoUploader
  * @package AppBundle\Services
  */
-class PhotoUploader
-{
+class PhotoUploader {
     /**
      * @var string
      */
@@ -81,18 +79,14 @@ class PhotoUploader
      * @return string
      */
     private function getRequest($path, $params = []) {
-        try
-        {
+        try {
             $client = $this->getClient();
             $response = $client->request('GET', $path, $params);
 
             $body = $response->getBody()->__toString();
 
-            $decoder = new JsonDecode();
-            return $body; //$decoder->decode($body, 'json');
-        }
-        catch (RequestException $e)
-        {
+            return $body;
+        } catch (RequestException $e) {
             echo $e;
         }
     }

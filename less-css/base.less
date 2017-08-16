@@ -750,7 +750,7 @@ footer.colophon-bottom {
             border-radius: 0;
             color: @color_2;
             font-family: @font_family_3;
-            font-size: 0.667em;
+            font-size: 1em;
             letter-spacing: 0.071em;
             padding: 0.429em 0.857em;
             text-transform: uppercase;
@@ -954,14 +954,11 @@ footer.colophon-bottom {
         margin-left: auto;
         margin-right: auto;
         img {
-            max-width: 3.368em;
-            max-height: 3.368em;
+            max-width: 6.368em;
+            max-height: 6.368em;
             display: block;
-            margin-left: auto;
-            margin-right: auto;
             width: initial;
-            margin-bottom: 1em;
-            margin-top: 1em;
+            margin: 1em auto;
         }
         .selected {
             border: 0.167em solid @color_11;
@@ -1051,8 +1048,7 @@ form {
         margin: 0 0 0.833em;
     }
     hr {
-        border-color: @color_8;
-        border-width: 0.071em;
+        border: 0.071em @color_8;
         margin: 2.143em auto;
     }
     li {
@@ -1219,7 +1215,7 @@ form {
 }
 .album-thumb {
     padding: 0 0.714em !important;
-    height: 16.429em;
+    height: 14.429em;
     figure {
         overflow: hidden;
         width: 9.143em;
@@ -1238,6 +1234,31 @@ form {
         margin-left: -200%;
     }
 }
+
+.album-container-cover {
+    .album-thumb {
+        padding: 0 0.714em !important;
+        height: 10.35em;
+        figure {
+            overflow: hidden;
+            width: 8.143em;
+            height: 8.143em;
+            text-align: center;
+        }
+        a {
+            text-decoration: none;
+            cursor: pointer;
+        }
+        img {
+            min-height: 100%;
+            min-width: 100%;
+            position: relative;
+            left: 100%;
+            margin-left: -200%;
+        }
+    }
+}
+
 .photo-thumb {
     padding: 0 0.714em !important;
     height: 16.429em;

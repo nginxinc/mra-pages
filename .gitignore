@@ -80,6 +80,8 @@ gen
 
 #Microservice Best Practice
 .env_dev
+vault_env.sh
+
 .env
 uiDesigner.xml
 

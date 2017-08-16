@@ -1,23 +1,22 @@
 FROM php:7.0.5-fpm
 
 ENV USE_NGINX_PLUS=true \
+    USE_VAULT=true \
+    USE_LOCAL=false \
     SYMFONY_ENV=prod
 
+COPY nginx/ssl /etc/ssl/nginx/
 COPY vault_env.sh /etc/letsencrypt/
 # Get other files required for installation
 RUN apt-get update && apt-get install -y \
     wget \
     curl \
     apt-transport-https \
-    git \
+    vim \
     libcurl3-gnutls \
     lsb-release \
     unzip \
-    ca-certificates && \
-# Install vault client
-    wget -q https://releases.hashicorp.com/vault/0.6.0/vault_0.6.0_linux_amd64.zip && \
-    unzip -d /usr/local/bin vault_0.6.0_linux_amd64.zip && \
-    mkdir -p /etc/ssl/nginx
+    ca-certificates
 
 # Install NGINX Plus
 COPY nginx /etc/nginx/

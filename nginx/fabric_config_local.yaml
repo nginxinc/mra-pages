@@ -1,0 +1,27 @@
+name: pages
+resolver:
+  host: 127.0.0.11
+  ttl: 1s
+root: /ingenious-pages/web
+services:
+  album-manager:
+    server: 'album-manager:443'
+    expose_external: true
+    healthecheck: false
+    port: 82
+  content-service:
+    server: 'content-service:443'
+    expose_external: true
+    healthecheck: false
+    port: 86
+  uploader:
+    server: 'uploader:443'
+    expose_external: true
+    healthecheck: false
+    port: 84
+  user-manager:
+    server: 'user-manager:443'
+    expose_external: true
+    healthecheck: false
+    healthcheck_uri: /v1/
+    port: 85

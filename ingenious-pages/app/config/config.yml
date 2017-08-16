@@ -33,8 +33,9 @@ framework:
 
 # Twig Configuration
 twig:
-    debug:            "%kernel.debug%"
+    debug:            true
     strict_variables: "%kernel.debug%"
+    auto_reload: true
 
 # Assetic Configuration
 assetic:

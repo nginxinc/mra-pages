@@ -1,7 +1,7 @@
 FROM php:7.0.5-fpm
 
 ENV USE_NGINX_PLUS=true \
-    USE_VAULT=false \
+    USE_VAULT=true \
     USE_LOCAL=false \
     SYMFONY_ENV=prod
 

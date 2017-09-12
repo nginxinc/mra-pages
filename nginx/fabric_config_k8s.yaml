@@ -1,0 +1,39 @@
+name: pages
+resolver:
+  host: kube-dns.kube-system.svc.cluster.local
+  ttl: 1s
+root: /ingenious-pages/web
+external_domain_name: k8s.mra.nginxps.com
+internal_domain_name: svc.cluster.local
+namespace: nginx-mra
+error_log_location: "syslog:server=logstash.nginx-mra:5544 debug"
+#error_log_location: "/var/log/nginx/error.log debug"
+log_format_string: "pages_mra $remote_addr - $remote_user [$time_local] \"$request\" $status $body_bytes_sent \"$http_referer\" \"$http_user_agent\" \"$http_x_forwarded_for\""
+access_log_location: "syslog:server=logstash.nginx-mra:5544,facility=local6,tag=pages_mra,severity=info combined"
+#access_log_location: "/var/log/nginx/access.log combined"
+services:
+  album-manager:
+    server: 'nginx-mra.svc.cluster.local'
+    service: 'service=_https._tcp.album-manager'
+    expose_external: true
+    healthcheck: true
+    oss_port: 12001
+  content-service:
+    server: 'nginx-mra.svc.cluster.local'
+    service: 'service=_https._tcp.content-service'
+    expose_external: true
+    healthcheck: true
+    oss_port: 12002
+  uploader:
+    server: 'nginx-mra.svc.cluster.local'                                    Å
+    service: 'service=_https._tcp.photouploader'
+    expose_external: true
+    healthcheck: true
+    oss_port: 12006
+  user-manager:
+    server: 'nginx-mra.svc.cluster.local'
+    service: 'service=_https._tcp.user-manager'
+    expose_external: true
+    healthcheck: true
+    healthcheck_uri: /v1/
+    oss_port: 12007

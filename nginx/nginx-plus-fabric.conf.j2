@@ -19,7 +19,7 @@
   }
 {%- endmacro %}
 
-error_log /var/log/nginx/error.log debug;
+error_log {{ error_log_location }};
 worker_processes  auto;
 
 events {
@@ -35,6 +35,10 @@ http {
   resolver {{ resolver.host }} valid={{ resolver.ttl }};  #use local DNS and override TTL to whatever value makes sense
   resolver_timeout 2s;
   client_max_body_size 30M;
+
+  log_format main {{ log_format_string }};
+
+  access_log {{ access_log_location }};
 
   {% for name, service in services.iteritems() %}
   upstream {{ name }} {

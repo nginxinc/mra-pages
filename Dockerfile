@@ -2,7 +2,12 @@ FROM php:7.0.5-fpm
 
 ENV USE_NGINX_PLUS=true \
     USE_VAULT=true \
-    USE_LOCAL=false \
+# CONTAINER_ENGINE specifies the container engine to which the
+# containers will be deployed. Valid values are:
+# - kubernetes
+# - mesos
+# - local
+    CONTAINER_ENGINE=kubernetes \
     SYMFONY_ENV=prod
 
 COPY nginx/ssl /etc/ssl/nginx/

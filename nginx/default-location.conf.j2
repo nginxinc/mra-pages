@@ -14,7 +14,7 @@ location ~ "^(.+\.php)($|/)" {
 
 location /account/users/ {
   proxy_pass https://user-manager/v1/users/;
-  proxy_set_header Host user-manager.{% if namespace != None %}.{{ namespace }}{% endif %}{% if internal_domain_name != None %}.{{ internal_domain_name }}{% endif %};
+  proxy_set_header Host user-manager{% if namespace != None %}.{{ namespace }}{% endif %}{% if internal_domain_name != None %}.{{ internal_domain_name }}{% endif %};
 
   proxy_ssl_session_reuse     on;
   proxy_ssl_protocols         TLSv1.2;

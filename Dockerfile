@@ -28,8 +28,8 @@ COPY nginx /etc/nginx/
 ADD install-nginx.sh /usr/local/bin/
 RUN /usr/local/bin/install-nginx.sh && \
 # forward request logs to Docker log collector
-    ln -sf /dev/stdout /var/log/nginx/access.log && \
-    ln -sf /dev/stderr /var/log/nginx/error.log && \
+#    ln -sf /dev/stdout /var/log/nginx/access.log && \
+#    ln -sf /dev/stderr /var/log/nginx/error.log && \
 # Install XDebug
     yes | pecl install xdebug
 
@@ -38,7 +38,7 @@ COPY ingenious-pages/ /ingenious-pages
 
 RUN cd /ingenious-pages && \
     php composer.phar install --no-dev --optimize-autoloader && \
-    ln -sf /dev/stdout /ingenious-pages/app/logs/prod.log && \
+#    ln -sf /dev/stdout /ingenious-pages/app/logs/prod.log && \
     chown -R nginx:www-data /ingenious-pages/ && \
     chmod -R 775 /ingenious-pages
 

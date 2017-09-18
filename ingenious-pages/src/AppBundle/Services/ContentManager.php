@@ -80,7 +80,7 @@ class ContentManager {
             return $decoder->decode($body, 'json');
         }
         catch (RequestException $e) {
-            echo $e;
+            return null; // echo $e;
         }
     }
 }

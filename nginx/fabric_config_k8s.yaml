@@ -1,8 +1,11 @@
 name: pages
 resolver:
-  host: 198.51.100.1 198.51.100.2 198.51.100.3
+  host: kube-dns.kube-system.svc.cluster.local
   ttl: 1s
 root: /ingenious-pages/web
+external_domain_name: k8s.mra.nginxps.com
+internal_domain_name: svc.cluster.local
+namespace: nginx-mra
 log_to_syslog : false
 syslog_error_log_location: "syslog:server=localhost:5544 debug"
 error_log_location: "/var/log/nginx/error_log debug"
@@ -11,26 +14,26 @@ syslog_access_log_location: "syslog:server=localhost:5544,facility=local6,tag=pa
 access_log_location: "/var/log/nginx/access_log combined"
 services:
   album-manager:
-    server: 'marathon.mesos'
-    service: 'service=_album-manager._tcp'
+    server: 'nginx-mra.svc.cluster.local'
+    service: 'service=_https._tcp.album-manager'
     expose_external: true
     healthcheck: true
     oss_port: 12001
   content-service:
-    server: 'marathon.mesos'
-    service: 'service=_content-service._tcp'
+    server: 'nginx-mra.svc.cluster.local'
+    service: 'service=_https._tcp.content-service'
     expose_external: true
     healthcheck: true
     oss_port: 12002
   uploader:
-    server: 'marathon.mesos'
-    service: 'service=_uploader._tcp'
+    server: 'nginx-mra.svc.cluster.local'
+    service: 'service=_https._tcp.photouploader'
     expose_external: true
     healthcheck: true
     oss_port: 12006
   user-manager:
-    server: 'marathon.mesos'
-    service: 'service=_user-manager._tcp'
+    server: 'nginx-mra.svc.cluster.local'
+    service: 'service=_https._tcp.user-manager'
     expose_external: true
     healthcheck: true
     healthcheck_uri: /v1/

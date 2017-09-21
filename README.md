@@ -20,7 +20,7 @@ As a single service in the set of services which comprise the NGINX Microservice
 the Pages service is not meant to function as a standalone service.
 
 There are detailed instructions about the service below, and in order to get started quickly, you can follow these simple 
-instructions to quickly build the image. Using this quickstart method, 
+instructions to quickly build the image.  
 
 0. (Optional) If you don't already have an NGINX Plus license, you can request a temporary developer license 
 [here](https://www.nginx.com/developer-license/ "Developer License Form"). If you do have a license, then skip to the next step. 
@@ -35,8 +35,8 @@ image by creating a JSON file and uploading it to your DC/OS installation.
 To build customized images for different container engines and set other options, please follow the directions below.
 
 ## Building a Customized Docker Image
-The Dockerfile for the Pages service is based on the php:7.0.5-fpm image, and installs NGINX open source or NGINX Plus. Note that the features
-in NGINX Plus make discovery of other services possible, include additional Load Balancing algorithms, persistent SSL/TLS connections, and
+The Dockerfile for the Pages service is based on the ruby:2.2.3 image, and installs NGINX open source or NGINX Plus. Note that the features
+in NGINX Plus make discovery of other services possible, include additional load balancing algorithms, persistent SSL/TLS connections, and
 advanced health check functionality.
 
 The command, or entrypoint, for the Dockerfile is the [php-start.sh script](php-start.sh "Dockerfile entrypoint"). 

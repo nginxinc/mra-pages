@@ -15,23 +15,47 @@ The default configuration for all the components of the MRA, including the Pages
 Instructions for using the [Router Mesh](https://www.nginx.com/blog/microservices-reference-architecture-nginx-router-mesh-model/) or 
 [Proxy Model](https://www.nginx.com/blog/microservices-reference-architecture-nginx-proxy-model/) architectures will be made available in the future.
 
-## Docker Image
+## Quick start
+As a single service in the set of services which make up the NGINX Microservices Reference Architecture application, _Ingenious_,
+the Auth Proxy service is not meant to function as a standalone service.
 
+There are detailed instructions about the service below, and in order to get started quickly, you can follow these simple 
+instructions to quickly build the image. Using this quickstart method, 
+
+0. (Optional) If you don't already have an NGINX Plus license, you can request a temporary developer license 
+[here](https://www.nginx.com/developer-license/ "Developer License Form"). If you do have a license, then skip to the next step. 
+1. Copy your licenses to the **<repository-path>/auth-proxy/nginx/ssl** directory
+2. Run the command ```docker build . -t <your-image-repo-name>/auth-proxy:quickstart``` where <image-repository-name> is the username
+for where you store your Docker images
+3. Once the image has been built, push it to the docker repository with the command ```docker push -t <your-image-repo-name>/auth-proxy:quickstart```
+
+At this point, you will have an image that is suitable for deployment on to a DC/OS installation, and you can deploy the
+image by creating a JSON file and uploading it to your DC/OS installation.
+
+To build customized images for different container engines and set other options, please follow the directions below.
+
+## Building a Customized Docker Image
 The Dockerfile for the Pages service is based on the php:7.0.5-fpm image, and installs NGINX open source or NGINX Plus. Note that the features
 in NGINX Plus make discovery of other services possible, include additional Load Balancing algorithms, persistent SSL/TLS connections, and
 advanced health check functionality.
 
-The command, or entrypoint, for the Dockerfile is the [php-start.sh script](https://github.com/nginxinc/ngra-pages/blob/master/php-start.sh "Dockerfile entrypoint"). 
+The command, or entrypoint, for the Dockerfile is the [php-start.sh script](php-start.sh "Dockerfile entrypoint"). 
 This script sets some local variables, then starts [PHP FPM](https://php-fpm.org/ "PHP FPM") and NGINX in order to handle page requests.
-Configuration for PHP FPM is found in the [php5-fpm.conf file](https://github.com/nginxinc/ngra-pages/blob/master/php5-fpm.conf "PHP FPM Conf")
+Configuration for PHP FPM is found in the [php5-fpm.conf file](php5-fpm.conf "PHP FPM Conf")
 
-###Build options
+### 1. Build options
 The Dockerfile sets some ENV arguments which are used when the image is built:
 
 - **USE_NGINX_PLUS**  
-    The default value is false. Set this environment variable to true when you want to use NGINX Plus. When this value is false, 
+    The default value is true. Set this environment variable to true when you want to use NGINX Plus. When this value is false, 
     NGINX open source will be used, and it lacks support for features like service discovery, advanced load balancing,
     and health checks. See [installing nginx plus](#installing-nginx-plus)
+    
+    When this value is set to false, NGINX open source will be built in to the image and several features, including service
+    discovery and advanced load balancing will be disabled.
+    
+    When the nginx.conf file is built, the [fabric_config_local.yaml](nginx/fabric_config_local.yaml) will be
+    used to populate the open source version of the [nginx.conf template](nginx/nginx-fabric.conf.j2)
     
 - **USE_VAULT**  
     The default value is interpreted as false. The installation script uses [vault](https://www.vaultproject.io/) to retrieve the keys necessary to install NGINX Plus.
@@ -47,25 +71,90 @@ The Dockerfile sets some ENV arguments which are used when the image is built:
     You must be certain to include the vault_env.sh file when _USE_VAULT_ is true. There is an entry in the .gitignore
     file for vault_env.sh
     
+    In the future, we will release an article on our [blog](https://www.nginx.com/blog/) describing how to use vault with NGINX.    
+    
 - **CONTAINER_ENGINE**  
     The container engine used to run the images. It can be one of the following values
      - docker: to run on Docker Cloud 
+     
+        When the nginx.conf file is built, the [fabric_config_docker.yaml](nginx/fabric_config_docker.yaml) will be
+        used to populate the open source version of the [nginx.conf template](nginx/nginx-plus-fabric.conf.j2)
+        
      - kubernetes: to run on Kubernetes
-     - mesos: to run on DC/OS
+     
+        When the nginx.conf file is built, the [fabric_config_k8s.yaml](nginx/fabric_config_k8s.yaml) will be
+        used to populate the open source version of the [nginx.conf template](nginx/nginx-plus-fabric.conf.j2)
+             
+     - mesos (default): to run on DC/OS
+     
+        When the nginx.conf file is built, the [fabric_config.yaml](nginx/fabric_config.yaml) will be
+        used to populate the open source version of the [nginx.conf template](nginx/nginx-plus-fabric.conf.j2)
+                  
      - local: to run in containers on the machine where the repository has been cloned
+     
+        When the nginx.conf file is built, the [fabric_config_local.yaml](nginx/fabric_config_local.yaml) will be
+        used to populate the open source version of the [nginx.conf template](nginx/nginx-plus-fabric.conf.j2)                  
+
      
 - **SYMFONY_ENV**  
     The configuration for the Symfony framework. Valid values are _prod_ and _dev_ and this value is used by [app.php](https://github.com/nginxinc/ngra-pages/blob/MRADEV-547_optional_elk_logging/ingenious-pages/web/app.php "app.php")
+     
+### 2. Decide whether to use NGINX Open Source or NGINX Plus
+ 
+#### <a href="#" id="installing-nginx-oss"></a>Installing NGINX Open Source
+
+Set the _USE_NGINX_PLUS_ property to false in the Dockerfile
     
-## <a href="#" id="installing-nginx-plus"></a>Installing NGINX Plus
+#### <a href="#" id="installing-nginx-plus"></a>Installing NGINX Plus
 Before installing NGINX Plus, you'll need to obtain your license keys. If you do not already have a valid NGINX Plus subscription, you can request 
 developer licenses [here](https://www.nginx.com/developer-license/ "Developer License Form") 
 
-To deploy the MRA with NGINX Plus, first perform the steps in [Deploying with Open Source NGINX](https://github.com/nginxinc/fabric-model-architecture/#deploying-with-nginx-plus) then, perform the following steps:
+Set the _USE_NGINX_PLUS_ property to true in the Dockerfile
 
 If you have not set _USE_VAULT_ to true, then you'll need to manually copy your **nginx-repo.crt** and **nginx-repo.key** files to the _<path-to-repository>/ngra-pages/nginx/ssl/_ directory. 
 
 Download the **nginx-repo.crt** and **nginx-repo.key** files for your NGINX Plus Developer License or subscription, and move them to the root directory of this project. You can then copy both of these files to the `/etc/nginx/ssl` directory of each microservice using the commands below:
 ```
-cp nginx-repo.crt nginx-repo.key <path-to-repository>/ngra-pages/nginx/ssl/
+cp nginx-repo.crt nginx-repo.key <path-to-repository>/auth-proxy/nginx/ssl/
 ```
+
+### 3. Decide which container engine to use
+
+#### Set the _CONTAINER_ENGINE_ variable
+As described above, the _CONTAINER_ENGINE_ environment variable must be set to one of the following four options.
+The install-nginx.sh file uses this value to determine which template file to use when populating the nginx.conf file.
+
+- docker 
+- kubernetes 
+- mesos 
+- local
+
+### 4. Build the image
+
+Replace _&lt;your-image-repo-name&gt;_ and execute the command below to build the image. The _&lt;tag&gt;_ argument is optional and defaults to **latest**
+
+```
+docker build . -t <your-image-repo-name>/auth-proxy:<tag>
+```
+
+### Runtime environment variables
+In order to run the image, some environment variables must be set so that they are available during runtime.
+
+| Variable Name | Description | Example Value |
+| ------------- | ----------- | ----------- |
+| AWS_ACCESS_KEY_ID | Your AWS Access Key ID | ABCD12345ABCD12345ABCD12345 |
+| AWS_REGION | The AWS Region | us-west-1 |
+| AWS_SECRET_ACCESS_KEY | Your AWS Secret Access Key | ABCD12345ABCD12345ABCD12345 |
+| PHOTOMANAGER_ALBUM_PATH | The URI of the album manager albums| /album-manager/albums |
+| PHOTOMANAGER_CATALOG_PATH | The URI of the album manager catalogs | /album-manager/albums |
+| PHOTOMANAGER_ENDPOINT_URL | The URL of the album manager service| http://localhost |
+| PHOTOMANAGER_IMAGES_PATH | The URI for the photouploader images | /album-manager/images |
+| PHOTOUPLOADER_ALBUM_PATH | The URI for the photouploader albums | /uploader/album |
+| PHOTOUPLOADER_ENDPOINT_URL | The port and host of the photo uploader service| http://localhost |
+| PHOTOUPLOADER_IMAGE_PATH | The URI to the image uploader service | /uploader/image |
+| REDIS_CACHE_PORT | The redis cache port | "6379" |
+| REDIS_CACHE_URL | The hostname of the redis cache service | redis.service |
+| S3_BUCKET | The name of the S3 bucket where images are stored | <your bucket name> |
+| USERMANAGER_ENDPOINT_URL | The URL of the user manager service | http://localhost |
+| USERMANAGER_LOCAL_PATH | The local URI for the user manager service| /user-managear/v1/users |
+| USERMANAGER_USER_PATH | The URI to the user manager service | /user-manager/v1/users |

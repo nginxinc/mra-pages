@@ -16,18 +16,18 @@ Instructions for using the [Router Mesh](https://www.nginx.com/blog/microservice
 [Proxy Model](https://www.nginx.com/blog/microservices-reference-architecture-nginx-proxy-model/) architectures will be made available in the future.
 
 ## Quick start
-As a single service in the set of services which make up the NGINX Microservices Reference Architecture application, _Ingenious_,
-the Auth Proxy service is not meant to function as a standalone service.
+As a single service in the set of services which comprise the NGINX Microservices Reference Architecture application, _Ingenious_,
+the Pages service is not meant to function as a standalone service.
 
 There are detailed instructions about the service below, and in order to get started quickly, you can follow these simple 
 instructions to quickly build the image. Using this quickstart method, 
 
 0. (Optional) If you don't already have an NGINX Plus license, you can request a temporary developer license 
 [here](https://www.nginx.com/developer-license/ "Developer License Form"). If you do have a license, then skip to the next step. 
-1. Copy your licenses to the **<repository-path>/auth-proxy/nginx/ssl** directory
-2. Run the command ```docker build . -t <your-image-repo-name>/auth-proxy:quickstart``` where <image-repository-name> is the username
+1. Copy your licenses to the **<repository-path>/ngra-pages/nginx/ssl** directory
+2. Run the command ```docker build . -t <your-image-repo-name>/pages:quickstart``` where <image-repository-name> is the username
 for where you store your Docker images
-3. Once the image has been built, push it to the docker repository with the command ```docker push -t <your-image-repo-name>/auth-proxy:quickstart```
+3. Once the image has been built, push it to the docker repository with the command ```docker push -t <your-image-repo-name>/pages:quickstart```
 
 At this point, you will have an image that is suitable for deployment on to a DC/OS installation, and you can deploy the
 image by creating a JSON file and uploading it to your DC/OS installation.
@@ -115,7 +115,7 @@ If you have not set _USE_VAULT_ to true, then you'll need to manually copy your 
 
 Download the **nginx-repo.crt** and **nginx-repo.key** files for your NGINX Plus Developer License or subscription, and move them to the root directory of this project. You can then copy both of these files to the `/etc/nginx/ssl` directory of each microservice using the commands below:
 ```
-cp nginx-repo.crt nginx-repo.key <path-to-repository>/auth-proxy/nginx/ssl/
+cp nginx-repo.crt nginx-repo.key <path-to-repository>/pages/nginx/ssl/
 ```
 
 ### 3. Decide which container engine to use
@@ -134,7 +134,7 @@ The install-nginx.sh file uses this value to determine which template file to us
 Replace _&lt;your-image-repo-name&gt;_ and execute the command below to build the image. The _&lt;tag&gt;_ argument is optional and defaults to **latest**
 
 ```
-docker build . -t <your-image-repo-name>/auth-proxy:<tag>
+docker build . -t <your-image-repo-name>/pages:<tag>
 ```
 
 ### Runtime environment variables

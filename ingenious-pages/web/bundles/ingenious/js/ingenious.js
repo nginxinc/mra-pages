@@ -546,6 +546,8 @@ function statusChangeCallback(response) {
         $("#left-menu").load(location.href+" #left-menu>*","");
         if (location.pathname !== '/login') {
             location.reload();
+        } else {
+            location.href = '/myphotos';
         }
     }
 }

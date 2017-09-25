@@ -573,6 +573,8 @@ function onSignIn(googleUser) {
         $("#left-menu").load(location.href+" #left-menu>*","");
         if (location.pathname !== '/login') {
             location.reload();
+        } else {
+            location.href = '/myphotos';
         }
     }
 }

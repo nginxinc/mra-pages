@@ -1,14 +1,14 @@
 FROM php:7.0.5-fpm
 
 ENV USE_NGINX_PLUS=true \
-    USE_VAULT=true \
+    USE_VAULT=false \
+    SYMFONY_ENV=prod \
 # CONTAINER_ENGINE specifies the container engine to which the
 # containers will be deployed. Valid values are:
 # - kubernetes
 # - mesos (default)
 # - local
-#    CONTAINER_ENGINE=kubernetes \
-    SYMFONY_ENV=prod
+#    CONTAINER_ENGINE=kubernetes
 
 COPY nginx/ssl /etc/ssl/nginx/
 COPY vault_env.sh /etc/letsencrypt/
@@ -28,8 +28,8 @@ COPY nginx /etc/nginx/
 ADD install-nginx.sh /usr/local/bin/
 RUN /usr/local/bin/install-nginx.sh && \
 # forward request logs to Docker log collector
-#    ln -sf /dev/stdout /var/log/nginx/access.log && \
-#    ln -sf /dev/stderr /var/log/nginx/error.log && \
+    ln -sf /dev/stdout /var/log/nginx/access.log && \
+    ln -sf /dev/stderr /var/log/nginx/error.log && \
 # Install XDebug
     yes | pecl install xdebug
 
@@ -38,7 +38,7 @@ COPY ingenious-pages/ /ingenious-pages
 
 RUN cd /ingenious-pages && \
     php composer.phar install --no-dev --optimize-autoloader && \
-#    ln -sf /dev/stdout /ingenious-pages/app/logs/prod.log && \
+    ln -sf /dev/stdout /ingenious-pages/app/logs/prod.log && \
     chown -R nginx:www-data /ingenious-pages/ && \
     chmod -R 775 /ingenious-pages
 

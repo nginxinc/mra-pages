@@ -13,7 +13,9 @@ use AppBundle\Services\PhotoManager;
 use AppBundle\Services\PhotoUploader;
 use AppBundle\Services\UserManager;
 use GuzzleHttp\Exception\RequestException;
+use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
@@ -172,6 +174,7 @@ class IngeniousHomeController extends Controller {
     
     /**
      * @Route ("/login")
+     * @Method ("GET")
      */
     public function loginAction() {
         if(isset($_COOKIE["auth_token"]) && ($_COOKIE["expires_at"]) > time()) {
@@ -187,7 +190,28 @@ class IngeniousHomeController extends Controller {
             ]
         );
     }
-    
+
+    /**
+     * @Route ("/login")
+     * @Method ("POST")
+     */
+    public function loginPostAction(Request $request) {
+
+        if ($this->isAuthenticated($request)) {
+//            $logger->info('The user is authenticated');
+        } else {
+            $user = $this->getUserManager($this->authID)->getUser();
+        }
+
+        return $this->render(
+            '/login.html.twig',
+            [
+                'uploader' => $this->getPhotoUploader()->getUploaderPath(),
+                'authenticated' => false
+            ]
+        );
+    }
+
     /**
      * @Route ("/about")
      */

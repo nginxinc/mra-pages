@@ -107,6 +107,11 @@ $(document).ready(function() {
 
         return false;
     });
+
+    $('#login-form-button').click(function() {
+        Cookies.set('auth_provider', 'email');
+        $('#user-login').submit();
+    });
 });
 
 $(document).on( 'click', '.delete-image-btn', function( e ) {

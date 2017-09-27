@@ -80,13 +80,15 @@ class UserManager {
 
     /**
      * @param string
+     * @param $email
      * UserManager constructor.
      */
-    public function __construct($authID) {
+    public function __construct($authID, $email = null) {
         $this->url = getenv("USERMANAGER_ENDPOINT_URL");
         $this->userPath = getenv("USERMANAGER_USER_PATH");
         $this->localUserPath = getenv("USERMANAGER_LOCAL_PATH");
         $this->userID = $authID;
+        $this->email = $email;
     }
 
     /**
@@ -94,6 +96,37 @@ class UserManager {
      */
     public function getUser() {
         $user = $this->getRequest($this->userPath . "/" . $this->userID);
+        $this->setUserData($user);
+        return $this;
+    }
+
+    /**
+     * @return $this|null
+     *
+     * Queries the User Manager for a user with the specified email address
+     */
+    public function getUserByEmail() {
+        if ($this->email == null) {
+            // do some error handling
+        }
+
+        $user = $this->getRequest($this->userPath."/email/".$this->email);
+
+        if ($user == null) {
+            return null;
+        }
+
+        $this->setUserData($user);
+
+        return $this;
+    }
+
+    /**
+     * @param $user
+     *
+     * Set the member variables with the values from $user
+     */
+    private function setUserData($user) {
         $this->setEmail($user->email);
         $this->setName($user->name);
         $this->setCoverPicturesID($user->cover_pictures_id);
@@ -110,7 +143,7 @@ class UserManager {
         else{
             $this->setGoogleID($user->google_id);
         }
-        return $this;
+
     }
 
     /**

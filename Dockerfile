@@ -8,10 +8,9 @@ ENV USE_NGINX_PLUS=true \
 # - kubernetes
 # - mesos (default)
 # - local
-#    CONTAINER_ENGINE=kubernetes
+    CONTAINER_ENGINE=kubernetes
 
 COPY nginx/ssl /etc/ssl/nginx/
-COPY vault_env.sh /etc/letsencrypt/
 # Get other files required for installation
 RUN apt-get update && apt-get install -y \
     wget \
@@ -28,8 +27,8 @@ COPY nginx /etc/nginx/
 ADD install-nginx.sh /usr/local/bin/
 RUN /usr/local/bin/install-nginx.sh && \
 # forward request logs to Docker log collector
-    ln -sf /dev/stdout /var/log/nginx/access.log && \
-    ln -sf /dev/stderr /var/log/nginx/error.log && \
+    ln -sf /dev/stdout /var/log/nginx/access_log && \
+    ln -sf /dev/stderr /var/log/nginx/error_log && \
 # Install XDebug
     yes | pecl install xdebug
 

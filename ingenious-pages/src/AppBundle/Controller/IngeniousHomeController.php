@@ -13,8 +13,11 @@ use AppBundle\Services\PhotoManager;
 use AppBundle\Services\PhotoUploader;
 use AppBundle\Services\UserManager;
 use GuzzleHttp\Exception\RequestException;
+use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use GuzzleHttp\Client;
@@ -45,10 +48,13 @@ class IngeniousHomeController extends Controller {
     public function isAuthenticated(Request $request) {
         $this->authID = $request->headers->get('Auth-ID');
         if ($this->authID != "") {
-            $this->name = $request->headers->get('Auth-Name');
-            $names = explode(' ', $this->name);
-            $this->firstName = $names[0];
-            $this->lastName = $names[1];
+
+            if ($request->headers->get('Auth-Name')) {
+                $this->name = $request->headers->get('Auth-Name');
+                $names = explode(' ', $this->name);
+                $this->firstName = $names[0];
+                $this->lastName = $names[1];
+            }
             return true;
         } else {
             return false;
@@ -172,12 +178,14 @@ class IngeniousHomeController extends Controller {
     
     /**
      * @Route ("/login")
+     * @Method ("GET")
      */
     public function loginAction() {
         if(isset($_COOKIE["auth_token"]) && ($_COOKIE["expires_at"]) > time()) {
             $isAuthenticated = true;
         } else {
             $isAuthenticated = false;
+            unset($_COOKIE['auth_provider']);
         }
         return $this->render(
             '/login.html.twig',
@@ -187,7 +195,52 @@ class IngeniousHomeController extends Controller {
             ]
         );
     }
-    
+
+    /**
+     * @Route ("/login")
+     * @Method ("POST")
+     */
+    public function loginPostAction(Request $request) {
+        
+        if ($this->isAuthenticated($request)) {
+            if ($this->user == null) {
+                $this->user = $this->getUserManager($this->authID, $request->request->get('email'))->getUser();
+            }
+        } else {
+            $this->user = $this->getUserManager($this->authID, $request->request->get('email'))->getUserByEmail();
+        }
+
+        if ($this->user == null) {
+            // create a new user and log them in
+            $body['email'] = $request->request->get('email');
+            $body['password'] = $request->request->get('password');
+            $this->user = $this->getUserManager($this->authID, $request->request->get('email'))->createLocalUser(['json' => $body]);
+
+            $this->authID = $this->user->getUserID();
+            $isAuthenticated = true;
+        } else {
+            // compare the password with existing password
+            $isAuthenticated = $this->user->authUser($request->request->get('password'));
+        }
+
+        if ($isAuthenticated) {
+            $response = $this->redirectToRoute('account');
+            $response->headers->setCookie(new Cookie('expires_at', microtime()+86400000), microtime()+86400000);
+            $response->headers->setCookie(new Cookie('auth_token', $this->user->getLocalId()), microtime()+86400000);
+            $response->headers->setCookie(new Cookie('auth_provider', 'local'), microtime()+86400000);
+            $response->headers->set('Auth-ID', $this->authID);
+            return $response;
+        } else {
+            return $this->render(
+                '/login.html.twig',
+                [
+                    'uploader' => $this->getPhotoUploader()->getUploaderPath(),
+                    'authenticated' => $isAuthenticated
+                ]
+            );
+        }
+    }
+
     /**
      * @Route ("/about")
      */
@@ -256,7 +309,7 @@ class IngeniousHomeController extends Controller {
     }
 
     /**
-     * @Route("/account")
+     * @Route("/account", name="account")
      * @param Request $request
      * @return Response
      */
@@ -271,15 +324,16 @@ class IngeniousHomeController extends Controller {
                 $this->banner = $user->getBanner();
             }
             if($this->user->getProfilePicture() != null) {
-                $this->profilePicture = $user->getProfilePicture();
+                $this->profilePicture = $this->user->getProfilePicture();
             }
             if($this->user->getProfilePicturesID() != null) {
-                $this->profilePicturesID = $user->getProfilePicturesID();
+                $this->profilePicturesID = $this->user->getProfilePicturesID();
             }
             if($this->user->getCoverPicturesID() != null) {
-                $this->coverPicturesID = $user->getCoverPicturesID();
+                $this->coverPicturesID = $this->user->getCoverPicturesID();
             }
             $catalog = $this->getPhotoManager($request)->getCatalog();
+            
             return $this->render(
                 '/account.html.twig',
                 [
@@ -352,11 +406,12 @@ class IngeniousHomeController extends Controller {
 
     /**
      * @param $authID
+     * @param $email
      * @return UserManager
      */
-    private function getUserManager($authID) {
+    private function getUserManager($authID, $email = null) {
         if($this->userManager == null) {
-            $this->userManager = new UserManager($authID);
+            $this->userManager = new UserManager($authID, $email);
         }
         return $this->userManager;
     }

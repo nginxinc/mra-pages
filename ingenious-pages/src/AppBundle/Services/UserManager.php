@@ -18,6 +18,9 @@ use Symfony\Component\Serializer\Encoder\JsonDecode;
  * @package AppBundle\Services
  */
 class UserManager {
+    const GET_METHOD = 'GET';
+    const POST_METHOD = 'POST';
+
     /**
      * @var string
      */
@@ -79,6 +82,11 @@ class UserManager {
     private $client = null;
 
     /**
+     * @var string ID
+     */
+    private $localID = null;
+
+    /**
      * @param string
      * @param $email
      * UserManager constructor.
@@ -107,18 +115,35 @@ class UserManager {
      */
     public function getUserByEmail() {
         if ($this->email == null) {
-            // do some error handling
+            return null;
         }
 
         $user = $this->getRequest($this->userPath."/email/".$this->email);
 
-        if ($user == null) {
+        if (isset($user->found) and $user->found == false) {
             return null;
         }
 
         $this->setUserData($user);
 
         return $this;
+    }
+
+    public function createLocalUser($body) {
+        $user = $this->postRequest($this->userPath, $body);
+
+        $this->setUserData($user);
+        $this->userID = $user->id;
+
+        return $this;
+    }
+
+    public function authUser($password) {
+        $body['email'] = $this->getEmail();
+        $body['password'] = $password;
+        $authResponse = $this->postRequest($this->userPath."/email/auth", ['json' => $body]);
+
+        return $authResponse->authenticated == true;
     }
 
     /**
@@ -128,7 +153,11 @@ class UserManager {
      */
     private function setUserData($user) {
         $this->setEmail($user->email);
-        $this->setName($user->name);
+
+        if (isset($user->name)) {
+            $this->setName($user->name);
+        }
+        
         $this->setCoverPicturesID($user->cover_pictures_id);
         $this->setProfilePicturesID($user->profile_pictures_id);
         if(isset($user->banner_url)) {
@@ -137,11 +166,13 @@ class UserManager {
         if(isset($user->profile_picture_url)) {
             $this->setProfilePicture($user->profile_picture_url);
         }
+
         if(isset($user->facebook_id)) {
             $this->setFacebookID($user->facebook_id);
-        }
-        else{
+        } else if (isset($user->google_id)) {
             $this->setGoogleID($user->google_id);
+        } else if (isset($user->local_id)) {
+            $this->setLocalID($user->local_id);
         }
 
     }
@@ -297,6 +328,24 @@ class UserManager {
         $this->client = $client;
     }
 
+    /**
+     * @return string localID
+     */
+    public function getLocalID()
+    {
+        return $this->localID;
+    }
+
+    /**
+     * @param string $localID
+     */
+    public function setLocalID($localID)
+    {
+        $this->localID = $localID;
+    }
+
+
+
     /***************************UTILS***********************?
 
     /**
@@ -305,9 +354,28 @@ class UserManager {
      * @return string
      */
     private function getRequest($path, $params = []) {
+        return $this->makeRequest($path, self::GET_METHOD, $params);
+    }
+
+    /**
+     * @param $path
+     * @param $params
+     * @return string
+     */
+    private function postRequest($path, $params = []) {
+        return $this->makeRequest($path, self::POST_METHOD, $params);
+    }
+
+    /**
+     * @param $path
+     * @param $method
+     * @param $params
+     * @return string
+     */
+    private function makeRequest($path, $method, $params = []) {
         try {
             $client = $this->getClient();
-            $response = $client->request('GET', $path, $params);
+            $response = $client->request($method, $path, $params);
 
             $body = $response->getBody()->__toString();
 

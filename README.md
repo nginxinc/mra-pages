@@ -159,3 +159,10 @@ In order to run the image, some environment variables must be set so that they a
 | USERMANAGER_ENDPOINT_URL | The URL of the user manager service | http://localhost |
 | USERMANAGER_LOCAL_PATH | The local URI for the user manager service| /user-managear/v1/users |
 | USERMANAGER_USER_PATH | The URI to the user manager service | /user-manager/v1/users |
+
+
+#### \*Disclaimer\*
+
+In this service, the `nginx/ssl/dhparam.pem` file is provided for ease of setup. In production environments, it is highly recommended for secure key-exchange to replace this file with your own generated DH parameter.
+
+The `ingenious-pages/app/config/parameters.yml` file is pre-generated for running the service locally. If using other methods of container orchestration, it will be necessary to generate your own parameters.yml file for use in that environment.

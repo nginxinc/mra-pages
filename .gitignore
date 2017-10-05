@@ -53,7 +53,6 @@ gen
 !var/logs/.gitkeep
 
 # Parameters
-/ingenious-pages/app/config/parameters.yml
 /ingenious-pages/app/config/parameters.ini
 
 # Managed by Composer
@@ -92,11 +91,9 @@ orig_nginx-repo.key
 java_pid28412.hprof
 .hprof
 jmeter.log
-*.pem
 .pem
 certificate.pem
 csr.pem
-dhparam.pem
 key.pem
 ngra-pages.iml
 ingenious-pages/vendor

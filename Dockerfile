@@ -1,5 +1,6 @@
 FROM php:7.0.5-fpm
 
+ARG CONTAINER_ENGINE
 ENV USE_NGINX_PLUS=true \
     USE_VAULT=false \
     SYMFONY_ENV=prod \
@@ -8,7 +9,7 @@ ENV USE_NGINX_PLUS=true \
 # - kubernetes
 # - mesos (default)
 # - local
-    CONTAINER_ENGINE=kubernetes
+    CONTAINER_ENGINE=${CONTAINER_ENGINE:-kubernetes}
 
 COPY nginx/ssl /etc/ssl/nginx/
 # Get other files required for installation

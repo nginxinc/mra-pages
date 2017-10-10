@@ -737,14 +737,14 @@ footer.colophon-bottom {
   margin-bottom: 1.25em;
 }
 .login-form {
-  width: 80%;
+  width: 100%;
   max-width: 62.5em;
   margin: 0 auto;
   display: block;
   font-family: "aktiv_grotesk_thin", sans-serif;
 }
 .login-form .control-label {
-  color: #01DD60;
+  color: white;
   font-family: "aktiv_grotesk_thin", sans-serif;
   font-size: 1.125em;
   letter-spacing: 0.083em;
@@ -753,10 +753,10 @@ footer.colophon-bottom {
   text-transform: uppercase;
 }
 .login-form .form-group {
-  margin: 2.5em auto;
+  /*margin: 2.5em auto;*/
 }
 .login-form .form-group .login-field {
-  width: 60%;
+  /*width: 60%;*/
 }
 .login-form .login-submit .btn {
   background: transparent none repeat scroll 0 0;
@@ -768,7 +768,7 @@ footer.colophon-bottom {
   letter-spacing: 0.071em;
   padding: 0.429em 0.857em;
   text-transform: uppercase;
-  margin-left: 30%;
+  /*margin-left: 30%;*/
 }
 #photo-list {
   background: rgba(255, 255, 255, 0.95) none repeat scroll 0 0;
@@ -2458,7 +2458,7 @@ input[type="file"] > input[type="button"]::-moz-focus-inner {
   .lg-sub-html {
     overflow: hidden;
     padding-bottom: 0;
-    top: 400px;
+    top: 48em;
     width: 100%;
   }
   .lg-actions {
@@ -2504,5 +2504,27 @@ input[type="file"] > input[type="button"]::-moz-focus-inner {
   }
   #photo-list .photo-gallery #display-photo-right-arrow {
     max-width: 20%;
+  }
+  .lg-sub-html {
+    overflow: hidden;
+    padding-bottom: 0;
+    top: 48em;
+    width: 100%;
+  }
+}
+@media only screen and (max-width: 415px) and (min-width: 0) {
+  .lg-sub-html {
+    overflow: hidden;
+    padding-bottom: 0;
+    top: 32em;
+    width: 100%;
+  }
+}
+@media only screen and (max-width: 376px) and (min-width: 0) {
+  .lg-sub-html {
+    overflow: hidden;
+    padding-bottom: 0;
+    top: 28em;
+    width: 100%;
   }
 }

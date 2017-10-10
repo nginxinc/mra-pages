@@ -544,6 +544,11 @@ function statusChangeCallback(response) {
 
         document.getElementById( 'ing_fb_login' ).innerHTML = 'Logged in via Facebook';
         $("#left-menu").load(location.href+" #left-menu>*","");
+        if (location.pathname !== '/login') {
+            location.reload();
+        } else {
+            location.href = '/myphotos';
+        }
     }
 }
 
@@ -568,5 +573,10 @@ function onSignIn(googleUser) {
     if (id_token) {
         document.getElementById('ing_gp_login').innerHTML = 'Logged in via Google';
         $("#left-menu").load(location.href+" #left-menu>*","");
+        if (location.pathname !== '/login') {
+            location.reload();
+        } else {
+            location.href = '/myphotos';
+        }
     }
 }

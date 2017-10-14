@@ -12,15 +12,12 @@ use AppBundle\Services\ContentManager;
 use AppBundle\Services\PhotoManager;
 use AppBundle\Services\PhotoUploader;
 use AppBundle\Services\UserManager;
-use GuzzleHttp\Exception\RequestException;
-use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
-use GuzzleHttp\Client;
 
 
 
@@ -129,43 +126,17 @@ class IngeniousHomeController extends Controller {
     }
 
     /**
-     * @Route("/catalog")
-     * @param Request $request
+     * @Route("/stories/{articleID}/{slug}")
+     * @param $articleID
      * @return Response
      */
-    public function catalogAction(Request $request) {
-        if($this->isAuthenticated($request)) {
-            $isAuthenticated = true;
-            $catalog = $this->getPhotoManager($request)->getCatalog();
-            return $this->render('/catalog.html.twig',
-                [
-                    'firstName' => $this->firstName,
-                    'lastName' => $this->lastName,
-                    'authID' => $this->authID,
-                    'authenticated' => $isAuthenticated,
-                    'catelog' => $catalog,
-                    'catalogID' => $this->firstName . ' ' . $this->lastName . "&acute;s Photos",
-                    'catalog' => $this->getPhotoManager($request)->getCatalog(),
-                    'uploader' => $this->getPhotoUploader()->getUploaderPath(),
-                ]
-            );
-        } else {
-            $this->_send_forbidden_status_response();
-        }
-    }
-
-    /**
-     * @Route("/stories/{articleId}/{slug}")
-     * @param $articleId
-     * @return Response
-     */
-    public function storiesAction($articleId) {
+    public function storiesAction($articleID) {
         if(isset($_COOKIE["auth_token"]) && ($_COOKIE["expires_at"]) > time()) {
             $isAuthenticated = true;
         } else {
             $isAuthenticated = false;
         }
-        $article = $this->getContentManager()->getArticle($articleId);
+        $article = $this->getContentManager()->getArticle($articleID);
         return $this->render(
             '/post-article.html.twig',
             [

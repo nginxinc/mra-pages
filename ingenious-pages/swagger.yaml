@@ -1,8 +1,8 @@
 swagger: "2.0"
 info:
-  description: "MRA Auth Proxy API"
+  description: "MRA Pages API"
   version: "1.0.0"
-  title: "MRA Auth Proxy API"
+  title: "MRA Pages API"
   contact:
     name: "Charles Pretzer"
     email: "charles.pretzer@nginx.com"

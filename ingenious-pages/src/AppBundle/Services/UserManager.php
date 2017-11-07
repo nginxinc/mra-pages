@@ -14,7 +14,9 @@ use GuzzleHttp\Exception\RequestException;
 use Symfony\Component\Serializer\Encoder\JsonDecode;
 
 /**
- * Class UserManager
+ * Class UserManager is a service that provides communication with the
+ * user-manager service
+ *
  * @package AppBundle\Services
  */
 class UserManager {
@@ -87,9 +89,13 @@ class UserManager {
     private $localID = null;
 
     /**
-     * @param string
-     * @param $email
-     * UserManager constructor.
+     * UserManager constructor sets variables from environment variables and
+     * sets the userID and email variables from the $authID and $email parameters,
+     * respectively
+     *
+     * @param $authID string: the ID of the user associated with this UserManager
+     * @param $email string: the email address of the user associated with this
+     * UserManager
      */
     public function __construct($authID, $email = null) {
         $this->url = getenv("USERMANAGER_ENDPOINT_URL");
@@ -100,11 +106,19 @@ class UserManager {
     }
 
     /**
-     * @return string
+     * Getter function which uses the getRequest function to retrieve information
+     * about the user specified by the userID variable
+     *
+     * @return $this
      */
     public function getUser() {
+
+        // retrieve the user data from the user-manager service
         $user = $this->getRequest($this->userPath . "/" . $this->userID);
+
+        // set this objects variables from the returned user
         $this->setUserData($user);
+
         return $this;
     }
 
@@ -114,12 +128,16 @@ class UserManager {
      * Queries the User Manager for a user with the specified email address
      */
     public function getUserByEmail() {
+
+        // ensure that the email variable is set
         if ($this->email == null) {
             return null;
         }
 
+        // call the user-manager service
         $user = $this->getRequest($this->userPath."/email/".$this->email);
 
+        // verify that the email address is not set
         if (isset($user->found) and $user->found == false) {
             return null;
         }
@@ -129,7 +147,15 @@ class UserManager {
         return $this;
     }
 
+    /**
+     * Create a user which can be authenticated locally
+     *
+     * @param $body array JSON encoded email and password
+     * @return $this
+     */
     public function createLocalUser($body) {
+
+        // send the request to the user-manager service
         $user = $this->postRequest($this->userPath, $body);
 
         $this->setUserData($user);
@@ -138,6 +164,12 @@ class UserManager {
         return $this;
     }
 
+    /**
+     * Authorize a user local user
+     *
+     * @param $password string, the password to compare
+     * @return bool
+     */
     public function authUser($password) {
         $body['email'] = $this->getEmail();
         $body['password'] = $password;
@@ -349,28 +381,35 @@ class UserManager {
     /***************************UTILS***********************?
 
     /**
-     * @param $path
-     * @param $params
-     * @return string
+     * Calls the makeRequest function using the GET method and passes parameters
+     *
+     * @param $path string: the URL of the user-manager service
+     * @param $params array: parameters to send with the request
+     * @return string a JSON encoded response
      */
     private function getRequest($path, $params = []) {
         return $this->makeRequest($path, self::GET_METHOD, $params);
     }
 
     /**
-     * @param $path
-     * @param $params
-     * @return string
+     * Calls the makeRequest function using the POST method and passes parameters
+     *
+     * @param $path string: the URL of the user-manager service
+     * @param $params array: parameters to send with the request
+     * @return string a JSON encoded response
      */
     private function postRequest($path, $params = []) {
         return $this->makeRequest($path, self::POST_METHOD, $params);
     }
 
     /**
-     * @param $path
-     * @param $method
-     * @param $params
-     * @return string
+     * High order function which uses the $method parameter to send a request to the
+     * specified $path
+     *
+     * @param $path string: the URL of the user-manager service
+     * @param $method string: the HTTP method
+     * @param $params array: parameters to send with the request
+     * @return string a JSON encoded response
      */
     private function makeRequest($path, $method, $params = []) {
         try {

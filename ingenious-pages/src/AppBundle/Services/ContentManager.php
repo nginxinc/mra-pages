@@ -39,6 +39,9 @@ class ContentManager {
     }
 
     /**
+     * Function which makes a request to the content service to retrieve all
+     * the articles in the database
+     *
      * @return string
      */
     public function getArticles() {
@@ -46,41 +49,68 @@ class ContentManager {
     }
 
     /**
-     * @param $articleId
+     * Function which makes a request to the content service to retrieve an
+     * article with the string specified by the articleID parameter
+     *
+     * @param $articleId string the ID of the article to retrieve
      * @return string
      */
     public function getArticle($articleId) {
+
+        // set the URL to retrieve an article from the content service
         $path = $this->articlesPath . "/" . $articleId;
         return $this->getRequest($path);
     }
 
     /**
-     * @return Client
+     * Getter function for the client variable.
+     *
+     * Checks the existing client variable. If one doesn't exist, then a new one
+     * is created using the url variable
+     *
+     * @return Client a guzzle client
      */
     private function getClient() {
+
+        // check the client variable
         if ($this->client == null) {
+
+            // create a new client
             $this->client = new Client(['base_uri' => $this->url]);
         }
+
+        // return the client variable
         return $this->client;
     }
 
     /**
-     * @param $path
-     * @param $params
-     * @return string
+     * Helper function which takes a path and optional parameters and sends a GET
+     * request to the path
+     *
+     * @param $path string: the URL to GET
+     * @param $params array: the optional parameters
+     * @return string: a JSON encoded response
      */
     private function getRequest($path, $params = []) {
+
         try {
+
+            // get the client
             $client = $this->getClient();
 
+            // send the request
             $response = $client->request('GET', $path, $params);
+
+            // get the response body as a string
             $body = $response->getBody()->__toString();
 
+            // create a JsonDecode class and create parse the response as JSON
             $decoder = new JsonDecode();
             return $decoder->decode($body, 'json');
-        }
-        catch (RequestException $e) {
-            return null; // echo $e;
+        } catch (RequestException $e) {
+
+            // TODO: rethrow exception
+            return null;
         }
     }
 }

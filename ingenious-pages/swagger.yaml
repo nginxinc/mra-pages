@@ -1,0 +1,93 @@
+swagger: "2.0"
+info:
+  description: "MRA Pages API"
+  version: "1.0.0"
+  title: "MRA Pages API"
+  contact:
+    name: "Charles Pretzer"
+    email: "charles.pretzer@nginx.com"
+  license:
+    name: "Apache 2.0"
+    url: "http://www.apache.org/licenses/LICENSE-2.0.html"
+paths:
+  /:
+    summary: "Shows the index/landing page using the index.html.twig template"
+    get:
+      responses:
+        200:
+          description: "Showing home page"
+  /about:
+    summary: "Renders about.html.twig to show the about page. Does not require authentication"
+    get:
+      responses:
+        200:
+          description: "Show the about page"
+  /account:
+    summary: "Render account.html.twig to show the user account information"
+    get:
+      responses:
+        200:
+          description: "Show Account Page"
+        403:
+          description: "User not authorized, please log in"
+  /login:
+    summary: "Shows the login page by rendering login.html.twig"
+    get:
+      responses:
+        200:
+          description: "Show login page"
+    post:
+      responses:
+        200:
+          description: "Authentication failed, so show the login page again"
+        302:
+          description: "Redirect to albums page when the user is successfully authenticated"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "Form data that contains username and password"
+        required: true
+  /myphotos:
+    summary: "Shows the albums page using the home.html.twig template"
+    get:
+      responses:
+        200:
+          description: "MyPhotos page"
+        403:
+          description: "User Not Authorized"
+  /photos/{catalogID}/{albumName}/{albumID}:
+    summary: "Shows the users images in an album by rendering photos.html.twig"
+    get:
+      parameters:
+        - in: path
+          name: catalogID
+          required: true
+          type: string
+          minimum: 1
+          description: The ID of the catalog to show
+        - in: path
+          name: albumName
+          required: true
+          type: string
+          minimum: 1
+          description: The name of the album to show
+        - in: path
+          name: albumID
+          required: true
+          type: integer
+          minimum: 1
+          description: The ID of the album to show
+      responses:
+        200:
+          description: "Display the album and its photos, if any."
+        403:
+          description: "Request unauthorized. Please log in."
+  /stories/{articleID}:
+    summary: "Gets an article specified by articleId and renders post-article.html.twig"
+    get:
+      responses:
+        200:
+          description: "Display the article. An empty page will be displayed if the article is invalid"
+      parameters:
+
+

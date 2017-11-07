@@ -161,6 +161,18 @@ In order to run the image, some environment variables must be set so that they a
 | USERMANAGER_USER_PATH | The URI to the user manager service | /user-manager/v1/users |
 
 
+### 6. Service Endpoints
+| Method | Endpoint | Description | Parameters |
+| ------------- | ------------- | ----------- | ----------- |
+| GET | /      | Render the home page | None |
+| GET | /about | Render the about page| None |
+| GET | /account      | Render the account page. Must be authenticated | None |
+| GET | /login      | Renders the login page | None |
+| POST| /login      | Sends username and password for authentication | username, password |
+| GET | /myphotos   | Render the albums and photos for the user. Must be authenticated | None |
+| GET | /photos/{catalogID}/{albumName}/{albumID}| Renders photos for a specific album. Must be authenticated | catalogID, albumName, albumID |
+| GET | /stories/{articleID}      | Renders the posts for the user. Must be authenticated | articleID |
+
 #### \*Disclaimer\*
 
 In this service, the `nginx/ssl/dhparam.pem` file is provided for ease of setup. In production environments, it is highly recommended for secure key-exchange to replace this file with your own generated DH parameter.

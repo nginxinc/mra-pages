@@ -235,7 +235,6 @@ class IngeniousHomeController extends Controller {
 
         // check whether the user is already authenticated
         if ($this->isAuthenticated($request)) {
-
             // if the user is null, call the userManager to get the user by
             // using the email address in the post body
             if ($this->user == null) {
@@ -251,7 +250,8 @@ class IngeniousHomeController extends Controller {
             // create a new user and log them in
             $body['email'] = $request->request->get('email');
             $body['password'] = $request->request->get('password');
-            $this->user = $this->getUserManager($this->authID, $request->request->get('email'))->createLocalUser(['json' => $body]);
+            $this->user = $this->getUserManager($this->authID,
+                $request->request->get('email'))->createLocalUser(['json' => $body]);
 
             $this->authID = $this->user->getUserID();
             $isAuthenticated = true;
@@ -262,6 +262,7 @@ class IngeniousHomeController extends Controller {
 
         // user authenticated? redirect to the account page
         if ($isAuthenticated) {
+            $this->authID = $this->user->getUserID();
             $response = $this->redirectToRoute('account');
             $response->headers->setCookie(new Cookie('expires_at', microtime()+86400000), microtime()+86400000);
             $response->headers->setCookie(new Cookie('auth_token', $this->user->getLocalId()), microtime()+86400000);
@@ -453,7 +454,8 @@ class IngeniousHomeController extends Controller {
 
             // check whether there is a PhotoManager object
             if($this->photoManager == null) {
-                $this->photoManager = new PhotoManager($this->authID);
+                $photoManagerClass = $this->container->getParameter('photo_manager_class');
+                $this->photoManager = new $photoManagerClass($this->authID);
             }
             return $this->photoManager;
         } else {
@@ -471,7 +473,8 @@ class IngeniousHomeController extends Controller {
         // if the contentManager variable is null, instantiate a new
         // ContentManager
         if($this->contentManager == null) {
-            $this->contentManager = new ContentManager();
+            $contentManagerClass = $this->container->getParameter('content_manager_class');
+            $this->contentManager = new $contentManagerClass();
         }
         return $this->contentManager;
     }
@@ -489,7 +492,7 @@ class IngeniousHomeController extends Controller {
         $response = new Response();
 
         // set the status code
-        $response->setStatusCode($statusCode ?? Response::HTTP_FORBIDDEN);
+        $response->setStatusCode(isset($statusCode) ? $statusCode : Response::HTTP_FORBIDDEN);
 
         // send the response
         return $response->send();
@@ -505,9 +508,9 @@ class IngeniousHomeController extends Controller {
 
         // check whether the photoUploader is null
         if($this->photoUploader == null) {
-
+            $photoUploaderClass = $this->container->getParameter('photo_uploader_class');
             // create a new PhotoUploader object
-            $this->photoUploader = new PhotoUploader();
+            $this->photoUploader = new $photoUploaderClass();
         }
         return $this->photoUploader;
     }
@@ -525,7 +528,8 @@ class IngeniousHomeController extends Controller {
         // if the UserManager is null, create a new one using one or both
         // parameters
         if($this->userManager == null) {
-            $this->userManager = new UserManager($authID, $email);
+            $userManagerClass = $this->container->getParameter('user_manager_class');
+            $this->userManager = new $userManagerClass($authID, $email);
         }
         return $this->userManager;
     }

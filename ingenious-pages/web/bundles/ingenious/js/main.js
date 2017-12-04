@@ -139,6 +139,28 @@
         $("body").removeClass("hide-overflow");
     });
 
+    // Add post
+    $(".create-post-btn").click(function () {
+        $("#post-title").val("");
+        $("#post-body").val("");
+        $("#post-photo").val("");
+        $("#post-author").val("");
+        $("#post-extract").val("");
+        $("#post-location").val("");
+        $("#post-upload-thumb-proto").hide();
+        $("#add-post-button").show();
+        var postInfo = $("#post-loading");
+        postInfo.empty();
+        postInfo.hide();
+        $(".create-post").toggleClass("open");
+        $("body").toggleClass("hide-overflow");
+    });
+
+    $(".create-post .cancel-upload").click(function () {
+        $(".create-post").removeClass("open");
+        $("body").removeClass("hide-overflow");
+    });
+
     // Add cover
     $(".add-cover-btn").click(function() {
         $(".cover-thumb").css({"border-width":"0px"});

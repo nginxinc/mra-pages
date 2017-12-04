@@ -35,7 +35,16 @@ class ContentManager {
      * PhotoManager constructor.
      */
     public function __construct() {
-        $this->articlesPath = "http://localhost/content-service/v1/content"; //getenv("ARTICLES_PATH");
+        $this->url = getenv("CONTENTSERVICE_ENDPOINT_URL");
+        $this->articlesPath = getenv("CONTENTSERVICE_ARTICLE_PATH"); //getenv("ARTICLES_PATH");
+    }
+
+    /**
+     * @return string
+     */
+    public function getContentPath() {
+        $content = $this->articlesPath;//because we have to use local proxy for JavaScript XHR
+        return $content;
     }
 
     /**

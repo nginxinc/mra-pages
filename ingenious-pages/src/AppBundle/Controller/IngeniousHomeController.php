@@ -342,6 +342,7 @@ class IngeniousHomeController extends Controller {
                     'email' => $this->user->getEmail(),
                     'userManager' => trim( $this->user->getLocalUserPath() ) . "/" . $this->user->getUserID(),
                     'uploader' => $this->getPhotoUploader()->getUploaderPath(),
+                    'contentManager' => $this->getContentManager()->getContentPath(),
                     'banner' => $this->banner,
                     'banner_message' => $this->banner_message,
                     'bannerImages' => $this->bannerImages,

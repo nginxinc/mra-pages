@@ -39,6 +39,10 @@ $(document).ready(function() {
         $("#all-images-cover").load(location.href+" #all-images-cover>*","");
     });
 
+    $("#create-post").submit(function (event) {
+        createPost(event);
+    });
+
     $("#add-cover-button").click(function() {
         var file = $("#add-cover-input").prop('files')[0];
         if (file) {
@@ -144,13 +148,14 @@ $(document).on( 'click', '.delete-image-btn', function( e ) {
     return false;
 });
 
-var isNewAlbum, isPosterImageSettedAutomatically;
+var isNewAlbum, isPost, isPosterImageSettedAutomatically;
 var input, loading, result, uploadButton, uploadThumbProto, uploadThumbs, uploadThumbsStr;
 
 var uploaderURL = "/uploader/image";//this should be set with environment variables
 var albumManagerURL = "/albums";//this should be set with environment variables
 var imageManagerURL = "/images";
 var userManagerURL = "/account/users";//this should be set with environment variables
+var contentServiceURL = "content-service/v1/content";// this should be set with environment variables
 var uploaded = 0;
 var filesIndex = 0;
 var bannerAlbumBool = false;
@@ -167,6 +172,14 @@ function setVar() {
         uploadThumbProto = $("#album-upload-thumb-proto");
         uploadThumbs = $("#album-upload-thumbs");
         uploadThumbsStr = "#album-upload-thumbs";
+    } else if (isPost){
+        input = $("post-add-photo");
+        loading = $("#post-loading");
+        result = $("#post-result");
+        uploadButton = $("#add-post-button");
+        uploadThumbProto = $("#post-upload-thumb-proto");
+        uploadThumbs = $("#post-upload-thumbs");
+        uploadThumbsStr = "#post-upload-thumbs";
     } else {
         input = $("#add-photo-input");
         loading = $("#photos-loading");
@@ -336,7 +349,7 @@ function manageUpload(albumID){
     for(filesIndex = 0; filesIndex < photoInputLength; filesIndex++) {
         var file = input.prop('files')[filesIndex];
         var thumbID = "upload-thumb-" + $('.upload-thumb').length;
-        filesPromise[filesIndex]= new Promise( function (resolve, reject) {
+        filesPromise[filesIndex] = new Promise( function (resolve, reject) {
             uploadFile("#" + thumbID, file, albumID, resolve, reject);
         });
         if(bannerAlbumBool) {
@@ -486,6 +499,68 @@ function setAlbumPosterImage(imageID, album_id, container) {
             }
             posterBannerImage = true;
             $("#albums").load(location.href+" #albums>*","");
+        }
+    });
+}
+
+/*****************--------start content service section----------*****************/
+
+function createPost(event){
+    event.preventDefault();
+    isPost = true;
+    setVar();
+
+    var data = {
+        "title": $("#post-title").val(),
+        "body": $("#post-body").val(),
+        "photo": $("#post-photo").val(),
+        "author": $("#post-author").val(),
+        "extract": $("#post-extract").val(),
+        "location": $("#post-location").val()
+    };
+
+    loading.show();
+    uploadThumbProto.show();
+
+    postPromise = new Promise(function (resolve, reject) {
+        uploadPost(data, resolve, reject);
+    });
+
+    postPromise.then((successMessage) => {
+        uploadThumbProto.hide();
+        uploadButton.hide();
+        $("#album-upload").find(".label").hide();
+        loading.html("Post Upload Done");
+
+        console.log(successMessage);
+    });
+}
+
+function uploadPost(data, resolve, reject){
+
+    $.ajax({
+        type: "POST",
+        url: contentServiceURL,
+        data: JSON.stringify(data),
+        cache: false,
+        contentType: false,
+        processData: false,
+        success: function (resp) {
+            if (resp.name === "StatusCodeError") {
+                loading.html("Error Trying To Upload: " + resp.message);
+                console.log("Error Trying To Upload: " + resp.message);
+                reject("Error Trying To Upload: " + resp.message);
+            } else {
+                console.log(resp);
+            }
+        },
+        error: function (response) {
+            console.log("There is an error:" + response.message);
+            loading.html("There is an error:" + response.message);
+            reject("There is an error:" + response.message);
+        },
+        complete: function () {
+            return resolve("Upload complete!");
         }
     });
 }

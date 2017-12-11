@@ -143,6 +143,7 @@ class UserManager {
         }
 
         $this->setUserData($user);
+        $this->userID = $user->id;
 
         return $this;
     }
@@ -183,7 +184,7 @@ class UserManager {
      *
      * Set the member variables with the values from $user
      */
-    private function setUserData($user) {
+    protected function setUserData($user) {
         $this->setEmail($user->email);
 
         if (isset($user->name)) {

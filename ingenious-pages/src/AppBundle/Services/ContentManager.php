@@ -32,10 +32,10 @@ class ContentManager {
     private $client = null;
 
     /**
-     * PhotoManager constructor.
+     * ContentManager constructor.
      */
     public function __construct() {
-        $this->articlesPath = "http://localhost/content-service/v1/content"; //getenv("ARTICLES_PATH");
+        $this->articlesPath = getenv("ARTICLES_PATH");
     }
 
     /**

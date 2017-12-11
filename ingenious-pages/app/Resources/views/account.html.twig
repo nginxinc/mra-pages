@@ -38,14 +38,14 @@
                     <div id="notification"></div>
                     <form id="account-manager" method="put" class="form-horizontal" action="{{ userManager }}">
                         <div class="form-group">
-                            <label class="col-xs-4 col-sm-3 col-sm-offset-1 control-label">Name</label>
+                            <label class="col-xs-4 col-sm-3 col-sm-offset-1 control-label" for="name">Name</label>
                             <div class="col-xs-8">
                                 <input name="name" id="name" class="form-control" type="text" pattern="[A-Za-z0-9\'\-\ ]+" required="required" maxlength="31" value="{{ name }}">
                             </div>
                         </div>
 
                         <div class="form-group">
-                            <label class="col-xs-4 col-sm-3 col-sm-offset-1 control-label">Email</label>
+                            <label class="col-xs-4 col-sm-3 col-sm-offset-1 control-label" for="email">Email</label>
                             <div class="col-xs-8">
                                 <input name="email" id="email" type="text" class="form-control" pattern="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+(?:[A-Z]{2}|com|org|net|gov|mil|biz|info|mobi|name|aero|jobs|museum)\b" required="required" maxlength="128" value="{{ email }}">
                             </div>

@@ -1,0 +1,6 @@
+# This file is auto-generated during the composer install
+parameters:
+    user_manager_class: AppBundle\Services\UserManagerMockTest
+    photo_manager_class: AppBundle\Services\PhotoManagerMockTest
+    content_manager_class: AppBundle\Services\ContentManagerMockTest
+    photo_uploader_class: AppBundle\Services\PhotoUploader

@@ -1,6 +1,6 @@
 FROM php:7.0.5-fpm
 
-ARG CONTAINER_ENGINE
+ARG CONTAINER_ENGINE_ARG
 ENV USE_NGINX_PLUS=true \
     USE_VAULT=false \
     SYMFONY_ENV=prod \
@@ -9,7 +9,7 @@ ENV USE_NGINX_PLUS=true \
 # - kubernetes
 # - mesos (default)
 # - local
-    CONTAINER_ENGINE=${CONTAINER_ENGINE:-kubernetes}
+    CONTAINER_ENGINE=${CONTAINER_ENGINE_ARG:-kubernetes}
 
 COPY nginx/ssl /etc/ssl/nginx/
 # Get other files required for installation
@@ -23,7 +23,8 @@ RUN apt-get update && apt-get install -y \
     unzip \
     ca-certificates \
     nodejs \
-    npm
+    npm \
+    phpunit
 
 # Install NGINX Plus
 COPY nginx /etc/nginx/
@@ -49,7 +50,9 @@ RUN cd /ingenious-pages && \
     npm install gulp-cli -g && \
     npm install gulp -D && \
     npm install gulp-less -D && \
-    gulp less
+    gulp less && \
+    cd /ingenious-pages && \
+    phpunit -v
 
 COPY php5-fpm.conf /etc/php5/fpm/php-fpm.conf
 COPY php.ini /usr/local/etc/php/

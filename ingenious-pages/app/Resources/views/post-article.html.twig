@@ -12,10 +12,10 @@
             {% block hero %}
             <div class="post-hero-banner">
                 <div class="post-header">
-                    <img class="post-featured-image" src="{{ article[0].photo }}">
+                    <img class="post-featured-image" src="{{ article.photo }}">
 
                     <div class="single-post-title">
-                        <h1>{{ article[0].title }}</h1>
+                        <h1>{{ article.title }}</h1>
                         <div class="post-navigation">
                             <div class="post-prev">
                                 <a href="#"><img src="{{ asset('bundles/ingenious/images/arrow-left.png') }}" alt="Author"></a>
@@ -29,14 +29,14 @@
                     <div class="single-post-meta">
                         <div class="author-meta">
                             <img class="pull-left" src="{{ asset('bundles/ingenious/images/author-avatar.png') }}" alt="Author">
-                            <h4 class="pull-left">{{ article[0].author }}</h4>
+                            <h4 class="pull-left">{{ article.author }}</h4>
                         </div>
                         <div class="date-meta pull-left">
-                            <p> <time datetime="01-13-16">{{ article[0].date | date("m/d/Y") }} </time> </p>
+                            <p> <time datetime="01-13-16">{{ article.date | date("m/d/Y") }} </time> </p>
                         </div>
                         <div class="place-meta">
                             <img class="pull-left" src="{{ asset('bundles/ingenious/images/icon-map-marker.png') }}" alt="Location">
-                            <h4 class="pull-left">{{ article[0].location }}</h4>
+                            <h4 class="pull-left">{{ article.location }}</h4>
                         </div>
                     </div>
                 </div>
@@ -45,7 +45,7 @@
             {% block article %}
             <div class="post-content">
                 <div class="content-inner">
-                    <p>{{ article[0].body }}</p>
+                    <p>{{ article.body }}</p>
                 </div>
 
             </div>

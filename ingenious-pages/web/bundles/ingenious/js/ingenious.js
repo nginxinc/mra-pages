@@ -17,10 +17,6 @@ $(document).ready(function() {
         setVar();
         bannerAlbumBool = true;
         uploadBanner(event);
-        $("#albums").load(location.href+" #albums>*","");
-        $("#photos-list-existent-albums").load(location.href+" #photos-list-existent-albums>*","");
-        $("#delete-list-existent-albums").load(location.href+" #delete-list-existent-albums>*","");
-        $("#all-images-cover").load(location.href+" #all-images-cover>*","");
     });
 
     $("#photo-upload").submit(function(event) {
@@ -28,15 +24,10 @@ $(document).ready(function() {
         setVar();
         bannerAlbumBool = true;
         uploadBanner(event);
-        $("#all-images-cover").load(location.href+" #all-images-cover>*","");
     });
 
     $("#album-delete").submit(function(event) {
         deleteAlbum(event);
-        $("#delete-list-existent-albums").load(location.href+" #delete-list-existent-albums>*","");
-        $("#photos-list-existent-albums").load(location.href+" #photos-list-existent-albums>*","");
-        $("#albums").load(location.href+" #albums>*","");
-        $("#all-images-cover").load(location.href+" #all-images-cover>*","");
     });
 
     $("#add-cover-button").click(function() {
@@ -293,6 +284,10 @@ function deleteAlbum(event) {
                 var deleteInfo = $("#delete-info");
                 deleteInfo.show();
                 deleteInfo.html("Album deleted.");
+                $("#delete-list-existent-albums").load(location.href+" #delete-list-existent-albums>*","");
+                $("#photos-list-existent-albums").load(location.href+" #photos-list-existent-albums>*","");
+                $("#albums").load(location.href+" #albums>*","");
+                $("#all-images-cover").load(location.href+" #all-images-cover>*","");
             }
         });
     }
@@ -349,6 +344,9 @@ function manageUpload(albumID){
         uploadButton.hide();
         $("#album-upload").find(".label").hide();
         loading.append("<br/>Click on an image to set the photo album poster image.");
+        $("#photos-list-existent-albums").load(location.href+" #photos-list-existent-albums>*","");
+        $("#delete-list-existent-albums").load(location.href+" #delete-list-existent-albums>*","");
+        $("#all-images-cover").load(location.href+" #all-images-cover>*","");
     }).catch(function (error){
         if (isNewAlbum) {
             var albumURL = albumManagerURL + "/" + albumID;

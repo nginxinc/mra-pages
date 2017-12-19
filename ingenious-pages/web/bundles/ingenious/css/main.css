@@ -101,6 +101,9 @@ h6 {
   font-size: .75em;
   margin: 1.67em 0;
 }
+textarea {
+  resize: none;
+}
 .login-btn {
   border: 0.071em solid #01DD60;
   color: #01DD60;
@@ -639,6 +642,17 @@ footer.colophon-bottom {
   letter-spacing: 0.024em;
   max-width: 17.619em;
   width: 100%;
+}
+.profile-update-form .post-body {
+  border-radius: 0;
+  font-family: "aktiv_grotesk_thin", sans-serif;
+  font-size: 1.313em;
+  height: 8em;
+  letter-spacing: 0.024em;
+  max-width: 30em;
+  width: 100%;
+  overflow-y: scroll;
+  padding: 6px 12px;
 }
 .profile-update-form .update-pp input {
   height: 2.857em;
@@ -1639,6 +1653,38 @@ form .upload-thumb {
   padding-top: 0.833em;
   text-align: center;
 }
+.create-post {
+  background: rgba(0, 0, 0, 0.9) none repeat scroll 0 0;
+  left: 0;
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  z-index: 9999;
+  transition: all .3s;
+}
+.create-post .profile-update-form {
+  margin-top: 3.571em;
+}
+.create-post .profile-update-form .update-account {
+  display: block;
+  float: none;
+  margin: 0.976em auto;
+  width: 7.073em;
+}
+.create-post .profile-update-form .update-pp span {
+  left: 0;
+  top: 0;
+}
+.create-post .page-title {
+  color: #FFFFFF;
+  font-family: "aktiv_grotesk_hair", sans-serif;
+  font-size: 2.857em;
+  line-height: 1.267em;
+  margin-bottom: 1em;
+  padding-top: 0.833em;
+  text-align: center;
+}
 .select-album {
   margin: 0;
   padding: 0;
@@ -1700,6 +1746,10 @@ input[type="file"] > input[type="button"]::-moz-focus-inner {
   opacity: 0;
   display: none;
 }
+.create-post.close {
+  opacity: 0;
+  display: none;
+}
 .add-photo.open {
   display: block;
   opacity: 1;
@@ -1719,6 +1769,12 @@ input[type="file"] > input[type="button"]::-moz-focus-inner {
   overflow: auto;
 }
 .delete-album.open {
+  display: block;
+  opacity: 1;
+  z-index: 999999;
+  overflow: auto;
+}
+.create-post.open {
   display: block;
   opacity: 1;
   z-index: 999999;
@@ -2105,6 +2161,11 @@ input[type="file"] > input[type="button"]::-moz-focus-inner {
     height: 28px;
     letter-spacing: 0.3px;
   }
+  .profile-update-form .post-body {
+    font-size: 14px;
+    height: 28px;
+    letter-spacing: 0.3px;
+  }
   .profile-update-form .small-pp {
     width: 50px;
   }
@@ -2348,6 +2409,35 @@ input[type="file"] > input[type="button"]::-moz-focus-inner {
     font-size: 0.3em;
   }
   .delete-album .page-title {
+    font-size: 1.3em;
+    padding-top: 1em;
+  }
+  .create-post {
+    font-size: 30px;
+    letter-spacing: 2px;
+    line-height: 50px;
+    padding-top: 0;
+    height: 100vh;
+  }
+  .create-post .profile-update-form {
+    margin-top: 0;
+  }
+  .create-post .profile-update-form .form-group {
+    margin: 0 0 0.3em;
+  }
+  .create-post .profile-update-form .control-label {
+    font-size: 0.6em;
+    line-height: 1.5em;
+  }
+  .create-post .profile-update-form .update-account {
+    margin: 0.6em;
+    width: 85%;
+    text-align: center;
+  }
+  .create-post .profile-update-form .update-account button {
+    font-size: 0.3em;
+  }
+  .create-post .page-title {
     font-size: 1.3em;
     padding-top: 1em;
   }

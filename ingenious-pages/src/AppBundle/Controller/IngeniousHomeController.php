@@ -96,7 +96,8 @@ class IngeniousHomeController extends Controller {
             [
                 'uploader' => $this->getPhotoUploader()->getUploaderPath(),
                 'authenticated' => isset($_COOKIE["auth_token"]) && ($_COOKIE["expires_at"]) > time(),
-                'articles' => $articles
+                'articles' => $articles,
+                'contentManager' => $this->getContentManager()->getContentPath()
             ]
         );
     }
@@ -163,7 +164,8 @@ class IngeniousHomeController extends Controller {
                     'coverPicturesID' => $this->coverPicturesID,
                     'profilePicturesID' => $this->profilePicturesID,
                     'profilePicture' => $this->profilePicture,
-                    'userManager' => trim( $this->user->getLocalUserPath() ) . "/" . $this->user->getUserID()
+                    'userManager' => trim( $this->user->getLocalUserPath() ) . "/" . $this->user->getUserID(),
+                    'contentManager' => $this->getContentManager()->getContentPath()
                 ]
             );
         } else {
@@ -192,7 +194,8 @@ class IngeniousHomeController extends Controller {
             [
                 'uploader' => $this->getPhotoUploader()->getUploaderPath(),
                 'authenticated' => isset($_COOKIE["auth_token"]) && ($_COOKIE["expires_at"]) > time(),
-                'article' => $article
+                'article' => $article,
+                'contentManager' => $this->getContentManager()->getContentPath()
             ]
         );
     }
@@ -219,7 +222,8 @@ class IngeniousHomeController extends Controller {
             '/login.html.twig',
             [
                 'uploader' => $this->getPhotoUploader()->getUploaderPath(),
-                'authenticated' => $isAuthenticated
+                'authenticated' => $isAuthenticated,
+                'contentManager' => $this->getContentManager()->getContentPath()
             ]
         );
     }
@@ -277,7 +281,8 @@ class IngeniousHomeController extends Controller {
                 '/login.html.twig',
                 [
                     'uploader' => $this->getPhotoUploader()->getUploaderPath(),
-                    'authenticated' => $isAuthenticated
+                    'authenticated' => $isAuthenticated,
+                    'contentManager' => $this->getContentManager()->getContentPath()
                 ]
             );
         }
@@ -297,7 +302,8 @@ class IngeniousHomeController extends Controller {
             '/about.html.twig',
             [
                 'uploader' => $this->getPhotoUploader()->getUploaderPath(),
-                'authenticated' => isset($_COOKIE["auth_token"]) && ($_COOKIE["expires_at"]) > time()
+                'authenticated' => isset($_COOKIE["auth_token"]) && ($_COOKIE["expires_at"]) > time(),
+                'contentManager' => $this->getContentManager()->getContentPath()
             ]
         );
     }
@@ -362,7 +368,8 @@ class IngeniousHomeController extends Controller {
                     'profilePicturesID' => $this->profilePicturesID,
                     'profilePicture' => $this->profilePicture,
                     'uploader' => $this->getPhotoUploader()->getUploaderPath(),
-                    'images' => $images
+                    'images' => $images,
+                    'contentManager' => $this->getContentManager()->getContentPath()
                 ]
             );
         } else {

@@ -121,6 +121,9 @@ h6 {
     font-size: .75em;
     margin: 1.67em 0;
 }
+textarea {
+    resize: none;
+}
 .login-btn {
     border: 0.071em solid @color_2;
     color: @color_2;
@@ -669,6 +672,17 @@ footer.colophon-bottom {
         letter-spacing: 0.024em;
         max-width: 17.619em;
         width: 100%;
+    }
+    .post-body {
+        border-radius: 0;
+        font-family: @font_family_3;
+        font-size: 1.313em;
+        height: 8em;
+        letter-spacing: 0.024em;
+        max-width: 30em;
+        width: 100%;
+        overflow-y: scroll;
+        padding: 6px 12px;
     }
     .update-pp {
         input {
@@ -1730,6 +1744,40 @@ form {
         text-align: center;
     }
 }
+.create-post {
+    background: rgba(0, 0, 0, 0.9) none repeat scroll 0 0;
+    left: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    z-index: 9999;
+    transition: all .3s;
+    .profile-update-form {
+        margin-top: 3.571em;
+        .update-account {
+            display: block;
+            float: none;
+            margin: 0.976em auto;
+            width: 7.073em;
+        }
+        .update-pp {
+            span {
+                left: 0;
+                top: 0;
+            }
+        }
+    }
+    .page-title {
+        color: @color_1;
+        font-family: @font_family_2;
+        font-size: 2.857em;
+        line-height: 1.267em;
+        margin-bottom: 1em;
+        padding-top: 0.833em;
+        text-align: center;
+    }
+}
 .select-album {
     margin: 0;
     padding: 0;
@@ -1805,6 +1853,10 @@ input[type="file"] {
     opacity: 0;
     display: none;
 }
+.create-post.close {
+    opacity: 0;
+    display: none;
+}
 .add-photo.open {
     display: block;
     opacity: 1;
@@ -1824,6 +1876,12 @@ input[type="file"] {
     overflow: auto;
 }
 .delete-album.open {
+    display: block;
+    opacity: 1;
+    z-index: 999999;
+    overflow: auto;
+}
+.create-post.open {
     display: block;
     opacity: 1;
     z-index: 999999;

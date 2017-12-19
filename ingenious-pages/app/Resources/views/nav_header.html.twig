@@ -24,6 +24,7 @@
             <li class="nav-item"><a href="#" class="add-album-btn">New Album</a></li>
             <li class="nav-item"><a href="#" class="add-photo-btn">Add Photo</a></li>
             <li class="nav-item"><a href="#" class="delete-album-btn">Delete Album</a></li>
+            <li class="nav-item"><a href="#" class="create-post-btn">Create Post</a></li>
         </ul>
     </nav><!--./Offcanvas Right Nav-->
 {% endblock %}
@@ -175,6 +176,65 @@
             </div>
         </div>
     </div> <!-- Delete album form end -->
+
+    <!-- New Post form -->
+    <div id="add-post" class="create-post close">
+        <div class="profile-update-form">
+            <h1 class="page-title">Create Post</h1>
+            <form id="create-post" action="{{ contentManager }}" method="post" class="form-horizontal">
+                <div class="form-group">
+                    <label class="col-xs-4 col-sm-3 col-sm-offset-1 control-label">Title</label>
+                    <div class="col-xs-8">
+                        <input name="title" id="post-title" type="text" class="form-control" required="required" maxlength="128">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-4 col-sm-3 col-sm-offset-1 control-label">Body</label>
+                    <div class="col-xs-8">
+                        <textarea name="body" id="post-body" type="text" class="post-body" required="required"></textarea>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-4 col-sm-3 col-sm-offset-1 control-label">Photo</label>
+                    <div class="col-xs-8">
+                        <input name="photo" id="post-photo" type="text" class="form-control" required="required" maxlength="128">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-4 col-sm-3 col-sm-offset-1 control-label">Author</label>
+                    <div class="col-xs-8">
+                        <input name="author" id="post-author" type="text" class="form-control" required="required" maxlength="128">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-4 col-sm-3 col-sm-offset-1 control-label">Excerpt</label>
+                    <div class="col-xs-8">
+                        <input name="extract" id="post-extract" type="text" class="form-control" required="required" maxlength="128">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-4 col-sm-3 col-sm-offset-1 control-label">Location</label>
+                    <div class="col-xs-8">
+                        <input name="location" id="post-location" type="text" class="form-control" required="required" maxlength="128">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-12 update-account">
+                        <button class="btn" id="add-post-button" type="submit">Create Post</button>
+                    </div>
+                    <label class="col-sm-offset-1 control-label" id="post-loading"></label><br>
+                    <div class="result" id="post-result"></div>
+                    <div class="post-upload-thumb"  id="post-upload-thumb-proto">
+                        <img alt='animation' src='{{ asset('bundles/ingenious/images/uploading.gif', version='1.0') }}'>
+                        <div class="control-label file-size"></div>
+                    </div>
+                </div>
+            </form>
+            <div class="cancel-upload">
+                <a href="#"><img src="{{ asset('bundles/ingenious/images/nav-close-light.png') }}"></a>
+            </div>
+        </div>
+    </div> <!-- Create post form end -->
 
     {% if "/app_dev.php/myphotos" == path(app.request.attributes.get('_route'),
                     app.request.attributes.get('_route_params')) or "/myphotos" == path(app.request.attributes.get('_route'),

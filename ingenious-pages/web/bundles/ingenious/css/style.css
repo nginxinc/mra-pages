@@ -1238,7 +1238,6 @@ form .upload-thumb {
   opacity: 1;
 }
 .single-album.hero-banner {
-  background: rgba(0, 0, 0, 0) url("../images/single-album-cover.png") no-repeat scroll center center / cover;
   height: 21.429em;
   padding-top: 10.714em;
   position: relative;

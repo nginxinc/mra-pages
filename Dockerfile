@@ -1,8 +1,11 @@
 FROM php:7.0.5-fpm
 
 ARG CONTAINER_ENGINE_ARG
-ENV USE_NGINX_PLUS=true \
-    USE_VAULT=false \
+ARG USE_NGINX_PLUS_ARG
+ARG USE_VAULT_ARG
+
+ENV USE_NGINX_PLUS=${USE_NGINX_PLUS_ARG:-true} \
+    USE_VAULT=${USE_VAULT_ARG:-false} \
     SYMFONY_ENV=prod \
 # CONTAINER_ENGINE specifies the container engine to which the
 # containers will be deployed. Valid values are:

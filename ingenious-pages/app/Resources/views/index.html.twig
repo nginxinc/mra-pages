@@ -55,7 +55,7 @@
                             <div class="entry-thumb" style="background-image: url('{{ article.photo }}');"></div>
                             <div class="entry-inner">
                                 <div class="entry-content">
-                                    <h2 class="entry-title"><a href="/stories/{{ article.id }}/{{ article.title | lower | replace({' ':'-', "'":''}) }}">{{ article.title }}</a></h2>
+                                    <h2 class="entry-title"><a href="/stories/{{ article.id }}">{{ article.title }}</a></h2>
                                     <div class="entry-excerpt">
                                         <p>{{ article.extract }}</p>
                                         <a href="/stories/{{ article.id }}/{{ article.title | lower | replace({' ':'-', "'":''}) }}" class="more-link">Read More</a>

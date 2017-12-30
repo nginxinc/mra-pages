@@ -186,7 +186,7 @@ class IngeniousHomeController extends Controller {
     public function storiesAction($articleID) {
 
         // get the article with the specified ID
-        $article = $this->getContentManager()->getArticle($articleID);
+        $article = (array) $this->getContentManager()->getArticle($articleID);
 
         // render the post-article.html.twig file with the specified parameters
         return $this->render(
@@ -194,7 +194,7 @@ class IngeniousHomeController extends Controller {
             [
                 'uploader' => $this->getPhotoUploader()->getUploaderPath(),
                 'authenticated' => isset($_COOKIE["auth_token"]) && ($_COOKIE["expires_at"]) > time(),
-                'article' => $article,
+                'article' => empty($article) ? [] : $article[0],
                 'contentManager' => $this->getContentManager()->getContentPath()
             ]
         );

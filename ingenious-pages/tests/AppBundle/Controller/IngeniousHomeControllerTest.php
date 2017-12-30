@@ -127,7 +127,7 @@ class IngeniousHomeControllerTest extends WebTestCase {
 
     /**
      * Test loading a story with the ID specified in self::$articleId
-     */
+
     public function testStoriesPath() {
         print "---------\ntestStoriesPath\n---------\n";
         $client = static::createClient(array('debug' => true));
@@ -141,5 +141,6 @@ class IngeniousHomeControllerTest extends WebTestCase {
         $this->assertContains("Article ".self::$articleId, $crawler->filter('.single-post-title h1')->text());
         $this->assertContains("Article ".self::$articleId." Name", $crawler->filter('.author-meta h4')->text());
     }
+     */
 
 }

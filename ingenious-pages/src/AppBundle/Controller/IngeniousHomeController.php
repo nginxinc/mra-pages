@@ -462,7 +462,7 @@ class IngeniousHomeController extends Controller {
 
             // check whether there is a PhotoManager object
             if($this->photoManager == null) {
-                $photoManagerClass = $this->container->getParameter('photo_manager_class');
+                $photoManagerClass = $this->getParameter('photo_manager_class');
                 $this->photoManager = new $photoManagerClass($this->authID);
             }
             return $this->photoManager;
@@ -481,7 +481,7 @@ class IngeniousHomeController extends Controller {
         // if the contentManager variable is null, instantiate a new
         // ContentManager
         if($this->contentManager == null) {
-            $contentManagerClass = $this->container->getParameter('content_manager_class');
+            $contentManagerClass = $this->getParameter('content_manager_class');
             $this->contentManager = new $contentManagerClass();
         }
         return $this->contentManager;
@@ -516,7 +516,7 @@ class IngeniousHomeController extends Controller {
 
         // check whether the photoUploader is null
         if($this->photoUploader == null) {
-            $photoUploaderClass = $this->container->getParameter('photo_uploader_class');
+            $photoUploaderClass = $this->getParameter('photo_uploader_class');
             // create a new PhotoUploader object
             $this->photoUploader = new $photoUploaderClass();
         }
@@ -536,7 +536,7 @@ class IngeniousHomeController extends Controller {
         // if the UserManager is null, create a new one using one or both
         // parameters
         if($this->userManager == null) {
-            $userManagerClass = $this->container->getParameter('user_manager_class');
+            $userManagerClass = $this->getParameter('user_manager_class');
             $this->userManager = new $userManagerClass($authID, $email);
         }
         return $this->userManager;

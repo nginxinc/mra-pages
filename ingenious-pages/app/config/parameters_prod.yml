@@ -1,0 +1,7 @@
+# This file is auto-generated during the composer install
+parameters:
+    secret: prodSecretTokenDontLoseIt
+    user_manager_class: AppBundle\Services\UserManager
+    photo_manager_class: AppBundle\Services\PhotoManager
+    content_manager_class: AppBundle\Services\ContentManager
+    photo_uploader_class: AppBundle\Services\PhotoUploader

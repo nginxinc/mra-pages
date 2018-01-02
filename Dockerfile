@@ -44,8 +44,6 @@ COPY ingenious-pages/ /ingenious-pages
 
 RUN cd /ingenious-pages && \
     php composer.phar install --no-dev --optimize-autoloader && \
-    ln -sf /dev/stdout /ingenious-pages/app/logs/prod.log && \
-#    ln -sf /dev/stdout /ingenious-pages/app/logs/dev.log && \
     ln -s /usr/bin/nodejs /usr/bin/node && \
     chown -R nginx:www-data /ingenious-pages/ && \
     chmod -R 775 /ingenious-pages && \

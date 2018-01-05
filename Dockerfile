@@ -4,17 +4,18 @@ ARG CONTAINER_ENGINE_ARG
 ARG USE_NGINX_PLUS_ARG
 ARG USE_VAULT_ARG
 
+# CONTAINER_ENGINE specifies the container engine to which the
+# containers will be deployed. Valid values are:
+# - kubernetes (default)
+# - mesos
+# - local
 ENV USE_NGINX_PLUS=${USE_NGINX_PLUS_ARG:-true} \
     USE_VAULT=${USE_VAULT_ARG:-false} \
     SYMFONY_ENV=prod \
-# CONTAINER_ENGINE specifies the container engine to which the
-# containers will be deployed. Valid values are:
-# - kubernetes
-# - mesos (default)
-# - local
     CONTAINER_ENGINE=${CONTAINER_ENGINE_ARG:-kubernetes}
 
 COPY nginx/ssl /etc/ssl/nginx/
+
 # Get other files required for installation
 RUN apt-get update && apt-get install -y \
     wget \
@@ -29,14 +30,12 @@ RUN apt-get update && apt-get install -y \
     npm \
     phpunit
 
-# Install NGINX Plus
+# Install NGINX and forward request logs to Docker log collector
 COPY nginx /etc/nginx/
 ADD install-nginx.sh /usr/local/bin/
 RUN /usr/local/bin/install-nginx.sh && \
-# forward request logs to Docker log collector
     ln -sf /dev/stdout /var/log/nginx/access_log && \
     ln -sf /dev/stderr /var/log/nginx/error_log && \
-# Install XDebug
     yes | pecl install xdebug
 
 # install application

@@ -420,6 +420,9 @@ class IngeniousHomeController extends Controller {
             // retrieve the catalog for the user
             $catalog = $this->getPhotoManager($request)->getCatalog();
 
+            // get all the articles
+            $articles = $this->getContentManager()->getArticles();
+
             // render the account.html.twig template with the specified
             // parameters
             return $this->render(
@@ -437,6 +440,7 @@ class IngeniousHomeController extends Controller {
                     'bannerAlbumID' => $this->bannerAlbumID,
                     'bannerPosterID' => $this->bannerPosterID,
                     'catalog' => $catalog,
+                    'articles' => $articles,
                     'profilePicturesID' => $this->profilePicturesID,
                     'coverPicturesID' => $this->coverPicturesID,
                     'profilePicture' => $this->profilePicture

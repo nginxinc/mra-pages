@@ -161,6 +161,53 @@
         $("body").removeClass("hide-overflow");
     });
 
+    // Select post
+    $(".select-post-btn").click(function() {
+        $("#select-post-id").val("undefined");
+        var deleteInfo = $("#post-delete-info");
+        deleteInfo.empty();
+        deleteInfo.hide();
+        $(".select-post").toggleClass("open");
+        $("body").toggleClass("hide-overflow");
+        $(".delete-post-btn").attr("disabled","true");
+        $("#edit-post-btn").attr("disabled","true");
+    });
+
+    $(".select-post .cancel-upload").click(function() {
+        $(".select-post").removeClass("open");
+        $("body").removeClass("hide-overflow");
+    });
+
+    $("#delete-list-existent-posts").on('change', '#select-post-id', function() {
+        // Enable delete and edit buttons if value of option is defined
+        console.log("There was a change");
+        if ($("#select-post-id").val() != "undefined"){
+            $(".delete-post-btn").removeAttr("disabled");
+            $("#edit-post-btn").removeAttr("disabled","true");
+        }
+        else {
+            $(".delete-post-btn").attr("disabled","true");
+            $("#edit-post-btn").attr("disabled","true");
+        }
+    });
+
+    // Edit post
+    // Creating of modal done in injenious.js
+
+    $(".edit-post .cancel-upload").click(function () {
+        $(".edit-post").removeClass("open");
+        $("body").removeClass("hide-overflow");
+    });
+
+    $(".edit-post .back-to-post").click(function () {
+        $("#select-post-id").val("undefined");
+        $(".edit-post").removeClass("open");
+        $(".select-post").toggleClass("open");
+        var deleteInfo = $("#post-delete-info");
+        deleteInfo.empty();
+        deleteInfo.hide();
+    });
+
     // Add cover
     $(".add-cover-btn").click(function() {
         $(".cover-thumb").css({"border-width":"0px"});

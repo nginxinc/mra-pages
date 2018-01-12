@@ -1777,6 +1777,129 @@ form {
         text-align: center;
     }
 }
+.select-post {
+    background: rgba(0, 0, 0, 0.9) none repeat scroll 0 0;
+    left: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    z-index: 9999;
+    transition: all .3s;
+    .profile-update-form {
+        margin-top: 3.571em;
+        .update-account {
+            display: block;
+            float: none;
+            margin: 0.976em auto;
+            width: 7.073em;
+        }
+        .update-pp {
+            span {
+                left: 0;
+                top: 0;
+            }
+        }
+    }
+    .page-title {
+        color: @color_1;
+        font-family: @font_family_2;
+        font-size: 2.857em;
+        line-height: 1.267em;
+        margin-bottom: 1em;
+        padding-top: 0.833em;
+        text-align: center;
+    }
+}
+.edit-post {
+    background: rgba(0, 0, 0, 0.9) none repeat scroll 0 0;
+    left: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    z-index: 9999;
+    transition: all .3s;
+    .profile-update-form {
+        margin-top: 3.571em;
+        .update-account {
+            display: block;
+            float: none;
+            margin: 0.976em auto;
+            width: 19.073em;
+        }
+        .update-pp {
+            span {
+                left: 0;
+                top: 0;
+            }
+        }
+        .delete-post-btn {
+            float: right;
+        }
+    }
+    .page-title {
+        color: @color_1;
+        font-family: @font_family_2;
+        font-size: 2.857em;
+        line-height: 1.267em;
+        margin-bottom: 1em;
+        padding-top: 0.833em;
+        text-align: center;
+    }
+}
+.delete-post-btn {
+    background: transparent none repeat scroll 0 0;
+    border: 0.071em solid @color_6;
+    border-radius: 0;
+    color: @color_6;
+    font-family: @font_family_3;
+    font-size: 1em;
+    letter-spacing: 0.071em;
+    padding: 0.429em 0.429em;
+    text-transform: uppercase;
+    height: 2em;
+    margin-top: .25em;
+      &:hover {
+        background: transparent none repeat scroll 0 0;
+        border: 0.071em solid @color_6;
+        border-radius: 0;
+        color: @color_6;
+        font-family: @font_family_3;
+        font-size: 1em;
+        letter-spacing: 0.071em;
+        padding: 0.429em 0.429em;
+        text-transform: uppercase;
+        height: 2em;
+        margin-top: .25em;
+      }
+      &:visited {
+        background: transparent none repeat scroll 0 0;
+        border: 0.071em solid @color_6;
+        border-radius: 0;
+        color: @color_6;
+        font-family: @font_family_3;
+        font-size: 1em;
+        letter-spacing: 0.071em;
+        padding: 0.429em 0.429em;
+        text-transform: uppercase;
+        height: 2em;
+        margin-top: .25em;
+      }
+      &:focus {
+        background: transparent none repeat scroll 0 0;
+        border: 0.071em solid @color_6;
+        border-radius: 0;
+        color: @color_6;
+        font-family: @font_family_3;
+        font-size: 1em;
+        letter-spacing: 0.071em;
+        padding: 0.429em 0.429em;
+        text-transform: uppercase;
+        height: 2em;
+        margin-top: .25em;
+      }
+}
 .select-album {
     margin: 0;
     padding: 0;
@@ -1788,6 +1911,16 @@ form {
     position: fixed;
     top: 2.381em;
     right: 2.381em;
+    img {
+        display: block;
+        margin: 0 auto;
+        width: 1.429em;
+    }
+}
+.back-to-post {
+    position: fixed;
+    top: 2.381em;
+    left: 2.381em;
     img {
         display: block;
         margin: 0 auto;
@@ -1856,6 +1989,14 @@ input[type="file"] {
     opacity: 0;
     display: none;
 }
+.select-post.close {
+    opacity: 0;
+    display: none;
+}
+.edit-post.close {
+    opacity: 0;
+    display: none;
+}
 .add-photo.open {
     display: block;
     opacity: 1;
@@ -1881,6 +2022,18 @@ input[type="file"] {
     overflow: auto;
 }
 .create-post.open {
+    display: block;
+    opacity: 1;
+    z-index: 999999;
+    overflow: auto;
+}
+.select-post.open {
+    display: block;
+    opacity: 1;
+    z-index: 999999;
+    overflow: auto;
+}
+.edit-post.open {
     display: block;
     opacity: 1;
     z-index: 999999;

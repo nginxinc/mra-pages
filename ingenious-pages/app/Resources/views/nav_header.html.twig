@@ -31,15 +31,6 @@
 {% endblock %}
 
 {% block header_hero %}
-    {# <script> Remove for push of code!!!!!!
-    {% if articles is defined %}
-        var articles = {{ articles|json_encode|raw }};
-        console.log(articles);
-        {% for article in articles %} 
-            console.log({{ article.body }});
-        {% endfor %}
-    {% endif %}
-    </script> #}
     <header class="fixed-top-header">
         <div class="nav-btn main-nav-btn">
             <a href="#"><img src="{{ asset('bundles/ingenious/images/hamburger.png') }}"></a>
@@ -252,7 +243,7 @@
             <h1 class="page-title">Edit Post</h1>
             <form id="post-select" class="form-horizontal">
                 <div class="form-group">
-                    <label class="col-xs-4 col-sm-3 col-sm-offset-1 control-label">Album</label>
+                    <label class="col-xs-4 col-sm-3 col-sm-offset-1 control-label">Post</label>
                     <div class="col-xs-6">
                         <div id="delete-list-existent-posts" class="col-sm-12 select-album">
                             <select class="form-control" id="select-post-id">
@@ -265,9 +256,7 @@
                             </select>
                         </div>
                     </div>
-                    {# <div class="col-md-12"> #}
-                        <button class="btn delete-post-btn" type="submit"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button>
-                    {# </div> #}
+                    <button class="btn delete-post-btn" type="submit"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button>
                 </div>
                 <div class="form-group">
                     <div class="col-md-12 update-account">

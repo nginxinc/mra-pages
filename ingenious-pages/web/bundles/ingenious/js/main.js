@@ -206,6 +206,8 @@
         var deleteInfo = $("#post-delete-info");
         deleteInfo.empty();
         deleteInfo.hide();
+        $(".delete-post-btn").attr("disabled","true");
+        $("#edit-post-btn").attr("disabled","true");
     });
 
     // Add cover

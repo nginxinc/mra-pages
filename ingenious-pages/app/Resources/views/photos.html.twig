@@ -1,0 +1,73 @@
+{# app/Resources/views/home.html.twig #}
+{% extends 'base.html.twig' %}
+
+    {% block loginButton %}
+        <div>
+            <img id="login-button" onclick="logout();" src='{{ asset('bundles/ingenious/images/logout.png', version='1.0') }}'>
+        </div>
+    {% endblock %}
+ {% block hero %}
+
+        <section class="single-album hero-banner">
+            <div class="inner"></div>
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="header-content">
+                        <h3 class="page-title">Album</h3>
+                        <h1 class="album-title">{{ albumName }}</h1>
+                    </div>
+                    <div class="gradient"></div>
+                </div>
+            </div> <!--./end container-->
+        </section><!-- ./ end page content-->
+
+ {% endblock %}
+{% block albums %}
+        <section id="single-album" class="albums album-single">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="page-content">
+                        <div class="album-container">
+                            {% for image in images %}
+                            <!--single-photo-->
+                            <a class="hideOverflow" href="{{ image.large_url }}" data-sub-html='<h1 class="photo-title">{{ albumName }}</h1>
+                            <div class="album-meta">
+                                <div class="author-meta">
+                                    {% if profilePicture == "generic" %}
+                                        <div class="miniHexagon pull-left"></div>
+                                    {% else %}
+                                        <div class="miniHexagon pull-left" style="background: url({{ profilePicture }}) no-repeat scroll center center / cover;"></div>
+                                    {% endif %}
+                                    <h4 class="pull-left">{{ firstName }} {{ lastName }}</h4>
+                                </div>
+                                <div class="date-meta pull-left">
+                                    <p> <time datetime="01-13-16">01/13/16 </time> </p>
+                                </div>
+                                <div class="place-meta">
+                                    <img class="pull-left" src="{{ asset('bundles/ingenious/images/icon-map-marker.png' ) }}" alt="Location">
+                                    <h4 class="pull-left">Posts, CA</h4>
+                                </div>
+                            </div>
+                            <a href="#" class="back-to-album lg-close">Back to Album</a>
+                            <a href="#" id={{ image.id }} urlS3={{ image.large_url }} class="delete-image-btn lg-close">Delete Image</a>'> <!--./lightbox content for each photo-->
+
+                                <div class="col-sm-2 col-xs-4 photo-thumb">
+                                    <figure>
+                                      <img src="{{ image.thumb_url }}" alt="Europe">
+                                    </figure>
+                                </div><!--./single album thumb-->
+                            </a> <!-- ./single-photo-->
+                            {% endfor %}
+                        </div> <!--./album-container-->
+                        <div class="back-to-photos">
+                            <a href="/myphotos">Back to my photos</a>
+                        </div>
+                    </div>
+                    
+                </div>
+            </div> <!--./end container-->
+        </section>
+{% endblock %}
+
+  {% block articles %}
+  {% endblock %}

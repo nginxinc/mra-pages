@@ -1,0 +1,42 @@
+{# app/Resources/views/home.html.twig #}
+{% extends 'base.html.twig' %}
+
+    {% block loginButton %}
+        <div>
+            <img id="login-button" onclick="logout();" src='{{ asset('bundles/ingenious/images/logout.png', version='1.0') }}'>
+        </div>
+    {% endblock %}
+ {% block hero %}
+     
+        <section class="photos hero-banner" style="background: url('{{ banner }}') 50% 50% / cover no-repeat scroll rgba(0, 0, 0, 0);">
+            <div class="inner"></div>
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="profile-content">
+                        <div class="profile-photo">
+                            {% if profilePicture == "generic" %}
+                                <div class="hexagon1 pic"></div>
+                            {% else %}
+                                <div class="hexagon1 pic" style="background: url('{{ profilePicture }}') no-repeat scroll center center / cover;"></div>
+                            {% endif %}
+                        </div>
+                        <h1 class="profile-title">{{ firstName }} {{ lastName }}</h1>
+                        <div class="add-cover-btn">
+                            <a href="#" class="photo-set-link">
+                            <img src="{{ asset('bundles/ingenious/images/icon-plus-light.png' ) }}">
+                                <p>Add a <br> cover photo</p>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="gradient"></div>
+                </div>
+            </div> <!--./end container-->
+        </section><!-- ./ end page content-->
+     
+ {% endblock %}
+{% block albums %}
+    {{ include('catalog.html.twig') }}
+{% endblock %}
+
+  {% block articles %}
+  {% endblock %}

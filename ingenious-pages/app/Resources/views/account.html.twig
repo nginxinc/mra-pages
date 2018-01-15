@@ -1,0 +1,68 @@
+{# app/Resources/views/home.html.twig #}
+{# app/Resources/views/banners.html.twig #}
+{% extends 'base.html.twig' %}
+    {% block loginButton %}
+        
+    {% endblock %}
+
+{% block hero %}
+<section id="profile" class="profile hero-banner photo-set-list" style="background: url('{{ banner }}') 50% 50% / cover no-repeat scroll rgba(0, 0, 0, 0);">
+        <div class="inner"></div>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="profile-content">
+                <div class="profile-photo">
+                    {% if profilePicture == "generic" %}
+                        <div class="hexagon1 pic"></div>
+                    {% else %}
+                        <div class="hexagon1 pic" style="background: url('{{ profilePicture }}') no-repeat scroll center center / cover;"></div>
+                    {% endif %}
+                </div>
+
+                <div class="profile-update-form" id="profile-picture-actions">
+                    <div class="btn-group">
+                        <div class="update-ppa" id="updateProfilePicture" profilePicturesID="{{ profilePicturesID }}" userManager="{{ userManager }}" action="{{ uploader }}" method="post">
+                            <span>Change</span>
+                            <input class="form-control" id="profile-picture-input" type="file" accept="image/*">
+                        </div>
+                        <form class="remove-pp" id="remove-pp-id" action="{{ userManager }}" method="put">
+                            <a href="#">Remove</a>
+                        </form>
+                    </div>
+                </div>
+
+                <h1 class="profile-title" id="name-user">{{ name }}</h1>
+
+                <div class="profile-update-form">
+                    
+                    <div id="notification"></div>
+                    <form id="account-manager" method="put" class="form-horizontal" action="{{ userManager }}">
+                        <div class="form-group">
+                            <label class="col-xs-4 col-sm-3 col-sm-offset-1 control-label" for="name">Name</label>
+                            <div class="col-xs-8">
+                                <input name="name" id="name" class="form-control" type="text" pattern="[A-Za-z0-9\'\-\ ]+" required="required" maxlength="31" value="{{ name }}">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-xs-4 col-sm-3 col-sm-offset-1 control-label" for="email">Email</label>
+                            <div class="col-xs-8">
+                                <input name="email" id="email" type="text" class="form-control" pattern="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+(?:[A-Z]{2}|com|org|net|gov|mil|biz|info|mobi|name|aero|jobs|museum)\b" required="required" maxlength="128" value="{{ email }}">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-md-12 update-account">
+                                <button id="update-account-button" name="update-account" type="submit" class="btn">Update My Account</button>
+                                <div id="account-result"></div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div class="gradient"></div>
+        </div>
+    </div> <!--./end container-->
+</section>
+{% endblock %}

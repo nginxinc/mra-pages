@@ -1,0 +1,91 @@
+
+{% extends 'base.html.twig' %}
+{% block hero %}
+    <section id="top" class="hero-banner">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="hero-banner-content">
+                    <h1 class="hero-banner-title">Ingenious</h1>
+                    {% block subhead %}
+                    <p class="hero-banner-subtitle">an <img src="{{ asset('bundles/ingenious/images/nginx-text-logo.png') }}"> microservices project</p>
+                    {% endblock %}
+                    <a class="scroll-down" href="#about"><img src="{{ asset('bundles/ingenious/images/arrow-down.png') }}"></a>
+                </div>
+
+                <div class="gradient"></div>
+            </div>
+        </div> <!--./end container-->
+    </section>
+{% endblock %}
+
+{% block about %}
+    <section id="about" class="about">
+        <div class="container">
+            <div class="row">
+                <h2 class="section-title">What is Ingenious?</h2>
+                <p class="section-description">Ingenious is a photo-sharing app built by SHANNON to demonstrate AWESOMENESS architecture. </p>
+                <a class="learn-more" href="#"><img src="{{ asset('bundles/ingenious/images/icon-microservices.png') }}"> Learn More</a>
+            </div>
+
+        </div><!--./end container-->
+    </section>
+{% endblock %}
+
+{% block articles %}
+    <section id="about" class="about">
+        <div class="container">
+            <div class="row">
+                <h2 class="section-title">What is Ingenious?</h2>
+                <p class="section-description">Ingenious is a photo-sharing app built by NGINX to demonstrate microservices architecture. </p>
+                <a class="learn-more" href="#"><img src="{{ asset('bundles/ingenious/images/icon-microservices.png') }}"> Learn More</a>
+            </div>
+
+        </div><!--./end container-->
+    </section>
+
+    <section id="articles" class="articles">
+        <div class="container-fluid article-container">
+            <div class="row">
+                {%  for article in articles %}
+                    <article class="single-post">
+                        <div class="entry-featured col-md-6">
+                            <div class="entry-thumb" style="background-image: url('{{ article.photo }}');"></div>
+                        </div> <!-- featured image -->
+                        <div class="entry-wrap col-md-6">
+                            <div class="entry-thumb" style="background-image: url('{{ article.photo }}');"></div>
+                            <div class="entry-inner">
+                                <div class="entry-content">
+                                    <h2 class="entry-title"><a href="/stories/{{ article.id }}">{{ article.title }}</a></h2>
+                                    <div class="entry-excerpt">
+                                        <p>{{ article.extract }}</p>
+                                        <a href="/stories/{{ article.id }}/{{ article.title | lower | replace({' ':'-', "'":''}) }}" class="more-link">Read More</a>
+                                    </div>
+
+                                    <div class="entry-meta">
+                                        <div class="author-meta col-md-6">
+                                            <div class="media">
+                                            <div class="author-avatar media-left">
+                                                <img class="media-object" src="{{ asset('bundles/ingenious/images/author-avatar.png') }}" alt="Author">
+                                            </div>
+                                            <div class="media-body">
+                                                <h4 class="author-title">{{ article.author }}</h4>
+                                            </div>
+                                            </div>
+                                        </div>
+                                        <div class="date-meta col-md-6">
+                                            <p> <time datetime="01-13-16">{{ article.date | date("m/d/Y") }}</time> <span class="place-meta">{{ article.location }}</span></p>
+                                        </div>
+                                    </div>
+                                </div><!--./entry content-->
+                            </div><!--./entry inner-->
+                        </div>
+                    </article> <!--./single article-->
+                {% endfor %}
+            </div>
+
+        </div><!--./end container-->
+    </section><!-- ./ end page content-->
+
+{% endblock %}
+{% block albums %}
+{% endblock %}

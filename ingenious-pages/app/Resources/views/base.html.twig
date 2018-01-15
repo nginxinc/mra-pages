@@ -1,0 +1,102 @@
+{# app/Resources/views/home.html.twig #}
+
+    {% block head %}
+    <head>
+        <title>Ingenious Photos</title>
+        
+        {% block meta %}
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <meta name="description" content="">
+        <!--meta name="viewport" content="width=device-width, initial-scale=1"-->
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimal-ui" />
+        <meta NAME="keywords" CONTENT="NGINX, NGINX Plus, NGRA, Reference Architecture">
+        <meta NAME="description" CONTENT="The NGINX Microservices Reference Architecture">
+        <meta name="google-signin-scope" content="profile email">
+        <meta name="google-signin-client_id" content="{{ google_client_id }}">
+        {% endblock %}
+        
+        {% block favicon %}
+        <link rel="icon" type="image/png" href="https://cdn-1.wp.nginx.com/wp-content/themes/nginx-theme/assets/img/nginx-favicon.png">
+        {% endblock %}
+        
+        {% block iconset %}
+        <link rel="icon" type="image/png" href="{{ asset('bundles/ingenious/images/favicon.png') }}" />
+        <link rel="apple-touch-icon" href="{{ asset('bundles/ingenious/images/apple-touch-icon.png') }}">
+        {% endblock %}
+        
+        {% block stylesheets %}
+        <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet" />
+        <link rel="stylesheet" href="{{ asset('bundles/ingenious/lightgallery/css/lightgallery.css') }}">
+        <link href="{{ asset('bundles/ingenious/css/fonts.css') }}" rel="stylesheet" />
+        <link href="{{ asset('bundles/ingenious/css/style.css') }}" rel="stylesheet" />
+        <link rel="stylesheet" href="{{ asset('bundles/ingenious/css/main.css') }}">
+        {% endblock %}
+        
+    </head>
+    {% endblock %}
+    
+    <body>
+    {% block bodycontainer %}
+        <main role="main">
+            
+            {% block pagehead %}
+                <!--Offcanvas Nav-->
+                {{ include( 'nav_header.html.twig' ) }}
+            {% endblock %}
+            
+            {% block pagebody %}
+                <!-- Page content-->
+                {% block hero %}
+                
+                {% endblock %}
+            
+                {% block article %}
+                    
+                {% endblock %}
+                
+                {% block articles %}
+                    <section class="articles-container">
+        
+                        <div id="next-content"></div>
+        
+                    </section>
+                {% endblock %}
+                
+                {% block albums %}
+
+                {% endblock %}
+            
+            {% endblock %}
+            
+            {% block footer %}
+                <footer class="colophon-bottom">
+                    <div class="footer-inner">
+                        <div class="footer-content">
+                            <h2>an NGINX microservices project</h2>
+                            <img class="footer-logo" src="{{ asset('bundles/ingenious/images/nginx-logo.png') }}">
+                            <p class="footer-copyright">Copyright &copy; 2017 NGINX Inc. All rights reserved.</p>
+                        </div>
+                    </div>
+                </footer>
+            {% endblock %}
+        </main>
+        
+        {% block javascripts %}
+            <!-- Scripts -->
+            <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+            <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+            <script src="https://hammerjs.github.io/dist/hammer.js"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js"></script>
+            <script src="https://apis.google.com/js/platform.js" async defer></script>
+            <script src="{{ asset('bundles/ingenious/js/ingenious.js') }}"></script>
+            <script src="{{ asset('bundles/ingenious/js/js.cookie.js') }}"></script>
+            <script src="{{ asset('bundles/ingenious/lightgallery/js/lightgallery.min.js') }}"></script>
+            <script src="{{ asset('bundles/ingenious/js/main.js') }}"></script>
+            <!-- ./Scripts -->
+        {% endblock %}
+    
+    {% endblock %}
+    </body>
+    
+</html>

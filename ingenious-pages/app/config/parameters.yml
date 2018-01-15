@@ -1,0 +1,16 @@
+# This file is auto-generated during the composer install
+parameters:
+    database_host: 127.0.0.1
+    database_port: null
+    database_name: symfony
+    database_user: root
+    database_password: null
+    mailer_transport: smtp
+    mailer_host: 127.0.0.1
+    mailer_user: null
+    mailer_password: null
+    secret: ThisTokenIsNotSoSecretChangeIt
+    user_manager_class: AppBundle\Services\UserManager
+    photo_manager_class: AppBundle\Services\PhotoManager
+    content_manager_class: AppBundle\Services\ContentManager
+    photo_uploader_class: AppBundle\Services\PhotoUploader

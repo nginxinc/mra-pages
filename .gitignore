@@ -1,0 +1,112 @@
+/ngra-pages.iml
+### NGINX NGRA Pages Exclusions
+nginx-repo.crt
+nginx-repo.key
+
+
+### OSX template
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Icon must end with two \r
+Icon
+
+# Thumbnails
+._*
+
+# Files that might appear in the root of a volume
+.DocumentRevisions-V100
+.fseventsd
+.Spotlight-V100
+.TemporaryItems
+.Trashes
+.VolumeIcon.icns
+
+# Directories potentially created on remote AFP share
+.AppleDB
+.AppleDesktop
+Network Trash Folder
+Temporary Items
+.apdisk
+### Example user template template
+
+# IntelliJ project files
+.idea
+out
+gen
+
+/ngra-pages.yml
+
+### Symfony template
+# Cache and logs (Symfony2)
+/ingenious-pages/app/cache/*
+/ingenious-pages/app/logs/*
+!app/cache/.gitkeep
+!app/logs/.gitkeep
+
+# Cache and logs (Symfony3)
+/ingenious-pages/var/cache/*
+/ingenious-pages/var/logs/*
+/ingenious-pages/app/logs/dev.log
+!var/cache/.gitkeep
+!var/logs/.gitkeep
+
+# Parameters
+/ingenious-pages/app/config/parameters.ini
+
+# Managed by Composer
+/ingenious-pages/var/bootstrap.php.cache
+/ingenious-pages/bin/*
+!bin/console
+!bin/symfony_requirements
+/ingenious-pages/vendor/
+
+# Assets and user uploads
+/web/bundles/
+/web/uploads/
+
+# PHPUnit
+/app/phpunit.xml
+/phpunit.xml
+
+# Build data
+/build/
+
+# Composer PHAR
+/composer.phar
+/composer.lock
+
+#Microservice Best Practice
+.env_dev
+vault_env.sh
+
+.env
+uiDesigner.xml
+
+#npm-gulp ignore
+less-css/node_modules
+orig_nginx-repo.crt
+orig_nginx-repo.key
+java_pid28412.hprof
+.hprof
+jmeter.log
+.pem
+certificate.pem
+csr.pem
+key.pem
+ngra-pages.iml
+ingenious-pages/vendor
+ingenious-pages/app/bootstrap.php.cache
+ngra-pages.iml
+.idea/modules.xml
+ingenious-pages.iml
+/.idea
+nginx.iml
+
+
+.cache/v/cache/lastfailed
+
+__pycache__/suite.cpython-35-PYTEST.pyc
+
+less-css/test.css

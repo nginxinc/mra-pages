@@ -15,7 +15,7 @@
                         <a class="google-login" id="google_login" href="#"><img src="{{ asset('bundles/ingenious/images/google-icon.png') }}"> <span id="ing_gp_login">Log in with Google</span></a>
 
                         <div id="status">&nbsp;</div>
-                        <div style="display: none" class="g-signin2" data-onsuccess="onSignIn" data-theme="dark"></div>
+                        <div style="display: none" class="g-signin2" data-onsuccess="onSignIn" data-onfailure="onFailure" data-theme="dark"></div>
                         <h1 class="login-title">Ingenious Log In</h1>
                         <div class="login-form">
                             <form id="user-login" method="POST" class="form-horizontal" action="/login">

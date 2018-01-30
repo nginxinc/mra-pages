@@ -36,6 +36,8 @@ twig:
     debug:            true
     strict_variables: "%kernel.debug%"
     auto_reload: true
+    globals:
+      google_client_id: '<your google client id>'
 
 # Assetic Configuration
 assetic:

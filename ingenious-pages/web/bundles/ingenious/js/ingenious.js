@@ -723,12 +723,13 @@ function signOut() {
     var auth2 = gapi.auth2.getAuthInstance();
     auth2.signOut().then(function () {
     });
-
-    logout();
 }
 
 function eraseCookie(name) {
-    document.cookie = name+"="+ "" + ";expires=Thu, 21 Sep 1979 00:00:01 UTC; path=/";
+    document.cookie = name+"="+ "" + ";Expires=Thu, 21 Sep 1979 00:00:01 UTC; Path=/";
+    if (name === 'google') {
+        signOut();
+    }
 }
 
 window.fbAsyncInit = function() {
@@ -798,4 +799,9 @@ function onSignIn(googleUser) {
             location.href = '/myphotos';
         }
     }
+}
+
+function onFailure(error) {
+    console.log(error);
+    console.log('google sign in failure');
 }

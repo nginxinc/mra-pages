@@ -268,9 +268,9 @@ class IngeniousHomeController extends Controller {
         if ($isAuthenticated) {
             $this->authID = $this->user->getUserID();
             $response = $this->redirectToRoute('account');
-            $response->headers->setCookie(new Cookie('expires_at', microtime()+86400000), microtime()+86400000);
-            $response->headers->setCookie(new Cookie('auth_token', $this->user->getLocalId()), microtime()+86400000);
-            $response->headers->setCookie(new Cookie('auth_provider', 'local'), microtime()+86400000);
+            $response->headers->setCookie(new Cookie('expires_at', time() + 604800, time() + 604800, "/", null, false, false));
+            $response->headers->setCookie(new Cookie('auth_token', $this->user->getLocalId(), time() + 604800, "/", null, false, false));
+            $response->headers->setCookie(new Cookie('auth_provider', 'local', time() + 604800, "/", null, false, false));
             $response->headers->set('Auth-ID', $this->authID);
             return $response;
         } else {

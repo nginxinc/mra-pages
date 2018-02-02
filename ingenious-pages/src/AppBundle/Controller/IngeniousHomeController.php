@@ -38,6 +38,7 @@ class IngeniousHomeController extends Controller {
     private $photoUploader = null;
     private $profilePicture = "null";
     private $profilePicturesID = null;
+    private $articlePicturesID = null;
 
     /**
      * @var UserManager
@@ -136,6 +137,11 @@ class IngeniousHomeController extends Controller {
                 $this->profilePicturesID = $this->user->getProfilePicturesID();
             }
 
+            // set the articlePicturesID from the local user object, if it is not set
+            if($this->user->getArticlePicturesID() != null) {
+                $this->articlePicturesID = $this->user->getArticlePicturesID();
+            }
+
             // set the coverPictureID from the local user, if it is not set
             if($this->user->getCoverPicturesID() != null) {
                 $this->coverPicturesID = $this->user->getCoverPicturesID();
@@ -164,6 +170,7 @@ class IngeniousHomeController extends Controller {
                     'coverPicturesID' => $this->coverPicturesID,
                     'profilePicturesID' => $this->profilePicturesID,
                     'profilePicture' => $this->profilePicture,
+                    'articlePicturesID' => $this->articlePicturesID,
                     'userManager' => trim( $this->user->getLocalUserPath() ) . "/" . $this->user->getUserID(),
                     'contentManager' => $this->getContentManager()->getContentPath()
                 ]
@@ -348,6 +355,11 @@ class IngeniousHomeController extends Controller {
                 $this->profilePicturesID = $this->user->getProfilePicturesID();
             }
 
+            // set the articlePicturesID from the local user object, if it is not set
+            if($this->user->getArticlePicturesID() != null) {
+                $this->articlePicturesID = $this->user->getArticlePicturesID();
+            }
+
             // set the coverPicturesID variable if it is not set
             if($this->user->getCoverPicturesID() != null) {
                 $this->coverPicturesID = $this->user->getCoverPicturesID();
@@ -367,6 +379,7 @@ class IngeniousHomeController extends Controller {
                     'coverPicturesID' => $this->coverPicturesID,
                     'profilePicturesID' => $this->profilePicturesID,
                     'profilePicture' => $this->profilePicture,
+                    'articlePicturesID' => $this->articlePicturesID,
                     'uploader' => $this->getPhotoUploader()->getUploaderPath(),
                     'images' => $images,
                     'contentManager' => $this->getContentManager()->getContentPath()
@@ -412,6 +425,11 @@ class IngeniousHomeController extends Controller {
                 $this->profilePicturesID = $this->user->getProfilePicturesID();
             }
 
+            // set the articlePicturesID from the local user object, if it is not set
+            if($this->user->getArticlePicturesID() != null) {
+                $this->articlePicturesID = $this->user->getArticlePicturesID();
+            }
+
             // set the converPicturesID variable if it has not been set
             if($this->user->getCoverPicturesID() != null) {
                 $this->coverPicturesID = $this->user->getCoverPicturesID();
@@ -443,6 +461,7 @@ class IngeniousHomeController extends Controller {
                     'articles' => $articles,
                     'profilePicturesID' => $this->profilePicturesID,
                     'coverPicturesID' => $this->coverPicturesID,
+                    'articlePicturesID' => $this->articlePicturesID,
                     'profilePicture' => $this->profilePicture
                 ]
             );

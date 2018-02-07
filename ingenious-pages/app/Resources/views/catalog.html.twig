@@ -5,7 +5,7 @@
                         <h3 class="page-title">My Albums</h3>
                         <div class="cat-album-container">
                             {% for album in catalog|reverse %}
-                            {% if album.id != profilePicturesID and album.id != coverPicturesID and album.state == 'active' %}
+                            {% if album.id != profilePicturesID and album.id != coverPicturesID and album.id != articlePicturesID and album.state == 'active' %}
                                 <div class="col-sm-2 col-xs-4 album-thumb">
                                     <a class="photo-set-link" href="/photos/{{ catalogID }}/{{ album.name }}/{{ album.id }}">
                                         <div class="photo-and-caption">

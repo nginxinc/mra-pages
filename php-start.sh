@@ -20,6 +20,8 @@ php-fpm -y /etc/php5/fpm/php-fpm.conf -R &
 echo launched processes;
 sleep 10;
 
+php5 /ingenious-pages/Insert.php &
+
 while [ -f "$pid" ] &&  [ -f "$fpm_pid" ];
 do
 	sleep 5;

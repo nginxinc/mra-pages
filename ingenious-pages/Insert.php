@@ -32,7 +32,7 @@ if ($resp == null){
     $auth = $post_resp->id;
     $album_id = $post_resp->article_pictures_id;
     $post_opts = [
-        "image" => new CurlFile("./web/bundles/ingenious/images/golden-gate-bridge.jpg", 'image/jpg'),
+        "image" => new CurlFile("/ingenious-pages/web/bundles/ingenious/images/golden-gate-bridge.jpg", 'image/jpg'),
         "album_id" => $album_id,
     ];
 
@@ -56,7 +56,7 @@ if ($resp == null){
 
     // Upload image
     $post_opts = [
-        "image" => new CurlFile("./web/bundles/ingenious/images/mountain-black-and-white.jpg", 'image/jpg'),
+        "image" => new CurlFile("/ingenious-pages/web/bundles/ingenious/images/mountain-black-and-white.jpg", 'image/jpg'),
         "album_id" => $album_id,
     ];
 
@@ -79,7 +79,7 @@ if ($resp == null){
 
     // Upload image
     $post_opts = [
-        "image" => new CurlFile("./web/bundles/ingenious/images/mountain-black-and-white.jpg", 'image/jpg'),
+        "image" => new CurlFile("/ingenious-pages/web/bundles/ingenious/images/mountain-black-and-white.jpg", 'image/jpg'),
         "album_id" => $album_id,
     ];
 

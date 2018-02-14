@@ -12,7 +12,9 @@ $user_path = getenv("USERMANAGER_LOCAL_PATH");
 $uploader_path = getenv("PHOTOUPLOADER_IMAGE_PATH");
 
 // Wait for response from uploader
-while (connect("https:/" . $uploader_path) == "0"){
+$responseCode = 0;
+while ($responseCode == "0" || $responseCode == "502"){
+    $responseCode = connect("https:/" . $uploader_path);
     sleep(5);
 }
 

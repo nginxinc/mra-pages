@@ -76,6 +76,11 @@ class UserManager {
     /**
      * @var number
      */
+    private $articlePicturesID;
+
+    /**
+     * @var number
+     */
     private $coverPicturesID;
 
     /**
@@ -193,6 +198,7 @@ class UserManager {
         
         $this->setCoverPicturesID($user->cover_pictures_id);
         $this->setProfilePicturesID($user->profile_pictures_id);
+        $this->setArticlePicturesID($user->article_pictures_id);
         if(isset($user->banner_url)) {
             $this->setBanner($user->banner_url);
         }
@@ -274,6 +280,13 @@ class UserManager {
     }
 
     /**
+     * @return number
+     */
+    public function getArticlePicturesID() {
+        return $this->articlePicturesID;
+    }
+
+    /**
      * @return string
      */
     public function getUserPath() {
@@ -345,6 +358,13 @@ class UserManager {
      */
     public function setProfilePicturesID($profilePicturesID) {
         $this->profilePicturesID = $profilePicturesID;
+    }
+
+    /**
+     * @param string $articlePicturesID
+     */
+    public function setArticlePicturesID($articlePicturesID) {
+        $this->articlePicturesID = $articlePicturesID;
     }
 
     /**

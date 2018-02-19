@@ -142,11 +142,11 @@ $(document).on( 'click', '.delete-image-btn', function( e ) {
 var isNewAlbum, isPost, isPosterImageSettedAutomatically;
 var input, loading, result, uploadButton, uploadThumbProto, uploadThumbs, uploadThumbsStr;
 
-var uploaderURL = "/uploader/image";//this should be set with environment variables
-var albumManagerURL = "/albums";//this should be set with environment variables
-var imageManagerURL = "/images";
-var userManagerURL = "/account/users";//this should be set with environment variables
-var contentServiceURL = "content-service/v1/content";// this should be set with environment variables
+var uploaderURL = getenv("PHOTOUPLOADER_ENDPOINT_URL") + getenv("PHOTOUPLOADER_IMAGE_PATH");
+var albumManagerURL = getenv("PHOTOMANAGER_ENDPOINT_URL") + getenv("PHOTOMANAGER_CATALOG_PATH");
+var imageManagerURL = getenv("PHOTOMANAGER_ENDPOINT_URL") + getenv("PHOTOMANAGER_IMAGES_PATH");
+var userManagerURL = getenv("USERMANAGER_ENDPOINT_URL") + getenv("USERMANAGER_ENDPOINT_URL");
+var contentServiceURL = getenv("CONTENTSERVICE_ENDPOINT_URL") + getenv("CONTENTSERVICE_ARTICLE_PATH");
 var uploaded = 0;
 var filesIndex = 0;
 var bannerAlbumBool = false;

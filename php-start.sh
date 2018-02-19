@@ -1,11 +1,14 @@
 #!/bin/sh
-pid="/var/run/nginx.pid";    # /   (root directory)
 fpm_pid="/var/run/php-fpm.pid";
-nginx_conf="/etc/nginx/nginx.conf";
 
-echo "Starting ${nginx_conf} with pid ${pid}"
-
-nginx -c "$nginx_conf" -g "pid $pid;" &
+if [ "$NETWORK" = "fabric" ]
+then
+    pid="/var/run/nginx.pid";    # /   (root directory)
+    nginx_conf="/etc/nginx/nginx.conf";
+    echo fabric configuration set;
+    echo "Starting ${nginx_conf} with pid ${pid}"
+    nginx -c "$nginx_conf" -g "pid $pid;" &
+fi
 
 echo "FPM PID ${fpm_pid}"
 
@@ -20,8 +23,15 @@ php-fpm -y /etc/php5/fpm/php-fpm.conf -R &
 echo launched processes;
 sleep 10;
 
-while [ -f "$pid" ] &&  [ -f "$fpm_pid" ];
-do
-	sleep 5;
-    #echo in the while loop;
-done
+if [ "$NETWORK" = "fabric" ]
+then
+    while [ -f "$pid" ] &&  [ -f "$fpm_pid" ];
+    do
+	    sleep 5;
+    done
+else
+    while [ -f "$fpm_pid" ];
+    do
+	    sleep 5;
+    done
+fi

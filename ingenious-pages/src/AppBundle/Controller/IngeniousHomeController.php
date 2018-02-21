@@ -574,6 +574,13 @@ class IngeniousHomeController extends Controller {
         return $this->userManager;
     }
 
+    /**
+     * Helper function which strips all invisible albums within a catalog,
+     * including $profilePicturesID, $articlePicturesID, and $coverPicturesID
+     *
+     * @param $catalog array of all albums associated with user
+     * @return Catalog with invisible albums removed
+     */
     private function stripInvisibleAlbums($catalog) {
         // set the profilePictureID variable if it has not been set
         if($this->user->getProfilePicturesID() != null) {

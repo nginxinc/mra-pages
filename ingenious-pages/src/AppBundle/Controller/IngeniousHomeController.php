@@ -153,6 +153,9 @@ class IngeniousHomeController extends Controller {
             // retrieve all the albums from the current user
             $catalog = $this->getPhotoManager($request)->getCatalog();
 
+            // strip invisible albums from the catalog
+            $catalog = $this->stripInvisibleAlbums($catalog);
+
             // render the home.html.twig file
             return $this->render(
                 '/home.html.twig',
@@ -206,7 +209,7 @@ class IngeniousHomeController extends Controller {
             ]
         );
     }
-    
+
     /**
      * Handle the "/login" route with the GET method. Renders the login page
      *
@@ -328,10 +331,6 @@ class IngeniousHomeController extends Controller {
      */
     public function photosAction($catalogID, $albumName, $albumID, Request $request) {
 
-        // get the catalog, which is a special case of an album that is
-        // created by default when the user registers
-        $catalog = $this->getPhotoManager($request)->getCatalog();
-
         // retrieve the album and the images from the PhotoManager
         $album = $this->getPhotoManager( $request )->getAlbum( $albumID );
         $images = $album->images;
@@ -364,6 +363,13 @@ class IngeniousHomeController extends Controller {
             if($this->user->getCoverPicturesID() != null) {
                 $this->coverPicturesID = $this->user->getCoverPicturesID();
             }
+
+            // get the catalog, which is a special case of an album that is
+            // created by default when the user registers
+            $catalog = $this->getPhotoManager($request)->getCatalog();
+
+            // strip invisible albums from the catalog
+            $catalog = $this->stripInvisibleAlbums($catalog);
 
             // render the photos.html.twig template
             return $this->render(
@@ -437,6 +443,9 @@ class IngeniousHomeController extends Controller {
 
             // retrieve the catalog for the user
             $catalog = $this->getPhotoManager($request)->getCatalog();
+
+            // strip invisible albums from the catalog
+            $catalog = $this->stripInvisibleAlbums($catalog);
 
             // get all the articles
             $articles = $this->getContentManager()->getArticles();
@@ -563,5 +572,33 @@ class IngeniousHomeController extends Controller {
             $this->userManager = new $userManagerClass($authID, $email);
         }
         return $this->userManager;
+    }
+
+    private function stripInvisibleAlbums($catalog) {
+        // set the profilePictureID variable if it has not been set
+        if($this->user->getProfilePicturesID() != null) {
+            $this->profilePicturesID = $this->user->getProfilePicturesID();
+        }
+
+        // set the articlePicturesID from the local user object, if it is not set
+        if($this->user->getArticlePicturesID() != null) {
+            $this->articlePicturesID = $this->user->getArticlePicturesID();
+        }
+
+        // set the converPicturesID variable if it has not been set
+        if($this->user->getCoverPicturesID() != null) {
+            $this->coverPicturesID = $this->user->getCoverPicturesID();
+        }
+
+        foreach ($catalog as $key => $album){
+            if ($album->id == $this->articlePicturesID
+                || $album->id == $this->profilePicturesID
+                || $album->id == $this->coverPicturesID
+                || $album->state != "active") {
+                unset($catalog[$key]);
+            }
+        }
+
+        return $catalog;
     }
 }

@@ -59,6 +59,8 @@ COPY php.ini /usr/local/etc/php/
 
 COPY php-start.sh /php-start.sh
 
+RUN chmod -R 777 /ingenious-pages
+
 CMD ["/php-start.sh"]
 
 EXPOSE 80 443

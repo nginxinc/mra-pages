@@ -9,14 +9,19 @@ echo -e "\033[32m -----"
 echo -e "\033[32m Building for ${CONTAINER_ENGINE}"
 echo -e "\033[32m -----\033[0m"
 
-case "$CONTAINER_ENGINE" in
-    kubernetes)
-        CONFIG_FILE=/etc/nginx/fabric_config_k8s.yaml
-        ;;
-    local)
-        CONFIG_FILE=/etc/nginx/fabric_config_local.yaml
-        ;;
-esac
+if [ "$NETWORK" = "fabric" ]
+then
+    case "$CONTAINER_ENGINE" in
+        kubernetes)
+            CONFIG_FILE=/etc/nginx/fabric_config_k8s.yaml
+            ;;
+        local)
+            CONFIG_FILE=/etc/nginx/fabric_config_local.yaml
+            ;;
+    esac
+else
+    CONFIG_FILE=/etc/nginx/router_config_local.yaml
+fi
 
 if [ "$USE_VAULT" = true ]; then
 # Install vault client
@@ -76,6 +81,7 @@ then
   apt-get update
   apt-get install -o Dpkg::Options::="--force-confold" -y nginx-plus
 
+  # TODO: router-mesh config for plus
   /usr/local/sbin/generate_config -p ${CONFIG_FILE} -t /etc/nginx/nginx-plus-fabric.conf.j2 > /etc/nginx/nginx.conf
 else
     echo "Installing NGINX OSS"
@@ -86,7 +92,17 @@ else
     apt-get update
     apt-get install -o Dpkg::Options::="--force-confold" -y nginx
 
-    /usr/local/sbin/generate_config -p ${CONFIG_FILE} -t /etc/nginx/nginx-fabric.conf.j2 > /etc/nginx/nginx.conf
+    if [ "$NETWORK" = "fabric" ]
+    then
+        /usr/local/sbin/generate_config -p ${CONFIG_FILE} -t /etc/nginx/nginx-fabric.conf.j2 > /etc/nginx/nginx.conf
+    else
+        /usr/local/sbin/generate_config -p ${CONFIG_FILE} -t /etc/nginx/nginx-router.conf.j2 > /etc/nginx/nginx.conf
+    fi
 fi
+if [ "$NETWORK" = "fabric" ]
+then
+    /usr/local/sbin/generate_config -p ${CONFIG_FILE} -t /etc/nginx/default-location.conf.j2 > /etc/nginx/default-location.conf
 
-/usr/local/sbin/generate_config -p ${CONFIG_FILE} -t /etc/nginx/default-location.conf.j2 > /etc/nginx/default-location.conf
+else
+    /usr/local/sbin/generate_config -p ${CONFIG_FILE} -t /etc/nginx/router-default-location.conf.j2 > /etc/nginx/default-location.conf
+fi

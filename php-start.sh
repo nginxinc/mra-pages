@@ -1,14 +1,15 @@
 #!/bin/sh
 fpm_pid="/var/run/php-fpm.pid";
 
-if [ "$NETWORK" = "fabric" ]
-then
+# Temporary solution - start NGINX as well in router-mesh to serve static files
+# if [ "$NETWORK" = "fabric" ]
+# then
     pid="/var/run/nginx.pid";    # /   (root directory)
     nginx_conf="/etc/nginx/nginx.conf";
     echo fabric configuration set;
     echo "Starting ${nginx_conf} with pid ${pid}"
     nginx -c "$nginx_conf" -g "pid $pid;" &
-fi
+# fi
 
 echo "FPM PID ${fpm_pid}"
 

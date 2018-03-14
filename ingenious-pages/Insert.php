@@ -13,15 +13,9 @@ $uploader_path = getenv("PHOTOUPLOADER_IMAGE_PATH");
 
 // Wait for response from uploader
 $responseCode = 0;
-$startTime = time();
 while ($responseCode == "0" || $responseCode == "502"){
     $responseCode = connect("https:/" . $uploader_path);
-    sleep(10);
-
-    if (time() - $startTime > 120){
-        trigger_error("Unable to insert posts", E_USER_ERROR);
-        return false;
-    }
+    sleep(5);
 }
 
 // GET articles to verify articles in DB
@@ -169,7 +163,6 @@ function connect($url){
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
     curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     curl_setopt($ch, CURLOPT_URL, $url);
     curl_exec($ch);
     return curl_getinfo($ch, CURLINFO_HTTP_CODE);

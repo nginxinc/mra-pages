@@ -20,7 +20,10 @@ then
             ;;
     esac
 else
-    CONFIG_FILE=/etc/nginx/router_config_local.yaml
+    GENERATE_CONFIG_FILE=/usr/local/bin/generate_config_router_mesh
+    TEMPLATE_FILE_PLUS=/etc/nginx/nginx-plus-router-mesh.conf.j2
+    TEMPLATE_FILE=/etc/nginx/nginx-router-mesh.conf.j2
+    CONFIG_FILE=/etc/nginx/router-mesh_config.yaml
 fi
 
 if [ "$USE_VAULT" = true ]; then

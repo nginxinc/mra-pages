@@ -1,5 +1,7 @@
 FROM php:7.0.5-fpm
 
+RUN useradd --create-home -s /bin/bash pages
+
 ARG CONTAINER_ENGINE_ARG
 ARG USE_NGINX_PLUS_ARG
 ARG USE_VAULT_ARG
@@ -45,7 +47,7 @@ RUN cd /ingenious-pages && \
     php composer.phar install --no-dev --optimize-autoloader && \
     ln -s /usr/bin/nodejs /usr/bin/node && \
     chown -R nginx:www-data /ingenious-pages/ && \
-    chmod -R 775 /ingenious-pages && \
+    chmod -R 777 /ingenious-pages && \
     cd less-css && \
     npm install gulp-cli -g && \
     npm install gulp -D && \

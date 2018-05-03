@@ -3,7 +3,7 @@
 wget -O /usr/local/sbin/generate_config -q https://s3-us-west-1.amazonaws.com/fabric-model/config-generator/generate_config
 chmod +x /usr/local/sbin/generate_config
 
-CONFIG_FILE=/etc/nginx/fabric_config.yaml
+GENERATE_CONFIG_FILE=/usr/local/sbin/generate_config
 
 echo -e "\033[32m -----"
 echo -e "\033[32m Building for ${CONTAINER_ENGINE}"
@@ -11,6 +11,10 @@ echo -e "\033[32m -----\033[0m"
 
 if [ "$NETWORK" = "fabric" ]
 then
+    CONFIG_FILE=/etc/nginx/fabric_config.yaml
+    TEMPLATE_FILE_PLUS=/etc/nginx/nginx-plus-fabric.conf.j2
+    TEMPLATE_FILE=/etc/nginx/nginx-fabric.conf.j2
+
     case "$CONTAINER_ENGINE" in
         kubernetes)
             CONFIG_FILE=/etc/nginx/fabric_config_k8s.yaml
@@ -20,9 +24,8 @@ then
             ;;
     esac
 else
-    GENERATE_CONFIG_FILE=/usr/local/bin/generate_config_router_mesh
     TEMPLATE_FILE_PLUS=/etc/nginx/nginx-plus-router-mesh.conf.j2
-    TEMPLATE_FILE=/etc/nginx/nginx-router-mesh.conf.j2
+    TEMPLATE_FILE=/etc/nginx/nginx-router.conf.j2
     CONFIG_FILE=/etc/nginx/router-mesh_config.yaml
 fi
 
@@ -84,8 +87,7 @@ then
   apt-get update
   apt-get install -o Dpkg::Options::="--force-confold" -y nginx-plus
 
-  # TODO: router-mesh config for plus
-  /usr/local/sbin/generate_config -p ${CONFIG_FILE} -t /etc/nginx/nginx-plus-fabric.conf.j2 > /etc/nginx/nginx.conf
+  ${GENERATE_CONFIG_FILE} -p ${CONFIG_FILE} -t ${TEMPLATE_FILE_PLUS} > /etc/nginx/nginx.conf
 else
     echo "Installing NGINX OSS"
 
@@ -95,17 +97,12 @@ else
     apt-get update
     apt-get install -o Dpkg::Options::="--force-confold" -y nginx
 
-    if [ "$NETWORK" = "fabric" ]
-    then
-        /usr/local/sbin/generate_config -p ${CONFIG_FILE} -t /etc/nginx/nginx-fabric.conf.j2 > /etc/nginx/nginx.conf
-    else
-        /usr/local/sbin/generate_config -p ${CONFIG_FILE} -t /etc/nginx/nginx-router.conf.j2 > /etc/nginx/nginx.conf
-    fi
+        ${GENERATE_CONFIG_FILE} -p ${CONFIG_FILE} -t ${TEMPLATE_FILE} > /etc/nginx/nginx.conf
 fi
 if [ "$NETWORK" = "fabric" ]
 then
-    /usr/local/sbin/generate_config -p ${CONFIG_FILE} -t /etc/nginx/default-location.conf.j2 > /etc/nginx/default-location.conf
+    ${GENERATE_CONFIG_FILE} -p ${CONFIG_FILE} -t /etc/nginx/default-location.conf.j2 > /etc/nginx/default-location.conf
 
 else
-    /usr/local/sbin/generate_config -p ${CONFIG_FILE} -t /etc/nginx/router-default-location.conf.j2 > /etc/nginx/default-location.conf
+    ${GENERATE_CONFIG_FILE} -p ${CONFIG_FILE} -t /etc/nginx/router-default-location.conf.j2 > /etc/nginx/default-location.conf
 fi

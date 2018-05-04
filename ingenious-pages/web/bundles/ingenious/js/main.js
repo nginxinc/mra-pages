@@ -40,7 +40,7 @@
         $(".login-content iframe").contents().find(".uiGrid").click();
         return false;
     } );
-    
+
     // Smooth transition to section
     $(".scroll-down").click(function() {
         $('html, body').animate({
@@ -56,13 +56,13 @@
         counter: false,
         download: false,
     });
-    
+
     $( document ).on( 'click', '.back-to-album', function( e ) {
         e.preventDefault();
-        
+
         var $lg = $('.album-container');
         $lg.data('lightGallery').destroy();
-        
+
         return false;
     } );
 
@@ -144,6 +144,7 @@
         $("#post-title").val("");
         $("#post-body").val("");
         $("#post-photo").val("");
+        $("#browse-button-article-album").text("Browse");
         $("#post-author").val("");
         $("#post-extract").val("");
         $("#post-location").val("");
@@ -159,6 +160,62 @@
     $(".create-post .cancel-upload").click(function () {
         $(".create-post").removeClass("open");
         $("body").removeClass("hide-overflow");
+    });
+
+    $("#post-photo").change(function(){
+        $("#browse-button-article-album").text("1 photo selected");
+    });
+
+    // Select post
+    $(".select-post-btn").click(function() {
+        $("#select-post-id").val("undefined");
+        var deleteInfo = $("#post-delete-info");
+        deleteInfo.empty();
+        deleteInfo.hide();
+        $(".select-post").toggleClass("open");
+        $("body").toggleClass("hide-overflow");
+        $(".delete-post-btn").attr("disabled","true");
+        $("#edit-post-btn").attr("disabled","true");
+    });
+
+    $(".select-post .cancel-upload").click(function() {
+        $(".select-post").removeClass("open");
+        $("body").removeClass("hide-overflow");
+    });
+
+    $("#delete-list-existent-posts").on('change', '#select-post-id', function() {
+        // Enable delete and edit buttons if value of option is defined
+        if ($("#select-post-id").val() != "undefined"){
+            $(".delete-post-btn").removeAttr("disabled");
+            $("#edit-post-btn").removeAttr("disabled","true");
+        }
+        else {
+            $(".delete-post-btn").attr("disabled","true");
+            $("#edit-post-btn").attr("disabled","true");
+        }
+    });
+
+    // Edit post
+    // Creating of modal done in injenious.js
+
+    $(".edit-post .cancel-upload").click(function () {
+        $(".edit-post").removeClass("open");
+        $("body").removeClass("hide-overflow");
+    });
+
+    $(".edit-post .back-to-post").click(function () {
+        $("#select-post-id").val("undefined");
+        $(".edit-post").removeClass("open");
+        $(".select-post").toggleClass("open");
+        var deleteInfo = $("#post-delete-info");
+        deleteInfo.empty();
+        deleteInfo.hide();
+        $(".delete-post-btn").attr("disabled","true");
+        $("#edit-post-btn").attr("disabled","true");
+    });
+
+    $("#edit-post-photo").change(function(){
+        $("#browse-button-edit-article-album").text("1 photo selected");
     });
 
     // Add cover

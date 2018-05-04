@@ -16,7 +16,7 @@
             {% endif %}
         {% endblock %}
     </nav><!--./Offcanvas Nav-->
-        
+
     <!--Offcanvas Right Nav-->
     <nav class="right-nav nav-close">
         <a class="nav-close-btn" href="#"><img src="{{ asset('bundles/ingenious/images/nav-close.png') }}"></a>
@@ -25,6 +25,7 @@
             <li class="nav-item"><a href="#" class="add-photo-btn">Add Photo</a></li>
             <li class="nav-item"><a href="#" class="delete-album-btn">Delete Album</a></li>
             <li class="nav-item"><a href="#" class="create-post-btn">Create Post</a></li>
+            <li class="nav-item"><a href="#" class="select-post-btn">Edit Post</a></li>
         </ul>
     </nav><!--./Offcanvas Right Nav-->
 {% endblock %}
@@ -208,7 +209,11 @@
                         articlePicturesID="{{ articlePicturesID }}"{% endif %}>
                     <label class="col-xs-4 col-sm-3 col-sm-offset-1 control-label">Photo</label>
                     <div class="col-xs-8">
-                        <input name="photo" id="post-photo" type="text" class="form-control" required="required" maxlength="128">
+                        <div class="col-xs-4 update-pp">
+                            <input name="photo" id="post-photo" type="file" class="form-control" single="single"
+                                   accept="image/*" required/>
+                            <span id="browse-button-article-album">Browse</span>
+                        </div>
                     </div>
                 </div>
                 <div class="form-group">
@@ -297,16 +302,6 @@
                     <div class="col-xs-8">
                         <textarea name="body" id="edit-post-body" type="text" class="post-body" required="required"></textarea>
                     </div>
-                </div>
-                <div id="edit-post-list-existent-albums" class="col-xs-12 col-sm-8 select-album">
-                    <select class="form-control" id="edit-post-album-id" name="album_id">
-                        <option value="undefined">---</option>
-                        {% if catalog is defined %}
-                            {% for album in catalog|reverse %}
-                                <option value="{{ album.id }}">{{ album.name }}</option>
-                            {% endfor %}
-                        {% endif %}
-                    </select>
                 </div>
                 <div class="form-group" id="edit-upload-post-photo" {% if articlePicturesID is defined %}
                         articlePicturesID="{{ articlePicturesID }}"{% endif %}>

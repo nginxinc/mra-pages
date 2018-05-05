@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 wget -O /usr/local/sbin/generate_config -q https://s3-us-west-1.amazonaws.com/fabric-model/config-generator/generate_config
 chmod +x /usr/local/sbin/generate_config
@@ -12,18 +12,7 @@ fi
 
 echo Generating NGINX configurations...
 
-
-CONFIG_FILE=/etc/nginx/fabric/fabric_config.yaml
-
-case "$CONTAINER_ENGINE" in
-    kubernetes)
-        CONFIG_FILE=/etc/nginx/fabric/fabric_config_k8s.yaml
-        ;;
-    local)
-        CONFIG_FILE=/etc/nginx/fabric/fabric_config_local.yaml
-        ;;
-esac
-
-/usr/local/sbin/generate_config -p ${CONFIG_FILE} -t ${FABRIC_TEMPLATE_FILE} > /etc/nginx/nginx.conf
-
-/usr/local/sbin/generate_config -p ${CONFIG_FILE} -t /etc/nginx/default-location.conf.j2 > /etc/nginx/default-location.conf
+# Generate configurations for Fabric Model
+/usr/local/sbin/generate_config -p /etc/nginx/fabric/fabric_config_dcos.yaml -t ${FABRIC_TEMPLATE_FILE} > /etc/nginx/fabric_nginx_dcos.conf
+/usr/local/sbin/generate_config -p /etc/nginx/fabric/fabric_config_k8s.yaml -t ${FABRIC_TEMPLATE_FILE} > /etc/nginx/fabric_nginx_kubernetes.conf
+/usr/local/sbin/generate_config -p /etc/nginx/fabric/fabric_config_local.yaml -t ${FABRIC_TEMPLATE_FILE} > /etc/nginx/fabric_nginx_local.conf

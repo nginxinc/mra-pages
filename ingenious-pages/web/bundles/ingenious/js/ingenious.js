@@ -546,7 +546,7 @@ function createPost(event) {
         "author": $("#post-author").val(),
         "extract": $("#post-extract").val(),
         "location": $("#post-location").val(),
-        "album_id": $("#add-post-album-id option:selected").val()
+        "album_id": Number($("#add-post-album-id option:selected").val())
     };
 
     postPromise = new Promise(function (resolve, reject) {

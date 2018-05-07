@@ -118,6 +118,10 @@ $(document).ready(function() {
 
         return false;
     });
+
+    $("#add-post-album-id").change(function(ev) {
+        $("#post-photo").val($("#add-post-album-id option:selected").data("poster-photo"));
+    });
 });
 
 $(document).on( 'click', '.delete-image-btn', function( e ) {
@@ -165,7 +169,7 @@ var uploaderURL = "/uploader/image";//this should be set with environment variab
 var albumManagerURL = "/albums";//this should be set with environment variables
 var imageManagerURL = "/images";
 var userManagerURL = "/account/users";//this should be set with environment variables
-var contentServiceURL = "content-service/v1/content";// this should be set with environment variables
+var contentServiceURL = "/content-service/v1/content";// this should be set with environment variables
 var uploaded = 0;
 var filesIndex = 0;
 var bannerAlbumBool = false;
@@ -532,46 +536,31 @@ function createPost(event) {
     isPost = true;
     setVar();
 
-    var pictureID;
-
     loading.show();
     uploadThumbProto.show();
 
-    file = input.prop('files')[0];
-    albumID = $("#upload-post-photo").attr('articlepicturesid');
+    const data = {
+        "title": $("#post-title").val(),
+        "body": $("#post-body").val(),
+        "photo": $("#post-photo").val(),
+        "author": $("#post-author").val(),
+        "extract": $("#post-extract").val(),
+        "location": $("#post-location").val(),
+        "album_id": $("#add-post-album-id option:selected").val()
+    };
 
-    postPicturePromise = new Promise(function (resolve, reject) {
-        var data = new FormData;
-        data.append("image", file);
-        data.append("album_id",albumID);
-        postMethod(data, "POST", uploaderURL, resolve, reject);
+    postPromise = new Promise(function (resolve, reject) {
+        postMethod(JSON.stringify(data), "POST", contentServiceURL, resolve, reject);
     });
 
-    postPicturePromise.then((resp) => {
-        pictureID = resp.large_url
+    postPromise.then((successMessage) => {
+        uploadThumbProto.hide();
+        uploadButton.hide();
+        $("#album-upload").find(".label").hide();
+        loading.html("Post Upload Complete");
+        $("#delete-list-existent-posts").load(location.href+" #delete-list-existent-posts>*","");
 
-        var data = {
-            "title": $("#post-title").val(),
-            "body": $("#post-body").val(),
-            "photo": pictureID,
-            "author": $("#post-author").val(),
-            "extract": $("#post-extract").val(),
-            "location": $("#post-location").val()
-        };
-
-        postPromise = new Promise(function (resolve, reject) {
-            postMethod(JSON.stringify(data), "POST", contentServiceURL, resolve, reject);
-        });
-
-        postPromise.then((successMessage) => {
-            uploadThumbProto.hide();
-            uploadButton.hide();
-            $("#album-upload").find(".label").hide();
-            loading.html("Post Upload Complete");
-            $("#delete-list-existent-posts").load(location.href+" #delete-list-existent-posts>*","");
-
-            console.log(successMessage);
-        });
+        console.log(successMessage);
     });
     isPost = false;
 }

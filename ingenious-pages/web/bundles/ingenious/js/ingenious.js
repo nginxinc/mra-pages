@@ -554,7 +554,6 @@ function createPost(event) {
     });
 
     postPromise.then((successMessage) => {
-        uploadThumbProto.hide();
         uploadButton.hide();
         $("#album-upload").find(".label").hide();
         loading.html("Post Upload Complete");
@@ -563,6 +562,7 @@ function createPost(event) {
         console.log(successMessage);
     });
     isPost = false;
+    uploadThumbProto.hide();
 }
 
 function patchPost(event, article_id) {
@@ -576,61 +576,22 @@ function patchPost(event, article_id) {
     var data = {
         "title": $("#edit-post-title").val(),
         "body": $("#edit-post-body").val(),
-        "photo": postImageID,
+        "photo": $("#edit-post-photo").val(),
         "author": $("#edit-post-author").val(),
         "extract": $("#edit-post-extract").val(),
         "location": $("#edit-post-location").val()
+        "album_id": Number($("#edit-post-album-id option:selected").val())
     };
 
     loading.show();
     uploadThumbProto.show();
 
-    if (file != undefined){
-        postPicturePromise = new Promise(function (resolve, reject) {
-            var data = new FormData;
-            data.append("image", file);
-            data.append("album_id",albumID);
-            postMethod(data, "POST", uploaderURL, resolve, reject);
-        });
-
-        postPicturePromise.then((resp) => {
-            deletePicturePromise = new Promise(function (resolve, reject) {
-                var imageURL = uploaderURL + "/uploads/photos/" + postImageID.substring(46, 82);
-                postMethod(null, "DELETE", imageURL, resolve, reject);
-            });
-            deletePicturePromise.then((successMessage) => {
-                console.log(successMessage);
-            });
-            pictureID = resp.large_url
-
-            data["photo"] = pictureID;
-
-            postPromise = new Promise(function (resolve, reject) {
-                var url = contentServiceURL + '/' + $("#select-post-id").val();
-                postMethod(JSON.stringify(data), "PUT", url, resolve, reject);
-            });
-
-            postPromise.then((successMessage) => {
-                uploadThumbProto.hide();
-                uploadButton.hide();
-                deleteButton.hide();
-                loading.html("Post Upload Complete");
-
-                console.log(successMessage);
-            });
-        });
-    }
-    else {
-        loading.show();
-        uploadThumbProto.show();
-
-        postPromise = new Promise(function (resolve, reject) {
+    postPromise = new Promise(function (resolve, reject) {
             var url = contentServiceURL + '/' + $("#select-post-id").val();
             postMethod(JSON.stringify(data), "PUT", url, resolve, reject);
         });
 
         postPromise.then((successMessage) => {
-            uploadThumbProto.hide();
             uploadButton.hide();
             deleteButton.hide();
             loading.html("Post Upload Complete");
@@ -639,6 +600,7 @@ function patchPost(event, article_id) {
         });
     }
     isPatchPost = false;
+    uploadThumbProto.hide();
 }
 
 function postMethod(data, method, url, resolve, reject) {

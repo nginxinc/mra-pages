@@ -156,6 +156,9 @@ class IngeniousHomeController extends Controller {
             // strip invisible albums from the catalog
             $catalog = $this->stripInvisibleAlbums($catalog);
 
+            // get articles so that they can be edited
+            $articles = $this->getContentManager()->getArticles();
+
             // render the home.html.twig file
             return $this->render(
                 '/home.html.twig',
@@ -175,6 +178,7 @@ class IngeniousHomeController extends Controller {
                     'profilePicture' => $this->profilePicture,
                     'articlePicturesID' => $this->articlePicturesID,
                     'userManager' => trim( $this->user->getLocalUserPath() ) . "/" . $this->user->getUserID(),
+                    'articles' => $articles,
                     'contentManager' => $this->getContentManager()->getContentPath()
                 ]
             );
@@ -371,6 +375,9 @@ class IngeniousHomeController extends Controller {
             // strip invisible albums from the catalog
             $catalog = $this->stripInvisibleAlbums($catalog);
 
+            // get articles so that they can be edited
+            $articles = $this->getContentManager()->getArticles();
+
             // render the photos.html.twig template
             return $this->render(
                 '/photos.html.twig',
@@ -388,6 +395,7 @@ class IngeniousHomeController extends Controller {
                     'articlePicturesID' => $this->articlePicturesID,
                     'uploader' => $this->getPhotoUploader()->getUploaderPath(),
                     'images' => $images,
+                    'articles' => $articles,
                     'contentManager' => $this->getContentManager()->getContentPath()
                 ]
             );

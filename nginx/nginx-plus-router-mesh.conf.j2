@@ -61,8 +61,10 @@ http {
       root /usr/share/nginx/html/;
     }
 
-    location /status {
-      status;
+    location /api {
+      api write=on;
+      allow 127.0.0.1;
+      deny  all;
     }
   }
 }

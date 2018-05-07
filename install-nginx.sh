@@ -5,6 +5,11 @@ chmod +x /usr/local/sbin/generate_config
 
 GENERATE_CONFIG_FILE=/usr/local/sbin/generate_config
 
+# Default to router-mesh to limit variable creation
+TEMPLATE_FILE_PLUS=/etc/nginx/nginx-plus-router-mesh.conf.j2
+TEMPLATE_FILE=/etc/nginx/nginx-router.conf.j2
+CONFIG_FILE=/etc/nginx/router-mesh_config.yaml
+
 echo -e "\033[32m -----"
 echo -e "\033[32m Building for ${CONTAINER_ENGINE}"
 echo -e "\033[32m -----\033[0m"
@@ -23,10 +28,6 @@ then
             CONFIG_FILE=/etc/nginx/fabric_config_local.yaml
             ;;
     esac
-else
-    TEMPLATE_FILE_PLUS=/etc/nginx/nginx-plus-router-mesh.conf.j2
-    TEMPLATE_FILE=/etc/nginx/nginx-router.conf.j2
-    CONFIG_FILE=/etc/nginx/router-mesh_config.yaml
 fi
 
 if [ "$USE_VAULT" = true ]; then

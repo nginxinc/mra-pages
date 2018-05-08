@@ -581,9 +581,6 @@ function patchPost(event, article_id) {
     isPatchPost = true;
     setVar();
 
-    file = input.prop('files')[0];
-    albumID = $("#upload-post-photo").attr('articlepicturesid');
-
     let data = {
         "title": $("#edit-post-title").val(),
         "body": $("#edit-post-body").val(),

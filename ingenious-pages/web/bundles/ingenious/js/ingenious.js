@@ -581,7 +581,7 @@ function patchPost(event, article_id) {
     isPatchPost = true;
     setVar();
 
-    let data = {
+    const data = {
         "title": $("#edit-post-title").val(),
         "body": $("#edit-post-body").val(),
         "photo": $("#edit-post-photo").val(),
@@ -697,41 +697,25 @@ function deletePost(event) {
         let post_id = $("#select-post-id").val();
         let postURL = contentServiceURL + "/" + post_id;
         if (post_id) {
-
-            albumID = $("#upload-post-photo").attr('articlepicturesid');
-            getPicturePromise = new Promise(function (resolve, reject) {
-                getPostPicture(post_id, resolve, reject);
-            });
-            getPicturePromise.then((successMessage) => {
-                postImageID = successMessage;
-                deletePicturePromise = new Promise(function (resolve, reject) {
-                    let imageURL = uploaderURL + "/uploads/photos/" + postImageID.substring(46, 82);
-                    postMethod(null, "DELETE", imageURL, resolve, reject);
-                });
-                deletePicturePromise.then((successMessage) => {
-                    console.log(successMessage);
-
-                    $.ajax({
-                        url: postURL,
-                        data: null,
-                        cache: false,
-                        contentType: false,
-                        processData: false,
-                        type: 'DELETE',
-                        error: function(response){
-                            console.log("There is an error:" + response);
-                        },
-                        complete: function () {
-                            console.log("Post Deleted");
-                            let deleteInfo = $("#post-delete-info");
-                            deleteInfo.show();
-                            deleteInfo.html("Post deleted.");
-                            $(".delete-post-btn").attr("disabled","true");
-                            $("#edit-post-btn").attr("disabled","true");
-                            $("#delete-list-existent-posts").load(location.href+" #delete-list-existent-posts>*","");
-                        }
-                    });
-                });
+            $.ajax({
+                url: postURL,
+                data: null,
+                cache: false,
+                contentType: false,
+                processData: false,
+                type: 'DELETE',
+                error: function(response){
+                    console.log("There is an error:" + response);
+                },
+                complete: function () {
+                    console.log("Post Deleted");
+                    let deleteInfo = $("#post-delete-info");
+                    deleteInfo.show();
+                    deleteInfo.html("Post deleted.");
+                    $(".delete-post-btn").attr("disabled","true");
+                    $("#edit-post-btn").attr("disabled","true");
+                    $("#delete-list-existent-posts").load(location.href+" #delete-list-existent-posts>*","");
+                }
             });
         }
     }

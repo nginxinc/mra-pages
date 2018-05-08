@@ -7,8 +7,8 @@
 
 $(document).ready(function() {
     $("#update-account-button").click(function(event) {
-        var name = $("#name").val();
-        var email = $("#email").val();
+        let name = $("#name").val();
+        let email = $("#email").val();
         updateUser(event, name, email);
     });
 
@@ -27,44 +27,50 @@ $(document).ready(function() {
     });
 
     $("#album-delete").submit(function(event) {
+        event.preventDefault();
         deleteAlbum(event);
     });
 
     $("#create-post").submit(function (event) {
+        event.preventDefault();
         createPost(event);
     });
 
     $("#post-select").submit(function(event) {
+        event.preventDefault();
         deletePost(event);
     });
 
-    $("#edit-post-btn").click(function () {
+    $("#edit-post-btn").click(function (event) {
+        event.preventDefault();
         getPost($("#select-post-id").val());
-    })
+    });
 
-    $("#delete-editted-post-button").click(function () {
+    $("#delete-editted-post-button").click(function (event) {
+        event.preventDefault();
         deletePost(event);
-    })
+    });
 
     $("#edit-post").submit(function (event) {
+        event.preventDefault();
         patchPost(event);
     });
 
-    $("#add-cover-button").click(function() {
-        var file = $("#add-cover-input").prop('files')[0];
+    $("#add-cover-button").click(function(event) {
+        let file = $("#add-cover-input").prop('files')[0];
         if (file) {
-            var coverInfo = $("#cover-info");
+            let coverInfo = $("#cover-info");
             coverInfo.show();
             coverInfo.html("Uploading...");
         }
         userManagerURL = $(this).attr('userManager');
-        var albumID = $(this).attr('coverPicturesID');
+        let albumID = $(this).attr('coverPicturesID');
 
         uploadSupportImage(file, albumID, true);
     });
 
-    $(".cover-thumb").click(function() {
-        var imageURL = this.id;
+    $(".cover-thumb").click(function(event) {
+        let imageURL = this.id;
         $(".cover-thumb").css({"border-width": "0px"});
         $("#cover-info").show();
 
@@ -95,9 +101,9 @@ $(document).ready(function() {
     });
 
     $("#updateProfilePicture").change(function() {
-        var file = $("#profile-picture-input").prop('files')[0];
+        let file = $("#profile-picture-input").prop('files')[0];
         userManagerURL = $(this).attr('userManager');
-        var albumID = $(this).attr('profilePicturesID');
+        let albumID = $(this).attr('profilePicturesID');
 
         uploadSupportImage(file, albumID, false);
     });
@@ -110,10 +116,10 @@ $(document).ready(function() {
         fbLogin();
     });
 
-    $(".delete-image-btn").click(function(e) {
-        e.preventDefault();
+    $(".delete-image-btn").click(function(event) {
+        event.preventDefault();
 
-        var $lg = $('.album-container');
+        let $lg = $('.album-container');
         $lg.data('lightGallery').destroy();
 
         return false;
@@ -122,19 +128,24 @@ $(document).ready(function() {
     $("#add-post-album-id").change(function(ev) {
         $("#post-photo").val($("#add-post-album-id option:selected").data("poster-photo"));
     });
+
+    $("#edit-post-album-id").change(function(ev) {
+        $("#edit-post-photo").val($("#edit-post-album-id option:selected").data("poster-photo"));
+    });
+
 });
 
 $(document).on( 'click', '.delete-image-btn', function( e ) {
     e.preventDefault();
 
-    var imageID = $(this).attr('id');
-    var urlS3 = $(this).attr('urlS3');
-    var uuid = urlS3.substring(46, 82);
+    let imageID = $(this).attr('id');
+    let urlS3 = $(this).attr('urlS3');
+    let uuid = urlS3.substring(46, 82);
 
     console.log('ImageID: ', imageID);
     console.log('UUID: ', uuid);
 
-    var imageURL = imageManagerURL + "/" + imageID + "/" + uuid;
+    let imageURL = imageManagerURL + "/" + imageID + "/" + uuid;
     if (confirm("Are you sure you want to delete the photo?")) {
         $.ajax({
             url: imageURL,
@@ -155,27 +166,27 @@ $(document).on( 'click', '.delete-image-btn', function( e ) {
             }
         });
 
-        var $lg = $('.album-container');
+        let $lg = $('.album-container');
         $lg.data('lightGallery').destroy();
     }
 
     return false;
 });
 
-var isNewAlbum, isPost, isPatchPost, postImageID, isPosterImageSettedAutomatically;
-var input, loading, result, uploadButton, uploadThumbProto, uploadThumbs, uploadThumbsStr;
+let isNewAlbum, isPost, isPatchPost, postImageID, isPosterImageSettedAutomatically;
+let input, loading, result, uploadButton, uploadThumbProto, uploadThumbs, uploadThumbsStr;
 
-var uploaderURL = "/uploader/image";//this should be set with environment variables
-var albumManagerURL = "/albums";//this should be set with environment variables
-var imageManagerURL = "/images";
-var userManagerURL = "/account/users";//this should be set with environment variables
-var contentServiceURL = "/content-service/v1/content";// this should be set with environment variables
-var uploaded = 0;
-var filesIndex = 0;
-var bannerAlbumBool = false;
-var posterBannerImage = false;
-var posterBannerImageInWaiting;
-var posterBannerContainerInWaiting;
+let uploaderURL = "/uploader/image";//this should be set with environment variables
+let albumManagerURL = "/albums";//this should be set with environment variables
+let imageManagerURL = "/images";
+let userManagerURL = "/account/users";//this should be set with environment variables
+let contentServiceURL = "/content-service/v1/content";// this should be set with environment variables
+let uploaded = 0;
+let filesIndex = 0;
+let bannerAlbumBool = false;
+let posterBannerImage = false;
+let posterBannerImageInWaiting;
+let posterBannerContainerInWaiting;
 
 function setVar() {
     if (isNewAlbum) {
@@ -213,7 +224,7 @@ function setVar() {
 /*****************--------start user account section----------*****************/
 
 function uploadSupportImage(file, albumID, cover) {
-    var data = new FormData;
+    let data = new FormData();
     data.append("image", file );
     data.append("album_id", albumID);
 
@@ -229,7 +240,7 @@ function uploadSupportImage(file, albumID, cover) {
                 console.log("Error Trying To Upload: " + resp.message);
             } else {
                 if (cover) {
-                    var coverURL = resp.large_url;
+                    let coverURL = resp.large_url;
                     setBanner(coverURL);
                     setUser(null, null, coverURL, null);
                 } else {
@@ -272,12 +283,12 @@ function updateUser(event, name, email) {
 }
 
 function setUser(name, email, coverURL, profileURL) {
-    var obj = {};
+    let obj = {};
     if (name) { obj.name = name; }
     if (email) { obj.email = email; }
     if (coverURL) { obj.banner_url = coverURL; }
     if (profileURL) { obj.profile_picture_url = profileURL; }
-    var data = JSON.stringify(obj);
+    let data = JSON.stringify(obj);
 
     $.ajax({
         url: userManagerURL,
@@ -304,8 +315,8 @@ function setUser(name, email, coverURL, profileURL) {
 
 function deleteAlbum(event) {
     event.preventDefault();
-    var album_id = $("#delete-album-id").val();
-    var albumURL = albumManagerURL + "/" + album_id;
+    let album_id = $("#delete-album-id").val();
+    let albumURL = albumManagerURL + "/" + album_id;
     if (album_id) {
         $.ajax({
             url: albumURL,
@@ -322,7 +333,7 @@ function deleteAlbum(event) {
             },
             complete: function () {
                 console.log("Completed");
-                var deleteInfo = $("#delete-info");
+                let deleteInfo = $("#delete-info");
                 deleteInfo.show();
                 deleteInfo.html("Album deleted.");
                 $("#delete-list-existent-albums").load(location.href+" #delete-list-existent-albums>*","");
@@ -347,7 +358,7 @@ function uploadBanner(event) {
 function createAlbum(event) {
     event.preventDefault();
     uploaded = 0;
-    var albumIDPromise = new Promise(function(resolve, reject) {
+    let albumIDPromise = new Promise(function(resolve, reject) {
         initAlbum($("#album-name").val(), resolve, reject);
     });
     albumIDPromise.then(function(data) {
@@ -362,16 +373,16 @@ function createAlbum(event) {
 }
 
 function manageUpload(albumID){
-    var filesPromise = [];
+    let filesPromise = [];
     uploaded = 0;
-    var photoInputLength = input.prop('files').length;
+    let photoInputLength = input.prop('files').length;
     loading.show();
     loading.html(uploaded + " of " + photoInputLength + " Images Uploaded");
     result.show();
     uploadThumbs.data("album-id", albumID);
     for(filesIndex = 0; filesIndex < photoInputLength; filesIndex++) {
-        var file = input.prop('files')[filesIndex];
-        var thumbID = "upload-thumb-" + $('.upload-thumb').length;
+        let file = input.prop('files')[filesIndex];
+        let thumbID = "upload-thumb-" + $('.upload-thumb').length;
         filesPromise[filesIndex] = new Promise( function (resolve, reject) {
             uploadFile("#" + thumbID, file, albumID, resolve, reject);
         });
@@ -390,7 +401,7 @@ function manageUpload(albumID){
         $("#all-images-cover").load(location.href+" #all-images-cover>*","");
     }).catch(function (error){
         if (isNewAlbum) {
-            var albumURL = albumManagerURL + "/" + albumID;
+            let albumURL = albumManagerURL + "/" + albumID;
             if (confirm("An error occurred during the uploading process. Would you like to delete the album?")) {
                 $.ajax({
                     url: albumURL,
@@ -414,13 +425,13 @@ function manageUpload(albumID){
             }
         }
         loading.html(error);
-    })
+    });
 }
 
 function initAlbum(albumName, resolve, reject) {
-    var data = new FormData;
+    let data = new FormData();
     data.append("album[name]", albumName);
-    var album_id = 0;
+    let album_id = 0;
     $.ajax({
         url: albumManagerURL,
         data: data,
@@ -448,7 +459,7 @@ function initAlbum(albumName, resolve, reject) {
 }
 
 function uploadFile(uploadThumbnail, file, albumID, resolve, reject) {
-    var data = new FormData;
+    let data = new FormData();
     data.append("image", file );
     data.append("album_id", albumID);
 
@@ -465,8 +476,8 @@ function uploadFile(uploadThumbnail, file, albumID, resolve, reject) {
                 console.log("Error Trying To Upload: " + resp.message);
                 reject("Error Trying To Upload: " + resp.message);
             } else {
-                var thumbnail = resp.thumb_url;
-                var imageID = resp.id;
+                let thumbnail = resp.thumb_url;
+                let imageID = resp.id;
                 $(uploadThumbnail + " img").show();
                 $(uploadThumbnail + " img").attr('src',thumbnail);
                 $(uploadThumbnail).data('image-id',imageID);
@@ -495,10 +506,10 @@ function uploadFile(uploadThumbnail, file, albumID, resolve, reject) {
 }
 
 function setAlbumPosterImage(imageID, album_id, container) {
-    var data = new FormData;
+    let data = new FormData();
     data.append("album[poster_image_id]", imageID);
-    var putURL = albumManagerURL + "/" +  album_id;
-    var thumbURL;
+    let putURL = albumManagerURL + "/" +  album_id;
+    let thumbURL;
     $.ajax({
         url: putURL,
         data: data,
@@ -553,11 +564,11 @@ function createPost(event) {
         postMethod(JSON.stringify(data), "POST", contentServiceURL, resolve, reject);
     });
 
-    postPromise.then((successMessage) => {
+    postPromise.then(function (successMessage) {
         uploadButton.hide();
         $("#album-upload").find(".label").hide();
         loading.html("Post Upload Complete");
-        $("#delete-list-existent-posts").load(location.href+" #delete-list-existent-posts>*","");
+        $("#delete-list-existent-posts").load(location.href + " #delete-list-existent-posts>*", "");
 
         console.log(successMessage);
     });
@@ -573,13 +584,13 @@ function patchPost(event, article_id) {
     file = input.prop('files')[0];
     albumID = $("#upload-post-photo").attr('articlepicturesid');
 
-    var data = {
+    let data = {
         "title": $("#edit-post-title").val(),
         "body": $("#edit-post-body").val(),
         "photo": $("#edit-post-photo").val(),
         "author": $("#edit-post-author").val(),
         "extract": $("#edit-post-extract").val(),
-        "location": $("#edit-post-location").val()
+        "location": $("#edit-post-location").val(),
         "album_id": Number($("#edit-post-album-id option:selected").val())
     };
 
@@ -587,7 +598,7 @@ function patchPost(event, article_id) {
     uploadThumbProto.show();
 
     postPromise = new Promise(function (resolve, reject) {
-            var url = contentServiceURL + '/' + $("#select-post-id").val();
+            let url = contentServiceURL + '/' + $("#select-post-id").val();
             postMethod(JSON.stringify(data), "PUT", url, resolve, reject);
         });
 
@@ -598,7 +609,6 @@ function patchPost(event, article_id) {
 
             console.log(successMessage);
         });
-    }
     isPatchPost = false;
     uploadThumbProto.hide();
 }
@@ -636,20 +646,21 @@ function getPost(article_id) {
         success: function(data){
             $("#edit-post-title").val(data[0].title);
             $("#edit-post-body").val(data[0].body);
-            $("#edit-post-photo").val("");
-            $("#browse-button-edit-article-album").text("Browse");
-            postImageID = data[0].photo;
+            $("#edit-post-photo").val(data[0].photo);
             $("#edit-post-author").val(data[0].author);
             $("#edit-post-extract").val(data[0].extract);
             $("#edit-post-location").val(data[0].location);
             $("#edit-post-upload-thumb-proto").hide();
             $("#add-editted-post-button").show();
             $("#delete-editted-post-button").show();
-            var postInfo = $("#edit-post-loading");
+            let postInfo = $("#edit-post-loading");
             postInfo.empty();
             postInfo.hide();
             $(".edit-post").toggleClass("open");
             $(".select-post").removeClass("open");
+            $("#edit-post-album-id").val(String(data[0].album_id));
+            // The call above needs to be done after the form is shown
+            // and coercing it to a string ensures that it matches
         },
         error: function(response){
             console.log("There is an error:" + response);
@@ -686,8 +697,8 @@ function deletePost(event) {
             $(".select-post").toggleClass("open");
         }
         event.preventDefault();
-        var post_id = $("#select-post-id").val();
-        var postURL = contentServiceURL + "/" + post_id;
+        let post_id = $("#select-post-id").val();
+        let postURL = contentServiceURL + "/" + post_id;
         if (post_id) {
 
             albumID = $("#upload-post-photo").attr('articlepicturesid');
@@ -697,7 +708,7 @@ function deletePost(event) {
             getPicturePromise.then((successMessage) => {
                 postImageID = successMessage;
                 deletePicturePromise = new Promise(function (resolve, reject) {
-                    var imageURL = uploaderURL + "/uploads/photos/" + postImageID.substring(46, 82);
+                    let imageURL = uploaderURL + "/uploads/photos/" + postImageID.substring(46, 82);
                     postMethod(null, "DELETE", imageURL, resolve, reject);
                 });
                 deletePicturePromise.then((successMessage) => {
@@ -715,7 +726,7 @@ function deletePost(event) {
                         },
                         complete: function () {
                             console.log("Post Deleted");
-                            var deleteInfo = $("#post-delete-info");
+                            let deleteInfo = $("#post-delete-info");
                             deleteInfo.show();
                             deleteInfo.html("Post deleted.");
                             $(".delete-post-btn").attr("disabled","true");
@@ -732,15 +743,15 @@ function deletePost(event) {
 /*****************--------start menus/login section----------*****************/
 
 function logout() {
-    var cookies = document.cookie.split(";");
-    for (var i = 0; i < cookies.length; i++) {
+    let cookies = document.cookie.split(";");
+    for (let i = 0; i < cookies.length; i++) {
         eraseCookie(cookies[i].split("=")[0]);
     }
     window.location.href = '/';
 }
 
 function signOut() {
-    var auth2 = gapi.auth2.getAuthInstance();
+    let auth2 = gapi.auth2.getAuthInstance();
     auth2.signOut().then(function () {
     });
 }
@@ -764,7 +775,7 @@ window.fbAsyncInit = function() {
 
 // Load the SDK asynchronously
 (function(d, s, id) {
-    var js, fjs = d.getElementsByTagName(s)[0];
+    let js, fjs = d.getElementsByTagName(s)[0];
     if (d.getElementById(id)) return;
     js = d.createElement(s); js.id = id;
     js.src = "//connect.facebook.net/en_US/sdk.js";
@@ -774,9 +785,9 @@ window.fbAsyncInit = function() {
 // This is called with the results from from FB.getLoginStatus().
 function statusChangeCallback(response) {
     if (response.status === 'connected') {
-        var d = new Date();
-        var now = d.getTime();
-        var expiresAt = now + response.authResponse.expiresIn;
+        let d = new Date();
+        let now = d.getTime();
+        let expiresAt = now + response.authResponse.expiresIn;
 
         Cookies.set('auth_provider', 'facebook');
         Cookies.set('auth_token', response.authResponse.accessToken);
@@ -803,8 +814,8 @@ function fbLogin() {
 }
 
 function onSignIn(googleUser) {
-    var id_token = googleUser.getAuthResponse().id_token;
-    var expiresAt = googleUser.getAuthResponse().expires_at;
+    let id_token = googleUser.getAuthResponse().id_token;
+    let expiresAt = googleUser.getAuthResponse().expires_at;
 
     Cookies.set('auth_provider', 'google');
     Cookies.set('auth_token', id_token);

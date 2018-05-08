@@ -299,11 +299,11 @@
                 <div class="form-group">
                     <label class="col-xs-4 col-sm-3 col-sm-offset-1 control-label">Album</label>
                     <div id="edit-post-existent-albums" class="col-xs-12 col-sm-8 select-album">
-                        <select class="form-control" id="add-post-album-id" name="album_id">
+                        <select class="form-control" id="edit-post-album-id" name="album_id">
                             <option value="undefined">---</option>
                             {% if catalog is defined %}
                                 {% for album in catalog|reverse %}
-                                    <option data-poster-photo="{{ album.poster_image.medium_url }}" value="{{ album.id }}">{{ album.name }}</option>
+                                    <option data-poster-photo="{{ album.poster_image.medium_url }}" value={{ album.id }}>{{ album.name }}</option>
                                 {% endfor %}
                             {% endif %}
                         </select>
@@ -331,7 +331,7 @@
                 <div class="form-group">
                     <div class="col-md-12 update-account">
                         <button class="btn" id="add-editted-post-button" type="submit">Save Post</button>
-                        <button id="delete-editted-post-button" class="delete-post-btn lg-close" type="button">Delete Post</a>
+                        <button id="delete-editted-post-button" class="delete-post-btn lg-close" type="button">Delete Post</button>
                     </div>
                     <label class="col-sm-offset-1 control-label" id="edit-post-loading"></label><br>
                     <div class="result" id="edit-post-result"></div>

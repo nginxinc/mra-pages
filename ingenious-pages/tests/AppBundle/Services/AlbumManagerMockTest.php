@@ -13,7 +13,7 @@ namespace AppBundle\Services;
 
 use Symfony\Component\Serializer\Encoder\JsonDecode;
 
-class PhotoManagerMockTest extends PhotoManager {
+class AlbumManagerMockTest extends AlbumManager {
 
     private $decoder;
 
@@ -84,7 +84,7 @@ EOT;
 EOT;
 
     /**
-     * PhotoManagerMockTest constructor. Overrides parent method and creates
+     * AlbumManagerMockTest constructor. Overrides parent method and creates
      * a decoder instance to be used by the functions in the class
      *
      * @param string $authID
@@ -94,7 +94,7 @@ EOT;
     }
 
     /**
-     * Overrides PhotoManager#getAllImages() method. Encodes the
+     * Overrides AlbumManager#getAllImages() method. Encodes the
      * $imageJson string to JSON
      *
      * @return mixed
@@ -104,7 +104,7 @@ EOT;
     }
 
     /**
-     * Overrides the PhotoManager#getCatalog() function. Encodes the $albumJson
+     * Overrides the AlbumManager#getCatalog() function. Encodes the $albumJson
      * variable as JSON
      *
      * @return mixed

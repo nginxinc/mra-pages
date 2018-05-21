@@ -1312,6 +1312,27 @@ form .upload-thumb {
   text-decoration: none;
   text-transform: uppercase;
 }
+
+.back-to-home {
+  clear: both;
+  display: block;
+  margin: auto;
+  position: relative;
+  width: 28.5em;
+  padding: 2em;
+}
+.back-to-home a {
+  border: 0.071em solid #01DD60;
+  color: #01DD60;
+  font-family: "aktiv_grotesk_thin", sans-serif;
+  font-size: 1em;
+  letter-spacing: 0.071em;
+  padding: 0.357em 0.714em;
+  text-align: center;
+  text-decoration: none;
+  text-transform: uppercase;
+}
+
 .photo-title {
   color: #01DD60;
   font-family: "aktiv_grotesk_thin", sans-serif;
@@ -2269,6 +2290,7 @@ input[type="file"] > input[type="button"]::-moz-focus-inner {
     font-size: 14px;
     letter-spacing: 0.3px;
     line-height: 22px;
+    min-height: 70px;
   }
   .post-content p {
     font-size: 14px;

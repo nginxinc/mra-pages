@@ -52,26 +52,39 @@
     // Lightbox for album
     $('.album-container').lightGallery({
         mode: 'lg-fade',
-        cssEasing : 'cubic-bezier(0.25, 0, 0.25, 1)',
+        cssEasing: 'cubic-bezier(0.25, 0, 0.25, 1)',
         counter: false,
-        download: false,
+        download: false
     });
 
-    $( document ).on( 'click', '.back-to-album', function( e ) {
+    $(document).on( 'click', '.back-to-album', function (e) {
         e.preventDefault();
 
         var $lg = $('.album-container');
         $lg.data('lightGallery').destroy();
 
         return false;
-    } );
+    });
 
-    $(".hideOverflow").click(function() {
+    $(".hideOverflow").click(function () {
         $('html, body').css('overflow', 'hidden');
     });
 
-    $('.album-container').lightGallery().on('onCloseAfter.lg', function() {
+    $('.album-container').lightGallery().on('onCloseAfter.lg', function () {
         $('html, body').css('overflow', 'auto');
+    });
+
+    $(document).ready(function () {
+        var $lg = $('#lightgallery');
+        $lg.lightGallery({
+            mode: 'lg-fade',
+            cssEasing: 'cubic-bezier(0.25, 0, 0.25, 1)',
+            counter: false,
+            download: false
+        });
+        $(".photo-thumb:first").click();
+        // Had to do the click approach because the documented way of
+        // $lg.data('lightGallery').slide(0) doesn't work
     });
 
     // Add album

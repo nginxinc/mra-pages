@@ -13,7 +13,7 @@ ARG USE_VAULT_ARG
 # - local
 ENV USE_NGINX_PLUS=${USE_NGINX_PLUS_ARG:-true} \
     USE_VAULT=${USE_VAULT_ARG:-false} \
-    SYMFONY_ENV=prod \
+    SYMFONY_ENV=dev \
     CONTAINER_ENGINE=${CONTAINER_ENGINE_ARG:-kubernetes}
 
 COPY nginx/ssl /etc/ssl/nginx/

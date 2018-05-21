@@ -21,20 +21,16 @@ case "$NETWORK" in
         NGINX_CONF="/etc/nginx/fabric_nginx_$CONTAINER_ENGINE.conf"
         echo 'Fabric configuration set'
         nginx -c "$NGINX_CONF" -g "pid $NGINX_PID;" &
-
-        sleep  20
-        while [ -f "$NGINX_PID" ] &&  [ -f "$fpm_pid" ];
-        do
-	        sleep 5;
-        done
         ;;
     router-mesh)
-        while [ -f "$fpm_pid" ];
-        do
-	        sleep 5;
-        done
         ;;
     *)
         echo 'Network not supported'
         exit 1
 esac
+
+sleep  20
+while [ -f "$NGINX_PID" ] &&  [ -f "$fpm_pid" ];
+do
+    sleep 5;
+done

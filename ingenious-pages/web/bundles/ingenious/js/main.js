@@ -82,7 +82,7 @@
             counter: false,
             download: false
         });
-        $(".photo-thumb:first").click();
+        $("post-photo-thumb:first").click();
         // Had to do the click approach because the documented way of
         // $lg.data('lightGallery').slide(0) doesn't work
     });

@@ -203,7 +203,9 @@
                             <option value="undefined">---</option>
                             {% if catalog is defined %}
                                 {% for album in catalog|reverse %}
-                                    {% if not album.public %}{# this keeps posted albums from being used twice #}
+                                    {% if album.public %}{# this keeps posted albums from being used twice #}
+                                        <option disabled data-poster-photo="{{ album.poster_image.medium_url }}" value={{ album.id }}>{{ album.name }} -- Already Posted </option>
+                                    {% else %}
                                         <option data-poster-photo="{{ album.poster_image.medium_url }}" value={{ album.id }}>{{ album.name }}</option>
                                     {% endif %}
                                 {% endfor %}
@@ -306,7 +308,9 @@
                             <option value="undefined">---</option>
                             {% if catalog is defined %}
                                 {% for album in catalog|reverse %}
-                                    {% if not album.public %}{# this keeps posted albums from being used twice #}
+                                    {% if album.public %}{# this keeps posted albums from being used twice #}
+                                        <option disabled data-poster-photo="{{ album.poster_image.medium_url }}" value={{ album.id }}>{{ album.name }} -- Already Posted </option>
+                                    {% else %}
                                         <option data-poster-photo="{{ album.poster_image.medium_url }}" value={{ album.id }}>{{ album.name }}</option>
                                     {% endif %}
                                 {% endfor %}

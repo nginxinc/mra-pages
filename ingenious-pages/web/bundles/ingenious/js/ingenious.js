@@ -574,6 +574,7 @@ function createPost(event) {
     });
     isPost = false;
     uploadThumbProto.hide();
+    refreshMenus();
 }
 
 function patchPost(event, article_id) {
@@ -608,6 +609,7 @@ function patchPost(event, article_id) {
         });
     isPatchPost = false;
     uploadThumbProto.hide();
+    refreshMenus();
 }
 
 function postMethod(data, method, url, resolve, reject) {
@@ -656,6 +658,7 @@ function getPost(article_id) {
             $(".edit-post").toggleClass("open");
             $(".select-post").removeClass("open");
             $("#edit-post-album-id").val(String(data[0].album_id));
+            $('#edit-post-album-id option[value="' + String(data[0].album_id) + '"]').prop('disabled', false);
             // The call above needs to be done after the form is shown
             // and coercing it to a string ensures that it matches
         },
@@ -715,6 +718,7 @@ function deletePost(event) {
                     $(".delete-post-btn").attr("disabled","true");
                     $("#edit-post-btn").attr("disabled","true");
                     $("#delete-list-existent-posts").load(location.href+" #delete-list-existent-posts>*","");
+                    refreshMenus();
                 }
             });
         }
@@ -816,4 +820,15 @@ function onSignIn(googleUser) {
 function onFailure(error) {
     console.log(error);
     console.log('google sign in failure');
+}
+
+const refreshMenus = () => {
+    $.ajax({
+        url:window.location,
+        type:'GET',
+        success: function(data){
+            $('#add-post-album-id').html($(data).find('#add-post-album-id').html());
+            $('#edit-post-album-id').html($(data).find('#edit-post-album-id').html());
+        }
+    });
 }

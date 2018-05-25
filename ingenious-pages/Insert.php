@@ -1,107 +1,126 @@
 <?php
 /**
-//  IngeniousHomeController.php
+//  Insert.php
 //  Pages
 //
-//  Copyright © 2017 NGINX Inc. All rights reserved.
+//  Copyright © 2018 NGINX Inc. All rights reserved.
  */
 
 // Initialize url to services from environment
-$content_path = getenv("CONTENTSERVICE_ARTICLE_PATH");
-$user_path = getenv("USERMANAGER_LOCAL_PATH");
-$uploader_path = getenv("PHOTOUPLOADER_IMAGE_PATH");
+// The service endpoint should be same
+$user_url = getenv("USERMANAGER_ENDPOINT_URL") . getenv("USERMANAGER_LOCAL_PATH");
+$content_url = getenv("CONTENTSERVICE_ENDPOINT_URL") . getenv("CONTENTSERVICE_ARTICLE_PATH");
+$uploader_url = getenv("PHOTOUPLOADER_ENDPOINT_URL") . getenv("PHOTOUPLOADER_IMAGE_PATH");
+$album_url = getenv("ALBUMMANAGER_ENDPOINT_URL") . getenv("ALBUMMANAGER_ALBUM_PATH");
 
-// Wait for response from uploader
+// Wait for response from uploader, album-manager, content-service
 $responseCode = 0;
-while ($responseCode == "0" || $responseCode == "502"){
-    $responseCode = connect("https:/" . $uploader_path);
-    sleep(5);
+
+foreach (array($user_url, $user_url, $album_url, $uploader_url) as $service){
+    echo "Testing to see if the service is up: " . $service . "\n";
+    while ($responseCode == "0" || $responseCode == "502"){
+        $responseCode = connect( $service);
+        sleep(5);
+    }
 }
 
 // GET articles to verify articles in DB
-$resp = json_decode(getRequest('https:/' . $content_path));
+$resp = json_decode(getRequest($content_url));
 
 if ($resp == null){
 
     $data = array("email" => "invisibleUser@fakewebsite.com", "password" => "securePassword");
     $post_opts = json_encode($data);
 
-    $post_resp = json_decode(postRequest('https:/' . $user_path, $post_opts));
-
-    // --------------------------San Francisco Post----------------------------------
-
-    // Upload image
+    $post_resp = json_decode(postRequest($user_url, $post_opts));
     $auth = $post_resp->id;
-    $album_id = $post_resp->article_pictures_id;
-    $post_opts = [
-        "image" => new CurlFile("/ingenious-pages/web/bundles/ingenious/images/golden-gate-bridge.jpg", 'image/jpg'),
-        "album_id" => $album_id,
-    ];
+    echo "Auth-ID: " . $auth . "\n";
 
-    $post_resp = json_decode(postWithAuth("https:/" . $uploader_path, $post_opts, $auth));
+    // --------------------------NYC B&W Photos Post----------------------------------
 
-    // Data for San Francisco post
-    $data = array("title" => "San Francisco: Something For Everyone",
-        "body" => "Home of tech behemoths some of which include AirBnB, Twitter, and Uber, San Francisco is perhaps most known for its booming industry. But what makes it such an iconic place to live? Whether it's the expansive lengths of the golden gate bridge, the classic display of Full House's very own painted ladies, or the towering presence of the newly constructed Salesforce tower - the likes of which can be seen from any point in the city - there's no arguing San Francisco is one of the most well known and beloved cities in America. Who knows what started the boom in San Francisco's popularity. Perhaps it was the top college in the area - U.C. Berkeley - that brought the best and brightest individuals to the city to study and to live. Or perhaps it was the location of the city within California; it's only a three hour drive from the city limits to the picturesque view of Yosemite National park, or an even shorter 16 miles to San Francisco's local stand of redwoods at Muir Woods National Monument. Plus, its location so close to the water means a temperate climate all year round. Whether it's the vibrant streets of the Castro, the outstanding culture, artwork, and architecture of the Mission District, or the bustling streets of the Financial district, San Francisco has a little something for everyone.",
-        "extract" => "Home of tech behemoths some of which include AirBnB, Twitter, and Uber, San Francisco is perhaps most known for its booming industry. But what makes it...",
-        "location" => "San Francisco, CA",
-        "photo" => $post_resp->large_url,
-        "author" => "NGINX"
-    );
-    $post_opts = json_encode($data);
-
-    // POST to content service
-    echo postWithAuth('https:/' . $content_path, $post_opts, $auth);
-
-
-    // --------------------------Black and White Photos Post----------------------------------
-
-    // Upload image
-    $post_opts = [
-        "image" => new CurlFile("/ingenious-pages/web/bundles/ingenious/images/mountain-black-and-white.jpg", 'image/jpg'),
-        "album_id" => $album_id,
-    ];
-
-    $post_resp = json_decode(postWithAuth("https:/" . $uploader_path, $post_opts, $auth));
-
-    // Data for Black and White post
-    $data = array("title" => "Black and White Photos from Around the World",
-        "body" => "We have finally gotten around to putting up all the photos we have been taking recently and hopefully they will look better than ever. It's strange to be back from our month away - there's a reason why people say that the vacation blues are a thing. I never thought when my wife presented me with a one month trip to Europe that we would actually do it. No way would work let me off for such a lengthy amount of time, and of course the kids couldn't be left without their parents for so long. Looking back it all feels like a dream. We started in Paris, of course, being that was the place Shelly and I had always dreamed of visiting. Though it was a bit cold in the winter, that didn't stop us from walking the city streets at night and perusing the marketplaces places by day. We took our time in the city, spending about a week and a half wine tasting and dancing the nights away - but of course we didn't forget to relax as well. Then we went to the absolutely stunning mountains of Davos, Switzerland to ski. We booked a room in one of the hotels in the city, at the base of the mountain. We spent the next week delighting ourselves with scenic views on top of the mountain by day and cuddled up next to the fireplace built into our room at night - watching movies and drinking some of the best hot chocolate (secret ingredient? A little bit of grappa) I have ever tasted. It was a true bonding experience for the two of us; I really enjoy that we had this opportunity. We ended up coming back from the trip a week early because of homesickness. It was great to get away, but our true home is with the kids. Still, I'll never forget those nights in the city of love - streets lit by the festive decorations of the holidays. Or the eventful days atop the mountains of the Rhaetian Alps, skiing until our legs gave out from under us. Next we want to visit Vietnam for their delicious food and vibrant culture. But that's another day, another adventure.",
-        "extract" => "We have finally gotten around to putting up all the photos we have been taking recently and hopefully they will look better than ever. It's strange to be...",
+    // Data for NYC post
+    $data = array("title" => "New York City in Winter",
+        "body" => "New York City takes on a quiet calm after a snowfall. The hustle and bustle fo the city-that-never-sleeps slows down as snow dampens the echoes and constant din of activity. Central Park is particularly enchanting wrapped in the mantel of winter. Trees take on eerie angles against the smooth snow and even squirrels slow down in the winter cold.",
+        "extract" => "New York City takes on a quiet calm after a snowfall. The hustle and bustle fo the city-that-never-sleeps slows down...",
         "location" => "New York, NY",
-        "photo" => $post_resp->large_url,
-        "author" => "NGINX"
-    );
-    $post_opts = json_encode($data);
-
-    // POST to content service
-    echo postWithAuth("https:/" . $content_path, $post_opts, $auth);
-
-    // --------------------------Sydney, Australia Post----------------------------------
-
-    // Upload image
-    $post_opts = [
-        "image" => new CurlFile("/ingenious-pages/web/bundles/ingenious/images/mountain-black-and-white.jpg", 'image/jpg'),
-        "album_id" => $album_id,
-    ];
-
-    $post_resp = json_decode(postWithAuth('https:/' . $uploader_path, $post_opts, $auth));
-
-    // Data for Sydney post
-    $data = array("location" => "Sydney, Australia",
+        "photo" => "central_park_winter_2000_01.jpg",
         "author" => "NGINX",
-        "title" => "Fun in Sydney",
-        "extract" => "Home to beaches, friendly people, and the world famous Opera House, Sydney is a must-see for any traveler...",
-        "body" => "The Australian cultural experience begins as soon as you set foot on the train between the airport and downtown. There you will meet locals and travelers alike.<br/>If you visit at the right time of the year, you can join in the festiviites which surround the Melbourne Cup, the biggest horse race in Australia. In Sydney, part of the pageantry of the event is for women to wear summer dresses with matching hats and for men to wear suits. If you find yourself in Sydney's Central Business District (or CBD) look for a bar called “Establishment”. There you will find a lot of friendly people who will show you a good time around Sydney.",
-        "photo" => $post_resp->large_url
+        "directory" => "/ingenious-pages/web/bundles/ingenious/images/NYC_BW",
+        "auth" => $auth
     );
-    $post_opts = json_encode($data);
+    createAPost($data);
 
-    // POST to content service
-    echo postWithAuth("https:/" . $content_path, $post_opts, $auth);
+
+    // --------------------------Paris B&W Photos Post----------------------------------
+
+    // Data for NYC post
+    $data = array("title" => "Paris, France in Black and White",
+        "body" => "Paris is an eloquent blend of the ancient, the old and the very modern. It has been the capital of art and European culture for centuries. The Eiffel Tower, Nortre Dame and Sculptures that dot the landscape of Paris elicit a yearning the is felt in the hearts and souls of all people.",
+        "extract" => "Paris is an eloquent blend of the ancient, the old and the very modern. It has been the capital of art...",
+        "location" => "Paris, FR",
+        "photo" => "DSCN0225.JPG",
+        "author" => "NGINX",
+        "directory" => "/ingenious-pages/web/bundles/ingenious/images/PARIS_BW",
+        "auth" => $auth
+    );
+    createAPost($data);
+
+    // --------------------------Orchids Post----------------------------------
+
+    // Data for NYC post
+    $data = array("title" => "Summer Orchids",
+        "body" => "Orchids are the flagbearers of one of the great revolutions in life on earth – the emergence of the flowering plant. From about 500 million years ago, plants began to cover the land surface, gradually becoming taller and forming forests. But they were mostly pollinated by the wind, and flower-less. The earth was simply green. Many shades of green. But green.",
+        "extract" => "Orchids are the flagbearers of one of the great revolutions in life on earth...",
+        "location" => "San Francisco, CA",
+        "photo" => "sept_orchids_2005_06.jpg",
+        "author" => "NGINX",
+        "directory" => "/ingenious-pages/web/bundles/ingenious/images/ORCHIDS",
+        "auth" => $auth
+    );
+    createAPost($data);
 }
 else {
     echo "Articles aready in database!";
+}
+
+
+function createAPost($dataSet){
+
+    // Upload image
+    $auth = $dataSet['auth'];
+    $data = array("album[name]" => $dataSet['title']);
+    $post_opts = json_encode($data);
+    $post_resp = json_decode((postWithAuth($GLOBALS['album_url'], $post_opts, $auth)));
+
+    $album_id = $post_resp->id;
+    echo "Album ID = " . $album_id . "\n";
+    $directory = $dataSet['directory'];
+    $poster_photo = $directory . "/" . $dataSet['photo'];
+
+    foreach (array_diff(scandir($directory), array('..', '.')) as $image)
+    {
+        $post_opts = [
+            "image" => new CurlFile($directory . "/" . $image, 'image/jpg'),
+            "album_id" => $album_id,
+        ];
+
+        $post_resp = json_decode(postWithAuth($GLOBALS['uploader_url'], $post_opts, $auth));
+        if (strpos($image, $dataSet['photo']) !== false) {$poster_photo = $post_resp->medium_url;}
+    }
+
+    // Data for post
+    $data = array("title" => $dataSet['title'],
+        "body" => $dataSet['body'],
+        "extract" => $dataSet['extract'],
+        "location" => $dataSet['location'],
+        "photo" => $poster_photo,
+        "author" => $dataSet['author'],
+        "album_id" => $album_id
+    );
+    $post_opts = json_encode($data);
+
+    // POST to content service
+    echo postWithAuth($GLOBALS['content_url'], $post_opts, $auth);
 }
 
 
@@ -109,7 +128,7 @@ else {
 // @parameter: $url: url to service
 // @return: return of GET request
 function getRequest($url){
-
+    echo "getRequest url:" . $url . "\n";
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
     curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
@@ -124,6 +143,7 @@ function getRequest($url){
 //  $opts: options set for POST request
 // @return: return of POST request
 function postRequest($url, $opts){
+    echo "postRequest url:" . $url . "\n";
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
     curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
@@ -144,6 +164,7 @@ function postRequest($url, $opts){
 //  $auth_id: id of fake user to verify POST
 // @return: return of POST request
 function postWithAuth($url, $opts, $auth_id){
+    echo "postWithAuth url:" . $url . "\n";
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
     curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
@@ -160,6 +181,7 @@ function postWithAuth($url, $opts, $auth_id){
 }
 
 function connect($url){
+    echo "connect url:" . $url . "\n";
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
     curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);

@@ -19,7 +19,7 @@ COPY nginx/ssl /etc/ssl/nginx/
 # Get other files required for installation
 RUN apt-get update && apt-get install -y \
     wget \
-    curl \
+    php5-curl \
     apt-transport-https \
     vim \
     libcurl3-gnutls \

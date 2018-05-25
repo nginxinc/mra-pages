@@ -1,0 +1,71 @@
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: pages
+  namespace: nginx-mra
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: nginx-mra
+        component: pages
+    spec:
+      imagePullSecrets:
+        - name: <DOCKER_SECRET>
+      containers:
+      - name: pages
+        image: <IMAGE_REPO_AND_TAG>
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 443
+          name: https
+        env:
+          - name: AWS_ACCESS_KEY_ID
+            value: <AWS_ACCESS_KEY_ID>
+          - name: AWS_REGION
+            value: us-west-1
+          - name: AWS_SECRET_ACCESS_KEY
+            value: <AWS_SECRET_ACCESS_KEY>
+          - name: CONTENTSERVICE_ARTICLE_PATH
+            value: /content-service/v1/content
+          - name: CONTENTSERVICE_ENDPOINT_URL
+            value: http://localhost
+          - name: PHOTOMANAGER_ALBUM_PATH
+            value: /album-manager/albums
+          - name: PHOTOMANAGER_CATALOG_PATH
+            value: /album-manager/albums
+          - name: PHOTOMANAGER_ENDPOINT_URL
+            value: http://localhost
+          - name: PHOTOMANAGER_IMAGES_PATH
+            value: /album-manager/images
+          - name: PHOTOUPLOADER_ALBUM_PATH
+            value: /uploader/album
+          - name: PHOTOUPLOADER_ENDPOINT_URL
+            value: http://localhost
+          - name: PHOTOUPLOADER_IMAGE_PATH
+            value: /uploader/image
+          - name: REDIS_CACHE_PORT
+            value: "6379"
+          - name: REDIS_CACHE_URL
+            value: redis.nginx-mra.svc.cluster.local
+          - name: S3_BUCKET
+            value: k8s-mra-nginx
+          - name: USERMANAGER_ENDPOINT_URL
+            value: http://localhost
+          - name: USERMANAGER_LOCAL_PATH
+            value: /user-manager/v1/users
+          - name: USERMANAGER_USER_PATH
+            value: /user-manager/v1/users
+        livenessProbe:
+          httpGet:
+            scheme: HTTPS
+            path: /status
+            port: 443
+            httpHeaders:
+              - name: Host
+                value: <K8S_HOST_NAME>
+          periodSeconds: 20
+          timeoutSeconds: 20
+          successThreshold: 1
+          failureThreshold: 10

@@ -23,7 +23,7 @@ case "$NETWORK" in
         NGINX_CONF="/etc/nginx/fabric_nginx_$CONTAINER_ENGINE.conf"
         echo 'Fabric configuration set'
         nginx -c "$NGINX_CONF" -g "pid $NGINX_PID;" &
-        
+
         sleep  20
         while [ -f "$NGINX_PID" ] &&  [ -f "$fpm_pid" ];
         do

@@ -2,6 +2,6 @@
 parameters:
     secret: prodSecretTokenDontLoseIt
     user_manager_class: AppBundle\Services\UserManager
-    photo_manager_class: AppBundle\Services\PhotoManager
+    album_manager_class: AppBundle\Services\AlbumManager
     content_manager_class: AppBundle\Services\ContentManager
     photo_uploader_class: AppBundle\Services\PhotoUploader

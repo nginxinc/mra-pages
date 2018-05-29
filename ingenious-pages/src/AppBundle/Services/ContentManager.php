@@ -32,7 +32,7 @@ class ContentManager {
     private $client = null;
 
     /**
-     * PhotoManager constructor.
+     * AlbumManager constructor.
      */
     public function __construct() {
         $this->url = getenv("CONTENTSERVICE_ENDPOINT_URL");
@@ -46,6 +46,7 @@ class ContentManager {
         $content = $this->articlesPath;//because we have to use local proxy for JavaScript XHR
         return $content;
     }
+
 
     /**
      * Function which makes a request to the content service to retrieve all

@@ -1,6 +1,6 @@
 <?php
 /**
-//  PhotoManager.php
+//  AlbumManager.php
 //  Pages
 //
 //  Copyright © 2017 NGINX Inc. All rights reserved.
@@ -14,10 +14,10 @@ use GuzzleHttp\Exception\RequestException;
 use Symfony\Component\Serializer\Encoder\JsonDecode;
 
 /**
- * Class PhotoManager
+ * Class AlbumManager
  * @package AppBundle\Services
  */
-class PhotoManager {
+class AlbumManager {
 
     /**
      * @var string
@@ -36,6 +36,10 @@ class PhotoManager {
      */
     private $albumPath;
     /**
+     * @var string
+     */
+    private $publicAlbumPath;
+    /**
      * @var Client
      */
     private $client = null;
@@ -45,17 +49,18 @@ class PhotoManager {
     private $authID = null;
 
     /**
-     * PhotoManager constructor. sets local variables from the system environment
+     * AlbumManager constructor. sets local variables from the system environment
      * variables
      *
      * @param $authID string used to set the authID variable. Represents the ID
      * of a specific user
      */
     public function __construct($authID) {
-        $this->url = getenv("PHOTOMANAGER_ENDPOINT_URL");
-        $this->catalogPath = getenv("PHOTOMANAGER_CATALOG_PATH");
-        $this->albumPath = getenv("PHOTOMANAGER_ALBUM_PATH");
-        $this->imagesPath = getenv("PHOTOMANAGER_IMAGES_PATH");
+        $this->url = getenv("ALBUMMANAGER_ENDPOINT_URL") ?: "http://localhost";
+        $this->catalogPath = getenv("ALBUMMANAGER_CATALOG_PATH") ?: "/album-manager/albums";
+        $this->albumPath = getenv("ALBUMMANAGER_ALBUM_PATH") ?: "/album-manager/albums";
+        $this->imagesPath = getenv("ALBUMMANAGER_IMAGES_PATH") ?: "/album-manager/images";
+        $this->publicAlbumPath = getenv("ALBUMMANAGER_PUBLIC_PATH") ?: "/album-manager/public";
         $this->authID = $authID;
 
     }
@@ -86,6 +91,22 @@ class PhotoManager {
 
         // set the album path and concatenate the albumID
         $path = $this->albumPath . '/' . $albumId;
+
+        return $this->getRequest($path);
+    }
+
+    /**
+     * Retrieve a specific album from the album manager service by calling the
+     * getRequest function
+     *
+     * @param $albumId string, the ID of the album to retrieve
+     *
+     * @return string the response from the getRequest function
+     */
+    public function getPublicAlbum($albumId) {
+
+        // set the album path and concatenate the albumID
+        $path = $this->publicAlbumPath . '/' . $albumId;
 
         return $this->getRequest($path);
     }

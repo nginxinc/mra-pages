@@ -43,7 +43,7 @@
         {% endblock %}
 
         <div class="right-nav-btn">
-            {% if catalog is defined  %}<!--User Must be logged in and PhotoManager intialized -->
+            {% if catalog is defined  %}<!--User Must be logged in and AlbumManager intialized -->
             <a href="#"><img src="{{ asset('bundles/ingenious/images/icon-plus.png') }}"></a>
             {% endif %}
         </div>
@@ -104,7 +104,9 @@
                                 <option value="undefined">---</option>
                                 {% if catalog is defined %}
                                     {% for album in catalog|reverse %}
-                                        <option value="{{ album.id }}">{{ album.name }}</option>
+                                        {% if album.id != profilePicturesID and album.id != coverPicturesID and album.state == 'active' %}
+                                            <option value="{{ album.id }}">{{ album.name }}</option>
+                                        {% endif %}
                                     {% endfor %}
                                 {% endif %}
                             </select>
@@ -154,7 +156,10 @@
                                 <option value="undefined">---</option>
                                 {% if catalog is defined %}
                                     {% for album in catalog|reverse %}
-                                        <option value="{{ album.id }}">{{ album.name }}</option>
+                                        {% if album.id != profilePicturesID and album.id != coverPicturesID and album.state == 'active' and not album.public%}
+                                            {# the 'not album.public' keeps posted albums from being deleted #}
+                                            <option value="{{ album.id }}">{{ album.name }}</option>
+                                        {% endif %}
                                     {% endfor %}
                                 {% endif %}
                             </select>
@@ -191,16 +196,23 @@
                         <textarea name="body" id="post-body" type="text" class="post-body" required="required"></textarea>
                     </div>
                 </div>
-                <div class="form-group" id="upload-post-photo" {% if articlePicturesID is defined %}
-                        articlePicturesID="{{ articlePicturesID }}"{% endif %}>
-                    <label class="col-xs-4 col-sm-3 col-sm-offset-1 control-label">Photo</label>
-                    <div class="col-xs-8">
-                        <div class="col-xs-4 update-pp">
-                            <input name="photo" id="post-photo" type="file" class="form-control" single="single"
-                                   accept="image/*" required/>
-                            <span id="browse-button-article-album">Browse</span>
-                        </div>
+                <div class="form-group">
+                    <label class="col-xs-4 col-sm-3 col-sm-offset-1 control-label">Album</label>
+                    <div id="add-post-existent-albums" class="col-xs-12 col-sm-8 select-album">
+                        <select class="form-control" id="add-post-album-id" name="album_id">
+                            <option value="undefined">---</option>
+                            {% if catalog is defined %}
+                                {% for album in catalog|reverse %}
+                                    {% if album.public %}{# this keeps posted albums from being used twice #}
+                                        <option disabled data-poster-photo="{{ album.poster_image.medium_url }}" value={{ album.id }}>{{ album.name }} -- Already Posted </option>
+                                    {% else %}
+                                        <option data-poster-photo="{{ album.poster_image.medium_url }}" value={{ album.id }}>{{ album.name }}</option>
+                                    {% endif %}
+                                {% endfor %}
+                            {% endif %}
+                        </select>
                     </div>
+                    <input name="photo" id="post-photo" type="hidden" class="form-control" required="required" maxlength="256">
                 </div>
                 <div class="form-group">
                     <label class="col-xs-4 col-sm-3 col-sm-offset-1 control-label">Author</label>
@@ -289,16 +301,23 @@
                         <textarea name="body" id="edit-post-body" type="text" class="post-body" required="required"></textarea>
                     </div>
                 </div>
-                <div class="form-group" id="edit-upload-post-photo" {% if articlePicturesID is defined %}
-                        articlePicturesID="{{ articlePicturesID }}"{% endif %}>
-                    <label class="col-xs-4 col-sm-3 col-sm-offset-1 control-label">Photo</label>
-                    <div class="col-xs-8">
-                        <div class="col-xs-4 update-pp">
-                            <input name="photo" id="edit-post-photo" type="file" class="form-control" single="single"
-                                   accept="image/*"/>
-                            <span id="browse-button-edit-article-album">Browse</span>
-                        </div>
+                <div class="form-group">
+                    <label class="col-xs-4 col-sm-3 col-sm-offset-1 control-label">Album</label>
+                    <div id="edit-post-existent-albums" class="col-xs-12 col-sm-8 select-album">
+                        <select class="form-control" id="edit-post-album-id" name="album_id">
+                            <option value="undefined">---</option>
+                            {% if catalog is defined %}
+                                {% for album in catalog|reverse %}
+                                    {% if album.public %}{# this keeps posted albums from being used twice #}
+                                        <option disabled data-poster-photo="{{ album.poster_image.medium_url }}" value={{ album.id }}>{{ album.name }} -- Already Posted </option>
+                                    {% else %}
+                                        <option data-poster-photo="{{ album.poster_image.medium_url }}" value={{ album.id }}>{{ album.name }}</option>
+                                    {% endif %}
+                                {% endfor %}
+                            {% endif %}
+                        </select>
                     </div>
+                    <input name="photo" id="edit-post-photo" type="hidden" class="form-control" required="required" maxlength="256">
                 </div>
                 <div class="form-group">
                     <label class="col-xs-4 col-sm-3 col-sm-offset-1 control-label">Author</label>
@@ -321,7 +340,7 @@
                 <div class="form-group">
                     <div class="col-md-12 update-account">
                         <button class="btn" id="add-editted-post-button" type="submit">Save Post</button>
-                        <button id="delete-editted-post-button" class="delete-post-btn lg-close" type="button">Delete Post</a>
+                        <button id="delete-editted-post-button" class="delete-post-btn lg-close" type="button">Delete Post</button>
                     </div>
                     <label class="col-sm-offset-1 control-label" id="edit-post-loading"></label><br>
                     <div class="result" id="edit-post-result"></div>

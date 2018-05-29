@@ -12,42 +12,53 @@
             {% block hero %}
             <div class="post-hero-banner">
                 <div class="post-header">
-                    <img class="post-featured-image" src="{{ article.photo }}">
-
                     <div class="single-post-title">
                         <h1>{{ article.title }}</h1>
-                        <div class="post-navigation">
-                            <div class="post-prev">
-                                <a href="#"><img src="{{ asset('bundles/ingenious/images/arrow-left.png') }}" alt="Author"></a>
-                            </div>
-                            <div class="post-next">
-                                <a href="#"><img src="{{ asset('bundles/ingenious/images/arrow-right.png') }}" alt="Author"></a>
-                            </div>
-                        </div>
                     </div>
+                    {#% block photos %#}
+                    <div id="lightgallery">
+                        {% for image in images %}
+                        <!--single-photo-->
+                            <a class="hideOverflow" href="{{ image.medium_url }}" data-sub-html='<h1 class="photo-title">{{ image.name }}</h1>
+                            <div class="single-post-title">
+                                <h1>{{ article.title }}</h1>
+                            </div>
+                            <div class="single-post-meta">
+                                <div class="author-meta">
+                                    <img class="pull-left" src="{{ asset('bundles/ingenious/images/author-avatar.png') }}" alt="Author">
+                                    <h4 class="pull-left">{{ article.author }}</h4>
+                                </div>
+                                <div class="date-meta pull-left">
+                                    <p> <time datetime="01-13-16">{{ article.date | date("m/d/Y") }} </time> </p>
+                                </div>
+                                <div class="place-meta">
+                                    <img class="pull-left" src="{{ asset('bundles/ingenious/images/icon-map-marker.png') }}" alt="Location">
+                                    <h4 class="pull-left">{{ article.location }}</h4>
+                                </div>
+                            </div>
+                            {% block article %}
+                            <div class="post-content">
+                                <div class="content-inner">
+                                    <p>{{ article.body }}</p>
+                                </div>
+                            </div>
+                            {% endblock %}
+                            <div class="back-to-home">
+                                <a href="/#{{ article.id }}">Back to Home</a>
+                            </div> '>
+                            <!--./lightbox content for each photo ****NOTE THE '> AT THE END OF THE data-sub-html element****-->
 
-                    <div class="single-post-meta">
-                        <div class="author-meta">
-                            <img class="pull-left" src="{{ asset('bundles/ingenious/images/author-avatar.png') }}" alt="Author">
-                            <h4 class="pull-left">{{ article.author }}</h4>
-                        </div>
-                        <div class="date-meta pull-left">
-                            <p> <time datetime="01-13-16">{{ article.date | date("m/d/Y") }} </time> </p>
-                        </div>
-                        <div class="place-meta">
-                            <img class="pull-left" src="{{ asset('bundles/ingenious/images/icon-map-marker.png') }}" alt="Location">
-                            <h4 class="pull-left">{{ article.location }}</h4>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            {% endblock %}
-            {% block article %}
-            <div class="post-content">
-                <div class="content-inner">
-                    <p>{{ article.body }}</p>
-                </div>
+                                <div class="col-sm-2 col-xs-4 post-photo-thumb photo-thumb">
+                                    <figure>
+                                        <img src="{{ image.thumb_url }}" alt="{{ article.title }}">
+                                    </figure>
+                                </div><!--./single album thumb-->
+                            </a> <!-- ./single-photo-->
+                    {% endfor %}
+                </div> <!--./album-container-->
+                {#% endblock %#}
 
+                </div>
             </div>
             {% endblock %}
         </div>

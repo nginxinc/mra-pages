@@ -59,6 +59,17 @@ class ContentManager {
     }
 
     /**
+     * Function which makes a request to the content service to retrieve all
+     * the articles in the database
+     *
+     * @return string
+     */
+    public function getAuthorArticles($authID) {
+        $authorPath = $this->articlesPath . "/author/" . $authID;
+        return $this->getRequest($authorPath);
+    }
+
+    /**
      * Function which makes a request to the content service to retrieve an
      * article with the string specified by the articleID parameter
      *

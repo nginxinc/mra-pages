@@ -43,9 +43,14 @@
                                 </div>
                             </div>
                             {% endblock %}
+                            <script>
+                                $(document).keyup(function(e) {
+                                    if (e.keyCode === 27) window.location.replace("/#{{ article.id }}");   // esc
+                                });
+                            </script>
                             <div class="back-to-home">
                                 <a href="/#{{ article.id }}">Back to Home</a>
-                            </div> '>
+                            </div>'>
                             <!--./lightbox content for each photo ****NOTE THE '> AT THE END OF THE data-sub-html element****-->
 
                                 <div class="col-sm-2 col-xs-4 post-photo-thumb photo-thumb">

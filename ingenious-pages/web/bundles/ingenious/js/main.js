@@ -80,7 +80,8 @@
             mode: 'lg-fade',
             cssEasing: 'cubic-bezier(0.25, 0, 0.25, 1)',
             counter: false,
-            download: false
+            download: false,
+            escKey: false
         });
         $(".post-photo-thumb:first").click();
         // Had to do the click approach because the documented way of

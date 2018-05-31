@@ -157,7 +157,7 @@ class IngeniousHomeController extends Controller {
             $catalog = $this->stripInvisibleAlbums($catalog);
 
             // get articles so that they can be edited
-            $articles = $this->getContentManager()->getArticles();
+            $articles = $this->getContentManager()->getAuthorArticles($this->authID);
 
             // render the home.html.twig file
             return $this->render(
@@ -379,7 +379,7 @@ class IngeniousHomeController extends Controller {
             $catalog = $this->stripInvisibleAlbums($catalog);
 
             // get articles so that they can be edited
-            $articles = $this->getContentManager()->getArticles();
+            $articles = $this->getContentManager()->getAuthorArticles($this->authID);
 
             // render the photos.html.twig template
             return $this->render(
@@ -459,7 +459,7 @@ class IngeniousHomeController extends Controller {
             $catalog = $this->stripInvisibleAlbums($catalog);
 
             // get all the articles
-            $articles = $this->getContentManager()->getArticles();
+            $articles = $this->getContentManager()->getAuthorArticles($this->authID);
 
             // render the account.html.twig template with the specified
             // parameters

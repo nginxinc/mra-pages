@@ -5,21 +5,20 @@ fpm_pid="/var/run/php-fpm.pid";
 
 echo "FPM PID ${fpm_pid}"
 
-php-fpm -y /etc/php5/fpm/php-fpm.conf -R &
-
 ################----AN UGLY HACK TO DEAL WITH DOCKERCLOUD'S RELIANCE ON SEARCH DOMAINS---################
 #SEARCH_DOMAIN=`cat /etc/resolv.conf | awk -F " " '/search/ {print $2}'`
 #echo `curl "http://localhost/upstream_conf?add=&upstream=router-mesh&server=router-mesh.$SEARCH_DOMAIN"`
 #echo `curl "http://localhost/upstream_conf?remove=&upstream=router-mesh&id=0"`
 #########################################################################################################
 
-echo launched processes;
-sleep 10;
-
-php5 /ingenious-pages/Insert.php &
-
 case "$NETWORK" in
     fabric)
+        php-fpm -y /etc/php5/fpm/php-fpm-fabric.conf -R &
+        echo launched processes;
+        sleep 10;
+
+        php5 /ingenious-pages/Insert.php &
+
         NGINX_CONF="/etc/nginx/fabric_nginx_$CONTAINER_ENGINE.conf"
         echo 'Fabric configuration set'
         nginx -c "$NGINX_CONF" -g "pid $NGINX_PID;" &
@@ -31,10 +30,18 @@ case "$NETWORK" in
         done
         ;;
     router-mesh)
+        php-fpm -y /etc/php5/fpm/php-fpm-router-proxy.conf -R &
+        echo launched processes;
+        sleep 10;
+
+        php5 /ingenious-pages/Insert.php &
+
         while [ -f "$fpm_pid" ];
         do
             sleep 5;
         done
+        ;;
+    proxy)
         ;;
     *)
         echo 'Network not supported'

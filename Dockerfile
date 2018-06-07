@@ -58,7 +58,7 @@ RUN cd /ingenious-pages && \
     cd /ingenious-pages && \
     phpunit -v
 
-COPY php5-fpm-fabric.conf.conf /etc/php5/fpm/
+COPY php5-fpm-fabric.conf /etc/php5/fpm/
 COPY php5-fpm-router-proxy.conf /etc/php5/fpm/
 COPY php.ini /usr/local/etc/php/
 

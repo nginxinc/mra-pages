@@ -13,7 +13,7 @@ echo "FPM PID ${fpm_pid}"
 
 case "$NETWORK" in
     fabric)
-        php-fpm -y /etc/php5/fpm/php-fpm-fabric.conf -R &
+        php-fpm -y /etc/php5/fpm/php5-fpm-fabric.conf -R &
         echo launched processes;
         sleep 10;
 

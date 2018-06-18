@@ -305,7 +305,7 @@ class UserManager {
      */
     private function getClient() {
         if ($this->client == null) {
-            $this->client = new Client(['base_uri' => $this->url ]);
+            $this->client = new Client(['base_uri' => $this->url, 'verify' => getenv('SYMFONY_ENV') == 'dev' ? false : true]);
         }
         return $this->client;
     }

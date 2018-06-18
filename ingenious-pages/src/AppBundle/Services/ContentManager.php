@@ -97,7 +97,7 @@ class ContentManager {
         if ($this->client == null) {
 
             // create a new client
-            $this->client = new Client(['base_uri' => $this->url]);
+            $this->client = new Client(['base_uri' => $this->url, 'verify' => getenv('SYMFONY_ENV') == 'dev' ? false : true]);
         }
 
         // return the client variable

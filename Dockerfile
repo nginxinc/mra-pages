@@ -20,8 +20,6 @@ ENV USE_NGINX_PLUS=${USE_NGINX_PLUS_ARG:-true} \
 	NETWORK=${NETWORK_ARG:-fabric} \
 	USE_MTLS=${USE_MTLS_ARG:-false}
 
-COPY nginx/ssl /etc/ssl/nginx/
-
 # Get other files required for installation
 RUN apt-get update && apt-get install -y \
     wget \
@@ -38,6 +36,7 @@ RUN apt-get update && apt-get install -y \
 
 # Install NGINX and forward request logs to Docker log collector
 COPY nginx /etc/nginx/
+COPY nginx/ssl /etc/ssl/nginx/
 ADD install-nginx.sh /usr/local/bin/
 RUN /usr/local/bin/install-nginx.sh && \
     ln -sf /dev/stdout /var/log/nginx/access_log && \
@@ -60,13 +59,12 @@ RUN cd /ingenious-pages && \
     cd /ingenious-pages && \
     phpunit -v
 
-COPY php5-fpm-fabric.conf /etc/php5/fpm/
-COPY php5-fpm-router-proxy.conf /etc/php5/fpm/
+COPY php5-fpm-fabric.conf php5-fpm-router-proxy.conf /etc/php5/fpm/
 COPY php.ini /usr/local/etc/php/
 
 COPY php-start.sh /php-start.sh
 
-RUN chmod -R 777 /ingenious-pages
+RUN chmod -R 777 /ingenious-pages 
 
 CMD ["/php-start.sh"]
 

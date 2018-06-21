@@ -30,7 +30,7 @@ case "$NETWORK" in
         done
         ;;
     router-mesh)
-        php-fpm -y /etc/php5/fpm/php-fpm-router-proxy.conf -R &
+        php-fpm -y /etc/php5/fpm/php5-fpm-router-proxy.conf -R &
         echo launched processes;
         sleep 10;
 

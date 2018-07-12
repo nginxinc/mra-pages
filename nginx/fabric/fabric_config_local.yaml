@@ -16,23 +16,23 @@ services:
 # populate the nginx.conf template. the format is:
 # <server-name>:<server-port>
   album-manager:
-    server: 'album-manager:443'
+    server:
     expose_external: true
     healthecheck: false
-    port: 82
+    port: 443
   content-service:
-    server: 'content-service:443'
+    server:
     expose_external: true
     healthecheck: false
-    port: 86
+    port: 443
   uploader:
-    server: 'uploader:443'
+    server:
     expose_external: true
     healthecheck: false
-    port: 84
+    port: 443
   user-manager:
-    server: 'user-manager:443'
+    server: 
     expose_external: true
     healthecheck: false
     healthcheck_uri: /v1/
-    port: 85
+    port: 443

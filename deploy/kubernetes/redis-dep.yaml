@@ -1,0 +1,20 @@
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: redis
+  namespace: nginx-mra
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: nginx-mra
+        component: redis
+    spec:
+      containers:
+      - name: redis
+        image: docker.io/redis:alpine
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 6379
+          name: http

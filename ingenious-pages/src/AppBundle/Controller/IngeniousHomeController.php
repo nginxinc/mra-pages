@@ -9,7 +9,7 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Services\ContentManager;
-use AppBundle\Services\PhotoManager;
+use AppBundle\Services\AlbumManager;
 use AppBundle\Services\PhotoUploader;
 use AppBundle\Services\UserManager;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -34,10 +34,11 @@ class IngeniousHomeController extends Controller {
     private $firstName;
     private $lastName;
     private $name;
-    private $photoManager = null;
+    private $albumManager = null;
     private $photoUploader = null;
     private $profilePicture = "null";
     private $profilePicturesID = null;
+    private $articlePicturesID = null;
 
     /**
      * @var UserManager
@@ -136,16 +137,27 @@ class IngeniousHomeController extends Controller {
                 $this->profilePicturesID = $this->user->getProfilePicturesID();
             }
 
+            // set the articlePicturesID from the local user object, if it is not set
+            if($this->user->getArticlePicturesID() != null) {
+                $this->articlePicturesID = $this->user->getArticlePicturesID();
+            }
+
             // set the coverPictureID from the local user, if it is not set
             if($this->user->getCoverPicturesID() != null) {
                 $this->coverPicturesID = $this->user->getCoverPicturesID();
             }
 
             // retrieve all the images for the current user
-            $allImages = $this->getPhotoManager($request)->getAllImages();
+            $allImages = $this->getAlbumManager($request)->getAllImages();
 
             // retrieve all the albums from the current user
-            $catalog = $this->getPhotoManager($request)->getCatalog();
+            $catalog = $this->getAlbumManager($request)->getCatalog();
+
+            // strip invisible albums from the catalog
+            $catalog = $this->stripInvisibleAlbums($catalog);
+
+            // get articles so that they can be edited
+            $articles = $this->getContentManager()->getAuthorArticles($this->authID);
 
             // render the home.html.twig file
             return $this->render(
@@ -164,7 +176,9 @@ class IngeniousHomeController extends Controller {
                     'coverPicturesID' => $this->coverPicturesID,
                     'profilePicturesID' => $this->profilePicturesID,
                     'profilePicture' => $this->profilePicture,
+                    'articlePicturesID' => $this->articlePicturesID,
                     'userManager' => trim( $this->user->getLocalUserPath() ) . "/" . $this->user->getUserID(),
+                    'articles' => $articles,
                     'contentManager' => $this->getContentManager()->getContentPath()
                 ]
             );
@@ -187,6 +201,7 @@ class IngeniousHomeController extends Controller {
 
         // get the article with the specified ID
         $article = (array) $this->getContentManager()->getArticle($articleID);
+        $images = $this->getPublicAlbumImages($article[0]->album_id);
 
         // render the post-article.html.twig file with the specified parameters
         return $this->render(
@@ -195,11 +210,13 @@ class IngeniousHomeController extends Controller {
                 'uploader' => $this->getPhotoUploader()->getUploaderPath(),
                 'authenticated' => isset($_COOKIE["auth_token"]) && ($_COOKIE["expires_at"]) > time(),
                 'article' => empty($article) ? [] : $article[0],
-                'contentManager' => $this->getContentManager()->getContentPath()
+                'contentManager' => $this->getContentManager()->getContentPath(),
+                'images' => empty($images) ? [] : $images
+
             ]
         );
     }
-    
+
     /**
      * Handle the "/login" route with the GET method. Renders the login page
      *
@@ -264,7 +281,6 @@ class IngeniousHomeController extends Controller {
             $isAuthenticated = $this->user->authUser($request->request->get('password'));
         }
 
-
         // user authenticated? redirect to the account page
         if ($isAuthenticated) {
             $this->authID = $this->user->getUserID();
@@ -316,18 +332,14 @@ class IngeniousHomeController extends Controller {
      * @param $catalogID string the catalog ID
      * @param $albumName string the album name
      * @param $albumID string the album ID: used to retrieve the album from the
-     *          PhotoManager
+     *          AlbumManager
      * @param Request $request the Symfony Request object
      * @return Response the Symfony Response object
      */
     public function photosAction($catalogID, $albumName, $albumID, Request $request) {
 
-        // get the catalog, which is a special case of an album that is
-        // created by default when the user registers
-        $catalog = $this->getPhotoManager($request)->getCatalog();
-
-        // retrieve the album and the images from the PhotoManager
-        $album = $this->getPhotoManager( $request )->getAlbum( $albumID );
+        // retrieve the album and the images from the AlbumManager
+        $album = $this->getAlbumManager( $request )->getAlbum( $albumID );
         $images = $album->images;
         $isAuthenticated = $this->isAuthenticated($request);
         // ensure that the request has been authenticated
@@ -349,10 +361,25 @@ class IngeniousHomeController extends Controller {
                 $this->profilePicturesID = $this->user->getProfilePicturesID();
             }
 
+            // set the articlePicturesID from the local user object, if it is not set
+            if($this->user->getArticlePicturesID() != null) {
+                $this->articlePicturesID = $this->user->getArticlePicturesID();
+            }
+
             // set the coverPicturesID variable if it is not set
             if($this->user->getCoverPicturesID() != null) {
                 $this->coverPicturesID = $this->user->getCoverPicturesID();
             }
+
+            // get the catalog, which is a special case of an album that is
+            // created by default when the user registers
+            $catalog = $this->getAlbumManager($request)->getCatalog();
+
+            // strip invisible albums from the catalog
+            $catalog = $this->stripInvisibleAlbums($catalog);
+
+            // get articles so that they can be edited
+            $articles = $this->getContentManager()->getAuthorArticles($this->authID);
 
             // render the photos.html.twig template
             return $this->render(
@@ -368,8 +395,10 @@ class IngeniousHomeController extends Controller {
                     'coverPicturesID' => $this->coverPicturesID,
                     'profilePicturesID' => $this->profilePicturesID,
                     'profilePicture' => $this->profilePicture,
+                    'articlePicturesID' => $this->articlePicturesID,
                     'uploader' => $this->getPhotoUploader()->getUploaderPath(),
                     'images' => $images,
+                    'articles' => $articles,
                     'contentManager' => $this->getContentManager()->getContentPath()
                 ]
             );
@@ -413,13 +442,24 @@ class IngeniousHomeController extends Controller {
                 $this->profilePicturesID = $this->user->getProfilePicturesID();
             }
 
+            // set the articlePicturesID from the local user object, if it is not set
+            if($this->user->getArticlePicturesID() != null) {
+                $this->articlePicturesID = $this->user->getArticlePicturesID();
+            }
+
             // set the converPicturesID variable if it has not been set
             if($this->user->getCoverPicturesID() != null) {
                 $this->coverPicturesID = $this->user->getCoverPicturesID();
             }
 
             // retrieve the catalog for the user
-            $catalog = $this->getPhotoManager($request)->getCatalog();
+            $catalog = $this->getAlbumManager($request)->getCatalog();
+
+            // strip invisible albums from the catalog
+            $catalog = $this->stripInvisibleAlbums($catalog);
+
+            // get all the articles
+            $articles = $this->getContentManager()->getAuthorArticles($this->authID);
 
             // render the account.html.twig template with the specified
             // parameters
@@ -438,8 +478,10 @@ class IngeniousHomeController extends Controller {
                     'bannerAlbumID' => $this->bannerAlbumID,
                     'bannerPosterID' => $this->bannerPosterID,
                     'catalog' => $catalog,
+                    'articles' => $articles,
                     'profilePicturesID' => $this->profilePicturesID,
                     'coverPicturesID' => $this->coverPicturesID,
+                    'articlePicturesID' => $this->articlePicturesID,
                     'profilePicture' => $this->profilePicture
                 ]
             );
@@ -450,27 +492,47 @@ class IngeniousHomeController extends Controller {
 
 
     /**
-     * Helper method which gets the PhotoManager component if one does not exist.
-     * If one does exist, a new PhotoManager is created using the authID variable
+     * Helper method which gets the AlbumManager component if one does not exist.
+     * If one does exist, a new AlbumManager is created using the authID variable
      *
      * @param $request Request
-     * @return PhotoManager
+     * @return AlbumManager
      */
-    private function getPhotoManager($request) {
+    private function getAlbumManager($request) {
 
         // ensure that the request has been authenticated
         if($this->isAuthenticated($request)) {
 
-            // check whether there is a PhotoManager object
-            if($this->photoManager == null) {
-                $photoManagerClass = $this->getParameter('photo_manager_class');
-                $this->photoManager = new $photoManagerClass($this->authID);
+            // check whether there is a AlbumManager object
+            if($this->albumManager == null) {
+                $albumManagerClass = $this->getParameter('album_manager_class');
+                $this->albumManager = new $albumManagerClass($this->authID);
             }
-            return $this->photoManager;
+            return $this->albumManager;
         } else {
             $this->_send_forbidden_status_response();
         }
     }
+
+    /**
+     * Helper method which gets the AlbumManager component if one does not exist.
+     * If one does exist, a new AlbumManager is created using the authID variable
+     *
+     * @param $albumID integer
+     * @return string a JSON response which contains the URLs and IDs of the
+     * images from the album manager service
+     */
+    private function getPublicAlbumImages($albumID) {
+
+        // this selection is **NOT** authenticated
+        if($this->albumManager == null) {
+                $albumManagerClass = $this->getParameter('album_manager_class');
+                $this->albumManager = new $albumManagerClass(null);
+            }
+        $album = $this->albumManager->getPublicAlbum( $albumID );
+        return $album->images;
+    }
+
 
     /**
      * Helper function which gets or create a ContentManager object
@@ -541,5 +603,40 @@ class IngeniousHomeController extends Controller {
             $this->userManager = new $userManagerClass($authID, $email);
         }
         return $this->userManager;
+    }
+
+    /**
+     * Helper function which strips all invisible albums within a catalog,
+     * including $profilePicturesID, $articlePicturesID, and $coverPicturesID
+     *
+     * @param $catalog array of all albums associated with user
+     * @return Catalog with invisible albums removed
+     */
+    private function stripInvisibleAlbums($catalog) {
+        // set the profilePictureID variable if it has not been set
+        if($this->user->getProfilePicturesID() != null) {
+            $this->profilePicturesID = $this->user->getProfilePicturesID();
+        }
+
+        // set the articlePicturesID from the local user object, if it is not set
+        if($this->user->getArticlePicturesID() != null) {
+            $this->articlePicturesID = $this->user->getArticlePicturesID();
+        }
+
+        // set the converPicturesID variable if it has not been set
+        if($this->user->getCoverPicturesID() != null) {
+            $this->coverPicturesID = $this->user->getCoverPicturesID();
+        }
+
+        foreach ($catalog as $key => $album){
+            if ($album->id == $this->articlePicturesID
+                || $album->id == $this->profilePicturesID
+                || $album->id == $this->coverPicturesID
+                || $album->state != "active") {
+                unset($catalog[$key]);
+            }
+        }
+
+        return $catalog;
     }
 }

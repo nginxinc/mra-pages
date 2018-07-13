@@ -26,7 +26,7 @@ class PhotoUploader {
 
 
     /**
-     * PhotoManager constructor.
+     * AlbumManager constructor.
      *
      * Sets some variables from system environment variables
      */

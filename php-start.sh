@@ -1,15 +1,9 @@
 #!/bin/sh
-pid="/var/run/nginx.pid";    # /   (root directory)
+NGINX_PID="/var/run/nginx.pid";    # /   (root directory)
+NGINX_CONF="";
 fpm_pid="/var/run/php-fpm.pid";
-nginx_conf="/etc/nginx/nginx.conf";
-
-echo "Starting ${nginx_conf} with pid ${pid}"
-
-nginx -c "$nginx_conf" -g "pid $pid;" &
 
 echo "FPM PID ${fpm_pid}"
-
-php-fpm -y /etc/php5/fpm/php-fpm.conf -R &
 
 ################----AN UGLY HACK TO DEAL WITH DOCKERCLOUD'S RELIANCE ON SEARCH DOMAINS---################
 #SEARCH_DOMAIN=`cat /etc/resolv.conf | awk -F " " '/search/ {print $2}'`
@@ -17,11 +11,39 @@ php-fpm -y /etc/php5/fpm/php-fpm.conf -R &
 #echo `curl "http://localhost/upstream_conf?remove=&upstream=router-mesh&id=0"`
 #########################################################################################################
 
-echo launched processes;
-sleep 10;
+case "$NETWORK" in
+    fabric)
+        php-fpm -y /etc/php5/fpm/php5-fpm-fabric.conf -R &
+        echo launched processes;
+        sleep 10;
 
-while [ -f "$pid" ] &&  [ -f "$fpm_pid" ];
-do
-	sleep 5;
-    #echo in the while loop;
-done
+        php5 /ingenious-pages/Insert.php &
+
+        NGINX_CONF="/etc/nginx/fabric_nginx_$CONTAINER_ENGINE.conf"
+        echo 'Fabric configuration set'
+        nginx -c "$NGINX_CONF" -g "pid $NGINX_PID;" &
+
+        sleep  20
+        while [ -f "$NGINX_PID" ] &&  [ -f "$fpm_pid" ];
+        do
+            sleep 5;
+        done
+        ;;
+    router-mesh)
+        php-fpm -y /etc/php5/fpm/php5-fpm-router-proxy.conf -R &
+        echo launched processes;
+        sleep 10;
+
+        php5 /ingenious-pages/Insert.php &
+
+        while [ -f "$fpm_pid" ];
+        do
+            sleep 5;
+        done
+        ;;
+    proxy)
+        ;;
+    *)
+        echo 'Network not supported'
+        exit 1
+esac

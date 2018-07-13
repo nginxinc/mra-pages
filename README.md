@@ -46,7 +46,7 @@ used to build the image.
 
 The command, or entrypoint, for the Dockerfile is the [php-start.sh script](php-start.sh "Dockerfile entrypoint"). 
 This script sets some local variables, then starts [PHP FPM](https://php-fpm.org/ "PHP FPM") and NGINX in order to handle page requests.
-Configuration for PHP FPM is found in the [php5-fpm.conf file](php5-fpm.conf "PHP FPM Conf")
+Configuration for PHP FPM is found in the [php5-fpm.conf file](php5-fpm-fabric.conf "PHP FPM Conf")
 
 ### 1. Build options
 The [Dockerfile](Dockerfile) sets some ENV arguments which are used when the image is built:

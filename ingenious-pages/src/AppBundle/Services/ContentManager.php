@@ -32,7 +32,7 @@ class ContentManager {
     private $client = null;
 
     /**
-     * PhotoManager constructor.
+     * AlbumManager constructor.
      */
     public function __construct() {
         $this->url = getenv("CONTENTSERVICE_ENDPOINT_URL");
@@ -47,6 +47,7 @@ class ContentManager {
         return $content;
     }
 
+
     /**
      * Function which makes a request to the content service to retrieve all
      * the articles in the database
@@ -55,6 +56,17 @@ class ContentManager {
      */
     public function getArticles() {
         return $this->getRequest($this->articlesPath);
+    }
+
+    /**
+     * Function which makes a request to the content service to retrieve all
+     * the articles in the database
+     *
+     * @return string
+     */
+    public function getAuthorArticles($authID) {
+        $authorPath = $this->articlesPath . "/author/" . $authID;
+        return $this->getRequest($authorPath);
     }
 
     /**
@@ -85,7 +97,7 @@ class ContentManager {
         if ($this->client == null) {
 
             // create a new client
-            $this->client = new Client(['base_uri' => $this->url]);
+            $this->client = new Client(['base_uri' => $this->url, 'verify' => getenv('SYMFONY_ENV') == 'dev' ? false : true]);
         }
 
         // return the client variable

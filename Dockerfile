@@ -2,8 +2,10 @@ FROM php:7.0.5-fpm
 
 RUN useradd --create-home -s /bin/bash pages
 
+ARG CONTAINER_ENGINE_ARG
 ARG USE_NGINX_PLUS_ARG
 ARG USE_VAULT_ARG
+ARG NETWORK_ARG
 
 # CONTAINER_ENGINE specifies the container engine to which the
 # containers will be deployed. Valid values are:
@@ -12,14 +14,14 @@ ARG USE_VAULT_ARG
 # - local
 ENV USE_NGINX_PLUS=${USE_NGINX_PLUS_ARG:-true} \
     USE_VAULT=${USE_VAULT_ARG:-false} \
-    SYMFONY_ENV=prod
-
-COPY nginx/ssl /etc/ssl/nginx/
+    SYMFONY_ENV=dev \
+    CONTAINER_ENGINE=${CONTAINER_ENGINE_ARG:-kubernetes} \
+    NETWORK=${NETWORK_ARG:-fabric}
 
 # Get other files required for installation
 RUN apt-get update && apt-get install -y \
     wget \
-    curl \
+    php5-curl \
     apt-transport-https \
     vim \
     libcurl3-gnutls \
@@ -32,6 +34,7 @@ RUN apt-get update && apt-get install -y \
 
 # Install NGINX and forward request logs to Docker log collector
 COPY nginx /etc/nginx/
+COPY nginx/ssl /etc/ssl/nginx/
 ADD install-nginx.sh /usr/local/bin/
 RUN /usr/local/bin/install-nginx.sh && \
     ln -sf /dev/stdout /var/log/nginx/access_log && \
@@ -54,10 +57,12 @@ RUN cd /ingenious-pages && \
     cd /ingenious-pages && \
     phpunit -v
 
-COPY php5-fpm.conf /etc/php5/fpm/php-fpm.conf
+COPY php5-fpm-fabric.conf php5-fpm-router-proxy.conf /etc/php5/fpm/
 COPY php.ini /usr/local/etc/php/
 
 COPY php-start.sh /php-start.sh
+
+RUN chmod -R 777 /ingenious-pages 
 
 CMD ["/php-start.sh"]
 

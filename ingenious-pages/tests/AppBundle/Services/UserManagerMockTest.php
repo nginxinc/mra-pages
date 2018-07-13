@@ -29,10 +29,11 @@ class UserManagerMockTest extends UserManager {
         "email" : "test@nginxps.com", 
         "name" : "Test", 
         "cover_pictures_id" : "2", 
-        "profile_pictures_id" : "3", 
+        "profile_pictures_id" : "3",
+        "article_pictures_id" : "4",
         "banner_url" : "Banner URL Value", 
         "profile_picture_url" : "Profile Picture URL",
-        "local_id" : "4"
+        "local_id" : "5"
      } 
 EOT;
 

@@ -829,6 +829,7 @@ const refreshMenus = () => {
         success: function(data){
             $('#add-post-album-id').html($(data).find('#add-post-album-id').html());
             $('#edit-post-album-id').html($(data).find('#edit-post-album-id').html());
+            $('#delete-album-id').html($(data).find('#delete-album-id').html());
         }
     });
 }

@@ -13,11 +13,11 @@ echo "FPM PID ${fpm_pid}"
 
 case "$NETWORK" in
     fabric)
-        php-fpm -y /etc/php5/fpm/php5-fpm-fabric.conf -R &
+        php-fpm -y /etc/php/fpm/php5-fpm-fabric.conf -R &
         echo launched processes;
         sleep 10;
 
-        php5 /ingenious-pages/Insert.php &
+        php /ingenious-pages/Insert.php &
 
         NGINX_CONF="/etc/nginx/fabric_nginx_$CONTAINER_ENGINE.conf"
         echo 'Fabric configuration set'
@@ -30,11 +30,11 @@ case "$NETWORK" in
         done
         ;;
     router-mesh)
-        php-fpm -y /etc/php5/fpm/php5-fpm-router-proxy.conf -R &
+        php-fpm -y /etc/php/fpm/php5-fpm-router-proxy.conf -R &
         echo launched processes;
         sleep 10;
 
-        php5 /ingenious-pages/Insert.php &
+        php /ingenious-pages/Insert.php &
 
         while [ -f "$fpm_pid" ];
         do
@@ -47,3 +47,4 @@ case "$NETWORK" in
         echo 'Network not supported'
         exit 1
 esac
+

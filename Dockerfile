@@ -1,4 +1,4 @@
-FROM php:7.0.5-fpm
+FROM php:5.6.37-fpm-jessie
 
 RUN useradd --create-home -s /bin/bash pages
 
@@ -19,9 +19,10 @@ ENV USE_NGINX_PLUS=${USE_NGINX_PLUS_ARG:-true} \
     NETWORK=${NETWORK_ARG:-fabric}
 
 # Get other files required for installation
-RUN apt-get update && apt-get install -y \
+RUN apt-get update
+
+RUN apt install -y \
     wget \
-    php5-curl \
     apt-transport-https \
     vim \
     libcurl3-gnutls \
@@ -29,8 +30,7 @@ RUN apt-get update && apt-get install -y \
     unzip \
     ca-certificates \
     nodejs \
-    npm \
-    phpunit
+    npm
 
 # Install NGINX and forward request logs to Docker log collector
 COPY nginx /etc/nginx/
@@ -39,31 +39,39 @@ ADD install-nginx.sh /usr/local/bin/
 RUN /usr/local/bin/install-nginx.sh && \
     ln -sf /dev/stdout /var/log/nginx/access_log && \
     ln -sf /dev/stderr /var/log/nginx/error_log && \
-    yes | pecl install xdebug
+    yes | pecl install xdebug-2.5.5
 
 # install application
 COPY ingenious-pages/ /ingenious-pages
 
+WORKDIR /ingenious-pages
+
+RUN curl -sL https://deb.nodesource.com/setup_10.x | bash - && \
+    apt install -y nodejs
+
+COPY php5-fpm-fabric.conf php5-fpm-router-proxy.conf /etc/php/fpm/
+COPY php.ini /usr/local/etc/php/
+
 RUN cd /ingenious-pages && \
     php composer.phar install --no-dev --optimize-autoloader && \
-    ln -s /usr/bin/nodejs /usr/bin/node && \
     chown -R nginx:www-data /ingenious-pages/ && \
     chmod -R 777 /ingenious-pages && \
     cd less-css && \
     npm install gulp-cli -g && \
     npm install gulp -D && \
     npm install gulp-less -D && \
-    gulp less && \
-    cd /ingenious-pages && \
-    phpunit -v
+    gulp less
 
-COPY php5-fpm-fabric.conf php5-fpm-router-proxy.conf /etc/php5/fpm/
-COPY php.ini /usr/local/etc/php/
+RUN wget -O phpunit https://phar.phpunit.de/phpunit-5.phar && \
+    chmod +x phpunit && \
+    ./phpunit -v
+
 
 COPY php-start.sh /php-start.sh
 
-RUN chmod -R 777 /ingenious-pages 
+RUN chmod -R 777 /ingenious-pages
 
 CMD ["/php-start.sh"]
 
 EXPOSE 80 443
+

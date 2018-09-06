@@ -1,4 +1,4 @@
-FROM php:7.0.31-fpm
+FROM php:5.6.37-fpm-jessie
 
 RUN useradd --create-home -s /bin/bash pages
 
@@ -19,7 +19,9 @@ ENV USE_NGINX_PLUS=${USE_NGINX_PLUS_ARG:-true} \
     NETWORK=${NETWORK_ARG:-fabric}
 
 # Get other files required for installation
-RUN apt-get update && apt-get install -y \
+RUN apt-get update
+
+RUN apt install -y \
     wget \
     apt-transport-https \
     vim \
@@ -27,18 +29,17 @@ RUN apt-get update && apt-get install -y \
     lsb-release \
     unzip \
     ca-certificates \
-    gnupg \
-    build-essential \
-    libssl-dev
+    nodejs \
+    npm
 
 # Install NGINX and forward request logs to Docker log collector
 COPY nginx /etc/nginx/
 COPY nginx/ssl /etc/ssl/nginx/
 ADD install-nginx.sh /usr/local/bin/
 RUN /usr/local/bin/install-nginx.sh && \
-    ln -sf /dev/stdout /var/log/nginx/access.log && \
-    ln -sf /dev/stderr /var/log/nginx/error.log && \
-    yes | pecl install xdebug
+    ln -sf /dev/stdout /var/log/nginx/access_log && \
+    ln -sf /dev/stderr /var/log/nginx/error_log && \
+    yes | pecl install xdebug-2.5.5
 
 # install application
 COPY ingenious-pages/ /ingenious-pages
@@ -48,7 +49,11 @@ WORKDIR /ingenious-pages
 RUN curl -sL https://deb.nodesource.com/setup_10.x | bash - && \
     apt install -y nodejs
 
-RUN php composer.phar install --no-dev --optimize-autoloader && \
+COPY php5-fpm-fabric.conf php5-fpm-router-proxy.conf /etc/php/fpm/
+COPY php.ini /usr/local/etc/php/
+
+RUN cd /ingenious-pages && \
+    php composer.phar install --no-dev --optimize-autoloader && \
     chown -R nginx:www-data /ingenious-pages/ && \
     chmod -R 777 /ingenious-pages && \
     cd less-css && \
@@ -61,8 +66,6 @@ RUN wget -O phpunit https://phar.phpunit.de/phpunit-5.phar && \
     chmod +x phpunit && \
     ./phpunit -v
 
-COPY php5-fpm-fabric.conf php5-fpm-router-proxy.conf /etc/php5/fpm/
-COPY php.ini /usr/local/etc/php/
 
 COPY php-start.sh /php-start.sh
 
@@ -71,3 +74,4 @@ RUN chmod -R 777 /ingenious-pages
 CMD ["/php-start.sh"]
 
 EXPOSE 80 443
+

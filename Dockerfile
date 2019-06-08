@@ -18,6 +18,8 @@ ENV USE_NGINX_PLUS=${USE_NGINX_PLUS_ARG:-true} \
     CONTAINER_ENGINE=${CONTAINER_ENGINE_ARG:-kubernetes} \
     NETWORK=${NETWORK_ARG:-fabric}
 
+# Fix for jessie repo
+RUN printf "deb http://archive.debian.org/debian/ jessie main\ndeb-src http://archive.debian.org/debian/ jessie main\ndeb http://security.debian.org jessie/updates main\ndeb-src http://security.debian.org jessie/updates main" > /etc/apt/sources.list
 # Get other files required for installation
 RUN apt-get update
 
